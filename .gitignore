@@ -1,0 +1,53 @@
+# Xcode
+.DS_Store
+build/
+DerivedData/
+.idea/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+*.xcodeproj/*/project.xcworkspace/
+*.xcodeproj/*/xcuserdata/
+*.xcodeproj/*/xcuserdata/*.xcuserdatad/
+*.xcworkspace/xcuserdata/
+xcuserdata/
+
+# Swift Package Manager
+Packages/
+.build/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Flutter generated files
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+
+# Code coverage and profiling
+*.gcda
+*.gcno
+*.gcov
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+
+# Custom user schemes
+*.xcuserdatad/
