@@ -17,6 +17,9 @@
 		6AEC4D062CB52429003DD2F3 /* FoodName in Resources */ = {isa = PBXBuildFile; fileRef = 6AEC4D052CB52429003DD2F3 /* FoodName */; };
 		6AEC4D082CB5268C003DD2F3 /* FoodCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC4D072CB5268C003DD2F3 /* FoodCache.swift */; };
 		6AEC4D0A2CB526E6003DD2F3 /* FoodFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC4D092CB526E6003DD2F3 /* FoodFile.swift */; };
+		6AEC4D0C2CB539EA003DD2F3 /* Food.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC4D0B2CB539EA003DD2F3 /* Food.swift */; };
+		6AEC4D0E2CB53A4C003DD2F3 /* Sleep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC4D0D2CB53A4C003DD2F3 /* Sleep.swift */; };
+		6AEC4D102CB53AA1003DD2F3 /* Journal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +34,9 @@
 		6AEC4D052CB52429003DD2F3 /* FoodName */ = {isa = PBXFileReference; lastKnownFileType = text; path = FoodName; sourceTree = "<group>"; };
 		6AEC4D072CB5268C003DD2F3 /* FoodCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCache.swift; sourceTree = "<group>"; };
 		6AEC4D092CB526E6003DD2F3 /* FoodFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodFile.swift; sourceTree = "<group>"; };
+		6AEC4D0B2CB539EA003DD2F3 /* Food.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Food.swift; path = Macro/Food.swift; sourceTree = SOURCE_ROOT; };
+		6AEC4D0D2CB53A4C003DD2F3 /* Sleep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Sleep.swift; path = Macro/Sleep.swift; sourceTree = SOURCE_ROOT; };
+		6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Journal.swift; path = Macro/Journal.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +95,9 @@
 				6AEC4D052CB52429003DD2F3 /* FoodName */,
 				6AEC4D072CB5268C003DD2F3 /* FoodCache.swift */,
 				6AEC4D092CB526E6003DD2F3 /* FoodFile.swift */,
+				6AEC4D0B2CB539EA003DD2F3 /* Food.swift */,
+				6AEC4D0D2CB53A4C003DD2F3 /* Sleep.swift */,
+				6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -183,10 +192,13 @@
 				6AEC4D082CB5268C003DD2F3 /* FoodCache.swift in Sources */,
 				6AEC4D042CB514C9003DD2F3 /* DietViewModel.swift in Sources */,
 				6AE757EF2CAE87FE00BEFDE0 /* ContentView.swift in Sources */,
+				6AEC4D0E2CB53A4C003DD2F3 /* Sleep.swift in Sources */,
+				6AEC4D0C2CB539EA003DD2F3 /* Food.swift in Sources */,
 				6AE757F12CAE87FE00BEFDE0 /* Item.swift in Sources */,
 				6AEC4D022CB514A3003DD2F3 /* DietView.swift in Sources */,
 				6AEC4D0A2CB526E6003DD2F3 /* FoodFile.swift in Sources */,
 				6AE757ED2CAE87FE00BEFDE0 /* MacroApp.swift in Sources */,
+				6AEC4D102CB53AA1003DD2F3 /* Journal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
