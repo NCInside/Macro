@@ -53,6 +53,9 @@
 		6AE757EB2CAE87FE00BEFDE0 /* Macro */ = {
 			isa = PBXGroup;
 			children = (
+				6AEC4D002CB51008003DD2F3 /* View */,
+				6AEC4CFF2CB50FE6003DD2F3 /* ViewModel */,
+				6AEC4CFE2CB50FCE003DD2F3 /* Model */,
 				6AE757EC2CAE87FE00BEFDE0 /* MacroApp.swift */,
 				6AE757EE2CAE87FE00BEFDE0 /* ContentView.swift */,
 				6AE757F02CAE87FE00BEFDE0 /* Item.swift */,
@@ -68,6 +71,27 @@
 				6AE757F52CAE87FF00BEFDE0 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		6AEC4CFE2CB50FCE003DD2F3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		6AEC4CFF2CB50FE6003DD2F3 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		6AEC4D002CB51008003DD2F3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
