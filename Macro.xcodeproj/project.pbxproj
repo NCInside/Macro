@@ -12,6 +12,7 @@
 		6AE757F12CAE87FE00BEFDE0 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE757F02CAE87FE00BEFDE0 /* Item.swift */; };
 		6AE757F32CAE87FF00BEFDE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AE757F22CAE87FF00BEFDE0 /* Assets.xcassets */; };
 		6AE757F62CAE87FF00BEFDE0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AE757F52CAE87FF00BEFDE0 /* Preview Assets.xcassets */; };
+		9015E76B2CB5190200C1D808 /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9015E76A2CB5190200C1D808 /* HealthManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,8 @@
 		6AE757F02CAE87FE00BEFDE0 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		6AE757F22CAE87FF00BEFDE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6AE757F52CAE87FF00BEFDE0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		9015E76A2CB5190200C1D808 /* HealthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
+		9015E76C2CB51CD300C1D808 /* Macro.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Macro.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +56,7 @@
 		6AE757EB2CAE87FE00BEFDE0 /* Macro */ = {
 			isa = PBXGroup;
 			children = (
+				9015E76C2CB51CD300C1D808 /* Macro.entitlements */,
 				6AEC4D002CB51008003DD2F3 /* View */,
 				6AEC4CFF2CB50FE6003DD2F3 /* ViewModel */,
 				6AEC4CFE2CB50FCE003DD2F3 /* Model */,
@@ -76,6 +80,7 @@
 		6AEC4CFE2CB50FCE003DD2F3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9015E76A2CB5190200C1D808 /* HealthManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -167,6 +172,7 @@
 				6AE757EF2CAE87FE00BEFDE0 /* ContentView.swift in Sources */,
 				6AE757F12CAE87FE00BEFDE0 /* Item.swift in Sources */,
 				6AE757ED2CAE87FE00BEFDE0 /* MacroApp.swift in Sources */,
+				9015E76B2CB5190200C1D808 /* HealthManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,11 +303,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Macro/Macro.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Macro/Preview Content\"";
+				DEVELOPMENT_TEAM = 4C9DP8TQPJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to sync your sleeps";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -325,11 +334,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Macro/Macro.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Macro/Preview Content\"";
+				DEVELOPMENT_TEAM = 4C9DP8TQPJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to sync your sleeps";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

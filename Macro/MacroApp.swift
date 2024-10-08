@@ -10,6 +10,8 @@ import SwiftData
 
 @main
 struct MacroApp: App {
+    @StateObject var manager = HealthManager()
+    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -26,6 +28,7 @@ struct MacroApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(manager)
         }
         .modelContainer(sharedModelContainer)
     }

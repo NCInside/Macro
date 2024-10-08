@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    @EnvironmentObject var manager: HealthManager
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
 
@@ -36,6 +37,7 @@ struct ContentView: View {
             }
         } detail: {
             Text("Select an item")
+                .environmentObject(manager)
         }
     }
 
