@@ -11,9 +11,11 @@ import SwiftData
 @Model
 final class Sleep {
     
+    var timestamp: Date
     var duration: Double
     
-    init(duration: Double) {
+    init(timestamp: Date, duration: Double) {
+        self.timestamp = timestamp
         self.duration = duration
     }
     

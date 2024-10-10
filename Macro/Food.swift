@@ -11,13 +11,15 @@ import SwiftData
 @Model
 final class Food {
     
+    var timestamp: Date
     var name: String
     var protein: Int
     var fat: Int
-    var glycemicIndex: Int
+    var glycemicIndex: glycemicIndex
     var dairy: Bool
     
-    init(name: String, protein: Int, fat: Int, glycemicIndex: Int, dairy: Bool) {
+    init(timestamp: Date, name: String, protein: Int, fat: Int, glycemicIndex: glycemicIndex, dairy: Bool) {
+        self.timestamp = timestamp
         self.name = name
         self.protein = protein
         self.fat = fat
@@ -25,4 +27,8 @@ final class Food {
         self.dairy = dairy
     }
     
+}
+
+enum glycemicIndex {
+    case low, medium, high
 }
