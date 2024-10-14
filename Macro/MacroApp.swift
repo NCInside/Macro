@@ -14,7 +14,7 @@ struct MacroApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            JournalView()
                 .environmentObject(manager)
         }
     }
