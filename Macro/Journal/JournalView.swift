@@ -98,7 +98,7 @@ struct JournalView: View {
                     .padding(.leading, 16)
                 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("0hr 0min")
+                    Text(viewModel.sleepDuration)
                         .font(.system(size: 18))
                         .foregroundColor(.gray)
                         .padding(.leading, 16)
@@ -243,6 +243,9 @@ struct JournalView: View {
                     Text("Tampilkan Semua Riwayat Data")
                         .foregroundColor(.blue)
                 }
+                .onAppear {
+                            viewModel.fetchSleepData() 
+                        }
                 
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)

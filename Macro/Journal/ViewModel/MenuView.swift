@@ -23,7 +23,6 @@ struct MenuView: View {
                     
                     HStack {
                         Text("Nama Makanan")
-//                            .padding(.top, -20)
                             .font(.title2)
                             .fontWeight(.bold)
                         Spacer()

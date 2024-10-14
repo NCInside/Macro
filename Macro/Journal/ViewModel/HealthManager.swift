@@ -29,4 +29,22 @@ class HealthManager: ObservableObject {
             }
         }
     }
+    
+    func fetchSleepData(completion: @escaping (HKCategorySample?) -> Void) {
+        let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)
+        
+        let now = Date()
+        let startOfDay = Calendar.current.startOfDay(for: now)
+        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
+        
+        let query = HKSampleQuery(sampleType: sleepType!, predicate: predicate, limit: 1, sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) { query, result, error in
+            guard let result = result?.first as? HKCategorySample else {
+                completion(nil)
+                return
+            }
+            completion(result)
+        }
+        
+        healthStore.execute(query)
+    }
 }

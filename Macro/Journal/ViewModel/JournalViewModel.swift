@@ -14,6 +14,8 @@ class JournalViewModel: ObservableObject {
     @Published var isImagePickerPresented: Bool = false
     @Published var isDietViewPresented: Bool = false
     @Published var sourceType: UIImagePickerController.SourceType = .photoLibrary
+    @Published var sleepDuration: String = "0hr 0min"
+    private var healthManager = HealthManager()
     
     var days: [String] {
         return ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"]
@@ -51,6 +53,23 @@ class JournalViewModel: ObservableObject {
     func presentActionSheet() {
         isImagePickerPresented = true
     }
+    
+    func fetchSleepData() {
+            healthManager.fetchSleepData { [weak self] sample in
+                DispatchQueue.main.async {
+                    guard let sample = sample else {
+                        self?.sleepDuration = "No data"
+                        return
+                    }
+                    
+                    let sleepTime = sample.endDate.timeIntervalSince(sample.startDate)
+                    let hours = Int(sleepTime) / 3600
+                    let minutes = (Int(sleepTime) % 3600) / 60
+                    
+                    self?.sleepDuration = "\(hours)hr \(minutes)min"
+                }
+            }
+        }
 }
 
 
