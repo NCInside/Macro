@@ -29,6 +29,8 @@ final class Food {
     
 }
 
-enum glycemicIndex {
-    case low, medium, high
+enum glycemicIndex: Int, Codable {
+    case low = 0
+    case medium = 1
+    case high = 2
 }
