@@ -28,6 +28,8 @@
 		9094D82D2CBD25DB00BA62EF /* AddSleepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D82C2CBD25DB00BA62EF /* AddSleepViewModel.swift */; };
 		9094D8312CBE4FBA00BA62EF /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D8302CBE4FBA00BA62EF /* HistoryView.swift */; };
 		9094D8332CBE594D00BA62EF /* DetailHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D8322CBE594D00BA62EF /* DetailHistoryView.swift */; };
+		9094D8352CBE5AA700BA62EF /* PrivacyOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D8342CBE5AA700BA62EF /* PrivacyOnBoardingView.swift */; };
+		9094D8372CBE626100BA62EF /* HealthOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D8362CBE626100BA62EF /* HealthOnBoardingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +56,8 @@
 		9094D82C2CBD25DB00BA62EF /* AddSleepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSleepViewModel.swift; sourceTree = "<group>"; };
 		9094D8302CBE4FBA00BA62EF /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HistoryView.swift; path = Macro/Journal/ViewModel/HistoryView.swift; sourceTree = SOURCE_ROOT; };
 		9094D8322CBE594D00BA62EF /* DetailHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DetailHistoryView.swift; path = Macro/Journal/ViewModel/DetailHistoryView.swift; sourceTree = SOURCE_ROOT; };
+		9094D8342CBE5AA700BA62EF /* PrivacyOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PrivacyOnBoardingView.swift; path = Macro/Journal/ViewModel/PrivacyOnBoardingView.swift; sourceTree = SOURCE_ROOT; };
+		9094D8362CBE626100BA62EF /* HealthOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HealthOnBoardingView.swift; path = Macro/Journal/ViewModel/HealthOnBoardingView.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +156,8 @@
 				9094D82A2CBD0D0700BA62EF /* AddSleepView.swift */,
 				9094D8302CBE4FBA00BA62EF /* HistoryView.swift */,
 				9094D8322CBE594D00BA62EF /* DetailHistoryView.swift */,
+				9094D8342CBE5AA700BA62EF /* PrivacyOnBoardingView.swift */,
+				9094D8362CBE626100BA62EF /* HealthOnBoardingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -308,10 +314,12 @@
 				6AEC4D022CB514A3003DD2F3 /* DietView.swift in Sources */,
 				6AEC4D0A2CB526E6003DD2F3 /* FoodFile.swift in Sources */,
 				9094D8272CBD040100BA62EF /* ImagePickerViewModel.swift in Sources */,
+				9094D8372CBE626100BA62EF /* HealthOnBoardingView.swift in Sources */,
 				6AE757ED2CAE87FE00BEFDE0 /* MacroApp.swift in Sources */,
 				9015E76B2CB5190200C1D808 /* HealthManager.swift in Sources */,
 				9094D8312CBE4FBA00BA62EF /* HistoryView.swift in Sources */,
 				9094D8332CBE594D00BA62EF /* DetailHistoryView.swift in Sources */,
+				9094D8352CBE5AA700BA62EF /* PrivacyOnBoardingView.swift in Sources */,
 				6AEC4D102CB53AA1003DD2F3 /* Journal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
