@@ -13,12 +13,13 @@ struct JournalView: View {
     @State var selectedImage: UIImage?
     @State var navigateToMenuPage = false
     @State var isAddSleepViewPresented = false
+    @State var navigateToHistoryView = false
     
     var body: some View {
         NavigationView{
             VStack {
                 HStack{
-                    Text("Hi!")
+                    Text("Ringkasan")
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                     
@@ -41,7 +42,7 @@ struct JournalView: View {
                             Text(day)
                                 .font(.caption)
                                 .frame(maxWidth: .infinity)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.systemMint)
                         }
                     }
                     .padding(.horizontal, 8)
@@ -141,15 +142,15 @@ struct JournalView: View {
                     .padding(.trailing, 4)
                     .actionSheet(isPresented: $viewModel.isImagePickerPresented) {
                         ActionSheet(title: Text("Pilih gambar melalui"), buttons: [
-                            .default(Text("Ambil Gambar")) {
-                                isPickerShowing = true
-                                viewModel.sourceType = .camera
-                            },
-                            .default(Text("Pilih dari Galeri")) {
+                                .default(Text("🖼 Pilih Foto dari Album")){
                                 isPickerShowing = true
                                 viewModel.sourceType = .photoLibrary
                             },
-                            .default(Text("Cari Menu Makanan")) {
+                            .default(Text("📷 Ambil Gambar")) {
+                                isPickerShowing = true
+                                viewModel.sourceType = .camera
+                            },
+                            .default(Text("🔍 Cari Menu Makanan")) {
                                 viewModel.isDietViewPresented = true
                             },
                             .cancel()
@@ -237,19 +238,30 @@ struct JournalView: View {
                         .padding()
                     Spacer()
                 }
-                
+                NavigationLink(destination: HistoryView(), isActive: $navigateToHistoryView){
                 Button(action: {
-                    
+                    navigateToHistoryView = true
                 }) {
-                    Text("Tampilkan Semua Riwayat Data")
-                        .foregroundColor(.blue)
+                    ZStack{
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .frame(width: 353, height: 46)
+                            .background(.white)
+                            .cornerRadius(12)
+                        Text("Tampilkan Semua Data")
+                            .foregroundColor(.blue)
+                    }
+                    .padding(.top, -12)
+                        
                 }
                 .onAppear {
                     viewModel.fetchSleepData()
                 }
+                }
                 
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .background(Color.background)
             .sheet(isPresented: $isAddSleepViewPresented) { // Memunculkan AddSleepView sebagai modal sheet
                 AddSleepView()
                 
@@ -257,6 +269,7 @@ struct JournalView: View {
         
         
     }
+        
 }
 
 

@@ -14,25 +14,26 @@ struct AddSleepView: View {
     var body: some View {
         VStack {
             HStack {
-                            Button("Batalkan") {
-                                presentationMode.wrappedValue.dismiss()
-                            }
-                            .foregroundColor(.red)
-
-                            Spacer()
-
-                            Button("Selesai") {
-                               
-                                presentationMode.wrappedValue.dismiss()
-                            }
-                            .foregroundColor(.blue)
-                        }
-                        .padding()
+                Button("Batalkan") {
+                    presentationMode.wrappedValue.dismiss()
+                }
+                .foregroundColor(.red)
+                
+                Spacer()
+                
+                Button("Selesai") {
+                    
+                    presentationMode.wrappedValue.dismiss()
+                }
+                .foregroundColor(.blue)
+            }
+            .padding()
             
             ZStack{
                 Rectangle()
-                    .foregroundColor(.gray.opacity(0.2))
+                    .foregroundColor(.background)
                     .frame(width: 360, height: 560)
+                    .cornerRadius(12)
                 
                 VStack{
                     HStack(spacing: 4) {
@@ -44,7 +45,7 @@ struct AddSleepView: View {
                                 
                             } icon: {
                                 Image(systemName: "bed.double.fill")
-                                    .foregroundColor(Color.blue)
+                                    .foregroundColor(Color.main)
                             }
                             .font(.callout)
                             
@@ -64,10 +65,9 @@ struct AddSleepView: View {
                                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             } icon: {
                                 Image(systemName: "alarm.waves.left.and.right.fill")
-                                    .foregroundColor(Color.blue)
+                                    .foregroundColor(Color.main)
                             }
                             .font(.callout)
-                            
                             
                             HStack {
                                 Spacer()
@@ -83,21 +83,14 @@ struct AddSleepView: View {
                     }
                     .padding()
                     
-                    
-                    
-                    
                     SleepTimeSlider()
-                        .padding(.top, 50)
+                        .padding(.top, 20)
                     
                     Text("\(viewModel.getTimeDifference().0) jam \(viewModel.getTimeDifference().1) menit")
                         .font(.title.bold())
                         .padding(.top, 40)
                     
                     Text("Total Tidur")
-                    
-                    
-                    
-                    
                     
                 }
                 
@@ -151,13 +144,13 @@ struct AddSleepView: View {
                 let reverseRotation = (viewModel.startProgress > viewModel.toProgress) ? -Double((1 - viewModel.startProgress) * 360) : 0
                 Circle()
                     .trim(from: viewModel.startProgress > viewModel.toProgress ? 0 : viewModel.startProgress, to: viewModel.toProgress + (-reverseRotation / 360))
-                    .stroke(Color.blue, style: StrokeStyle(lineWidth: 40, lineCap: .round, lineJoin: .round))
+                    .stroke(Color.accentColor, style: StrokeStyle(lineWidth: 40, lineCap: .round, lineJoin: .round))
                     .rotationEffect(.init(degrees: -90))
                     .rotationEffect(.init(degrees: reverseRotation))
                 
                 Image(systemName: "bed.double.fill")
                     .font(.callout)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.main)
                     .frame(width: 30, height: 30)
                     .rotationEffect(.init(degrees: 90))
                     .rotationEffect(.init(degrees: -viewModel.startAngle))
@@ -174,7 +167,7 @@ struct AddSleepView: View {
                 
                 Image(systemName: "sunrise.fill")
                     .font(.callout)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.main)
                     .frame(width: 30, height: 30)
                     .rotationEffect(.init(degrees: 90))
                     .rotationEffect(.init(degrees: -viewModel.toAngle))
