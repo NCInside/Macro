@@ -11,9 +11,11 @@ struct HeightOnBoardingView: View {
     @State private var inputHeight: String = ""
     @FocusState private var isInputActive: Bool
     @State private var heightOption = "cm"
+    @State private var navigationToWeightOnBoarding = false
     var height = ["ft", "cm"]
     
     var body: some View {
+        NavigationView{
         VStack{
             Text("Berapa tinggimu?")
                 .padding(.top,80)
@@ -57,23 +59,33 @@ struct HeightOnBoardingView: View {
             .padding(.horizontal, 42)
             .colorMultiply(.accentColor)
             
-            
-            ZStack{
-                Rectangle()
-                    .foregroundColor(.mainLight)
-                    .frame(width: 353, height: 50)
-                    .background(.white)
-                    .cornerRadius(12)
-                Text("Selanjutnya")
-                    .foregroundColor(.white)
-                
+            NavigationLink(destination: WeightOnBoardingView(), isActive: $navigationToWeightOnBoarding){
+                Button(action: {
+                    navigationToWeightOnBoarding = true
+                    
+                }) {
+                    ZStack{
+                        Rectangle()
+                            .foregroundColor(.mainLight)
+                            .frame(width: 353, height: 50)
+                            .background(.white)
+                            .cornerRadius(12)
+                        Text("Selanjutnya")
+                            .foregroundColor(.white)
+                        
+                    }
+                    .padding()
+                    .padding(.top, 80)
+                }
             }
-            .padding()
-            .padding(.top, 80)
+            
+            
             
         }
         .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: .infinity, alignment: .top)
         .background(Color.main)
+    }
+        .navigationBarBackButtonHidden()
     }
 }
 

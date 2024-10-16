@@ -10,7 +10,7 @@ import SwiftUI
 struct HealthOnBoardingView: View {
     @EnvironmentObject var manager: HealthManager
     @State private var isAuthorized = false
-    @State private var navigateToOnBoardingAge = false
+    @State private var navigateToAgeOnBoarding = false
     
     var body: some View {
         NavigationView{
@@ -48,7 +48,7 @@ struct HealthOnBoardingView: View {
                         if success {
                             isAuthorized = true
                         } else {
-                            navigateToOnBoardingAge = true
+                            navigateToAgeOnBoarding = true
                         }
                     }
                 }) {
@@ -72,7 +72,7 @@ struct HealthOnBoardingView: View {
                 }
                 
                 
-                NavigationLink(destination: AgeOnBoardingView(), isActive: $navigateToOnBoardingAge) {
+                NavigationLink(destination: AgeOnBoardingView(), isActive: $navigateToAgeOnBoarding) {
                     EmptyView()
                 }
                 

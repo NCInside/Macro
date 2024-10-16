@@ -11,11 +11,13 @@ struct WeightOnBoardingView: View {
     @State private var inputWeight: String = ""
     @FocusState private var isInputActive: Bool
     @State private var weightOption = "kg"
+    @State private var navigateToGenderOnBoarding = false
     var weight = ["lb", "kg"]
     
     var body: some View {
+        NavigationView{
         VStack{
-            Text("Berapa tinggimu?")
+            Text("Berapa beratmu?")
                 .padding(.top,80)
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 .foregroundColor(.systemWhite)
@@ -58,23 +60,33 @@ struct WeightOnBoardingView: View {
             .colorMultiply(.accentColor)
             
             
-            ZStack{
-                Rectangle()
-                    .foregroundColor(.mainLight)
-                    .frame(width: 353, height: 50)
-                    .background(.white)
-                    .cornerRadius(12)
-                Text("Selanjutnya")
-                    .foregroundColor(.white)
-                
+            NavigationLink(destination: GenderOnBoardingView(), isActive: $navigateToGenderOnBoarding){
+                Button(action: {
+                    navigateToGenderOnBoarding = true
+                    
+                }) {
+                    ZStack{
+                        Rectangle()
+                            .foregroundColor(.mainLight)
+                            .frame(width: 353, height: 50)
+                            .background(.white)
+                            .cornerRadius(12)
+                        Text("Selanjutnya")
+                            .foregroundColor(.white)
+                        
+                    }
+                    .padding()
+                    .padding(.top, 80)
+                }
             }
-            .padding()
-            .padding(.top, 80)
             
         }
         .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: .infinity, alignment: .top)
         .background(Color.main)
     }
+        .navigationBarBackButtonHidden()
+}
+    
 }
 
 #Preview {

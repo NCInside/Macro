@@ -299,6 +299,7 @@ struct JournalView: View {
                 AddSleepView()
                 
             }}
+        .navigationBarBackButtonHidden()
     }
     
     private func calcProtein() -> Double {

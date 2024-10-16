@@ -10,8 +10,10 @@ import SwiftUI
 struct AgeOnBoardingView: View {
     @State private var inputAge: String = ""
     @FocusState private var isInputActive: Bool
+    @State private var navigateToHeightOnBoarding = false
     
     var body: some View {
+        NavigationView{
         VStack{
             Text("Berapa usiamu?")
                 .padding(.top,80)
@@ -45,23 +47,31 @@ struct AgeOnBoardingView: View {
                 .foregroundColor(.gray)
                 .padding(.horizontal, 60)
             
-            ZStack{
-                Rectangle()
-                    .foregroundColor(.mainLight)
-                    .frame(width: 353, height: 50)
-                    .background(.white)
-                    .cornerRadius(12)
-                Text("Selanjutnya")
-                    .foregroundColor(.white)
-                
+            NavigationLink(destination: HeightOnBoardingView(), isActive: $navigateToHeightOnBoarding){
+                Button(action: {
+                    navigateToHeightOnBoarding = true
+                    
+                }) {
+                    ZStack{
+                        Rectangle()
+                            .foregroundColor(.mainLight)
+                            .frame(width: 353, height: 50)
+                            .background(.white)
+                            .cornerRadius(12)
+                        Text("Selanjutnya")
+                            .foregroundColor(.white)
+                        
+                    }
+                    .padding()
+                    .padding(.top, 80)
+                }
             }
-            .padding()
-            .padding(.top, 80)
             
         }
         .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: .infinity, alignment: .top)
         .background(Color.main)
-        
+    }
+        .navigationBarBackButtonHidden()
     }
 }
 
