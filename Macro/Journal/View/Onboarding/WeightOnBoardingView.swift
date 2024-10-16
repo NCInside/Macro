@@ -12,6 +12,7 @@ struct WeightOnBoardingView: View {
     @FocusState private var isInputActive: Bool
     @State private var weightOption = "kg"
     @State private var navigateToGenderOnBoarding = false
+    @Binding var hasCompletedOnboarding: Bool
     var weight = ["lb", "kg"]
     
     var body: some View {
@@ -60,10 +61,10 @@ struct WeightOnBoardingView: View {
             .colorMultiply(.accentColor)
             
             
-            NavigationLink(destination: GenderOnBoardingView(), isActive: $navigateToGenderOnBoarding){
+            NavigationLink(destination: GenderOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding), isActive: $navigateToGenderOnBoarding){
                 Button(action: {
+                    UserDefaults.standard.set(["weight": inputWeight, "metric": weightOption], forKey: "weight")
                     navigateToGenderOnBoarding = true
-                    
                 }) {
                     ZStack{
                         Rectangle()
@@ -89,6 +90,6 @@ struct WeightOnBoardingView: View {
     
 }
 
-#Preview {
-    WeightOnBoardingView()
-}
+//#Preview {
+//    WeightOnBoardingView()
+//}

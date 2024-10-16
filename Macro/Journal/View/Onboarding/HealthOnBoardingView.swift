@@ -67,14 +67,14 @@ struct HealthOnBoardingView: View {
                     
                     
                 }
-                NavigationLink(destination: JournalView(), isActive: $isAuthorized) {
-                    EmptyView()
-                }
-                
-                
-                NavigationLink(destination: AgeOnBoardingView(), isActive: $navigateToAgeOnBoarding) {
-                    EmptyView()
-                }
+//                NavigationLink(destination: JournalView(), isActive: $isAuthorized) {
+//                    EmptyView()
+//                }
+//                
+//                
+//                NavigationLink(destination: AgeOnBoardingView(), isActive: $navigateToAgeOnBoarding) {
+//                    EmptyView()
+//                }
                 
             }
             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: .infinity)

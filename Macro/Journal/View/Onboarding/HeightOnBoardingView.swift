@@ -12,6 +12,7 @@ struct HeightOnBoardingView: View {
     @FocusState private var isInputActive: Bool
     @State private var heightOption = "cm"
     @State private var navigationToWeightOnBoarding = false
+    @Binding var hasCompletedOnboarding: Bool
     var height = ["ft", "cm"]
     
     var body: some View {
@@ -59,10 +60,10 @@ struct HeightOnBoardingView: View {
             .padding(.horizontal, 42)
             .colorMultiply(.accentColor)
             
-            NavigationLink(destination: WeightOnBoardingView(), isActive: $navigationToWeightOnBoarding){
+            NavigationLink(destination: WeightOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding), isActive: $navigationToWeightOnBoarding){
                 Button(action: {
+                    UserDefaults.standard.set(inputHeight, forKey: "height")
                     navigationToWeightOnBoarding = true
-                    
                 }) {
                     ZStack{
                         Rectangle()
@@ -89,6 +90,6 @@ struct HeightOnBoardingView: View {
     }
 }
 
-#Preview {
-    HeightOnBoardingView()
-}
+//#Preview {
+//    HeightOnBoardingView()
+//}

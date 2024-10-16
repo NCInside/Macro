@@ -143,7 +143,7 @@ struct HistoryView: View {
             .background(Color.background)
         }
         .onAppear {
-             //generateDummy()
+//             generateDummy()
         }
         .navigationTitle("Semua Data Tercatat")
         .toolbar {

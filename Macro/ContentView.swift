@@ -6,17 +6,23 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-
+    
     var body: some View {
-        NavigationSplitView {
-        } detail: {
-            Text("Select an item")
-                
+        
+        TabView {
+            JournalView()
+                .tabItem {
+                    Label("Journal", systemImage: "book.pages.fill")
+                }
+            
+            SummaryView()
+                .tabItem {
+                    Label("Journal", systemImage: "book")
+                }
         }
+
     }
 
 }
