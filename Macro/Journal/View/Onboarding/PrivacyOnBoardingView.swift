@@ -43,12 +43,12 @@ struct PrivacyOnBoardingView: View {
                     }) {
                         ZStack{
                             Rectangle()
-                                .foregroundColor(.clear)
-                                .frame(width: 353, height: 46)
+                                .foregroundColor(.mainLight)
+                                .frame(width: 353, height: 50)
                                 .background(.white)
                                 .cornerRadius(12)
                             Text("Izinkan")
-                                .foregroundColor(.blue)
+                                .foregroundColor(.white)
                             
                         }
                         .padding()

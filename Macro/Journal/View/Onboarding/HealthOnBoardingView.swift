@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct HealthOnBoardingView: View {
+    @EnvironmentObject var manager: HealthManager
+    @State private var isAuthorized = false
+    @State private var navigateToOnBoardingAge = false
+    
     var body: some View {
         NavigationView{
             VStack(alignment: .leading){
@@ -38,21 +42,38 @@ struct HealthOnBoardingView: View {
                 
                 Spacer()
                 
+                
                 Button(action: {
-                    
+                    manager.requestAuthorization { success in
+                        if success {
+                            isAuthorized = true
+                        } else {
+                            navigateToOnBoardingAge = true
+                        }
+                    }
                 }) {
                     ZStack{
                         Rectangle()
-                            .foregroundColor(.clear)
-                            .frame(width: 353, height: 46)
+                            .foregroundColor(.mainLight)
+                            .frame(width: 353, height: 50)
                             .background(.white)
                             .cornerRadius(12)
                         Text("Izinkan")
-                            .foregroundColor(.blue)
-                            
+                            .foregroundColor(.white)
+                        
+                        
                     }
                     .padding()
-                        
+                    
+                    
+                }
+                NavigationLink(destination: JournalView(), isActive: $isAuthorized) {
+                    EmptyView()
+                }
+                
+                
+                NavigationLink(destination: AgeOnBoardingView(), isActive: $navigateToOnBoardingAge) {
+                    EmptyView()
                 }
                 
             }
@@ -65,4 +86,5 @@ struct HealthOnBoardingView: View {
 
 #Preview {
     HealthOnBoardingView()
+        .environmentObject(HealthManager())
 }

@@ -30,6 +30,10 @@
 		9094D8332CBE594D00BA62EF /* DetailHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D8322CBE594D00BA62EF /* DetailHistoryView.swift */; };
 		9094D8352CBE5AA700BA62EF /* PrivacyOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D8342CBE5AA700BA62EF /* PrivacyOnBoardingView.swift */; };
 		9094D8372CBE626100BA62EF /* HealthOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D8362CBE626100BA62EF /* HealthOnBoardingView.swift */; };
+		9094D8392CBE776200BA62EF /* AgeOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D8382CBE776200BA62EF /* AgeOnBoardingView.swift */; };
+		9094D83C2CBF6C1F00BA62EF /* HeightOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D83B2CBF6C1F00BA62EF /* HeightOnBoardingView.swift */; };
+		9094D83E2CBF8DAD00BA62EF /* WeightOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D83D2CBF8DAD00BA62EF /* WeightOnBoardingView.swift */; };
+		9094D8402CBF907700BA62EF /* GenderOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D83F2CBF907700BA62EF /* GenderOnBoardingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,8 +60,12 @@
 		9094D82C2CBD25DB00BA62EF /* AddSleepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSleepViewModel.swift; sourceTree = "<group>"; };
 		9094D8302CBE4FBA00BA62EF /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HistoryView.swift; path = Macro/Journal/ViewModel/HistoryView.swift; sourceTree = SOURCE_ROOT; };
 		9094D8322CBE594D00BA62EF /* DetailHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DetailHistoryView.swift; path = Macro/Journal/ViewModel/DetailHistoryView.swift; sourceTree = SOURCE_ROOT; };
-		9094D8342CBE5AA700BA62EF /* PrivacyOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PrivacyOnBoardingView.swift; path = Macro/Journal/ViewModel/PrivacyOnBoardingView.swift; sourceTree = SOURCE_ROOT; };
-		9094D8362CBE626100BA62EF /* HealthOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HealthOnBoardingView.swift; path = Macro/Journal/ViewModel/HealthOnBoardingView.swift; sourceTree = SOURCE_ROOT; };
+		9094D8342CBE5AA700BA62EF /* PrivacyOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PrivacyOnBoardingView.swift; path = Macro/Journal/View/Onboarding/PrivacyOnBoardingView.swift; sourceTree = SOURCE_ROOT; };
+		9094D8362CBE626100BA62EF /* HealthOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HealthOnBoardingView.swift; path = Macro/Journal/View/Onboarding/HealthOnBoardingView.swift; sourceTree = SOURCE_ROOT; };
+		9094D8382CBE776200BA62EF /* AgeOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AgeOnBoardingView.swift; path = Macro/Journal/View/Onboarding/AgeOnBoardingView.swift; sourceTree = SOURCE_ROOT; };
+		9094D83B2CBF6C1F00BA62EF /* HeightOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightOnBoardingView.swift; sourceTree = "<group>"; };
+		9094D83D2CBF8DAD00BA62EF /* WeightOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightOnBoardingView.swift; sourceTree = "<group>"; };
+		9094D83F2CBF907700BA62EF /* GenderOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderOnBoardingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,13 +159,12 @@
 		6A3A6AE22CB7BEDB009319F8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9094D83A2CBE79D100BA62EF /* Onboarding */,
 				9094D8222CBD039500BA62EF /* JournalView.swift */,
 				9094D8282CBD043200BA62EF /* MenuView.swift */,
 				9094D82A2CBD0D0700BA62EF /* AddSleepView.swift */,
 				9094D8302CBE4FBA00BA62EF /* HistoryView.swift */,
 				9094D8322CBE594D00BA62EF /* DetailHistoryView.swift */,
-				9094D8342CBE5AA700BA62EF /* PrivacyOnBoardingView.swift */,
-				9094D8362CBE626100BA62EF /* HealthOnBoardingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -228,6 +235,19 @@
 				6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		9094D83A2CBE79D100BA62EF /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				9094D8342CBE5AA700BA62EF /* PrivacyOnBoardingView.swift */,
+				9094D8382CBE776200BA62EF /* AgeOnBoardingView.swift */,
+				9094D8362CBE626100BA62EF /* HealthOnBoardingView.swift */,
+				9094D83B2CBF6C1F00BA62EF /* HeightOnBoardingView.swift */,
+				9094D83D2CBF8DAD00BA62EF /* WeightOnBoardingView.swift */,
+				9094D83F2CBF907700BA62EF /* GenderOnBoardingView.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -303,10 +323,13 @@
 			files = (
 				9094D82D2CBD25DB00BA62EF /* AddSleepViewModel.swift in Sources */,
 				9094D8252CBD03B700BA62EF /* JournalViewModel.swift in Sources */,
+				9094D8392CBE776200BA62EF /* AgeOnBoardingView.swift in Sources */,
 				9094D8232CBD039500BA62EF /* JournalView.swift in Sources */,
 				9094D82B2CBD0D0700BA62EF /* AddSleepView.swift in Sources */,
 				6AEC4D082CB5268C003DD2F3 /* FoodCache.swift in Sources */,
+				9094D83C2CBF6C1F00BA62EF /* HeightOnBoardingView.swift in Sources */,
 				6AEC4D042CB514C9003DD2F3 /* DietViewModel.swift in Sources */,
+				9094D8402CBF907700BA62EF /* GenderOnBoardingView.swift in Sources */,
 				6AE757EF2CAE87FE00BEFDE0 /* ContentView.swift in Sources */,
 				6AEC4D0E2CB53A4C003DD2F3 /* Sleep.swift in Sources */,
 				6AEC4D0C2CB539EA003DD2F3 /* Food.swift in Sources */,
@@ -319,6 +342,7 @@
 				9015E76B2CB5190200C1D808 /* HealthManager.swift in Sources */,
 				9094D8312CBE4FBA00BA62EF /* HistoryView.swift in Sources */,
 				9094D8332CBE594D00BA62EF /* DetailHistoryView.swift in Sources */,
+				9094D83E2CBF8DAD00BA62EF /* WeightOnBoardingView.swift in Sources */,
 				9094D8352CBE5AA700BA62EF /* PrivacyOnBoardingView.swift in Sources */,
 				6AEC4D102CB53AA1003DD2F3 /* Journal.swift in Sources */,
 			);

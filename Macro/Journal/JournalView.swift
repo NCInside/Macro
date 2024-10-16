@@ -9,6 +9,8 @@ import SwiftUI
 
 struct JournalView: View {
     @ObservedObject var viewModel = JournalViewModel()
+    @State private var userAge: Int? = nil
+    let manager = HealthManager()
     @State var isPickerShowing = false
     @State var selectedImage: UIImage?
     @State var navigateToMenuPage = false
@@ -122,7 +124,7 @@ struct JournalView: View {
                         }
                     }
                 }.padding(.top, -10)
-                
+                    
                 HStack{
                     Text("Diet")
                         .font(.title2)
@@ -266,6 +268,7 @@ struct JournalView: View {
                 AddSleepView()
                 
             }}
+        .navigationBarBackButtonHidden(true)
         
         
     }
