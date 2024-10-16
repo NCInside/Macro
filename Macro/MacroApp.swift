@@ -24,7 +24,7 @@ struct MacroApp: App {
     
     var body: some Scene {
         WindowGroup {
-            AgeOnBoardingView()
+            HealthOnBoardingView()
                 .environmentObject(manager)
                 .modelContainer(container)
         }

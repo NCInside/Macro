@@ -155,15 +155,15 @@ struct JournalView: View {
                     .padding(.trailing, 4)
                     .actionSheet(isPresented: $viewModel.isImagePickerPresented) {
                         ActionSheet(title: Text("Pilih gambar melalui"), buttons: [
-                                .default(Text("🖼 Pilih Foto dari Album")){
+                                .default(Text("Pilih Foto dari Album")){
                                 isPickerShowing = true
                                 viewModel.sourceType = .photoLibrary
                             },
-                            .default(Text("📷 Ambil Gambar")) {
+                            .default(Text("Ambil Gambar")) {
                                 isPickerShowing = true
                                 viewModel.sourceType = .camera
                             },
-                            .default(Text("🔍 Cari Menu Makanan")) {
+                            .default(Text("Cari Menu Makanan")) {
                                 viewModel.isDietViewPresented = true
                             },
                             .cancel()
@@ -295,7 +295,7 @@ struct JournalView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .background(Color.background)
-            .sheet(isPresented: $isAddSleepViewPresented) { // Memunculkan AddSleepView sebagai modal sheet
+            .sheet(isPresented: $isAddSleepViewPresented) { 
                 AddSleepView()
                 
             }}

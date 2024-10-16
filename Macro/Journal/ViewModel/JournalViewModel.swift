@@ -55,18 +55,40 @@ class JournalViewModel: ObservableObject {
     }
     
     func fetchSleepData() {
-        healthManager.fetchSleepData { [weak self] sample in
+        
+        let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm"
+            return formatter
+        }()
+        
+        healthManager.fetchSleepData { [weak self] samples in
             DispatchQueue.main.async {
-                guard let sample = sample else {
+                guard let samples = samples, !samples.isEmpty else {
                     self?.sleepDuration = "No data"
                     return
                 }
                 
-                let sleepTime = sample.endDate.timeIntervalSince(sample.startDate)
-                let hours = Int(sleepTime) / 3600
-                let minutes = (Int(sleepTime) % 3600) / 60
+                var totalSleepTime: TimeInterval = 0
+                
+                for sample in samples {
+                    let sleepTime = sample.endDate.timeIntervalSince(sample.startDate)
+                    totalSleepTime += sleepTime
+                }
+                
+                let hours = Int(totalSleepTime) / 3600
+                let minutes = (Int(totalSleepTime) % 3600) / 60
                 
                 self?.sleepDuration = "\(hours)hr \(minutes)min"
+                
+                if let firstSample = samples.first {
+                    let formattedDate = dateFormatter.string(from: firstSample.endDate)
+                    print("End: \(formattedDate)")
+                }
+                if let lastSample = samples.last {
+                    let formattedDate = dateFormatter.string(from: lastSample.startDate)
+                    print("Start: \(formattedDate)")
+                }
             }
         }
     }
