@@ -26,7 +26,7 @@ struct GenderOnBoardingView: View {
                 }) {
                     ZStack{
                         Rectangle()
-                            .foregroundColor(.mainLight)
+                            .foregroundColor(.accentColor)
                             .frame(width: 353, height:60)
                             .background(.white)
                             .cornerRadius(12)
@@ -46,7 +46,7 @@ struct GenderOnBoardingView: View {
                 }) {
                     ZStack{
                         Rectangle()
-                            .foregroundColor(.mainLight)
+                            .foregroundColor(.accentColor)
                             .frame(width: 353, height: 60)
                             .background(.white)
                             .cornerRadius(12)

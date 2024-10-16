@@ -66,7 +66,7 @@ struct HeightOnBoardingView: View {
                 }) {
                     ZStack{
                         Rectangle()
-                            .foregroundColor(.mainLight)
+                            .foregroundColor(.accentColor)
                             .frame(width: 353, height: 50)
                             .background(.white)
                             .cornerRadius(12)

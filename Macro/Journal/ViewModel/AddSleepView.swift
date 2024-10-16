@@ -17,7 +17,7 @@ struct AddSleepView: View {
                 Button("Batalkan") {
                     presentationMode.wrappedValue.dismiss()
                 }
-                .foregroundColor(.red)
+                .foregroundColor(.mainLight)
                 
                 Spacer()
                 
@@ -25,7 +25,8 @@ struct AddSleepView: View {
                     
                     presentationMode.wrappedValue.dismiss()
                 }
-                .foregroundColor(.blue)
+                .foregroundColor(.mainLight)
+                .bold()
             }
             .padding()
             
@@ -45,7 +46,7 @@ struct AddSleepView: View {
                                 
                             } icon: {
                                 Image(systemName: "bed.double.fill")
-                                    .foregroundColor(Color.main)
+                                    .foregroundColor(Color.mainLight)
                             }
                             .font(.callout)
                             
@@ -65,7 +66,7 @@ struct AddSleepView: View {
                                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             } icon: {
                                 Image(systemName: "alarm.waves.left.and.right.fill")
-                                    .foregroundColor(Color.main)
+                                    .foregroundColor(Color.mainLight)
                             }
                             .font(.callout)
                             
@@ -91,6 +92,7 @@ struct AddSleepView: View {
                         .padding(.top, 40)
                     
                     Text("Total Tidur")
+                        .foregroundColor(.mainLight)
                     
                 }
                 
@@ -133,24 +135,26 @@ struct AddSleepView: View {
                     
                     Image(systemName: "moon.fill")
                         .font(.callout)
-                        .foregroundColor(.black)
+                        .foregroundColor(.systemMint)
                         .offset(y: -(width - 130) / 2)
-                    
+                        
                 }
                 
+                
                 Circle()
-                    .stroke(.black.opacity(0.06), lineWidth: 40)
+                    .stroke(.white, lineWidth: 50)
                 
                 let reverseRotation = (viewModel.startProgress > viewModel.toProgress) ? -Double((1 - viewModel.startProgress) * 360) : 0
+                
                 Circle()
                     .trim(from: viewModel.startProgress > viewModel.toProgress ? 0 : viewModel.startProgress, to: viewModel.toProgress + (-reverseRotation / 360))
-                    .stroke(Color.accentColor, style: StrokeStyle(lineWidth: 40, lineCap: .round, lineJoin: .round))
+                    .stroke(Color.systemBeige, style: StrokeStyle(lineWidth: 40, lineCap: .round, lineJoin: .round))
                     .rotationEffect(.init(degrees: -90))
                     .rotationEffect(.init(degrees: reverseRotation))
-                
+                    
                 Image(systemName: "bed.double.fill")
                     .font(.callout)
-                    .foregroundColor(.main)
+                    .foregroundColor(.mainLight)
                     .frame(width: 30, height: 30)
                     .rotationEffect(.init(degrees: 90))
                     .rotationEffect(.init(degrees: -viewModel.startAngle))
@@ -167,7 +171,7 @@ struct AddSleepView: View {
                 
                 Image(systemName: "sunrise.fill")
                     .font(.callout)
-                    .foregroundColor(.main)
+                    .foregroundColor(.mainLight)
                     .frame(width: 30, height: 30)
                     .rotationEffect(.init(degrees: 90))
                     .rotationEffect(.init(degrees: -viewModel.toAngle))
@@ -188,6 +192,7 @@ struct AddSleepView: View {
             
         }
         .frame(width: screenBounds().width / 1.6, height: screenBounds().width / 1.6)
+        
     }
 }
 

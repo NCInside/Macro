@@ -32,7 +32,7 @@ struct JournalView: View {
         NavigationStack{
             VStack {
                 HStack{
-                    Text("Ringkasan")
+                    Text("Jurnal")
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                     
@@ -44,7 +44,7 @@ struct JournalView: View {
                     HStack{
                         Text(viewModel.getMonthInIndonesian())
                             .font(.title2)
-                            .fontWeight(.medium)
+                            .fontWeight(.bold)
                         Spacer()
                     }
                     .padding()
@@ -55,7 +55,8 @@ struct JournalView: View {
                             Text(day)
                                 .font(.caption)
                                 .frame(maxWidth: .infinity)
-                                .foregroundColor(.systemMint)
+                                .foregroundColor(day == "Min" ? .red : .mainLight)
+                                .bold()
                         }
                     }
                     .padding(.horizontal, 8)
@@ -69,16 +70,21 @@ struct JournalView: View {
                                     .frame(width: 18, height: 16)
                                     .multilineTextAlignment(.center)
                                     .padding(12)
-                                    .background(viewModel.isSelected(date: date) ? Color.gray.opacity(0.3) : Color.clear)
+                                    .background(viewModel.isSelected(date: date) ? Color.mainLight : Color.clear)
                                     .clipShape(Circle())
+                                    .foregroundColor(viewModel.isSelected(date: date) ? Color.white : Color.primary)
                             }
+                            .padding(.bottom, 20)
                             .onTapGesture {
                                 viewModel.selectDate(date: date)
+                                    
                             }
                         }
                     }
                     .padding(.top, 6)
+                    
                 }
+                .background(.white)
                 .frame(width: 360, height: 170,  alignment: .topLeading)
                 .cornerRadius(12)
                 .overlay(
@@ -87,7 +93,7 @@ struct JournalView: View {
                 )
                 
                 HStack{
-                    Text("Durasi Tidur")
+                    Text("Tidur")
                         .font(.title2)
                         .fontWeight(.bold)
                     Spacer()
@@ -96,7 +102,7 @@ struct JournalView: View {
                         isAddSleepViewPresented = true
                     }) {
                         Text("Tambah")
-                            .foregroundColor(.blue)
+                            .foregroundColor(.mainLight)
                     }
                     .padding(.top, 10)
                     .padding(.trailing, 4)
@@ -108,36 +114,23 @@ struct JournalView: View {
                     Rectangle()
                         .foregroundColor(.clear)
                         .frame(width: 360, height: 120)
-                        .background(Color.gray.opacity(0.2))
+                        .background(Color.white)
                         .cornerRadius(12)
-                        .padding(.leading, 16)
                     
                     VStack(alignment: .leading, spacing: 8) {
+                        Text("Waktu di Tempat Tidur")
+                            .padding(.horizontal)
+                        
                         Text(viewModel.sleepDuration)
                             .font(.system(size: 18))
                             .foregroundColor(.gray)
-                            .padding(.leading, 16)
-                            .padding()
-                        
-                        Rectangle()
-                            .frame(height: 1)
-                            .foregroundColor(.gray)
-                            .padding(.horizontal, 32)
-                        
-                        Button(action: {
-                            
-                        }) {
-                            Text("Edit Data")
-                                .foregroundColor(.blue)
-                                .padding(.leading, 32)
-                                .padding(.top,4)
-                                .padding(.bottom)
-                        }
+                            .padding(.horizontal)
+                            .padding(.bottom, 30)
                     }
                 }.padding(.top, -10)
                     
                 HStack{
-                    Text("Diet")
+                    Text("Nutrisi")
                         .font(.title2)
                         .fontWeight(.bold)
                         .padding()
@@ -148,7 +141,7 @@ struct JournalView: View {
                         viewModel.presentActionSheet()
                     }) {
                         Image(systemName: "plus")
-                            .foregroundColor(.blue)
+                            .foregroundColor(.mainLight)
                     }
                     .padding(.top, 10)
                     .padding()
@@ -203,7 +196,7 @@ struct JournalView: View {
                             }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(.gray.opacity(0.2))
+                        .background(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         VStack(alignment: .leading, spacing: -24) {
                             HStack {
@@ -220,7 +213,7 @@ struct JournalView: View {
                             }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(.gray.opacity(0.2))
+                        .background(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         
                     }
@@ -241,7 +234,7 @@ struct JournalView: View {
                             }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(.gray.opacity(0.2))
+                        .background(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         VStack(alignment: .leading, spacing: -24) {
                             HStack {
@@ -258,7 +251,7 @@ struct JournalView: View {
                             }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(.gray.opacity(0.2))
+                        .background(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                 }
@@ -266,7 +259,7 @@ struct JournalView: View {
                 .padding(.top, -60)
                 
                 HStack{
-                    Text("More")
+                    Text("Lainnya")
                         .font(.title2)
                         .fontWeight(.bold)
                         .padding()
@@ -278,8 +271,12 @@ struct JournalView: View {
                 }) {
                     HStack {
                         Text("Tampilkan Semua Data")
-                            .foregroundColor(.blue)
-                            .frame(maxWidth: .infinity)
+                            .foregroundColor(.black)
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.black)
+                        
                     }
                     .padding()
                     .background(.white)
@@ -290,7 +287,9 @@ struct JournalView: View {
                 .onAppear {
                     viewModel.fetchSleepData()
                 }
+                    
                 }
+
                 
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
