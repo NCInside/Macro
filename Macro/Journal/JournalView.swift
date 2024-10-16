@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct JournalView: View {
     @ObservedObject var viewModel = JournalViewModel()
@@ -16,9 +17,19 @@ struct JournalView: View {
     @State var navigateToMenuPage = false
     @State var isAddSleepViewPresented = false
     @State var navigateToHistoryView = false
+    @Query var journals: [Journal]
+    
+    private var todayJournal: Journal? {
+        let calendar = Calendar.current
+        let todayStart = calendar.startOfDay(for: Date())
+        
+        return journals.first { journal in
+            calendar.isDate(journal.timestamp, inSameDayAs: todayStart)
+        }
+    }
     
     var body: some View {
-        NavigationView{
+        NavigationStack{
             VStack {
                 HStack{
                     Text("Ringkasan")
@@ -175,62 +186,83 @@ struct JournalView: View {
                 .padding()
                 .padding(.top, 10)
                 
-                VStack{
-                    HStack {
-                        ZStack(alignment: .topLeading) {
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .frame(width: 170, height: 80)
-                                .background(Color.gray.opacity(0.2))
-                                .cornerRadius(12)
-                                .padding(.trailing, 10)
-                            
-                            Text("Protein")
-                                .padding()
-                                .fontWeight(.medium)
+                VStack(spacing: 10) {
+                    HStack(spacing: 10) {
+                        VStack(alignment: .leading, spacing: -24) {
+                            HStack {
+                                Text("Protein")
+                                    .padding()
+                                    .fontWeight(.medium)
+                                Spacer()
+                            }
+                            HStack {
+                                Text(String(format: "%.2f", calcProtein())+" gr")
+                                    .padding()
+                                    .fontWeight(.medium)
+                                Spacer()
+                            }
                         }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(.gray.opacity(0.2))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        VStack(alignment: .leading, spacing: -24) {
+                            HStack {
+                                Text("Fat")
+                                    .padding()
+                                    .fontWeight(.medium)
+                                Spacer()
+                            }
+                            HStack {
+                                Text(String(format: "%.2f", calcFat())+" gr")
+                                    .padding()
+                                    .fontWeight(.medium)
+                                Spacer()
+                            }
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(.gray.opacity(0.2))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                         
-                        ZStack(alignment: .topLeading) {
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .frame(width: 170, height: 80)
-                                .background(Color.gray.opacity(0.2))
-                                .cornerRadius(12)
-                            
-                            Text("Fat")
-                                .padding()
-                                .fontWeight(.medium)
-                        }
                     }
                     
-                    HStack {
-                        ZStack(alignment: .topLeading) {
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .frame(width: 170, height: 80)
-                                .background(Color.gray.opacity(0.2))
-                                .cornerRadius(12)
-                                .padding(.trailing, 10)
-                            
-                            Text("Diaries")
-                                .padding()
-                                .fontWeight(.medium)
+                    HStack(spacing: 10) {
+                        VStack(alignment: .leading, spacing: -24) {
+                            HStack {
+                                Text("Diaries")
+                                    .padding()
+                                    .fontWeight(.medium)
+                                Spacer()
+                            }
+                            HStack {
+                                Text(String(calcDairy())+" product(s)")
+                                    .padding()
+                                    .fontWeight(.medium)
+                                Spacer()
+                            }
                         }
-                        
-                        ZStack(alignment: .topLeading) {
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .frame(width: 170, height: 80)
-                                .background(Color.gray.opacity(0.2))
-                                .cornerRadius(12)
-                            
-                            Text("Glycemic")
-                                .padding()
-                                .fontWeight(.medium)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(.gray.opacity(0.2))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        VStack(alignment: .leading, spacing: -24) {
+                            HStack {
+                                Text("Glycemic")
+                                    .padding()
+                                    .fontWeight(.medium)
+                                Spacer()
+                            }
+                            HStack {
+                                Text(String(calcGI()))
+                                    .padding()
+                                    .fontWeight(.medium)
+                                Spacer()
+                            }
                         }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(.gray.opacity(0.2))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
-                    .padding(.top, 4)
                 }
+                .padding(.horizontal)
                 .padding(.top, -60)
                 
                 HStack{
@@ -240,22 +272,21 @@ struct JournalView: View {
                         .padding()
                     Spacer()
                 }
-                NavigationLink(destination: HistoryView(), isActive: $navigateToHistoryView){
+                NavigationLink(destination: HistoryView(), isActive: $navigateToHistoryView) {
                 Button(action: {
                     navigateToHistoryView = true
                 }) {
-                    ZStack{
-                        Rectangle()
-                            .foregroundColor(.clear)
-                            .frame(width: 353, height: 46)
-                            .background(.white)
-                            .cornerRadius(12)
+                    HStack {
                         Text("Tampilkan Semua Data")
                             .foregroundColor(.blue)
+                            .frame(maxWidth: .infinity)
                     }
-                    .padding(.top, -12)
-                        
+                    .padding()
+                    .background(.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
+                .padding(.horizontal)
+                .padding(.top, -12)
                 .onAppear {
                     viewModel.fetchSleepData()
                 }
@@ -268,9 +299,53 @@ struct JournalView: View {
                 AddSleepView()
                 
             }}
-        .navigationBarBackButtonHidden(true)
-        
-        
+    }
+    
+    private func calcProtein() -> Double {
+        var protein: Double = 0
+        if let todayJournal {
+            for food in todayJournal.foods {
+                protein += food.protein
+            }
+        }
+        return protein
+    }
+    
+    private func calcFat() -> Double {
+        var fat: Double = 0
+        if let todayJournal {
+            for food in todayJournal.foods {
+                fat += food.fat
+            }
+        }
+        return fat
+    }
+    
+    private func calcDairy() -> Int {
+        var dairy = 0
+        if let todayJournal {
+            for food in todayJournal.foods {
+                dairy += food.dairy ? 1 : 0
+            }
+        }
+        return dairy
+    }
+    
+    private func calcGI() -> Int {
+        var gi = 0
+        if let todayJournal {
+            for food in todayJournal.foods {
+                switch food.glycemicIndex {
+                case .low:
+                    continue
+                case .medium:
+                    gi += 1
+                case .high:
+                    gi += 2
+                }
+            }
+        }
+        return gi
     }
         
 }

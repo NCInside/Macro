@@ -55,21 +55,21 @@ class JournalViewModel: ObservableObject {
     }
     
     func fetchSleepData() {
-            healthManager.fetchSleepData { [weak self] sample in
-                DispatchQueue.main.async {
-                    guard let sample = sample else {
-                        self?.sleepDuration = "No data"
-                        return
-                    }
-                    
-                    let sleepTime = sample.endDate.timeIntervalSince(sample.startDate)
-                    let hours = Int(sleepTime) / 3600
-                    let minutes = (Int(sleepTime) % 3600) / 60
-                    
-                    self?.sleepDuration = "\(hours)hr \(minutes)min"
+        healthManager.fetchSleepData { [weak self] sample in
+            DispatchQueue.main.async {
+                guard let sample = sample else {
+                    self?.sleepDuration = "No data"
+                    return
                 }
+                
+                let sleepTime = sample.endDate.timeIntervalSince(sample.startDate)
+                let hours = Int(sleepTime) / 3600
+                let minutes = (Int(sleepTime) % 3600) / 60
+                
+                self?.sleepDuration = "\(hours)hr \(minutes)min"
             }
         }
+    }
 }
 
 
