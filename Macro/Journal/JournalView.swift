@@ -12,7 +12,7 @@ struct JournalView: View {
     @Environment(\.modelContext) private var context
     @ObservedObject var viewModel = JournalViewModel()
     @StateObject private var icViewModel = FoodClassificationViewModel()
-    let manager = HealthManager()
+    @StateObject private var searchViewModel = SearchViewModel()  // Add SearchViewModel to fetch food details
     @State var isPickerShowing = false
     @State var selectedImage: UIImage?
     @State var navigateToMenuPage = false
@@ -20,6 +20,10 @@ struct JournalView: View {
     @State var navigateToHistoryView = false
     @State var classificationTitle: String = ""
     @State var classificationProb: Double = 0.0
+    @State var protein: Double = 0.0
+    @State var fat: Double = 0.0
+    @State var dairy: Bool = false
+    @State var glycemicIndex: glycemicIndex = .low
     @Query var journals: [Journal]
     
     private var todayJournal: Journal? {
@@ -158,7 +162,7 @@ struct JournalView: View {
                         .padding(.trailing, 4)
                         .actionSheet(isPresented: $viewModel.isImagePickerPresented) {
                             ActionSheet(title: Text("Pilih gambar melalui"), buttons: [
-                                .default(Text("🖼 Pilih Foto dari Album")){
+                                .default(Text("🖼 Pilih Foto dari Album")) {
                                     isPickerShowing = true
                                     viewModel.sourceType = .photoLibrary
                                 },
@@ -180,15 +184,24 @@ struct JournalView: View {
                             sourceType: viewModel.sourceType,
                             onImagePicked: {
                                 if let image = selectedImage {
-                                    classifyImageAndNavigate(image: image)  // Classify and navigate
+                                    classifyImageAndFetchDetails(image: image)  // Classify and fetch food details
                                 }
                             }
                         )
                     }
+                    
                     .fullScreenCover(isPresented: $viewModel.isDietViewPresented, content: SearchView.init)
                     // Navigation to MenuView with the classified image, title, and probability
                     NavigationLink(
-                        destination: MenuView(image: selectedImage, title: classificationTitle, prob: classificationProb),
+                        destination: MenuView(
+                            image: selectedImage,
+                            title: classificationTitle,
+                            prob: classificationProb,
+                            protein: protein,
+                            fat: fat,
+                            dairy: dairy,
+                            glycemicIndex: glycemicIndex.rawValue
+                        ),
                         isActive: $navigateToMenuPage
                     ) {
                         EmptyView()
@@ -316,27 +329,38 @@ struct JournalView: View {
             viewModel.fetchSleepData(context: context, journals: journals)
         }
     }
-    // Function to classify the image and navigate
-    private func classifyImageAndNavigate(image: UIImage) {
-        // Run the classification model
-        icViewModel.FoodClassificationModel(uiImage: image)
-        
-        // Delay to allow model to update (adjust timing as needed)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            // Get the classification result and set the title and probability
-            if let title = icViewModel.imageClassificationText.first,
-               let prob = icViewModel.imageClassificationProb.first {
-                self.classificationTitle = title
-                self.classificationProb = prob
-                print("Title: \(title), Probability: \(prob)")  // Print the result
-            } else {
-                print("No classification result available")
-            }
+    // Function to classify the image and fetch food details
+        private func classifyImageAndFetchDetails(image: UIImage) {
+            // Run the classification model
+            icViewModel.FoodClassificationModel(uiImage: image)
             
-            // Navigate to the MenuView after classification is done
-            navigateToMenuPage = true
+            // Delay to allow model to update (adjust timing as needed)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                // Get the classification result and set the title and probability
+                if let title = icViewModel.imageClassificationText.first,
+                   let prob = icViewModel.imageClassificationProb.first {
+                    self.classificationTitle = title
+                    self.classificationProb = prob
+                    print("Title: \(title), Probability: \(prob)")  // Print the result
+                    
+                    // Fetch the food details using the classification title
+                    searchViewModel.detailDiet(name: title)
+                    
+                    // Set the nutritional information if available
+                    if let food = searchViewModel.food {
+                        protein = food.protein
+                        fat = food.fat
+                        dairy = food.dairy
+                        glycemicIndex = food.glycemicIndex
+                    }
+                } else {
+                    print("No classification result available")
+                }
+                
+                // Navigate to MenuView after classification and fetching food details
+                navigateToMenuPage = true
+            }
         }
-    }
     
 }
 
