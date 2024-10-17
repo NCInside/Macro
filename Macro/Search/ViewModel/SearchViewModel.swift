@@ -100,7 +100,7 @@ final class SearchViewModel: ObservableObject {
                 
             } else {
                 
-                let journal = Journal(timestamp: Date(), foods: [], sleep: Sleep(timestamp: Date(), duration: 0))
+                let journal = Journal(timestamp: Date(), foods: [], sleep: Sleep(timestamp: Date(), duration: 0, start: Date(), end: Date()))
                 journal.foods.append(food)
                 context.insert(journal)
                 do {

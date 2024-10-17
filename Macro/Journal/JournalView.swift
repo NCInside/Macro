@@ -176,9 +176,7 @@ struct JournalView: View {
                             navigateToMenuPage = true
                         })
                     }
-                    .sheet(isPresented: $viewModel.isDietViewPresented) {
-                        DietView()
-                    }
+                    .fullScreenCover(isPresented: $viewModel.isDietViewPresented, content: SearchView.init)
                     NavigationLink(destination: MenuView(image: selectedImage), isActive: $navigateToMenuPage) {
                         EmptyView()
                     }

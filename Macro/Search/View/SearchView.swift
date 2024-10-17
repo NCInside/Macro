@@ -63,7 +63,7 @@ struct SearchView: View {
                         viewModel.isPresented.toggle()
                     })
                     .fullScreenCover(isPresented: $viewModel.isPresented) {
-                        if let selectedSuggestion = viewModel.selectedSuggestion {
+                        if viewModel.selectedSuggestion != nil {
                             DetailSearchView(name: viewModel.selectedSuggestion ?? "", journals: journals)
                        }
                     }
