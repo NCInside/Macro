@@ -2,7 +2,7 @@
 //  DetailSummaryView.swift
 //  Macro
 //
-//  Created by Nicholas Christian Irawan on 17/10/24.
+//  Created by Vebrillia Santoso on 17/10/24.
 //
 
 import SwiftUI
