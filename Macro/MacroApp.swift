@@ -24,7 +24,7 @@ struct MacroApp: App {
     
     var body: some Scene {
         WindowGroup {
-            DietView()
+            RootView()
                 .environmentObject(manager)
                 .modelContainer(container)
         }

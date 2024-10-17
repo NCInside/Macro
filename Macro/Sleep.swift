@@ -12,11 +12,15 @@ import SwiftData
 final class Sleep {
     
     var timestamp: Date
-    var duration: Double
+    var duration: Int
+    var start: Date
+    var end: Date
     
-    init(timestamp: Date, duration: Double) {
+    init(timestamp: Date, duration: Int, start: Date, end: Date) {
         self.timestamp = timestamp
         self.duration = duration
+        self.start = start
+        self.end = end
     }
     
 }
