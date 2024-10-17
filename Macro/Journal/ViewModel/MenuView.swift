@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MenuView: View {
     var image: UIImage?
+    var title: String
+    var prob: Double
     
     var body: some View {
         VStack {
@@ -103,5 +105,5 @@ struct MenuView: View {
 }
 
 #Preview {
-    MenuView()
+    MenuView(image: UIImage(named: "exampleImage"), title: "Example Title", prob: 0.85)
 }

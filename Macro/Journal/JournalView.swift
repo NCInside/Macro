@@ -11,12 +11,15 @@ import SwiftData
 struct JournalView: View {
     @Environment(\.modelContext) private var context
     @ObservedObject var viewModel = JournalViewModel()
+    @StateObject private var icViewModel = FoodClassificationViewModel()
     let manager = HealthManager()
     @State var isPickerShowing = false
     @State var selectedImage: UIImage?
     @State var navigateToMenuPage = false
     @State var isAddSleepViewPresented = false
     @State var navigateToHistoryView = false
+    @State var classificationTitle: String = ""
+    @State var classificationProb: Double = 0.0
     @Query var journals: [Journal]
     
     private var todayJournal: Journal? {
@@ -137,13 +140,12 @@ struct JournalView: View {
                     }
                     .padding(.horizontal)
                     
-                    HStack{
+                    HStack {
                         Text("Diet")
                             .font(.title2)
                             .fontWeight(.bold)
                             .padding()
                         Spacer()
-                        
                         
                         Button(action: {
                             viewModel.presentActionSheet()
@@ -172,16 +174,29 @@ struct JournalView: View {
                         }
                     }
                     .sheet(isPresented: $isPickerShowing, onDismiss: nil) {
-                        ImagePickerViewModel(selectedImage: $selectedImage, isPickerShowing: $isPickerShowing, sourceType: viewModel.sourceType, onImagePicked: {
-                            navigateToMenuPage = true
-                        })
+                        ImagePickerViewModel(
+                            selectedImage: $selectedImage,
+                            isPickerShowing: $isPickerShowing,
+                            sourceType: viewModel.sourceType,
+                            onImagePicked: {
+                                if let image = selectedImage {
+                                    classifyImageAndNavigate(image: image)  // Classify and navigate
+                                }
+                            }
+                        )
                     }
                     .fullScreenCover(isPresented: $viewModel.isDietViewPresented, content: SearchView.init)
-                    NavigationLink(destination: MenuView(image: selectedImage), isActive: $navigateToMenuPage) {
+                    // Navigation to MenuView with the classified image, title, and probability
+                    NavigationLink(
+                        destination: MenuView(image: selectedImage, title: classificationTitle, prob: classificationProb),
+                        isActive: $navigateToMenuPage
+                    ) {
                         EmptyView()
                     }
                     .padding()
                     .padding(.top, 10)
+                    
+                    
                     
                     VStack(spacing: 10) {
                         HStack(spacing: 10) {
@@ -301,7 +316,28 @@ struct JournalView: View {
             viewModel.fetchSleepData(context: context, journals: journals)
         }
     }
+    // Function to classify the image and navigate
+    private func classifyImageAndNavigate(image: UIImage) {
+        // Run the classification model
+        icViewModel.FoodClassificationModel(uiImage: image)
         
+        // Delay to allow model to update (adjust timing as needed)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            // Get the classification result and set the title and probability
+            if let title = icViewModel.imageClassificationText.first,
+               let prob = icViewModel.imageClassificationProb.first {
+                self.classificationTitle = title
+                self.classificationProb = prob
+                print("Title: \(title), Probability: \(prob)")  // Print the result
+            } else {
+                print("No classification result available")
+            }
+            
+            // Navigate to the MenuView after classification is done
+            navigateToMenuPage = true
+        }
+    }
+    
 }
 
 
