@@ -11,7 +11,6 @@ import SwiftData
 struct SearchView: View {
     
     @ObservedObject private var viewModel = SearchViewModel()
-    @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     @Query private var journals: [Journal]
     
@@ -60,9 +59,14 @@ struct SearchView: View {
             List {
                 ForEach((viewModel.suggestions.isEmpty ? viewModel.recent : viewModel.suggestions).reversed(), id: \.self) { suggestion in
                     SearchCard(suggestion: suggestion, onTap: {
-                        viewModel.addDiet(context: context, name: suggestion, entries: journals)
-                        dismiss()
+                        viewModel.selectedSuggestion = suggestion
+                        viewModel.isPresented.toggle()
                     })
+                    .fullScreenCover(isPresented: $viewModel.isPresented) {
+                        if let selectedSuggestion = viewModel.selectedSuggestion {
+                            DetailSearchView(name: viewModel.selectedSuggestion ?? "", journals: journals)
+                       }
+                    }
                 }
             }
             .listStyle(.plain)

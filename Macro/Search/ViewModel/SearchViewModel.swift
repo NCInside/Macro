@@ -18,6 +18,9 @@ final class SearchViewModel: ObservableObject {
     @Published var input: String = ""
     @Published var suggestions: [String] = []
     @Published var recent: [String] = []
+    @Published var isPresented = false
+    @Published var food: Food?
+    @Published var selectedSuggestion: String?
     
     private let foodCache = FoodCache(source: FoodFile()!)
 
@@ -59,6 +62,21 @@ final class SearchViewModel: ObservableObject {
         }
 
         return suggestion.lowercased() == text.lowercased()
+    }
+    
+    func detailDiet(name: String) {
+        
+        guard let url = Bundle.main.url(forResource: "NutrisiMakanan", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              let foodItems = try? JSONDecoder().decode([FoodItem].self, from: data) else {
+            print("Failed to load or decode JSON")
+            return
+        }
+        
+        if let foodItem = foodItems.first(where: { $0.NamaMakanan == name }) {
+            food = Food(timestamp: Date(), name: name, protein: foodItem.Protein, fat: foodItem.Fat, glycemicIndex: parseGI(gi: foodItem.GI), dairy: foodItem.Dairy == 1)
+        }
+        
     }
     
     func addDiet(context: ModelContext, name: String, entries: [Journal]) {

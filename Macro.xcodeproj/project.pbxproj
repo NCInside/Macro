@@ -12,6 +12,7 @@
 		6A3A6AEE2CBD13DF009319F8 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A6AED2CBD13DF009319F8 /* CustomSearchBar.swift */; };
 		6A3A6AF02CBD2203009319F8 /* NutrisiMakanan.json in Resources */ = {isa = PBXBuildFile; fileRef = 6A3A6AEF2CBD2203009319F8 /* NutrisiMakanan.json */; };
 		6A3A6AF22CBE5C62009319F8 /* SearchCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A6AF12CBE5C62009319F8 /* SearchCard.swift */; };
+		6A3A6AFC2CC0C5E2009319F8 /* DetailSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A6AFB2CC0C5E2009319F8 /* DetailSearchView.swift */; };
 		6AE757ED2CAE87FE00BEFDE0 /* MacroApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE757EC2CAE87FE00BEFDE0 /* MacroApp.swift */; };
 		6AE757EF2CAE87FE00BEFDE0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE757EE2CAE87FE00BEFDE0 /* ContentView.swift */; };
 		6AE757F32CAE87FF00BEFDE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AE757F22CAE87FF00BEFDE0 /* Assets.xcassets */; };
@@ -33,6 +34,7 @@
 		6A3A6AED2CBD13DF009319F8 /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
 		6A3A6AEF2CBD2203009319F8 /* NutrisiMakanan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NutrisiMakanan.json; sourceTree = "<group>"; };
 		6A3A6AF12CBE5C62009319F8 /* SearchCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCard.swift; sourceTree = "<group>"; };
+		6A3A6AFB2CC0C5E2009319F8 /* DetailSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSearchView.swift; sourceTree = "<group>"; };
 		6AE757E92CAE87FE00BEFDE0 /* Macro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Macro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AE757EC2CAE87FE00BEFDE0 /* MacroApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroApp.swift; sourceTree = "<group>"; };
 		6AE757EE2CAE87FE00BEFDE0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				6A3A6AE92CBD08DF009319F8 /* SearchView.swift */,
 				6A3A6AED2CBD13DF009319F8 /* CustomSearchBar.swift */,
 				6A3A6AF12CBE5C62009319F8 /* SearchCard.swift */,
+				6A3A6AFB2CC0C5E2009319F8 /* DetailSearchView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				6A3A6AEE2CBD13DF009319F8 /* CustomSearchBar.swift in Sources */,
 				6AEC4D042CB514C9003DD2F3 /* DietViewModel.swift in Sources */,
 				6AE757EF2CAE87FE00BEFDE0 /* ContentView.swift in Sources */,
+				6A3A6AFC2CC0C5E2009319F8 /* DetailSearchView.swift in Sources */,
 				6AEC4D0E2CB53A4C003DD2F3 /* Sleep.swift in Sources */,
 				6AEC4D0C2CB539EA003DD2F3 /* Food.swift in Sources */,
 				6AEC4D022CB514A3003DD2F3 /* DietView.swift in Sources */,
