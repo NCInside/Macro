@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GenderOnBoardingView: View {
     @State private var navigateToJournalView = false
+    @Binding var hasCompletedOnboarding: Bool
     
     var body: some View {
         NavigationView{
@@ -19,9 +20,18 @@ struct GenderOnBoardingView: View {
                 .foregroundColor(.systemWhite)
                 .bold()
             
-            NavigationLink(destination: JournalView(), isActive: $navigateToJournalView){
-                Button(action: {
-                    navigateToJournalView = true
+            Button(action: {
+                UserDefaults.standard.set("Perempuan", forKey: "gender")
+                hasCompletedOnboarding = true
+            }) {
+                ZStack{
+                    Rectangle()
+                        .foregroundColor(.mainLight)
+                        .frame(width: 353, height:60)
+                        .background(.white)
+                        .cornerRadius(12)
+                    Text("♀ Perempuan")
+                        .foregroundColor(.white)
                     
                 }) {
                     ZStack{
@@ -37,24 +47,25 @@ struct GenderOnBoardingView: View {
                     .padding()
                     .padding(.top, 140)
                 }
+                .padding()
+                .padding(.top, 140)
             }
+
             
-            NavigationLink(destination: JournalView(), isActive: $navigateToJournalView){
-                Button(action: {
-                    navigateToJournalView = true
-                    
-                }) {
-                    ZStack{
-                        Rectangle()
-                            .foregroundColor(.accentColor)
-                            .frame(width: 353, height: 60)
-                            .background(.white)
-                            .cornerRadius(12)
-                        Text("⚦ Laki-Laki")
-                            .foregroundColor(.white)
-                    }
-                    .padding(.horizontal)
+            Button(action: {
+                UserDefaults.standard.set("Laki-Laki", forKey: "gender")
+                hasCompletedOnboarding = true
+            }) {
+                ZStack{
+                    Rectangle()
+                        .foregroundColor(.mainLight)
+                        .frame(width: 353, height: 60)
+                        .background(.white)
+                        .cornerRadius(12)
+                    Text("⚦ Laki-Laki")
+                        .foregroundColor(.white)
                 }
+                .padding(.horizontal)
             }
             
             
@@ -67,6 +78,6 @@ struct GenderOnBoardingView: View {
     }
 }
 
-#Preview {
-    GenderOnBoardingView()
-}
+//#Preview {
+//    GenderOnBoardingView()
+//}

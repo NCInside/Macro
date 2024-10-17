@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 class AddSleepViewModel: ObservableObject {
     @Published var startAngle: Double = 330
@@ -40,17 +41,23 @@ class AddSleepViewModel: ObservableObject {
         
         let minute = (Int(remainder) / 5) * 5
         
-        var components = DateComponents()
+        var components = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+        
+        if hour >= 12 {
+            components.day = components.day! - 1
+        }
+        
         components.hour = hour
         components.minute = Int(minute)
         
         return Calendar.current.date(from: components) ?? Date()
     }
+
     
     func getTimeDifference() -> (Int, Int) {
         let calendar = Calendar.current
         
-        var startTime = getTime(angle: startAngle)
+        let startTime = getTime(angle: startAngle)
         var endTime = getTime(angle: toAngle)
         
         if endTime < startTime {
@@ -60,6 +67,31 @@ class AddSleepViewModel: ObservableObject {
         let result = calendar.dateComponents([.hour, .minute], from: startTime, to: endTime)
         
         return (result.hour ?? 0, result.minute ?? 0)
+    }
+    
+    func addSleep(context: ModelContext, journals: [Journal]) {
+        let startTime: Date = Calendar.current.date(byAdding: .hour, value: 7, to: getTime(angle: startAngle)) ?? Date()
+        let endTime: Date = Calendar.current.date(byAdding: .hour, value: 7, to: getTime(angle: toAngle)) ?? Date()
+        
+        if let journal = hasEntriesFromToday(entries: journals) {
+            journal.sleep = Sleep(timestamp: Date(), duration: Int(endTime.timeIntervalSince(startTime)), start: startTime, end: endTime)
+        }
+    }
+    
+    private func hasEntriesFromToday(entries: [Journal]) -> Journal? {
+        
+        func isDateToday(_ date: Date) -> Bool {
+            let calendar = Calendar.current
+            return calendar.isDateInToday(date)
+        }
+        
+        for entry in entries {
+            if isDateToday(entry.timestamp) {
+                return entry
+            }
+        }
+        
+        return nil
     }
 
 }

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct HealthOnBoardingView: View {
+    @Binding var hasCompletedOnboarding: Bool
     @EnvironmentObject var manager: HealthManager
-    @State private var isAuthorized = false
     @State private var navigateToAgeOnBoarding = false
     
     var body: some View {
@@ -45,11 +45,12 @@ struct HealthOnBoardingView: View {
                 
                 Button(action: {
                     manager.requestAuthorization { success in
-                        if success {
-                            isAuthorized = true
-                        } else {
-                            navigateToAgeOnBoarding = true
-                        }
+//                        if success {
+//                            hasCompletedOnboarding = true
+//                        } else {
+//                            navigateToAgeOnBoarding = true
+//                        }
+                        navigateToAgeOnBoarding = true
                     }
                 }) {
                     ZStack{
@@ -67,12 +68,8 @@ struct HealthOnBoardingView: View {
                     
                     
                 }
-                NavigationLink(destination: JournalView(), isActive: $isAuthorized) {
-                    EmptyView()
-                }
-                
-                
-                NavigationLink(destination: AgeOnBoardingView(), isActive: $navigateToAgeOnBoarding) {
+
+                NavigationLink(destination: AgeOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding), isActive: $navigateToAgeOnBoarding) {
                     EmptyView()
                 }
                 
@@ -84,7 +81,7 @@ struct HealthOnBoardingView: View {
     }
 }
 
-#Preview {
-    HealthOnBoardingView()
-        .environmentObject(HealthManager())
-}
+//#Preview {
+//    HealthOnBoardingView()
+//        .environmentObject(HealthManager())
+//}

@@ -11,6 +11,7 @@ struct AgeOnBoardingView: View {
     @State private var inputAge: String = ""
     @FocusState private var isInputActive: Bool
     @State private var navigateToHeightOnBoarding = false
+    @Binding var hasCompletedOnboarding: Bool
     
     var body: some View {
         NavigationView{
@@ -47,10 +48,10 @@ struct AgeOnBoardingView: View {
                 .foregroundColor(.gray)
                 .padding(.horizontal, 60)
             
-            NavigationLink(destination: HeightOnBoardingView(), isActive: $navigateToHeightOnBoarding){
+            NavigationLink(destination: HeightOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding), isActive: $navigateToHeightOnBoarding){
                 Button(action: {
+                    UserDefaults.standard.set(inputAge, forKey: "age")
                     navigateToHeightOnBoarding = true
-                    
                 }) {
                     ZStack{
                         Rectangle()
@@ -75,9 +76,9 @@ struct AgeOnBoardingView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        AgeOnBoardingView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AgeOnBoardingView()
+//    }
+//}
 
