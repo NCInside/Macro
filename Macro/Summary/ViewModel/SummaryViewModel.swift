@@ -52,7 +52,7 @@ class SummaryViewModel: ObservableObject {
         
     }
     
-    func getPoints(journals: [Journal], scenario: scenario, chosenMonth: Int, isMonth: Bool) {
+    func getPoints(journals: [Journal], scenario: scenario, chosenMonth: Int) {
         
         let filteredJournals = journals.filter { Calendar.current.component(.month, from: $0.timestamp) == chosenMonth }
         points = []

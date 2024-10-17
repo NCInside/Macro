@@ -62,14 +62,6 @@ struct DetailSummaryView: View {
                 }
             }
             
-            Picker("duration", selection: $viewModel.selectedTab) {
-                ForEach(viewModel.tabs, id: \.self) { tab in
-                    Text(tab)
-                }
-            }
-            .pickerStyle(.segmented)
-            .padding()
-            
             HStack {
                 Spacer()
                 Chart {
@@ -78,7 +70,7 @@ struct DetailSummaryView: View {
                             .foregroundStyle(Color.mint)
                     }
                 }
-                .frame(width: 300, height: 200)
+                .frame(width: 350, height: 250)
                 Spacer()
             }
             
