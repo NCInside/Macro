@@ -6,27 +6,33 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct DietView: View {
     
+    @Query private var journals: [Journal]
     @ObservedObject private var viewModel = DietViewModel()
+    @State private var isPresented = false
+    let formatter1 = DateFormatter()
+    
+    init() {
+        formatter1.dateStyle = .short
+    }
 
     var body: some View {
-        VStack {
-            TextField("", text: $viewModel.input)
-                .textFieldStyle(.roundedBorder)
-                .padding()
-                .onChange(of: viewModel.input) { newValue in
-                    viewModel.autocomplete(viewModel.input)
-                }
+        HStack {
+            Button("Present!") {
+                        isPresented.toggle()
+                    }
+            .fullScreenCover(isPresented: $isPresented, content: SearchView.init)
         }
-        List(viewModel.suggestions, id: \.self) { suggestion in
-            ZStack {
-                Text(suggestion)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-            .onTapGesture {
-                viewModel.input = suggestion
+        List {
+            ForEach(journals) { journal in
+                Text(formatter1.string(from: journal.timestamp))
+                ForEach(journal.foods) { food in
+                    Text(food.name)
+                }
+                
             }
         }
     }
