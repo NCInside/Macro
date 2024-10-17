@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GenderOnBoardingView: View {
-    @State private var navigateToJournalView = false
+    @State private var navigateToActivityOnBoarding = false
     @Binding var hasCompletedOnboarding: Bool
     
     var body: some View {
@@ -17,12 +17,16 @@ struct GenderOnBoardingView: View {
             Text("Apa Jenis Kelaminmu?")
                 .padding(.top,80)
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                .foregroundColor(.systemWhite)
+                .foregroundColor(.white)
                 .bold()
+            
+            NavigationLink(destination: ActivityOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding), isActive: $navigateToActivityOnBoarding) {
+                EmptyView()
+            }
             
             Button(action: {
                 UserDefaults.standard.set("Perempuan", forKey: "gender")
-                hasCompletedOnboarding = true
+                navigateToActivityOnBoarding = true
             }) {
                 ZStack{
                     Rectangle()
@@ -41,7 +45,7 @@ struct GenderOnBoardingView: View {
             
             Button(action: {
                 UserDefaults.standard.set("Laki-Laki", forKey: "gender")
-                hasCompletedOnboarding = true
+                navigateToActivityOnBoarding = true
             }) {
                 ZStack{
                     Rectangle()

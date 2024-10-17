@@ -14,6 +14,7 @@ struct WeightOnBoardingView: View {
     @State private var navigateToGenderOnBoarding = false
     @Binding var hasCompletedOnboarding: Bool
     var weight = ["lb", "kg"]
+    @ObservedObject var viewModel = OnBoardingViewModel()
     
     var body: some View {
         NavigationView{
@@ -21,7 +22,7 @@ struct WeightOnBoardingView: View {
             Text("Berapa beratmu?")
                 .padding(.top,80)
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                .foregroundColor(.systemWhite)
+                .foregroundColor(.white)
                 .bold()
             
             VStack {
@@ -60,11 +61,16 @@ struct WeightOnBoardingView: View {
             .padding(.horizontal, 42)
             .colorMultiply(.accentColor)
             
+            Spacer()
             
             NavigationLink(destination: GenderOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding), isActive: $navigateToGenderOnBoarding){
-                Button(action: {
-                    UserDefaults.standard.set(["weight": inputWeight, "metric": weightOption], forKey: "weight")
-                    navigateToGenderOnBoarding = true
+                EmptyView()
+            }
+            Button(action: {
+                if !inputWeight.isEmpty {
+                UserDefaults.standard.set(["weight": inputWeight, "metric": weightOption], forKey: "weight")
+                navigateToGenderOnBoarding = true
+            }
                 }) {
                     ZStack{
                         Rectangle()
@@ -76,10 +82,12 @@ struct WeightOnBoardingView: View {
                             .foregroundColor(.white)
                         
                     }
-                    .padding()
-                    .padding(.top, 80)
+                    .padding(.bottom, 20)
+                    .offset(y: viewModel.keyboardHeight > 0 ? -viewModel.keyboardHeight / 2 : 0)
+                    .animation(.easeOut(duration: 0.3), value: viewModel.keyboardHeight)
                 }
-            }
+                .disabled(inputWeight.isEmpty)
+                .opacity(inputWeight.isEmpty ? 0.5 : 1.0)
             
         }
         .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: .infinity, alignment: .top)

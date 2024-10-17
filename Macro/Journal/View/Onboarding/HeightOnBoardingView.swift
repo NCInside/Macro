@@ -14,6 +14,7 @@ struct HeightOnBoardingView: View {
     @State private var navigationToWeightOnBoarding = false
     @Binding var hasCompletedOnboarding: Bool
     var height = ["ft", "cm"]
+    @ObservedObject var viewModel = OnBoardingViewModel()
     
     var body: some View {
         NavigationView{
@@ -21,7 +22,7 @@ struct HeightOnBoardingView: View {
             Text("Berapa tinggimu?")
                 .padding(.top,80)
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                .foregroundColor(.systemWhite)
+                .foregroundColor(.white)
                 .bold()
             
             VStack {
@@ -60,10 +61,16 @@ struct HeightOnBoardingView: View {
             .padding(.horizontal, 42)
             .colorMultiply(.accentColor)
             
+            Spacer()
+            
             NavigationLink(destination: WeightOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding), isActive: $navigationToWeightOnBoarding){
-                Button(action: {
-                    UserDefaults.standard.set(inputHeight, forKey: "height")
-                    navigationToWeightOnBoarding = true
+                EmptyView()
+            }
+            Button(action: {
+                if !inputHeight.isEmpty {
+                UserDefaults.standard.set(inputHeight, forKey: "height")
+                navigationToWeightOnBoarding = true
+            }
                 }) {
                     ZStack{
                         Rectangle()
@@ -75,16 +82,18 @@ struct HeightOnBoardingView: View {
                             .foregroundColor(.white)
                         
                     }
-                    .padding()
-                    .padding(.top, 80)
+                    .padding(.bottom, 20)
+                    .offset(y: viewModel.keyboardHeight > 0 ? -viewModel.keyboardHeight / 2 : 0)
+                    .animation(.easeOut(duration: 0.3), value: viewModel.keyboardHeight)
                 }
-            }
-            
-            
+                .disabled(inputHeight.isEmpty)
+                .opacity(inputHeight.isEmpty ? 0.5 : 1.0)
             
         }
         .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: .infinity, alignment: .top)
         .background(Color.main)
+        .onAppear(perform: viewModel.subscribeToKeyboardEvents)
+        .onDisappear(perform: viewModel.unsubscribeFromKeyboardEvents)
     }
         .navigationBarBackButtonHidden()
     }
