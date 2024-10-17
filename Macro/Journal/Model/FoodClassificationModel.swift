@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WayangModel {
+struct FoodClassificationModel {
     let title: String
     let prob: Double
 }
