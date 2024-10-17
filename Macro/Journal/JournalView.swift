@@ -144,8 +144,6 @@ struct JournalView: View {
                             .padding()
                         Spacer()
                         
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(.black)
                         
                         Button(action: {
                             viewModel.presentActionSheet()

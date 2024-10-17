@@ -33,19 +33,6 @@ struct GenderOnBoardingView: View {
                     Text("♀ Perempuan")
                         .foregroundColor(.white)
                     
-                }) {
-                    ZStack{
-                        Rectangle()
-                            .foregroundColor(.accentColor)
-                            .frame(width: 353, height:60)
-                            .background(.white)
-                            .cornerRadius(12)
-                        Text("♀ Perempuan")
-                            .foregroundColor(.white)
-                        
-                    }
-                    .padding()
-                    .padding(.top, 140)
                 }
                 .padding()
                 .padding(.top, 140)
