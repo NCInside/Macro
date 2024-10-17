@@ -1,0 +1,3159 @@
+[
+  {
+    "Nama Makanan": "Abon",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 9.2,
+    "Fat": 28.4
+  },
+  {
+    "Nama Makanan": "Agar-Agar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Aletoge",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 4.4,
+    "Fat": 0.5
+  },
+  {
+    "Nama Makanan": "Alpukat",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.9,
+    "Fat": 6.5
+  },
+  {
+    "Nama Makanan": "Ampela Ayam Goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 32.3,
+    "Fat": 11.2
+  },
+  {
+    "Nama Makanan": "Andaliman",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 4.6,
+    "Fat": 1
+  },
+  {
+    "Nama Makanan": "Andewi",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.6,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Anggur",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 0.5,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Anyang Sayur",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 3.4,
+    "Fat": 7.9
+  },
+  {
+    "Nama Makanan": "Apel",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.3,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Apel Malang",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.5,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Arbei",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.8,
+    "Fat": 0.5
+  },
+  {
+    "Nama Makanan": "Ares Sayur",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.9,
+    "Fat": 7.2
+  },
+  {
+    "Nama Makanan": "Ayam Kentucky Dada",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 34.2,
+    "Fat": 16.8
+  },
+  {
+    "Nama Makanan": "Ayam Kentucky Paha",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 32.1,
+    "Fat": 16.1
+  },
+  {
+    "Nama Makanan": "Ayam Kentucky Sayap",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 35.9,
+    "Fat": 15.2
+  },
+  {
+    "Nama Makanan": "Ayam Taliwang",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 18.2,
+    "Fat": 20.1
+  },
+  {
+    "Nama Makanan": "Ayam Teriyaki",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 13,
+    "Fat": 9.6
+  },
+  {
+    "Nama Makanan": "Babat",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 17.6,
+    "Fat": 4.2
+  },
+  {
+    "Nama Makanan": "Babi Rica",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 24.6,
+    "Fat": 16.3
+  },
+  {
+    "Nama Makanan": "Baje",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 1.9,
+    "Fat": 6.6
+  },
+  {
+    "Nama Makanan": "Bakcang",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 3.3,
+    "Fat": 2.7
+  },
+  {
+    "Nama Makanan": "Bakpia Kue",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 8.7,
+    "Fat": 6.7
+  },
+  {
+    "Nama Makanan": "Bakso",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 4.1,
+    "Fat": 2.5
+  },
+  {
+    "Nama Makanan": "Bakwan",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 8.2,
+    "Fat": 10.2
+  },
+  {
+    "Nama Makanan": "Baligo",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.4,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Barongko",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 3.1,
+    "Fat": 5.8
+  },
+  {
+    "Nama Makanan": "Batar Daan",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 2.2,
+    "Fat": 2.2
+  },
+  {
+    "Nama Makanan": "Bayam Rebus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.2,
+    "Fat": 0.6
+  },
+  {
+    "Nama Makanan": "Bayam Tumis Bersantan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.4,
+    "Fat": 4.2
+  },
+  {
+    "Nama Makanan": "Bayam Tumis Oncom",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 3.7,
+    "Fat": 6.7
+  },
+  {
+    "Nama Makanan": "Bebek Daging Goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 24,
+    "Fat": 20.7
+  },
+  {
+    "Nama Makanan": "Beberuk",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.1,
+    "Fat": 5.2
+  },
+  {
+    "Nama Makanan": "Beef Burger",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 10.6,
+    "Fat": 9.5
+  },
+  {
+    "Nama Makanan": "Beef Teriyaki",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 8.6,
+    "Fat": 3.1
+  },
+  {
+    "Nama Makanan": "Beef Yakiniku",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 9.8,
+    "Fat": 1.1
+  },
+  {
+    "Nama Makanan": "Bekasam",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 11.9,
+    "Fat": 4.9
+  },
+  {
+    "Nama Makanan": "Bekasang",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 11.4,
+    "Fat": 2
+  },
+  {
+    "Nama Makanan": "Belimbing",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.4,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Belut Goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 25.9,
+    "Fat": 19.4
+  },
+  {
+    "Nama Makanan": "Bihun Goreng",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 3,
+    "Fat": 4.5
+  },
+  {
+    "Nama Makanan": "Bika Ambon",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 2.1,
+    "Fat": 1.5
+  },
+  {
+    "Nama Makanan": "Bir (4% Alkohol)",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0.6,
+    "Fat": 0
+  },
+  {
+    "Nama Makanan": "Biskuit",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 6.9,
+    "Fat": 14.4
+  },
+  {
+    "Nama Makanan": "Biwah",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.3,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Botok Lamtoro",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 11.7,
+    "Fat": 9.7
+  },
+  {
+    "Nama Makanan": "Brem",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 3.4,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Brondong",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 4,
+    "Fat": 0.7
+  },
+  {
+    "Nama Makanan": "Brongkos",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 15.3,
+    "Fat": 3.3
+  },
+  {
+    "Nama Makanan": "Bubur",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 1,
+    "Fat": 60
+  },
+  {
+    "Nama Makanan": "Bubur Sagu",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 0.2,
+    "Fat": 4
+  },
+  {
+    "Nama Makanan": "Bubur Tinotuan",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 2.3,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Bulgogi",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 11.4,
+    "Fat": 4.9
+  },
+  {
+    "Nama Makanan": "Buncis Asam",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 5.1,
+    "Fat": 0.5
+  },
+  {
+    "Nama Makanan": "Buncis Rebus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 2.2,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Burger Ikan",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 12.3,
+    "Fat": 15.9
+  },
+  {
+    "Nama Makanan": "Cakalang Asar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 20.1,
+    "Fat": 3.8
+  },
+  {
+    "Nama Makanan": "Cap Cai Sayur",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 5.8,
+    "Fat": 6.3
+  },
+  {
+    "Nama Makanan": "Cassava Stick",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0.8,
+    "Fat": 18.7
+  },
+  {
+    "Nama Makanan": "Cempedak",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 3,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Coklat Manis Batang",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 2,
+    "Fat": 29.8
+  },
+  {
+    "Nama Makanan": "Coto Makassar",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 6,
+    "Fat": 6
+  },
+  {
+    "Nama Makanan": "Cumi-Cumi Goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 40.6,
+    "Fat": 10.1
+  },
+  {
+    "Nama Makanan": "Dendeng Belut Goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 55.7,
+    "Fat": 14.1
+  },
+  {
+    "Nama Makanan": "Dendeng Daging Sapi",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 55,
+    "Fat": 9
+  },
+  {
+    "Nama Makanan": "Dendeng Mujair goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 74.3,
+    "Fat": 26.9
+  },
+  {
+    "Nama Makanan": "Dodol",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 3,
+    "Fat": 5.7
+  },
+  {
+    "Nama Makanan": "Duku",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Durian",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 2.5,
+    "Fat": 3
+  },
+  {
+    "Nama Makanan": "Duwet",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.5,
+    "Fat": 0.6
+  },
+  {
+    "Nama Makanan": "Embacang",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.4,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Empal Goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 18.5,
+    "Fat": 57
+  },
+  {
+    "Nama Makanan": "Emping",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 12,
+    "Fat": 1.5
+  },
+  {
+    "Nama Makanan": "Es Krim",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 4,
+    "Fat": 12.5
+  },
+  {
+    "Nama Makanan": "Es Krim (Coconut Milk)",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 3,
+    "Fat": 1.7
+  },
+  {
+    "Nama Makanan": "Es Mambo",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 0,
+    "Fat": 0
+  },
+  {
+    "Nama Makanan": "Es Sirup",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0,
+    "Fat": 0
+  },
+  {
+    "Nama Makanan": "Gado-Gado",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 6.1,
+    "Fat": 3.2
+  },
+  {
+    "Nama Makanan": "Gandaria",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.7,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Gaplek",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 1.5,
+    "Fat": 0.7
+  },
+  {
+    "Nama Makanan": "Gatot",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.3,
+    "Fat": 0.7
+  },
+  {
+    "Nama Makanan": "Geblek",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0.4,
+    "Fat": 1.7
+  },
+  {
+    "Nama Makanan": "Gelatine",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0,
+    "Fat": 0
+  },
+  {
+    "Nama Makanan": "Gemblong",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 1.7,
+    "Fat": 5.4
+  },
+  {
+    "Nama Makanan": "Gendar Goreng",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 6.4,
+    "Fat": 28.2
+  },
+  {
+    "Nama Makanan": "Geplak",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 1.4,
+    "Fat": 14.4
+  },
+  {
+    "Nama Makanan": "Getuk Goreng",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 1.3,
+    "Fat": 6.4
+  },
+  {
+    "Nama Makanan": "Getuk Lindri",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 4,
+    "Fat": 4
+  },
+  {
+    "Nama Makanan": "Getuk Pisang",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 1.1,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Gudeg",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 1.6,
+    "Fat": 1.6
+  },
+  {
+    "Nama Makanan": "Gulai Ikan",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 16.5,
+    "Fat": 3.3
+  },
+  {
+    "Nama Makanan": "Gulai Kambing",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 4.2,
+    "Fat": 9.4
+  },
+  {
+    "Nama Makanan": "Gulai Pakis",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 4,
+    "Fat": 11.4
+  },
+  {
+    "Nama Makanan": "Gulai Tiram",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 9,
+    "Fat": 7.2
+  },
+  {
+    "Nama Makanan": "Gurame Asam Manis",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 12.7,
+    "Fat": 10.1
+  },
+  {
+    "Nama Makanan": "Gurandil",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0.5,
+    "Fat": 2.5
+  },
+  {
+    "Nama Makanan": "Ham",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 16.9,
+    "Fat": 35
+  },
+  {
+    "Nama Makanan": "Ikan Asar Merah",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 17.7,
+    "Fat": 5.9
+  },
+  {
+    "Nama Makanan": "Ikan Asin",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 40.4,
+    "Fat": 54.3
+  },
+  {
+    "Nama Makanan": "Ikan Asin Bilis",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 33.6,
+    "Fat": 27.5
+  },
+  {
+    "Nama Makanan": "Ikan Asin Cakalang",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 36.5,
+    "Fat": 2.2
+  },
+  {
+    "Nama Makanan": "Ikan Asin Gabus",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 46.5,
+    "Fat": 24.4
+  },
+  {
+    "Nama Makanan": "Ikan Asin Japuh",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 18.7,
+    "Fat": 29.5
+  },
+  {
+    "Nama Makanan": "Ikan Asin Katombo",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 31.7,
+    "Fat": 2.8
+  },
+  {
+    "Nama Makanan": "Ikan Asin Pari",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 58.2,
+    "Fat": 23.6
+  },
+  {
+    "Nama Makanan": "Ikan Asin Teri",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 33.4,
+    "Fat": 32.4
+  },
+  {
+    "Nama Makanan": "Ikan Bandeng Presto",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 17.1,
+    "Fat": 20.3
+  },
+  {
+    "Nama Makanan": "Ikan Baung Bakar",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 17.8,
+    "Fat": 5.8
+  },
+  {
+    "Nama Makanan": "Ikan Belida Bakar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 18,
+    "Fat": 3
+  },
+  {
+    "Nama Makanan": "Ikan Cakalang Asap",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 34.2,
+    "Fat": 5.6
+  },
+  {
+    "Nama Makanan": "Ikan Gabus Asap",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 38.1,
+    "Fat": 2.3
+  },
+  {
+    "Nama Makanan": "Ikan Gete Goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 23.1,
+    "Fat": 19.4
+  },
+  {
+    "Nama Makanan": "Ikan Kering Gabus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 58,
+    "Fat": 4
+  },
+  {
+    "Nama Makanan": "Ikan Kering Kayu",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 70.7,
+    "Fat": 1.9
+  },
+  {
+    "Nama Makanan": "Ikan Kuah Asam",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 8.2,
+    "Fat": 2
+  },
+  {
+    "Nama Makanan": "Ikan Lais Bakar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 17.5,
+    "Fat": 6.5
+  },
+  {
+    "Nama Makanan": "Ikan Lele Goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 19.9,
+    "Fat": 19.1
+  },
+  {
+    "Nama Makanan": "Ikan Mujair Goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 46.9,
+    "Fat": 23.9
+  },
+  {
+    "Nama Makanan": "Ikan Mujair Pepes",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 21.7,
+    "Fat": 2.8
+  },
+  {
+    "Nama Makanan": "Ikan Papuyu Bakar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 17.6,
+    "Fat": 6.1
+  },
+  {
+    "Nama Makanan": "Ikan Sanggang Masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 21.7,
+    "Fat": 7.7
+  },
+  {
+    "Nama Makanan": "Ikan Teri Tepung",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 48.8,
+    "Fat": 6.4
+  },
+  {
+    "Nama Makanan": "Intip Goreng",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 7.6,
+    "Fat": 21.6
+  },
+  {
+    "Nama Makanan": "Jagung Kuning Pipil Rebus",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 3.8,
+    "Fat": 3.5
+  },
+  {
+    "Nama Makanan": "Jagung Muda Rebus",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 5,
+    "Fat": 0.7
+  },
+  {
+    "Nama Makanan": "Jagung Rebus",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.8,
+    "Fat": 1.8
+  },
+  {
+    "Nama Makanan": "Jambal Goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 48.5,
+    "Fat": 9.2
+  },
+  {
+    "Nama Makanan": "Jambu Air",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.6,
+    "Fat": 0
+  },
+  {
+    "Nama Makanan": "Jambu Biji",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.9,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Jambu Biji Putih Tidak Berbiji",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.9,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Jambu Bol",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.6,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Jambu Monyet Buah",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.7,
+    "Fat": 0.6
+  },
+  {
+    "Nama Makanan": "Jenang",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 9.5,
+    "Fat": 9.5
+  },
+  {
+    "Nama Makanan": "Jeruk Bali",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.6,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Jeruk Banjar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.8,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Jeruk Garut",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.8,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Jeruk Kalamansi",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.3,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Jeruk Manis",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.9,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Jeruk Nipis",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.8,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Jukku Pallu Kaloa",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 15.2,
+    "Fat": 4.3
+  },
+  {
+    "Nama Makanan": "Kacang Arab",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 23.8,
+    "Fat": 1.4
+  },
+  {
+    "Nama Makanan": "Kacang Atom",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 27.8,
+    "Fat": 38.1
+  },
+  {
+    "Nama Makanan": "Kacang Hijau Rebus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 8.7,
+    "Fat": 0.5
+  },
+  {
+    "Nama Makanan": "Kacang Kapri Goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 11,
+    "Fat": 11
+  },
+  {
+    "Nama Makanan": "Kacang Kedelai Goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 32.2,
+    "Fat": 37.7
+  },
+  {
+    "Nama Makanan": "Kacang Kedelai Kukus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 4.1,
+    "Fat": 2.1
+  },
+  {
+    "Nama Makanan": "Kacang Kedelai Rebus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 20.2,
+    "Fat": 8.2
+  },
+  {
+    "Nama Makanan": "Kacang Mete Goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 20.4,
+    "Fat": 56.3
+  },
+  {
+    "Nama Makanan": "Kacang Panjang Kukus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 3,
+    "Fat": 0.6
+  },
+  {
+    "Nama Makanan": "Kacang Panjang Tumis",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 2.5,
+    "Fat": 12.5
+  },
+  {
+    "Nama Makanan": "Kacang Tanah Goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 25.5,
+    "Fat": 44.4
+  },
+  {
+    "Nama Makanan": "Kacang Tanah Rebus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 14,
+    "Fat": 31
+  },
+  {
+    "Nama Makanan": "Kacang Tolo Rebus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 10.7,
+    "Fat": 1.1
+  },
+  {
+    "Nama Makanan": "Kalio kikil (tunjang) masakan",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 13.8,
+    "Fat": 5.7
+  },
+  {
+    "Nama Makanan": "Kangkung kukus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 3.2,
+    "Fat": 0.7
+  },
+  {
+    "Nama Makanan": "Kangkung rebus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 2.5,
+    "Fat": 0.6
+  },
+  {
+    "Nama Makanan": "Kangkung tondano",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.8,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Kangkung tumis",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.8,
+    "Fat": 3.6
+  },
+  {
+    "Nama Makanan": "Karedok sayur",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 2.2,
+    "Fat": 3.3
+  },
+  {
+    "Nama Makanan": "Karedok",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 5.9,
+    "Fat": 5.9
+  },
+  {
+    "Nama Makanan": "Kelapa Muda air",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.2,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Kelapa Muda daging",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1,
+    "Fat": 0.9
+  },
+  {
+    "Nama Makanan": "Kelapa Setengah Tua daging",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 4,
+    "Fat": 15
+  },
+  {
+    "Nama Makanan": "Kelapa Tua daging",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 3.4,
+    "Fat": 34.7
+  },
+  {
+    "Nama Makanan": "Kelepon",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 5.4,
+    "Fat": 5.4
+  },
+  {
+    "Nama Makanan": "Kembang tahu",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 48.9,
+    "Fat": 13.8
+  },
+  {
+    "Nama Makanan": "Kentang",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 2,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Kentang Hitam",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 0.9,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Keong",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 12,
+    "Fat": 1
+  },
+  {
+    "Nama Makanan": "Kerang asap mentah",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 38.9,
+    "Fat": 13.3
+  },
+  {
+    "Nama Makanan": "Keremes",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.6,
+    "Fat": 25.5
+  },
+  {
+    "Nama Makanan": "Keribang ubi segar",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.3,
+    "Fat": 1.1
+  },
+  {
+    "Nama Makanan": "Keripik bayam",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 4.9,
+    "Fat": 40.6
+  },
+  {
+    "Nama Makanan": "Keripik gadung",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 2.8,
+    "Fat": 14.5
+  },
+  {
+    "Nama Makanan": "Keripik kentang",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 2.7,
+    "Fat": 18.8
+  },
+  {
+    "Nama Makanan": "Keripik lampung",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.7,
+    "Fat": 22.2
+  },
+  {
+    "Nama Makanan": "Keripik oncom",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 8.3,
+    "Fat": 43.8
+  },
+  {
+    "Nama Makanan": "Keripik singkong",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0.9,
+    "Fat": 20.7
+  },
+  {
+    "Nama Makanan": "Keripik singkong berbumbu",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 2.2,
+    "Fat": 19.7
+  },
+  {
+    "Nama Makanan": "Keripik tempe",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 12.1,
+    "Fat": 40.6
+  },
+  {
+    "Nama Makanan": "Keripik tempe abadi murni",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 40.3,
+    "Fat": 42.4
+  },
+  {
+    "Nama Makanan": "Keripik tempe abadi sedang",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 12.3,
+    "Fat": 27.9
+  },
+  {
+    "Nama Makanan": "Keripik tempe abadi telur",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 20.8,
+    "Fat": 31.7
+  },
+  {
+    "Nama Makanan": "Keripik ubi",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 0.2,
+    "Fat": 23.9
+  },
+  {
+    "Nama Makanan": "Kerokot segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.7,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Kerupuk Aci",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0.5,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Kerupuk cumi goreng",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 6.9,
+    "Fat": 14.6
+  },
+  {
+    "Nama Makanan": "Kerupuk Ikan berpati",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 16,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Kerupuk kemplang  (ikan) mentah",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.8,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Kerupuk kemplang goreng",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 5.6,
+    "Fat": 28.1
+  },
+  {
+    "Nama Makanan": "Kerupuk kemplang panggang",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 9.7,
+    "Fat": 1.1
+  },
+  {
+    "Nama Makanan": "Kerupuk Kulit kerbau",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 83,
+    "Fat": 4
+  },
+  {
+    "Nama Makanan": "Kerupuk Melinjo mentah",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 12,
+    "Fat": 1.5
+  },
+  {
+    "Nama Makanan": "Kerupuk Melinjo tebal goreng asin",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 11.1,
+    "Fat": 16.2
+  },
+  {
+    "Nama Makanan": "Kerupuk Melinjo tebal goreng manis",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 10,
+    "Fat": 16.4
+  },
+  {
+    "Nama Makanan": "Kerupuk Melinjo tipis goreng",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 11.5,
+    "Fat": 24.5
+  },
+  {
+    "Nama Makanan": "Kerupuk mie kuning goreng",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0.1,
+    "Fat": 21.1
+  },
+  {
+    "Nama Makanan": "Kerupuk Sayong",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 17.3,
+    "Fat": 17.3
+  },
+  {
+    "Nama Makanan": "Kerupuk Udang berpati",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 17.2,
+    "Fat": 68.2
+  },
+  {
+    "Nama Makanan": "Kerupuk udang goreng",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 4.7,
+    "Fat": 20.5
+  },
+  {
+    "Nama Makanan": "Kerupuk Udang",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 30,
+    "Fat": 30
+  },
+  {
+    "Nama Makanan": "Kerupuk urat",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 53.7,
+    "Fat": 40.9
+  },
+  {
+    "Nama Makanan": "Kesemek",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 0.8,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Ketan hitam matang",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 4,
+    "Fat": 1.2
+  },
+  {
+    "Nama Makanan": "Ketan putih matang",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 3,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Ketela pohon-singkong kukus",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.2,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Ketimun",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.7,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Ketoprak",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 7.9,
+    "Fat": 7.7
+  },
+  {
+    "Nama Makanan": "Ketupat ketan",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 4,
+    "Fat": 4.6
+  },
+  {
+    "Nama Makanan": "Ketupat Tahu",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 2.6,
+    "Fat": 2.6
+  },
+  {
+    "Nama Makanan": "Kucai Muda (Lokio)",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 3.8,
+    "Fat": 0.6
+  },
+  {
+    "Nama Makanan": "Kuda daging segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 18.1,
+    "Fat": 4.1
+  },
+  {
+    "Nama Makanan": "Kue ali",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 3.8,
+    "Fat": 18.5
+  },
+  {
+    "Nama Makanan": "Kue Apem",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 1.6,
+    "Fat": 1.6
+  },
+  {
+    "Nama Makanan": "Kue bangket",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 1.5,
+    "Fat": 1.2
+  },
+  {
+    "Nama Makanan": "Kue Bugis",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 1,
+    "Fat": 4
+  },
+  {
+    "Nama Makanan": "Kue jahe",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 1.6,
+    "Fat": 8.8
+  },
+  {
+    "Nama Makanan": "Kue kelapa",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 5.6,
+    "Fat": 42.1
+  },
+  {
+    "Nama Makanan": "Kue Koya",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 4.2,
+    "Fat": 4.3
+  },
+  {
+    "Nama Makanan": "Kue lumpur",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 3.6,
+    "Fat": 11.1
+  },
+  {
+    "Nama Makanan": "Kue mangkok",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 1,
+    "Fat": 1
+  },
+  {
+    "Nama Makanan": "Kue Pacar Cina",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 0.7,
+    "Fat": 0.7
+  },
+  {
+    "Nama Makanan": "Kue Pia",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 1.4,
+    "Fat": 1.4
+  },
+  {
+    "Nama Makanan": "Kue putu cangkir",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 5.3,
+    "Fat": 7
+  },
+  {
+    "Nama Makanan": "Kue putu singkong",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 1.2,
+    "Fat": 0.5
+  },
+  {
+    "Nama Makanan": "Kue Satu",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 2.7,
+    "Fat": 2.7
+  },
+  {
+    "Nama Makanan": "Kue Semprong",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 1,
+    "Fat": 1
+  },
+  {
+    "Nama Makanan": "Kue sus",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 7.5,
+    "Fat": 10.2
+  },
+  {
+    "Nama Makanan": "Kue Talam",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 5,
+    "Fat": 5
+  },
+  {
+    "Nama Makanan": "Kue Tambang",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 26,
+    "Fat": 26
+  },
+  {
+    "Nama Makanan": "Kue thipan",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 2.9,
+    "Fat": 4.2
+  },
+  {
+    "Nama Makanan": "Kwaci",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 30.6,
+    "Fat": 42.1
+  },
+  {
+    "Nama Makanan": "Labu Air",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.6,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Labu kuning segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.7,
+    "Fat": 0.5
+  },
+  {
+    "Nama Makanan": "Labu Siam",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.6,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Labu waluh segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.1,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Laksa",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 2.7,
+    "Fat": 3.9
+  },
+  {
+    "Nama Makanan": "Langsat",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.9,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Lapis legit",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 6.6,
+    "Fat": 15.7
+  },
+  {
+    "Nama Makanan": "Lemon segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.5,
+    "Fat": 0.8
+  },
+  {
+    "Nama Makanan": "Lemon Squasih",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 0,
+    "Fat": 0
+  },
+  {
+    "Nama Makanan": "Lemonade",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 0,
+    "Fat": 0
+  },
+  {
+    "Nama Makanan": "Lemper",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 3.8,
+    "Fat": 3.6
+  },
+  {
+    "Nama Makanan": "Lempog durian",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 3.5,
+    "Fat": 5.7
+  },
+  {
+    "Nama Makanan": "Lobak",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.9,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Madu",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0.3,
+    "Fat": 0
+  },
+  {
+    "Nama Makanan": "Makaroni",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 8.7,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Mangga Muda",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.5,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Mangga segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.7,
+    "Fat": 0
+  },
+  {
+    "Nama Makanan": "Manggis",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.6,
+    "Fat": 0.6
+  },
+  {
+    "Nama Makanan": "Margarin",
+    "GI": 0,
+    "Dairy": 1,
+    "Protein": 0.6,
+    "Fat": 81
+  },
+  {
+    "Nama Makanan": "Markisa segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 3.5,
+    "Fat": 1.2
+  },
+  {
+    "Nama Makanan": "Markisa squash",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 2.5,
+    "Fat": 1
+  },
+  {
+    "Nama Makanan": "Markisa squash BD",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.2,
+    "Fat": 0.5
+  },
+  {
+    "Nama Makanan": "Martabak  manis",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 4.7,
+    "Fat": 5.5
+  },
+  {
+    "Nama Makanan": "Martabak india",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 4.5,
+    "Fat": 4.2
+  },
+  {
+    "Nama Makanan": "Martabak mesir",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 5.1,
+    "Fat": 8.6
+  },
+  {
+    "Nama Makanan": "Martabak Telur",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 8.9,
+    "Fat": 5.1
+  },
+  {
+    "Nama Makanan": "Matoa segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.2,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Melase",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Melinjo",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 5,
+    "Fat": 0.7
+  },
+  {
+    "Nama Makanan": "Melon segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.6,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Mi basah",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0.6,
+    "Fat": 3.3
+  },
+  {
+    "Nama Makanan": "Mi golosor",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0.2,
+    "Fat": 0.8
+  },
+  {
+    "Nama Makanan": "Mi kering",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 10,
+    "Fat": 1.7
+  },
+  {
+    "Nama Makanan": "Mie aceh rebus",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 3,
+    "Fat": 3.2
+  },
+  {
+    "Nama Makanan": "Mie ayam",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 6.2,
+    "Fat": 3.9
+  },
+  {
+    "Nama Makanan": "Mie bakso",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 5.3,
+    "Fat": 3
+  },
+  {
+    "Nama Makanan": "Mie basah",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0.6,
+    "Fat": 3.3
+  },
+  {
+    "Nama Makanan": "Mie Bendo",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0.3,
+    "Fat": 0
+  },
+  {
+    "Nama Makanan": "Mie celon",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 3,
+    "Fat": 2.1
+  },
+  {
+    "Nama Makanan": "Mie Goreng",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 7.6,
+    "Fat": 20.4
+  },
+  {
+    "Nama Makanan": "Mie kering",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 7.9,
+    "Fat": 11.8
+  },
+  {
+    "Nama Makanan": "Mie pangsit basah",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 5.9,
+    "Fat": 4.9
+  },
+  {
+    "Nama Makanan": "Mie Sagu",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0.2,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Misoa",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 8.5,
+    "Fat": 2.2
+  },
+  {
+    "Nama Makanan": "Misro",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 0.8,
+    "Fat": 16
+  },
+  {
+    "Nama Makanan": "Moon tahu",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 8,
+    "Fat": 10
+  },
+  {
+    "Nama Makanan": "Nanas",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 0.4,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Nangka biji",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 4.2,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Nangka Muda",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 2,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Nasi",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 3,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Nasi beras merah",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 2.8,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Nasi gemuk",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 3.8,
+    "Fat": 8.8
+  },
+  {
+    "Nama Makanan": "Nasi Goreng",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 3.2,
+    "Fat": 3.2
+  },
+  {
+    "Nama Makanan": "Nasi gurih",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 4.7,
+    "Fat": 7.5
+  },
+  {
+    "Nama Makanan": "Nasi jagung",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 8.8,
+    "Fat": 0.5
+  },
+  {
+    "Nama Makanan": "Nasi minyak",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 3.5,
+    "Fat": 5
+  },
+  {
+    "Nama Makanan": "Nasi rames",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 10.3,
+    "Fat": 4.2
+  },
+  {
+    "Nama Makanan": "Nasi tim",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 2.4,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Nasi Uduk",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 4.3,
+    "Fat": 21
+  },
+  {
+    "Nama Makanan": "Onde-onde",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 8.3,
+    "Fat": 8.9
+  },
+  {
+    "Nama Makanan": "Paniki masak santan masakan",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 28.5,
+    "Fat": 35.2
+  },
+  {
+    "Nama Makanan": "Papeda",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.2,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Pastel",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 4.5,
+    "Fat": 13.3
+  },
+  {
+    "Nama Makanan": "Pempek adaan",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 4.9,
+    "Fat": 3
+  },
+  {
+    "Nama Makanan": "Pempek belida",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 4.2,
+    "Fat": 1.4
+  },
+  {
+    "Nama Makanan": "Pempek kapal selam",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 4.5,
+    "Fat": 2.3
+  },
+  {
+    "Nama Makanan": "Pempek kelesan",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 12.3,
+    "Fat": 6.1
+  },
+  {
+    "Nama Makanan": "Pempek kulit",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 5.2,
+    "Fat": 7.3
+  },
+  {
+    "Nama Makanan": "Pempek tenggiri",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 7.2,
+    "Fat": 1.2
+  },
+  {
+    "Nama Makanan": "Pencok lele masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 7.8,
+    "Fat": 36.3
+  },
+  {
+    "Nama Makanan": "Pepaya lodeh",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 11.6,
+    "Fat": 11.6
+  },
+  {
+    "Nama Makanan": "Pepaya Muda",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 2.1,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Pepaya segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.5,
+    "Fat": 12
+  },
+  {
+    "Nama Makanan": "Permen",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 0,
+    "Fat": 0
+  },
+  {
+    "Nama Makanan": "Pete Segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 10.4,
+    "Fat": 2
+  },
+  {
+    "Nama Makanan": "Peyek Kacang Tanah",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 17.5,
+    "Fat": 32.5
+  },
+  {
+    "Nama Makanan": "Pilus",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1,
+    "Fat": 27.8
+  },
+  {
+    "Nama Makanan": "Pindang kenari masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 9.5,
+    "Fat": 9.6
+  },
+  {
+    "Nama Makanan": "Pisang Ambon",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.2,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Pisang Goreng",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 2.3,
+    "Fat": 2.3
+  },
+  {
+    "Nama Makanan": "Pundut nasi",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 1.9,
+    "Fat": 4.1
+  },
+  {
+    "Nama Makanan": "Putri selat",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 2.2,
+    "Fat": 6.5
+  },
+  {
+    "Nama Makanan": "Putu Mayang",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 1,
+    "Fat": 2.4
+  },
+  {
+    "Nama Makanan": "Rambutan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.9,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Rarawuan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 7.3,
+    "Fat": 8.5
+  },
+  {
+    "Nama Makanan": "Rawon masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 5.4,
+    "Fat": 2.5
+  },
+  {
+    "Nama Makanan": "Rebon kering",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 29.4,
+    "Fat": 3.6
+  },
+  {
+    "Nama Makanan": "Rebung",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.6,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Rempeyek kacang tolo",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 11.2,
+    "Fat": 20.2
+  },
+  {
+    "Nama Makanan": "Rempeyek kacang uci",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 17,
+    "Fat": 27.6
+  },
+  {
+    "Nama Makanan": "Rendang sapi masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 22.6,
+    "Fat": 7.9
+  },
+  {
+    "Nama Makanan": "Renggi goreng",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 4.7,
+    "Fat": 21.8
+  },
+  {
+    "Nama Makanan": "Rimbang segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.6,
+    "Fat": 0.6
+  },
+  {
+    "Nama Makanan": "Risoles",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 5.3,
+    "Fat": 3.5
+  },
+  {
+    "Nama Makanan": "Roti boong",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 5.5,
+    "Fat": 16.2
+  },
+  {
+    "Nama Makanan": "Roti Gambang",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 7.5,
+    "Fat": 2
+  },
+  {
+    "Nama Makanan": "Roti Putih",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 8,
+    "Fat": 1.2
+  },
+  {
+    "Nama Makanan": "Roti warna sawo matang",
+    "GI": 2,
+    "Dairy": 1,
+    "Protein": 7.9,
+    "Fat": 1.5
+  },
+  {
+    "Nama Makanan": "Rujak cingur",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 11.3,
+    "Fat": 8.4
+  },
+  {
+    "Nama Makanan": "Rumput laut",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.4,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Sagu Lemak (Kue Sagon)",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 2.8,
+    "Fat": 14.8
+  },
+  {
+    "Nama Makanan": "Sapi daging asap",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 32,
+    "Fat": 6
+  },
+  {
+    "Nama Makanan": "Sapi daging kornet",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 16,
+    "Fat": 25
+  },
+  {
+    "Nama Makanan": "Sapi daging sosis (Worst)",
+    "GI": 0,
+    "Dairy": 1,
+    "Protein": 14.5,
+    "Fat": 42.3
+  },
+  {
+    "Nama Makanan": "Sapi hati sosis (liverworst)",
+    "GI": 0,
+    "Dairy": 1,
+    "Protein": 16,
+    "Fat": 22
+  },
+  {
+    "Nama Makanan": "Sapi paru goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 23.9,
+    "Fat": 12.7
+  },
+  {
+    "Nama Makanan": "Sardines dalam kaleng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 21.1,
+    "Fat": 27
+  },
+  {
+    "Nama Makanan": "Sari Kedelai bubuk",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 30,
+    "Fat": 20
+  },
+  {
+    "Nama Makanan": "Sarimuka",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 2.3,
+    "Fat": 2.8
+  },
+  {
+    "Nama Makanan": "Sate Bandeng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 12.1,
+    "Fat": 16.8
+  },
+  {
+    "Nama Makanan": "Sate Kulit",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 15.5,
+    "Fat": 0.5
+  },
+  {
+    "Nama Makanan": "Sate penyu masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 22.5,
+    "Fat": 3.5
+  },
+  {
+    "Nama Makanan": "Sate pusut masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 12.9,
+    "Fat": 18.6
+  },
+  {
+    "Nama Makanan": "Sate Usus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 14,
+    "Fat": 7.3
+  },
+  {
+    "Nama Makanan": "Sawi",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 2.3,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Sawo Manila segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.5,
+    "Fat": 1.1
+  },
+  {
+    "Nama Makanan": "Sayur asem",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.7,
+    "Fat": 0.6
+  },
+  {
+    "Nama Makanan": "Sayur bunga pepaya",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.7,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Sayur Sir-Sir",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 6.8,
+    "Fat": 1.2
+  },
+  {
+    "Nama Makanan": "Selada",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.2,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Selada Air",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.7,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Seledri",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Semangka",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 0.5,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Semur Jengkol",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 4.5,
+    "Fat": 6
+  },
+  {
+    "Nama Makanan": "Setrup sirup",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0,
+    "Fat": 0
+  },
+  {
+    "Nama Makanan": "Shabu-shabu",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 3.2,
+    "Fat": 8
+  },
+  {
+    "Nama Makanan": "Singkong Goreng",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 1,
+    "Fat": 18
+  },
+  {
+    "Nama Makanan": "Singkong kukus",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.2,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Singkong tape",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 0.5,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Siomay",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 4.4,
+    "Fat": 2.2
+  },
+  {
+    "Nama Makanan": "Sirsak",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Sop buntut masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 7.5,
+    "Fat": 3.6
+  },
+  {
+    "Nama Makanan": "Sop daging sapi masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 5.8,
+    "Fat": 0.5
+  },
+  {
+    "Nama Makanan": "Sop kaki sapi masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 9,
+    "Fat": 1.9
+  },
+  {
+    "Nama Makanan": "Sop kambing masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 5.5,
+    "Fat": 0.8
+  },
+  {
+    "Nama Makanan": "Sop konro masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 7.4,
+    "Fat": 2.6
+  },
+  {
+    "Nama Makanan": "Sop Kool",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.5,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Sop Kool dan Wortel",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.6,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Sop saudara masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 7.2,
+    "Fat": 5
+  },
+  {
+    "Nama Makanan": "Soto bandung masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 3.9,
+    "Fat": 1.7
+  },
+  {
+    "Nama Makanan": "Soto banjar masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 2.9,
+    "Fat": 9.5
+  },
+  {
+    "Nama Makanan": "Soto betawi masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 2.5,
+    "Fat": 8.8
+  },
+  {
+    "Nama Makanan": "Soto dengan Daging",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 2.6,
+    "Fat": 9.4
+  },
+  {
+    "Nama Makanan": "Soto jeroan masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 11.8,
+    "Fat": 4.3
+  },
+  {
+    "Nama Makanan": "Soto kudus masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 2.6,
+    "Fat": 2.3
+  },
+  {
+    "Nama Makanan": "Soto madura masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 3.5,
+    "Fat": 4.5
+  },
+  {
+    "Nama Makanan": "Soto padang masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 5.9,
+    "Fat": 6.6
+  },
+  {
+    "Nama Makanan": "Soto pekalongan masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 3,
+    "Fat": 6.8
+  },
+  {
+    "Nama Makanan": "Soto pemalang masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 3.6,
+    "Fat": 5.2
+  },
+  {
+    "Nama Makanan": "Soto sukaraja masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 3.2,
+    "Fat": 3.5
+  },
+  {
+    "Nama Makanan": "Soto sulung masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 2.3,
+    "Fat": 8.5
+  },
+  {
+    "Nama Makanan": "Soto tanpa Daging",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.4,
+    "Fat": 8.6
+  },
+  {
+    "Nama Makanan": "Spaghetti",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 7.4,
+    "Fat": 2.1
+  },
+  {
+    "Nama Makanan": "Srikaya",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.7,
+    "Fat": 0.6
+  },
+  {
+    "Nama Makanan": "Sukiyaki",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 5.6,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Susu Sapi",
+    "GI": 0,
+    "Dairy": 1,
+    "Protein": 3.2,
+    "Fat": 3.5
+  },
+  {
+    "Nama Makanan": "Suwir-suwir",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.5,
+    "Fat": 0.9
+  },
+  {
+    "Nama Makanan": "Tahu",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 7.8,
+    "Fat": 4.6
+  },
+  {
+    "Nama Makanan": "Tahu goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 9.7,
+    "Fat": 8.5
+  },
+  {
+    "Nama Makanan": "Tahu telur",
+    "GI": 0,
+    "Dairy": 1,
+    "Protein": 12.6,
+    "Fat": 19.9
+  },
+  {
+    "Nama Makanan": "Taoge goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 3.2,
+    "Fat": 2.1
+  },
+  {
+    "Nama Makanan": "Tapai beras",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.7,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Tapai ketan hitam",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 3.8,
+    "Fat": 1
+  },
+  {
+    "Nama Makanan": "Tapai ketan putih",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 3,
+    "Fat": 0.5
+  },
+  {
+    "Nama Makanan": "Tapai singkong",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.4,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Tebu Terubuk",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 4.6,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Tedong pallu basa masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 10.4,
+    "Fat": 3.4
+  },
+  {
+    "Nama Makanan": "Teh",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 19.5,
+    "Fat": 0.7
+  },
+  {
+    "Nama Makanan": "Tekwan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.9,
+    "Fat": 0.9
+  },
+  {
+    "Nama Makanan": "Telur Ayam ceplok",
+    "GI": 0,
+    "Dairy": 1,
+    "Protein": 15.1,
+    "Fat": 32.9
+  },
+  {
+    "Nama Makanan": "Telur Ayam dadar",
+    "GI": 0,
+    "Dairy": 1,
+    "Protein": 16.3,
+    "Fat": 19.4
+  },
+  {
+    "Nama Makanan": "Telur Bebek telur asin",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 13.6,
+    "Fat": 13.6
+  },
+  {
+    "Nama Makanan": "Telur Terubuk",
+    "GI": 0,
+    "Dairy": 1,
+    "Protein": 31,
+    "Fat": 28
+  },
+  {
+    "Nama Makanan": "Tempe bongkrek",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 4.4,
+    "Fat": 3.5
+  },
+  {
+    "Nama Makanan": "Tempe Gembus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 5.7,
+    "Fat": 1.3
+  },
+  {
+    "Nama Makanan": "Tempe Goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 18.4,
+    "Fat": 23.2
+  },
+  {
+    "Nama Makanan": "Tempe Sayur",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 6,
+    "Fat": 2.7
+  },
+  {
+    "Nama Makanan": "Tempoya",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.7,
+    "Fat": 1.3
+  },
+  {
+    "Nama Makanan": "Tempuyak",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.1,
+    "Fat": 2.2
+  },
+  {
+    "Nama Makanan": "Teri balado masakan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 23.7,
+    "Fat": 22.3
+  },
+  {
+    "Nama Makanan": "Terong + Oncom makanan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 4.3,
+    "Fat": 25.7
+  },
+  {
+    "Nama Makanan": "Terong Asam",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 2.3,
+    "Fat": 1.9
+  },
+  {
+    "Nama Makanan": "Terong Belanda",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.5,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Terong kukus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.8,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Terong segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.1,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Terung belanda segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 2.1,
+    "Fat": 1.1
+  },
+  {
+    "Nama Makanan": "Terung panjang kukus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.8,
+    "Fat": 0.1
+  },
+  {
+    "Nama Makanan": "Tim (nasi tim)",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 2.4,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Tinoransak",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 17.7,
+    "Fat": 49.5
+  },
+  {
+    "Nama Makanan": "Tiwul",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 2.4,
+    "Fat": 1.1
+  },
+  {
+    "Nama Makanan": "Toge -Tahu",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 5.4,
+    "Fat": 28.5
+  },
+  {
+    "Nama Makanan": "Tomat air (juice) segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Tomat Masak",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Tomat merah segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.3,
+    "Fat": 0.5
+  },
+  {
+    "Nama Makanan": "Tumis bandeng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 11.3,
+    "Fat": 15.7
+  },
+  {
+    "Nama Makanan": "Tumis bayam bersantan",
+    "GI": 0,
+    "Dairy": 1,
+    "Protein": 1.4,
+    "Fat": 4.2
+  },
+  {
+    "Nama Makanan": "Ubi Cilembu",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.9,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Ubi Jalar Goreng",
+    "GI": 2,
+    "Dairy": 0,
+    "Protein": 3.7,
+    "Fat": 1.3
+  },
+  {
+    "Nama Makanan": "Ubi jalar kuning kukus",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 0.7,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Ubi Jalar Rebus",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.4,
+    "Fat": 9.6
+  },
+  {
+    "Nama Makanan": "Ubi Jalar Sayur",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.4,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Ubi jalar tinta- kemayung",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 0.5,
+    "Fat": 0.4
+  },
+  {
+    "Nama Makanan": "Ubi jalar tinta- kemayung kukus",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 0.9,
+    "Fat": 0.2
+  },
+  {
+    "Nama Makanan": "Udang kering",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 62.4,
+    "Fat": 2.3
+  },
+  {
+    "Nama Makanan": "Ulat sagu panggang",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 11.9,
+    "Fat": 30.3
+  },
+  {
+    "Nama Makanan": "Ulat sagu segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 5.8,
+    "Fat": 21.6
+  },
+  {
+    "Nama Makanan": "Umbut rotan",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 2.4,
+    "Fat": 0.3
+  },
+  {
+    "Nama Makanan": "Usus Ayam Goreng",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 45.2,
+    "Fat": 26.3
+  },
+  {
+    "Nama Makanan": "Wajit camilan",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 6.3,
+    "Fat": 2.7
+  },
+  {
+    "Nama Makanan": "Waluh balamak",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.8,
+    "Fat": 0.9
+  },
+  {
+    "Nama Makanan": "Widaran",
+    "GI": 1,
+    "Dairy": 0,
+    "Protein": 1.3,
+    "Fat": 10.7
+  },
+  {
+    "Nama Makanan": "Wingko babat",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 3.2,
+    "Fat": 15.1
+  },
+  {
+    "Nama Makanan": "Woku ubi",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 3.1,
+    "Fat": 7.8
+  },
+  {
+    "Nama Makanan": "Worst (sosis daging)",
+    "GI": 0,
+    "Dairy": 1,
+    "Protein": 14.5,
+    "Fat": 42.3
+  },
+  {
+    "Nama Makanan": "Wortel kukus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1,
+    "Fat": 0.6
+  },
+  {
+    "Nama Makanan": "Wortel rebus",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 0.7,
+    "Fat": 0.5
+  },
+  {
+    "Nama Makanan": "Wortel Segar",
+    "GI": 0,
+    "Dairy": 0,
+    "Protein": 1.2,
+    "Fat": 0.6
+  },
+  {
+    "Nama Makanan": "Yangko",
+    "GI": 1,
+    "Dairy": 1,
+    "Protein": 3,
+    "Fat": 1.1
+  },
+  {
+    "Nama Makanan": "Yoghurt",
+    "GI": 0,
+    "Dairy": 1,
+    "Protein": 3.3,
+    "Fat": 2.5
+  }
+]
