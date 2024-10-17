@@ -60,7 +60,7 @@ class SummaryViewModel: ObservableObject {
         switch scenario {
         case .sleep:
             for journal in filteredJournals {
-                let point = Point(date: Calendar.current.component(.day, from: journal.timestamp), value: journal.sleep.duration)
+                let point = Point(date: Calendar.current.component(.day, from: journal.timestamp), value: Double(journal.sleep.duration))
                 points.append(point)
             }
         case .protein:

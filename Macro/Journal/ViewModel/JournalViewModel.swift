@@ -150,6 +150,57 @@ class JournalViewModel: ObservableObject {
         return gi
     }
     
+    func addDiet(context: ModelContext, name: String, entries: [Journal]) {
+                
+        guard let url = Bundle.main.url(forResource: "NutrisiMakanan", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              let foodItems = try? JSONDecoder().decode([FoodItem].self, from: data) else {
+            print("Failed to load or decode JSON")
+            return
+        }
+                
+        if let foodItem = foodItems.first(where: { $0.NamaMakanan == name }) {
+            
+            let food = Food(timestamp: Date(), name: name, protein: foodItem.Protein, fat: foodItem.Fat, glycemicIndex: parseGI(gi: foodItem.GI), dairy: foodItem.Dairy == 1)
+            
+            if let todayJournal = hasEntriesFromToday(entries: entries) {
+                
+                todayJournal.foods.append(food)
+                
+            } else {
+                
+                let journal = Journal(timestamp: Date(), foods: [], sleep: Sleep(timestamp: Date(), duration: 0, start: Date(), end: Date()))
+                journal.foods.append(food)
+                context.insert(journal)
+                do {
+                    try context.save()
+                } catch {
+                    print(error.localizedDescription)
+                }
+                
+            }
+            
+        } else {
+            print("Food item not found")
+        }
+    }
+    
+    private func hasEntriesFromToday(entries: [Journal]) -> Journal? {
+        
+        func isDateToday(_ date: Date) -> Bool {
+            let calendar = Calendar.current
+            return calendar.isDateInToday(date)
+        }
+        
+        for entry in entries {
+            if isDateToday(entry.timestamp) {
+                return entry
+            }
+        }
+        
+        return nil
+    }
+    
     private func hasEntriesFromDate(entries: [Journal], date: Date) -> Journal? {
         let calendar = Calendar.current
         
@@ -164,6 +215,19 @@ class JournalViewModel: ObservableObject {
         }
         
         return nil
+    }
+    
+    private func parseGI(gi: Int) -> glycemicIndex {
+        switch gi {
+        case 0:
+            return .low
+        case 1:
+            return .medium
+        case 2:
+            return .high
+        default:
+            fatalError("Invalid glycemic index value")
+        }
     }
 
 }

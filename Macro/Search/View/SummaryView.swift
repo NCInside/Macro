@@ -152,17 +152,17 @@ struct SummaryView: View {
             Food(timestamp: dayBeforeYesterday, name: "Banana", protein: 1.29, fat: 0.33, glycemicIndex: .high, dairy: false)
         ]
         
-        let todaySleep = Sleep(timestamp: today, duration: 8*3600)
-        let yesterdaySleep = Sleep(timestamp: yesterday, duration: 6*3600)
-        let dayBeforeYesterdaySleep = Sleep(timestamp: dayBeforeYesterday, duration: 5*3600)
+//        let todaySleep = Sleep(timestamp: today, duration: 8*3600)
+//        let yesterdaySleep = Sleep(timestamp: yesterday, duration: 6*3600)
+//        let dayBeforeYesterdaySleep = Sleep(timestamp: dayBeforeYesterday, duration: 5*3600)
         
-        let todayJournal = Journal(timestamp: today, foods: todayFoods, sleep: todaySleep)
-        let yesterdayJournal = Journal(timestamp: yesterday, foods: yesterdayFoods, sleep: yesterdaySleep)
-        let dayBeforeYesterdayJournal = Journal(timestamp: dayBeforeYesterday, foods: dayBeforeYesterdayFoods, sleep: dayBeforeYesterdaySleep)
+//        let todayJournal = Journal(timestamp: today, foods: todayFoods, sleep: todaySleep)
+//        let yesterdayJournal = Journal(timestamp: yesterday, foods: yesterdayFoods, sleep: yesterdaySleep)
+//        let dayBeforeYesterdayJournal = Journal(timestamp: dayBeforeYesterday, foods: dayBeforeYesterdayFoods, sleep: dayBeforeYesterdaySleep)
         
-        context.insert(todayJournal)
-        context.insert(yesterdayJournal)
-        context.insert(dayBeforeYesterdayJournal)
+//        context.insert(todayJournal)
+//        context.insert(yesterdayJournal)
+//        context.insert(dayBeforeYesterdayJournal)
         
         do {
             try context.save()

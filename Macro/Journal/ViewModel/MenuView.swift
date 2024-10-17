@@ -5,8 +5,15 @@
 //  Created by Vebrillia Santoso on 14/10/24.
 //
 import SwiftUI
+import SwiftData
 
 struct MenuView: View {
+    
+    @ObservedObject private var viewModel = JournalViewModel()
+    @Environment(\.modelContext) var context
+    @Environment(\.dismiss) var dismiss
+    @Query var journals: [Journal]
+    
     var image: UIImage?
     var title: String
     var prob: Double
@@ -135,7 +142,8 @@ struct MenuView: View {
         
         // Submit Button (non-functional for now)
         Button(action: {
-            // Future submission logic here
+            viewModel.addDiet(context: context, name: title, entries: journals)
+            dismiss()
         }) {
             Text("Submit")
                 .font(.title2)
