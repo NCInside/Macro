@@ -10,7 +10,7 @@ import HealthKit
 
 class HealthManager: ObservableObject {
     let healthStore = HKHealthStore()
-    
+
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
         let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)
         let dateOfBirth = HKObjectType.characteristicType(forIdentifier: .dateOfBirth)
@@ -18,10 +18,8 @@ class HealthManager: ObservableObject {
         let bodyMass = HKObjectType.quantityType(forIdentifier: .bodyMass)
         let height = HKObjectType.quantityType(forIdentifier: .height)
         
-        
-        
         guard let sleep = sleepType, let birthDate = dateOfBirth, let sex = biologicalSex, let mass = bodyMass, let heightType = height else {
-            print("Data HealthKit tidak tersedia.")
+            print("HealthKit data is not available.")
             completion(false)
             return
         }
@@ -29,11 +27,18 @@ class HealthManager: ObservableObject {
         let healthTypes: Set = [sleep, birthDate, sex, mass, heightType]
         
         healthStore.requestAuthorization(toShare: [], read: healthTypes) { success, error in
-            if let error = error {
-                print("Error requesting health data authorization: \(error.localizedDescription)")
-                completion(false)
-            } else {
-                completion(success)
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("Error requesting health data authorization: \(error.localizedDescription)")
+                    completion(false)
+                } else {
+                    if success {
+                        print("User granted access to HealthKit data.")
+                    } else {
+                        print("User denied access to HealthKit data.")
+                    }
+                    completion(success)
+                }
             }
         }
     }

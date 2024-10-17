@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PrivacyOnBoardingView: View {
+    @Binding var hasCompletedOnboarding: Bool
     @State var navigateToHealthOnBoarding = false
     
     var body: some View {
@@ -36,7 +37,7 @@ struct PrivacyOnBoardingView: View {
                     .underline()
                 
                 Spacer()
-                NavigationLink(destination: HealthOnBoardingView(), isActive: $navigateToHealthOnBoarding){
+                NavigationLink(destination: HealthOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding), isActive: $navigateToHealthOnBoarding){
                     Button(action: {
                         navigateToHealthOnBoarding = true
                         
@@ -66,6 +67,6 @@ struct PrivacyOnBoardingView: View {
        
 }
 
-#Preview {
-    PrivacyOnBoardingView()
-}
+//#Preview {
+//    PrivacyOnBoardingView()
+//}

@@ -9,8 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct JournalView: View {
+    @Environment(\.modelContext) private var context
     @ObservedObject var viewModel = JournalViewModel()
-    @State private var userAge: Int? = nil
     let manager = HealthManager()
     @State var isPickerShowing = false
     @State var selectedImage: UIImage?
@@ -108,7 +108,7 @@ struct JournalView: View {
                     VStack {
                         VStack(alignment: .leading) {
                             HStack {
-                                Text(viewModel.sleepDuration)
+                                Text(viewModel.getSleep(journals: journals))
                                     .font(.system(size: 18))
                                     .foregroundColor(.gray)
                                     .padding()
@@ -182,8 +182,6 @@ struct JournalView: View {
                     NavigationLink(destination: MenuView(image: selectedImage), isActive: $navigateToMenuPage) {
                         EmptyView()
                     }
-                    
-                    
                     .padding()
                     .padding(.top, 10)
                     
@@ -197,7 +195,7 @@ struct JournalView: View {
                                     Spacer()
                                 }
                                 HStack {
-                                    Text(String(format: "%.2f", calcProtein())+" gr")
+                                    Text(String(format: "%.2f", viewModel.calcProtein(journals: journals))+" gr")
                                         .padding()
                                         .fontWeight(.medium)
                                     Spacer()
@@ -214,7 +212,7 @@ struct JournalView: View {
                                     Spacer()
                                 }
                                 HStack {
-                                    Text(String(format: "%.2f", calcFat())+" gr")
+                                    Text(String(format: "%.2f", viewModel.calcFat(journals: journals))+" gr")
                                         .padding()
                                         .fontWeight(.medium)
                                     Spacer()
@@ -235,7 +233,7 @@ struct JournalView: View {
                                     Spacer()
                                 }
                                 HStack {
-                                    Text(String(calcDairy())+" product(s)")
+                                    Text(String(viewModel.calcDairy(journals: journals))+" product(s)")
                                         .padding()
                                         .fontWeight(.medium)
                                     Spacer()
@@ -252,7 +250,7 @@ struct JournalView: View {
                                     Spacer()
                                 }
                                 HStack {
-                                    Text(String(calcGI()))
+                                    Text(String(viewModel.calcGI(journals: journals)))
                                         .padding()
                                         .fontWeight(.medium)
                                     Spacer()
@@ -288,9 +286,6 @@ struct JournalView: View {
                         }
                         .padding(.horizontal)
                         .padding(.top, -12)
-                        .onAppear {
-                            viewModel.fetchSleepData()
-                        }
                     }
                     
                 }
@@ -304,53 +299,9 @@ struct JournalView: View {
             }
             .background(Color.background).edgesIgnoringSafeArea(.all)
         }
-    }
-    
-    private func calcProtein() -> Double {
-        var protein: Double = 0
-        if let todayJournal {
-            for food in todayJournal.foods {
-                protein += food.protein
-            }
+        .onAppear {
+            viewModel.fetchSleepData(context: context, journals: journals)
         }
-        return protein
-    }
-    
-    private func calcFat() -> Double {
-        var fat: Double = 0
-        if let todayJournal {
-            for food in todayJournal.foods {
-                fat += food.fat
-            }
-        }
-        return fat
-    }
-    
-    private func calcDairy() -> Int {
-        var dairy = 0
-        if let todayJournal {
-            for food in todayJournal.foods {
-                dairy += food.dairy ? 1 : 0
-            }
-        }
-        return dairy
-    }
-    
-    private func calcGI() -> Int {
-        var gi = 0
-        if let todayJournal {
-            for food in todayJournal.foods {
-                switch food.glycemicIndex {
-                case .low:
-                    continue
-                case .medium:
-                    gi += 1
-                case .high:
-                    gi += 2
-                }
-            }
-        }
-        return gi
     }
         
 }

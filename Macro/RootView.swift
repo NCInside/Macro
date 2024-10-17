@@ -14,7 +14,7 @@ struct RootView: View {
         if hasCompletedOnboarding {
             ContentView()
         } else {
-            AgeOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
+            PrivacyOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
         }
     }
 }

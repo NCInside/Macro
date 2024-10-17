@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AddSleepView: View {
     @ObservedObject var viewModel = AddSleepViewModel()
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.modelContext) private var context
+    @Query var journals: [Journal]
     
     var body: some View {
         VStack {
@@ -22,7 +25,7 @@ struct AddSleepView: View {
                 Spacer()
                 
                 Button("Selesai") {
-                    
+                    viewModel.addSleep(context: context, journals: journals)
                     presentationMode.wrappedValue.dismiss()
                 }
                 .foregroundColor(.blue)
