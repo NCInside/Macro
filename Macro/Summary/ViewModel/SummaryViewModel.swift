@@ -103,6 +103,43 @@ class SummaryViewModel: ObservableObject {
         self.points = points
     }
     
+    func calcEnergyExpenditure() -> Double {
+        let age = UserDefaults.standard.integer(forKey: "age")
+        let height = UserDefaults.standard.double(forKey: "height")
+        let heightMetric = UserDefaults.standard.string(forKey: "heightMetric")
+        let weight = UserDefaults.standard.double(forKey: "weight")
+        let weightMetric = UserDefaults.standard.string(forKey: "weightMetric")
+        let gender = UserDefaults.standard.bool(forKey: "gender")
+        let activityLevel = UserDefaults.standard.double(forKey: "activity")
+        
+        print(age, height, heightMetric, weight, weightMetric, gender, activityLevel)
+        
+        let heightInInches: Double
+        if heightMetric == "ft" {
+            heightInInches = height * 12.0
+        } else {
+            heightInInches = height * 0.393701
+        }
+
+        let weightInPounds: Double
+        if weightMetric == "kg" {
+            weightInPounds = weight * 2.20462
+        } else {
+            weightInPounds = weight
+        }
+
+        let bmr: Double
+        if gender {
+            bmr = 66 + (6.23 * weightInPounds) + (12.7 * heightInInches) - (6.8 * Double(age))
+        } else {
+            bmr = 655 + (4.35 * weightInPounds) + (4.7 * heightInInches) - (4.7 * Double(age))
+        }
+
+        print(bmr)
+        return bmr * activityLevel
+    }
+
+    
 }
 
 enum scenario {

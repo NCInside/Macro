@@ -63,6 +63,7 @@ struct HeightOnBoardingView: View {
             NavigationLink(destination: WeightOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding), isActive: $navigationToWeightOnBoarding){
                 Button(action: {
                     UserDefaults.standard.set(inputHeight, forKey: "height")
+                    UserDefaults.standard.set(heightOption, forKey: "heightMetric")
                     navigationToWeightOnBoarding = true
                 }) {
                     ZStack{
