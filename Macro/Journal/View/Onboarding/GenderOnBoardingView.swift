@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct GenderOnBoardingView: View {
-    @State private var navigateToJournalView = false
     @Binding var hasCompletedOnboarding: Bool
+    @State private var navigateToActivityOnBoarding = false
     
     var body: some View {
         NavigationView{
@@ -20,41 +20,43 @@ struct GenderOnBoardingView: View {
                 .foregroundColor(.systemWhite)
                 .bold()
             
-            Button(action: {
-                UserDefaults.standard.set("Perempuan", forKey: "gender")
-                hasCompletedOnboarding = true
-            }) {
-                ZStack{
-                    Rectangle()
-                        .foregroundColor(.mainLight)
-                        .frame(width: 353, height:60)
-                        .background(.white)
-                        .cornerRadius(12)
-                    Text("♀ Perempuan")
-                        .foregroundColor(.white)
-                    
+            NavigationLink(destination: ActivityOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding), isActive: $navigateToActivityOnBoarding){
+                Button(action: {
+                    UserDefaults.standard.set("Perempuan", forKey: "gender")
+                    hasCompletedOnboarding = true
+                }) {
+                    ZStack{
+                        Rectangle()
+                            .foregroundColor(.mainLight)
+                            .frame(width: 353, height:60)
+                            .background(.white)
+                            .cornerRadius(12)
+                        Text("♀ Perempuan")
+                            .foregroundColor(.white)
+                        
+                    }
+                    .padding()
+                    .padding(.top, 140)
                 }
-                .padding()
-                .padding(.top, 140)
             }
 
-            
-            Button(action: {
-                UserDefaults.standard.set("Laki-Laki", forKey: "gender")
-                hasCompletedOnboarding = true
-            }) {
-                ZStack{
-                    Rectangle()
-                        .foregroundColor(.mainLight)
-                        .frame(width: 353, height: 60)
-                        .background(.white)
-                        .cornerRadius(12)
-                    Text("⚦ Laki-Laki")
-                        .foregroundColor(.white)
+            NavigationLink(destination: ActivityOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding), isActive: $navigateToActivityOnBoarding){
+                Button(action: {
+                    UserDefaults.standard.set("Laki-Laki", forKey: "gender")
+                    hasCompletedOnboarding = true
+                }) {
+                    ZStack{
+                        Rectangle()
+                            .foregroundColor(.mainLight)
+                            .frame(width: 353, height: 60)
+                            .background(.white)
+                            .cornerRadius(12)
+                        Text("⚦ Laki-Laki")
+                            .foregroundColor(.white)
+                    }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
             }
-            
             
             
         }
