@@ -14,6 +14,8 @@ struct SummaryView: View {
     @Environment(\.modelContext) var context
     @Query var journals: [Journal]
     @State var chosenMonth = Calendar.current.component(.month, from: Date())
+    @State var protein: Double = 0
+    @State var fat: Double = 0
     
     let months = [
             "January", "February", "March", "April", "May", "June",
@@ -31,8 +33,8 @@ struct SummaryView: View {
                 }
                 
                 Picker("Month", selection: $chosenMonth) {
-                    ForEach(1..<13) { monthIndex in
-                        Text(months[monthIndex - 1])
+                    ForEach(1..<months.count + 1, id: \.self) { index in
+                        Text(months[index - 1]).tag(index)
                     }
                 }
                 .padding(.leading, -12)
@@ -71,7 +73,7 @@ struct SummaryView: View {
                                     Text(String(viewModel.avgProtein))
                                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                                         .bold()
-                                    Text("gram")
+                                    Text("/\(String(format: "%.2f", protein))gram")
                                         .font(.caption2)
                                 })
                             .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -85,7 +87,7 @@ struct SummaryView: View {
                                     Text(String(viewModel.avgFat))
                                         .font(.title)
                                         .bold()
-                                    Text("gram")
+                                    Text("/\(String(format: "%.2f", fat))gram")
                                         .font(.caption2)
                                 })
                             .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -127,6 +129,9 @@ struct SummaryView: View {
         .onAppear {
             //generateDummy()
             viewModel.updateValue(journals: journals, chosenMonth: chosenMonth)
+            let energyExpenditure = viewModel.calcEnergyExpenditure()
+            protein = energyExpenditure * 0.1
+            fat = energyExpenditure * 0.2 / 9
         }
     }
     

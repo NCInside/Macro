@@ -22,8 +22,8 @@ struct GenderOnBoardingView: View {
             
             NavigationLink(destination: ActivityOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding), isActive: $navigateToActivityOnBoarding){
                 Button(action: {
-                    UserDefaults.standard.set("Perempuan", forKey: "gender")
-                    hasCompletedOnboarding = true
+                    UserDefaults.standard.set(false, forKey: "gender")
+                    navigateToActivityOnBoarding = true
                 }) {
                     ZStack{
                         Rectangle()
@@ -42,8 +42,8 @@ struct GenderOnBoardingView: View {
 
             NavigationLink(destination: ActivityOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding), isActive: $navigateToActivityOnBoarding){
                 Button(action: {
-                    UserDefaults.standard.set("Laki-Laki", forKey: "gender")
-                    hasCompletedOnboarding = true
+                    UserDefaults.standard.set(true, forKey: "gender")
+                    navigateToActivityOnBoarding = true
                 }) {
                     ZStack{
                         Rectangle()

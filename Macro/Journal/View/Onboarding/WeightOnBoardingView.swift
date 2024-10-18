@@ -63,7 +63,8 @@ struct WeightOnBoardingView: View {
             
             NavigationLink(destination: GenderOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding), isActive: $navigateToGenderOnBoarding){
                 Button(action: {
-                    UserDefaults.standard.set(["weight": inputWeight, "metric": weightOption], forKey: "weight")
+                    UserDefaults.standard.set(inputWeight, forKey: "weight")
+                    UserDefaults.standard.set(weightOption, forKey: "weightMetric")
                     navigateToGenderOnBoarding = true
                 }) {
                     ZStack{

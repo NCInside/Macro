@@ -20,7 +20,7 @@ struct ActivityOnBoardingView: View {
                 .bold()
             
             Button(action: {
-                UserDefaults.standard.set("Tidak Aktif", forKey: "activity")
+                UserDefaults.standard.set(1.2, forKey: "activity")
                 hasCompletedOnboarding = true
             }) {
                 ZStack{
@@ -45,7 +45,7 @@ struct ActivityOnBoardingView: View {
 
             
             Button(action: {
-                UserDefaults.standard.set("Sedikit Aktif", forKey: "activity")
+                UserDefaults.standard.set(1.375, forKey: "activity")
                 hasCompletedOnboarding = true
             }) {
                 ZStack{
@@ -69,7 +69,7 @@ struct ActivityOnBoardingView: View {
             }
             
             Button(action: {
-                UserDefaults.standard.set("Aktif", forKey: "activity")
+                UserDefaults.standard.set(1.55, forKey: "activity")
                 hasCompletedOnboarding = true
             }) {
                 ZStack{
@@ -93,7 +93,7 @@ struct ActivityOnBoardingView: View {
             }
             
             Button(action: {
-                UserDefaults.standard.set("Sangat Aktif", forKey: "activity")
+                UserDefaults.standard.set(1.725, forKey: "activity")
                 hasCompletedOnboarding = true
             }) {
                 ZStack{
