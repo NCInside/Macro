@@ -24,7 +24,7 @@ class FoodClassificationViewModel: ObservableObject {
         imageClassificationProb.removeAll()
         
         let resizeImage = uiImage.resizeImageTo(size: CGSize(width: 299, height: 299))
-        
+        print("pooooo", resizeImage?.size)
         guard let cvPixelBuffer = resizeImage?.pixelBuffer() else { return }
         
         do {
@@ -42,8 +42,12 @@ class FoodClassificationViewModel: ObservableObject {
             
             
             for pair in predictionPairs {
-                appendText(text: pair.target)
-                appendProb(prob: pair.probability)
+                
+                if pair.probability > 0.5{
+                    appendText(text: pair.target)
+                    appendProb(prob: pair.probability)
+                    print("namae:",pair.target, "perseinb", pair.probability)
+                }
             }
         } catch let error {
             print(error.localizedDescription)
