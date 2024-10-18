@@ -33,7 +33,7 @@ struct MenuView: View {
                         .cornerRadius(12)
                     
                     HStack {
-                        Text("\(title)")  // Display the name of the food
+                        Text(viewModel.parseFoodName(food: title))  // Display the name of the food
                             .font(.title2)
                             .fontWeight(.bold)
                         Spacer()
