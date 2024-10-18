@@ -185,6 +185,11 @@ class JournalViewModel: ObservableObject {
         }
     }
     
+    func parseFoodName(food: String) -> String {
+        let formattedFood = food.replacingOccurrences(of: "_", with: " ")
+        return formattedFood.prefix(1).capitalized + formattedFood.dropFirst()
+    }
+    
     private func hasEntriesFromToday(entries: [Journal]) -> Journal? {
         
         func isDateToday(_ date: Date) -> Bool {

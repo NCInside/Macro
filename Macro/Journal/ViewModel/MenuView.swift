@@ -142,7 +142,7 @@ struct MenuView: View {
         
         // Submit Button (non-functional for now)
         Button(action: {
-            viewModel.addDiet(context: context, name: title, entries: journals)
+            viewModel.addDiet(context: context, name: viewModel.parseFoodName(food: title), entries: journals)
             dismiss()
         }) {
             Text("Submit")
