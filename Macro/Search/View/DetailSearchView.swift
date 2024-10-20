@@ -26,6 +26,7 @@ struct DetailSearchView: View {
                         }
                     Text("Cari")
                 }
+                
                 Spacer()
                 Text("Tutup")
                     .onTapGesture {
@@ -33,6 +34,7 @@ struct DetailSearchView: View {
                     }
             }
             .padding(.bottom, 12)
+            .foregroundColor(.accentColor)
             
             Text("Detail")
                 .bold()
@@ -133,13 +135,13 @@ struct DetailSearchView: View {
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.blue)
+                    .background(Color.accentColor)
                     .cornerRadius(10)
                     .padding(.horizontal)
             }
         }
         .padding()
-        .background(.gray)
+        .background(Color.background)
         .frame(maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
         .onAppear {
             viewModel.detailDiet(name: name)

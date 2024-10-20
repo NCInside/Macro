@@ -18,7 +18,7 @@ class JournalViewModel: ObservableObject {
     private var healthManager = HealthManager()
     
     var days: [String] {
-        return ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"]
+        return ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"]
     }
     
     func daysInCurrentWeek() -> [Date] {

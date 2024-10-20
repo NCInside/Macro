@@ -124,7 +124,7 @@ struct SummaryView: View {
             }
             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: .infinity)
             .padding(.horizontal)
-            .background(.gray)
+            .background(Color.background)
         }
         .onAppear {
             //generateDummy()

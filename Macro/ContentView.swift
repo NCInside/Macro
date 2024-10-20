@@ -19,7 +19,7 @@ struct ContentView: View {
             
             SummaryView()
                 .tabItem {
-                    Label("Journal", systemImage: "book")
+                    Label("Ringkasan", systemImage: "book")
                 }
         }
 
