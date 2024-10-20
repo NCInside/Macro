@@ -145,13 +145,19 @@ struct MenuView: View {
             viewModel.addDiet(context: context, name: viewModel.parseFoodName(food: title), entries: journals)
             dismiss()
         }) {
-            Text("Submit")
-                .font(.title2)
-                .fontWeight(.bold)
-                .padding()
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(10)
+            ZStack{
+                Rectangle()
+                    .foregroundColor(.accentColor)
+                    .frame(width: 353, height: 50)
+                    .background(.white)
+                    .cornerRadius(12)
+                Text("Submit")
+                    .foregroundColor(.white)
+                    .bold()
+                    .font(.title2)
+                
+            }
+                
         }
         .padding(.top, 20)
     }

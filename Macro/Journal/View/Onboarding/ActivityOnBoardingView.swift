@@ -12,114 +12,127 @@ struct ActivityOnBoardingView: View {
     
     var body: some View {
         NavigationView{
-        VStack{
-            Text("Seberapa berat aktivitasmu?")
-                .padding(.top,80)
-                .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                .foregroundColor(.systemWhite)
-                .bold()
-            
-            Button(action: {
-                UserDefaults.standard.set(1.2, forKey: "activity")
-                hasCompletedOnboarding = true
-            }) {
-                ZStack{
-                    Rectangle()
-                        .foregroundColor(.mainLight)
-                        .frame(width: 353, height:100)
-                        .background(.white)
-                        .cornerRadius(12)
-                    VStack {
-                        Text("Tidak Terlalu Aktif")
-                            .bold()
-                            .font(.title3)
-                        Text("Sebagian besar waktu duduk")
-                            .font(.subheadline)
-                        Text("(contoh: pekerja kantoran, customer service)")
-                            .font(.subheadline)
+            VStack{
+                Text("Seberapa berat aktivitasmu?")
+                    .padding(.top,80)
+                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .foregroundColor(.systemWhite)
+                    .bold()
+                
+                Button(action: {
+                    UserDefaults.standard.set(1.2, forKey: "activity")
+                    hasCompletedOnboarding = true
+                }) {
+                    ZStack{
+                        Rectangle()
+                            .foregroundColor(.mainLight)
+                            .frame(width: 353, height:80)
+                            .background(.white)
+                            .cornerRadius(12)
+                        
+                        VStack {
+                            Text("Tidak Terlalu Aktif")
+                                .foregroundColor(.white)
+                                .bold()
+                            
+                            Text("""
+                                 Sebagian besar waktu duduk
+                                 (contoh : pekerja kantoran, customer service)
+                                 """)
+                            .foregroundColor(.white)
+                            .font(.system(size: 12))
+                        }
+                        
                     }
-                    .foregroundColor(.white)
+                    .padding(.top, 140)
                 }
-                .padding(.top, 140)
-            }
-
-            
-            Button(action: {
-                UserDefaults.standard.set(1.375, forKey: "activity")
-                hasCompletedOnboarding = true
-            }) {
-                ZStack{
-                    Rectangle()
-                        .foregroundColor(.mainLight)
-                        .frame(width: 353, height:100)
-                        .background(.white)
-                        .cornerRadius(12)
-                    VStack {
-                        Text("Sedikit Aktif")
-                            .bold()
-                            .font(.title3)
-                        Text("Sebagian waktu berdiri")
-                            .font(.subheadline)
-                        Text("(contoh: guru, SPG)")
-                            .font(.subheadline)
+                
+                
+                Button(action: {
+                    UserDefaults.standard.set(1.375, forKey: "activity")
+                    hasCompletedOnboarding = true
+                }) {
+                    ZStack{
+                        Rectangle()
+                            .foregroundColor(.mainLight)
+                            .frame(width: 353, height:80)
+                            .background(.white)
+                            .cornerRadius(12)
+                        
+                        VStack {
+                            Text("Sedikit Aktif")
+                                .foregroundColor(.white)
+                                .bold()
+                            
+                            Text("""
+                                 Sebagian besar waktu duduk
+                                 (contoh : pekerja kantoran, customer service)
+                                 """)
+                            .foregroundColor(.white)
+                            .font(.system(size: 12))
+                        }
                     }
-                    .foregroundColor(.white)
+                    .padding(.top)
                 }
-                .padding(.horizontal)
-            }
-            
-            Button(action: {
-                UserDefaults.standard.set(1.55, forKey: "activity")
-                hasCompletedOnboarding = true
-            }) {
-                ZStack{
-                    Rectangle()
-                        .foregroundColor(.mainLight)
-                        .frame(width: 353, height:100)
-                        .background(.white)
-                        .cornerRadius(12)
-                    VStack {
-                        Text("Aktif")
-                            .bold()
-                            .font(.title3)
-                        Text("Sebagian waktu melakukan aktivitas fisik")
-                            .font(.subheadline)
-                        Text("(contoh: pramusaji, pemandu wisata, kurir paket)")
-                            .font(.subheadline)
+                
+                Button(action: {
+                    UserDefaults.standard.set(1.55, forKey: "activity")
+                    hasCompletedOnboarding = true
+                }) {
+                    ZStack{
+                        Rectangle()
+                            .foregroundColor(.mainLight)
+                            .frame(width: 353, height:80)
+                            .background(.white)
+                            .cornerRadius(12)
+                        
+                        VStack {
+                            Text("Aktif")
+                                .foregroundColor(.white)
+                                .bold()
+                            
+                            Text("""
+                                 Sebagian waktu melakukan aktivitas fisik
+                                 (contoh: pramusaji, pemandu wisata, kurir paket)
+                                 """)
+                            .foregroundColor(.white)
+                            .font(.system(size: 12))
+                        }
                     }
-                    .foregroundColor(.white)
+                    .padding(.top)
                 }
-                .padding(.horizontal)
-            }
-            
-            Button(action: {
-                UserDefaults.standard.set(1.725, forKey: "activity")
-                hasCompletedOnboarding = true
-            }) {
-                ZStack{
-                    Rectangle()
-                        .foregroundColor(.mainLight)
-                        .frame(width: 353, height:100)
-                        .background(.white)
-                        .cornerRadius(12)
-                    VStack {
-                        Text("Sangat Aktif")
-                            .bold()
-                            .font(.title3)
-                        Text("Sebagian besar waktu melakukan aktivitas berat")
-                            .font(.subheadline)
-                        Text("(contoh: penari, tukang)")
-                            .font(.subheadline)
+                
+                Button(action: {
+                    UserDefaults.standard.set(1.725, forKey: "activity")
+                    hasCompletedOnboarding = true
+                }) {
+                    ZStack{
+                        Rectangle()
+                            .foregroundColor(.mainLight)
+                            .frame(width: 353, height:80)
+                            .background(.white)
+                            .cornerRadius(12)
+                        
+                        VStack {
+                            Text("Sangat Aktif")
+                                .foregroundColor(.white)
+                                .bold()
+                            
+                            Text("""
+                                Sebagian besar waktu melakukan aktivitas berat
+                                (contoh: penari, tukang)
+                                """)
+                            .foregroundColor(.white)
+                            .font(.system(size: 12))
+                        }
                     }
-                    .foregroundColor(.white)
+                    .padding(.top)
                 }
-                .padding(.horizontal)
+                
             }
-            
+            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: .infinity, alignment: .top)
+            .background(Color.main)
         }
-        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: .infinity, alignment: .top)
-        .background(Color.main)
-    }
         .navigationBarBackButtonHidden()
     }
 }

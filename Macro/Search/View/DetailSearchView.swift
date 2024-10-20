@@ -40,7 +40,7 @@ struct DetailSearchView: View {
                 .bold()
                 .font(.largeTitle)
                 .padding(.horizontal, 4)
-                .padding(.bottom, 32)
+                .padding(.bottom, 30)
             
             Text("NAMA MENU")
                 .font(.caption)
@@ -56,7 +56,7 @@ struct DetailSearchView: View {
                 .background(Color(UIColor.systemBackground))
             }
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .padding(.bottom, 24)
+            .padding(.bottom, 20)
             
             Text("KANDUNGAN NUTRISI")
                 .font(.caption)
@@ -69,7 +69,7 @@ struct DetailSearchView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(.black)
                     Text(String(viewModel.food?.protein ?? 0) + "gr")
-                        .padding(.vertical, 10)
+                        .padding(.vertical, 7)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .foregroundStyle(.gray)
@@ -137,8 +137,9 @@ struct DetailSearchView: View {
                     .frame(maxWidth: .infinity)
                     .background(Color.accentColor)
                     .cornerRadius(10)
-                    .padding(.horizontal)
+                    
             }
+            
         }
         .padding()
         .background(Color.background)
