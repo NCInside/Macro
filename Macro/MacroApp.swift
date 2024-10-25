@@ -30,3 +30,13 @@ struct MacroApp: App {
         }
     }
 }
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    let notificationViewModel = NotificationViewModel()
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Set delegate untuk menampilkan notifikasi di foreground
+        UNUserNotificationCenter.current().delegate = notificationViewModel
+        return true
+    }
+}
