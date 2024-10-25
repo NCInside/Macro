@@ -23,6 +23,9 @@ struct SearchCard: View {
                     trailing: 5
                 )
             )
+            
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
             .onTapGesture {
                 onTap()
             }
@@ -41,4 +44,8 @@ struct SearchCard: View {
                 )
         )
     }
+}
+
+#Preview {
+    SearchView()
 }

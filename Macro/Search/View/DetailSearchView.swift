@@ -21,10 +21,10 @@ struct DetailSearchView: View {
             HStack {
                 HStack (spacing: 4) {
                     Image(systemName: "chevron.left")
-                        .onTapGesture {
-                            dismiss()
-                        }
+                        
                     Text("Cari")
+                }.onTapGesture {
+                    dismiss()
                 }
                 
                 Spacer()
