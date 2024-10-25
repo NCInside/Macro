@@ -12,6 +12,7 @@ struct SummaryCard<DetailView: View>: View {
     var title: String
     var caption: String
     var detail: DetailView
+    var showChevron: Bool = true
     
     var body: some View {
         VStack {
@@ -19,10 +20,12 @@ struct SummaryCard<DetailView: View>: View {
                 Text(title)
                     .bold()
                 Spacer()
-                Image(systemName: "chevron.right")
-                    .onTapGesture {
-                        //
-                    }
+                if showChevron {
+                    Image(systemName: "chevron.right")
+                        .onTapGesture {
+                            //
+                        }
+                }
             }
             .padding(.bottom, 24)
             HStack {
