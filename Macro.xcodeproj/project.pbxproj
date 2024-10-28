@@ -31,6 +31,8 @@
 		6AEC4D0E2CB53A4C003DD2F3 /* Sleep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC4D0D2CB53A4C003DD2F3 /* Sleep.swift */; };
 		6AEC4D102CB53AA1003DD2F3 /* Journal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */; };
 		6AEF1BF02CC25AB200B6F89F /* ActivityOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF1BEF2CC25AB200B6F89F /* ActivityOnBoardingView.swift */; };
+		712C2BF82CCF8B490032E754 /* FoodAndDrink.json in Resources */ = {isa = PBXBuildFile; fileRef = 712C2BF72CCF8B410032E754 /* FoodAndDrink.json */; };
+		712C2BFC2CCF8B7A0032E754 /* Name.txt in Resources */ = {isa = PBXBuildFile; fileRef = 712C2BFB2CCF8B750032E754 /* Name.txt */; };
 		71A2BEC22CC270BF00687EA0 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A2BEC12CC270AA00687EA0 /* ToastView.swift */; };
 		71E364E92CC108DA00EA4C82 /* FoodClassificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E364E82CC108D000EA4C82 /* FoodClassificationViewModel.swift */; };
 		71E364EB2CC108E500EA4C82 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E364EA2CC108DE00EA4C82 /* UIImageExtension.swift */; };
@@ -82,6 +84,8 @@
 		6AEC4D0D2CB53A4C003DD2F3 /* Sleep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Sleep.swift; path = Macro/Sleep.swift; sourceTree = SOURCE_ROOT; };
 		6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Journal.swift; path = Macro/Journal.swift; sourceTree = SOURCE_ROOT; };
 		6AEF1BEF2CC25AB200B6F89F /* ActivityOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityOnBoardingView.swift; sourceTree = "<group>"; };
+		712C2BF72CCF8B410032E754 /* FoodAndDrink.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FoodAndDrink.json; sourceTree = "<group>"; };
+		712C2BFB2CCF8B750032E754 /* Name.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Name.txt; sourceTree = "<group>"; };
 		71A2BEC12CC270AA00687EA0 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		71E364E82CC108D000EA4C82 /* FoodClassificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodClassificationViewModel.swift; sourceTree = "<group>"; };
 		71E364EA2CC108DE00EA4C82 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
@@ -211,6 +215,8 @@
 		6A3A6AE12CB7BED4009319F8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				712C2BFB2CCF8B750032E754 /* Name.txt */,
+				712C2BF72CCF8B410032E754 /* FoodAndDrink.json */,
 				6A3A6AEF2CBD2203009319F8 /* NutrisiMakanan.json */,
 				6AEC4D072CB5268C003DD2F3 /* FoodCache.swift */,
 				6AEC4D092CB526E6003DD2F3 /* FoodFile.swift */,
@@ -378,7 +384,9 @@
 				6AEC4D062CB52429003DD2F3 /* FoodName in Resources */,
 				6A3A6AF02CBD2203009319F8 /* NutrisiMakanan.json in Resources */,
 				6AE757F62CAE87FF00BEFDE0 /* Preview Assets.xcassets in Resources */,
+				712C2BF82CCF8B490032E754 /* FoodAndDrink.json in Resources */,
 				6AE757F32CAE87FF00BEFDE0 /* Assets.xcassets in Resources */,
+				712C2BFC2CCF8B7A0032E754 /* Name.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
