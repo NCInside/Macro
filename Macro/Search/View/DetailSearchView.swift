@@ -12,97 +12,155 @@ struct DetailSearchView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     @ObservedObject private var viewModel = SearchViewModel()
+    let unitOptions = ["Porsi", "Gram (gr)", "Mililiter (m/l)"]
+    @State private var selectedUnitOption = "Porsi"
+    let processedOptions = ["Rebus", "Goreng", "Bakar", "Tumis", "Sangrai", "Kukus"]
+    @State private var selectedProcessedOption = "Goreng"
+    let fatOptions = ["Jenuh", "Baik"]
+    @State private var selectedFatOption = "Jenuh"
+    let milkOptions = ["Tidak Ada", "Ada"]
+    @State private var selectedMilkOption = "Tidak Ada"
+    let glycemicOptions = ["Rendah", "Sedang", "Tinggi"]
+    @State private var selectedGlycemicOption = "Rendah"
     
     var name: String
     var journals: [Journal]
+    @State private var inputPortion: String = ""
     
     var body: some View {
         VStack (alignment: .leading) {
             HStack {
                 HStack (spacing: 4) {
                     Image(systemName: "chevron.left")
-                        
-                    Text("Cari")
+                    
+                    
                 }.onTapGesture {
                     dismiss()
+                    
                 }
+                Spacer()
+                Text("Detail Makanan")
+                    .foregroundColor(.black)
+                    .fontWeight(.semibold)
                 
                 Spacer()
-                Text("Tutup")
-                    .onTapGesture {
-                        dismiss()
-                    }
+                
+                
             }
             .padding(.bottom, 12)
             .foregroundColor(.accentColor)
             
-            Text("Detail")
+            Text(name)
                 .bold()
                 .font(.largeTitle)
                 .padding(.horizontal, 4)
-                .padding(.bottom, 30)
+                .padding(.bottom, 12)
             
-            Text("NAMA MENU")
-                .font(.caption)
-                .padding(.horizontal, 16)
-            HStack {
+            VStack(spacing: 0) {
                 HStack {
-                    Text(name)
-                        .bold()
+                    Text("Banyak Porsi")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundStyle(.black)
+                    TextField("Masukan porsi",  text: $inputPortion)
+                        .keyboardType(.numberPad)
+                        .multilineTextAlignment(.trailing)
+                        .padding(.trailing, 16)
+                    
                 }
                 .background(Color(UIColor.systemBackground))
+                Divider()
+                    .padding(.leading)
+                
+                HStack {
+                    Text("Satuan")
+                        .padding(.vertical, 10)
+                        .padding(.horizontal)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundStyle(.black)
+                    
+                    Picker("", selection: $selectedUnitOption) {
+                                            ForEach(unitOptions, id: \.self) { option in
+                                                Text(option)
+                                                    .tag(option)
+                                                   
+                                            }
+                                            
+                                        }
+                    .accentColor(.gray)
+                    
+                }
+                .background(Color(UIColor.systemBackground))
+                
+                
+                
             }
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .padding(.bottom, 20)
             
-            Text("KANDUNGAN NUTRISI")
-                .font(.caption)
-                .padding(.horizontal, 16)
+            Text("Informasi Makanan")
+                .font(.callout)
+                .padding(.leading, 2)
+                .fontWeight(.semibold)
+            
             VStack(spacing: 0) {
                 HStack {
-                    Text("Protein")
+                    Text("Jenis Olahan")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(.black)
-                    Text(String(viewModel.food?.protein ?? 0) + "gr")
-                        .padding(.vertical, 7)
-                        .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .foregroundStyle(.gray)
+                    
+                    Picker("", selection: $selectedProcessedOption) {
+                                            ForEach(processedOptions, id: \.self) { option in
+                                                Text(option)
+                                                    .tag(option)
+                                                   
+                                            }
+                                            
+                                        }
+                    .accentColor(.gray)
+                    
                 }
                 .background(Color(UIColor.systemBackground))
                 Divider()
                     .padding(.leading)
                 HStack {
-                    Text("Lemak")
+                    Text("Jenis Lemak")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(.black)
-                    Text(String(viewModel.food?.fat ?? 0) + "gr")
-                        .padding(.vertical, 10)
-                        .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .foregroundStyle(.gray)
+                    
+                    Picker("", selection: $selectedFatOption) {
+                                            ForEach(fatOptions, id: \.self) { option in
+                                                Text(option)
+                                                    .tag(option)
+                                                   
+                                            }
+                                            
+                                        }
+                    .accentColor(.gray)
                 }
                 .background(Color(UIColor.systemBackground))
                 Divider()
                     .padding(.leading)
                 HStack {
-                    Text("Produk Susu")
+                    Text("Kandungan Susu")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(.black)
-                    Text(viewModel.food?.dairy ?? true ? "Ada" : "Tidak ada")
-                        .padding(.vertical, 10)
-                        .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .foregroundStyle(.gray)
+                    Picker("", selection: $selectedMilkOption) {
+                                            ForEach(milkOptions, id: \.self) { option in
+                                                Text(option)
+                                                    .tag(option)
+                                                   
+                                            }
+                                            
+                                        }
+                    .accentColor(.gray)
                 }
                 .background(Color(UIColor.systemBackground))
                 Divider()
@@ -113,11 +171,15 @@ struct DetailSearchView: View {
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(.black)
-                    Text(giToString(gi: viewModel.food?.glycemicIndex ?? .high))
-                        .padding(.vertical, 10)
-                        .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .foregroundStyle(.gray)
+                    Picker("", selection: $selectedGlycemicOption) {
+                                            ForEach(glycemicOptions, id: \.self) { option in
+                                                Text(option)
+                                                    .tag(option)
+                                                   
+                                            }
+                                            
+                                        }
+                    .accentColor(.gray)
                 }
                 .background(Color(UIColor.systemBackground))
             }
@@ -137,7 +199,7 @@ struct DetailSearchView: View {
                     .frame(maxWidth: .infinity)
                     .background(Color.accentColor)
                     .cornerRadius(10)
-                    
+                
             }
             
         }

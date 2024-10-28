@@ -229,7 +229,7 @@ struct JournalView: View {
                             )
                         }
                         
-                        .fullScreenCover(isPresented: $viewModel.isDietViewPresented, content: SearchView.init)
+                        .sheet(isPresented: $viewModel.isDietViewPresented, content: SearchView.init)
                         // Navigation to MenuView with the classified image, title, and probability
                         NavigationLink(
                             destination: MenuView(

@@ -35,6 +35,7 @@ struct SearchView: View {
                     .padding(.leading, 106)
             }
             .padding(.horizontal)
+            .padding(.top, 28)
             
             VStack {
                 CustomSearchBar(text: $viewModel.input)
@@ -74,7 +75,7 @@ struct SearchView: View {
                             viewModel.isPresented.toggle()
                         })
                         .frame(height: 40)
-                        .fullScreenCover(isPresented: $viewModel.isPresented) {
+                        .sheet(isPresented: $viewModel.isPresented) {
                             if viewModel.selectedSuggestion != nil {
                                 DetailSearchView(name: viewModel.selectedSuggestion ?? "", journals: journals)
                             }
@@ -136,5 +137,5 @@ struct SearchView: View {
 }
 
 #Preview {
-    SearchView()
+    ContentView()
 }

@@ -12,11 +12,10 @@ struct ContentView: View {
     var body: some View {
         
         TabView {
-//            JournalView()
-//                .tabItem {
-//                    Label("Journal", systemImage: "book.pages.fill")
-//                }
-            NotificationView()
+            JournalView()
+                .tabItem {
+                    Label("Journal", systemImage: "book.pages.fill")
+                }
             
             SummaryView()
                 .tabItem {

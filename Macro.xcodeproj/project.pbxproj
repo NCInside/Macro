@@ -234,8 +234,6 @@
 				9094D82A2CBD0D0700BA62EF /* AddSleepView.swift */,
 				9094D8302CBE4FBA00BA62EF /* HistoryView.swift */,
 				9094D8322CBE594D00BA62EF /* FoodDetailHistoryView.swift */,
-				9094D8342CBE5AA700BA62EF /* PrivacyOnBoardingView.swift */,
-				9094D8362CBE626100BA62EF /* HealthOnBoardingView.swift */,
 				6A3A6AF52CBF6C50009319F8 /* SleepDetailHistoryView.swift */,
 			);
 			path = View;
@@ -316,6 +314,8 @@
 				9094D83D2CBF8DAD00BA62EF /* WeightOnBoardingView.swift */,
 				9094D83F2CBF907700BA62EF /* GenderOnBoardingView.swift */,
 				6AEF1BEF2CC25AB200B6F89F /* ActivityOnBoardingView.swift */,
+				9094D8342CBE5AA700BA62EF /* PrivacyOnBoardingView.swift */,
+				9094D8362CBE626100BA62EF /* HealthOnBoardingView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
