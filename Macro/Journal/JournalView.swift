@@ -396,6 +396,30 @@ struct JournalView: View {
             }
             .onAppear {
                 viewModel.fetchSleepData(context: context, journals: journals)
+                
+                let content = UNMutableNotificationContent()
+                content.title = "Sleep"
+                content.subtitle = "Do not forget to input your sleep!"
+                content.sound = UNNotificationSound.default
+
+                var dateComponents = DateComponents()
+                dateComponents.hour = 9
+                dateComponents.minute = 30
+
+                let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+                
+                let notificationIdentifier = "uniqueNotificationId"
+
+                // Cancel existing notification with the same identifier
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notificationIdentifier])
+
+                let request = UNNotificationRequest(identifier: notificationIdentifier, content: content, trigger: trigger)
+                UNUserNotificationCenter.current().add(request) { error in
+                    if let error = error {
+                        print("Error adding notification: \(error.localizedDescription)")
+                    }
+                }
+                
             }
             if showToast {
                 VStack {

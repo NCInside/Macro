@@ -33,7 +33,17 @@ class HealthManager: ObservableObject {
                     completion(false)
                 } else {
                     if success {
-                        print("User granted access to HealthKit data.")
+                        let statuses = healthTypes.map { self.healthStore.authorizationStatus(for: $0) }
+                        let allAuthorized = statuses.allSatisfy { $0 == .sharingAuthorized }
+                        if allAuthorized {
+                            print("User granted access to all requested HealthKit data.")
+                            UserDefaults.standard.set(self.getUserAge(), forKey: "age")
+                            UserDefaults.standard.set(self.getUserBiologicalSex(), forKey: "gender")
+                            completion(true)
+                        } else {
+                            print("User denied access to some HealthKit data.")
+                            completion(false)
+                        }
                     } else {
                         print("User denied access to HealthKit data.")
                     }
@@ -44,13 +54,16 @@ class HealthManager: ObservableObject {
     }
     
     func fetchSleepData(completion: @escaping ([HKCategorySample]?) -> Void) {
-        let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)
+        guard let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis) else {
+            print("Sleep type is no longer available in HealthKit.")
+            return
+        }
         
         let now = Date()
         let startOfDay = Calendar.current.date(byAdding: .day, value: -1, to: now)
         let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
         
-        let query = HKSampleQuery(sampleType: sleepType!, predicate: predicate, limit: 10, sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) { query, result, error in
+        let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: 10, sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) { query, result, error in
             guard let result = result as? [HKCategorySample], error == nil else {
                 completion(nil)
                 return
@@ -74,16 +87,16 @@ class HealthManager: ObservableObject {
         }
     }
     
-    func getUserBiologicalSex() -> String? {
+    func getUserBiologicalSex() -> Bool? {
         do {
             let biologicalSex = try healthStore.biologicalSex().biologicalSex
             switch biologicalSex {
             case .female:
-                return "Female"
+                return false
             case .male:
-                return "Male"
+                return true
             case .other:
-                return "Other"
+                return false
             case .notSet:
                 return nil
             @unknown default:

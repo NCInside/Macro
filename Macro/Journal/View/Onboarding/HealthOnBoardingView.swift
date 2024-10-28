@@ -45,12 +45,11 @@ struct HealthOnBoardingView: View {
                 
                 Button(action: {
                     manager.requestAuthorization { success in
-//                        if success {
-//                            hasCompletedOnboarding = true
-//                        } else {
-//                            navigateToAgeOnBoarding = true
-//                        }
-                        navigateToAgeOnBoarding = true
+                        if success {
+                            hasCompletedOnboarding = true
+                        } else {
+                            navigateToAgeOnBoarding = true
+                        }
                     }
                 }) {
                     ZStack{

@@ -25,7 +25,7 @@ struct GenderOnBoardingView: View {
             }
             
             Button(action: {
-                UserDefaults.standard.set("Perempuan", forKey: "gender")
+                UserDefaults.standard.set(false, forKey: "gender")
                 navigateToActivityOnBoarding = true
             }) {
                 ZStack{
@@ -44,7 +44,7 @@ struct GenderOnBoardingView: View {
 
             
             Button(action: {
-                UserDefaults.standard.set("Laki-Laki", forKey: "gender")
+                UserDefaults.standard.set(true, forKey: "gender")
                 navigateToActivityOnBoarding = true
             }) {
                 ZStack{

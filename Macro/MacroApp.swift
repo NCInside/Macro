@@ -10,6 +10,7 @@ import SwiftData
 
 @main
 struct MacroApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject var manager = HealthManager()
 
     var container: ModelContainer
@@ -28,5 +29,26 @@ struct MacroApp: App {
                 .environmentObject(manager)
                 .modelContainer(container)
         }
+    }
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            if granted {
+                print("All set!")
+            } else if let error {
+                print(error.localizedDescription)
+            }
+        }
+        return true
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        print(userInfo) // the payload that is attached to the push notification
+        // you can customize the notification presentation options. Below code will show notification banner as well as play a sound. If you want to add a badge too, add .badge in the array.
+        completionHandler([.alert,.sound])
     }
 }
