@@ -13,6 +13,7 @@ struct SearchView: View {
     @ObservedObject private var viewModel = SearchViewModel()
     @Environment(\.dismiss) private var dismiss
     @Query private var journals: [Journal]
+    @State var isAddFoodViewPresented = false
     
     init() {
         if viewModel.defaults.object(forKey: "recent") == nil {
@@ -33,6 +34,17 @@ struct SearchView: View {
                     .bold()
                     .padding(.bottom, 0)
                     .padding(.leading, 106)
+                
+                Spacer()
+                
+                Button(action: {
+                    isAddFoodViewPresented = true
+                }) {
+                    Image(systemName: "plus")
+                        .foregroundColor(.accentColor)
+                }
+                
+                
             }
             .padding(.horizontal)
             .padding(.top, 28)
@@ -101,9 +113,15 @@ struct SearchView: View {
                             .padding(.horizontal, 40)
                             .bold()
                         
-                        Text("Periksa ejaan atau coba pencarian baru")
-                            .font(.callout)
-                            .foregroundColor(.gray)
+                        Button(action: {
+                            isAddFoodViewPresented = true
+                        }) {
+                            Text("Tambah Menu Baru")
+                                .foregroundColor(.accentColor)
+                                .padding(.top, 2)
+                        }
+                        
+                        
                         
                     }
                     Spacer()
@@ -131,11 +149,14 @@ struct SearchView: View {
                 Spacer()                           }
         }
         .background(Color.background)
-        
+        .sheet(isPresented: $isAddFoodViewPresented) {
+            AddFoodView()
+            
+        }
     }
     
 }
 
 #Preview {
-    ContentView()
+    SearchView()
 }

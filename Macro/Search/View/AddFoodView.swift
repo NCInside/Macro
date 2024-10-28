@@ -1,23 +1,18 @@
 //
-//  DetailSearchView.swift
+//  AddFoodView.swift
 //  Macro
 //
-//  Created by Nicholas Christian Irawan on 17/10/24.
+//  Created by Vebrillia Santoso on 28/10/24.
 //
 
 import SwiftUI
 
-struct DetailSearchView: View {
-    
-    @Environment(\.modelContext) private var context
-    @Environment(\.dismiss) private var dismiss
-    @ObservedObject private var viewModel = SearchViewModel()
+struct AddFoodView: View {
     let unitOptions = ["Porsi", "Gram (gr)", "Mililiter (m/l)"]
     @State private var selectedUnitOption = "Porsi"
-    
-    var name: String
-    var journals: [Journal]
+    @Environment(\.dismiss) private var dismiss
     @State private var inputPortion: String = ""
+    @State private var inputName: String = ""
     
     var body: some View {
         VStack (alignment: .leading) {
@@ -31,7 +26,7 @@ struct DetailSearchView: View {
                     
                 }
                 Spacer()
-                Text("Detail Makanan")
+                Text("Tambah Menu Baru")
                     .foregroundColor(.black)
                     .fontWeight(.semibold)
                 
@@ -42,13 +37,29 @@ struct DetailSearchView: View {
             .padding(.bottom, 12)
             .foregroundColor(.accentColor)
             
-            Text(name)
+            Text("Detail Makanan")
                 .bold()
-                .font(.largeTitle)
+                .font(.callout)
                 .padding(.horizontal, 4)
-                .padding(.bottom, 12)
+                .padding(.top, 10)
             
             VStack(spacing: 0) {
+                HStack {
+                    Text("Nama Menu")
+                        .padding(.vertical, 10)
+                        .padding(.horizontal)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundStyle(.black)
+                    TextField("Makanan/Minuman",  text: $inputName)
+                        .keyboardType(.numberPad)
+                        .multilineTextAlignment(.trailing)
+                        .padding(.trailing, 16)
+                    
+                }
+                .background(Color(UIColor.systemBackground))
+                Divider()
+                    .padding(.leading)
+                
                 HStack {
                     Text("Banyak Porsi")
                         .padding(.vertical, 10)
@@ -73,13 +84,13 @@ struct DetailSearchView: View {
                         .foregroundStyle(.black)
                     
                     Picker("", selection: $selectedUnitOption) {
-                                            ForEach(unitOptions, id: \.self) { option in
-                                                Text(option)
-                                                    .tag(option)
-                                                   
-                                            }
-                                            
-                                        }
+                        ForEach(unitOptions, id: \.self) { option in
+                            Text(option)
+                                .tag(option)
+                            
+                        }
+                        
+                    }
                     .accentColor(.gray)
                     
                 }
@@ -96,9 +107,7 @@ struct DetailSearchView: View {
             Spacer()
             
             Button(action: {
-                viewModel.addDiet(context: context, name: name, entries: journals)
-                viewModel.isPresented.toggle()
-                dismiss()
+                
             }) {
                 Text("Simpan ke Jurnal")
                     .font(.headline)
@@ -114,24 +123,10 @@ struct DetailSearchView: View {
         .padding()
         .background(Color.background)
         .frame(maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-        .onAppear {
-            viewModel.detailDiet(name: name)
-        }
+        
     }
-    
-    private func giToString(gi: glycemicIndex) -> String {
-        switch gi {
-        case .low:
-            return "Low"
-        case .medium:
-            return "Medium"
-        case .high:
-            return "High"
-        }
-    }
-    
 }
 
 #Preview {
-    DetailSearchView(name: "Abon", journals: [])
+    AddFoodView()
 }
