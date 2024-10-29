@@ -68,7 +68,7 @@ struct DetailSearchView: View {
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(.black)
-                    Text(String(viewModel.food?.protein ?? 0) + "gr")
+                    Text("0 gr")
                         .padding(.vertical, 7)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .trailing)

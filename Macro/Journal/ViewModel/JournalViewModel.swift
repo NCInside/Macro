@@ -103,16 +103,6 @@ class JournalViewModel: ObservableObject {
         return "No Data"
     }
     
-    func calcProtein(journals: [Journal]) -> Double {
-        var protein: Double = 0
-        if let todayJournal = hasEntriesFromDate(entries: journals, date: selectedDate) {
-            for food in todayJournal.foods {
-                protein += food.protein
-            }
-        }
-        return protein
-    }
-    
     func calcFat(journals: [Journal]) -> Double {
         var fat: Double = 0
         if let todayJournal = hasEntriesFromDate(entries: journals, date: selectedDate) {
@@ -159,9 +149,9 @@ class JournalViewModel: ObservableObject {
             return
         }
                 
-        if let foodItem = foodItems.first(where: { $0.NamaMakanan == name }) {
+        if let foodItem = foodItems.first(where: { $0.name == name }) {
             
-            let food = Food(timestamp: Date(), name: name, protein: foodItem.Protein, fat: foodItem.Fat, glycemicIndex: parseGI(gi: foodItem.GI), dairy: foodItem.Dairy == 1)
+            let food = Food(timestamp: Date(), name: name, cookingTechnique: foodItem.cooking_technique, fat: foodItem.saturated_fat, glycemicIndex: parseGI(gi: foodItem.glycemic_index), dairy: foodItem.dairies == 1, gramPortion: foodItem.gram_per_portion)
             
             if let todayJournal = hasEntriesFromToday(entries: entries) {
                 

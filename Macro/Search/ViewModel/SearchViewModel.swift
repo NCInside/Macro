@@ -64,17 +64,55 @@ final class SearchViewModel: ObservableObject {
         return suggestion.lowercased() == text.lowercased()
     }
     
+    func addFoodName(name: String, cookingTechnique: [String], glycemicIndex: Int, dairies: Int, saturatedFat: Double, gramPortion: Int) {
+        print("Add Food Name")
+        let fileManager = FileManager.default
+
+        guard let filePath = Bundle.main.url(forResource: "Name", withExtension: nil) else {
+            print("File 'Name' not found in bundle")
+            return
+        }
+
+        let foodEntry = name + "\n"
+
+        if fileManager.fileExists(atPath: filePath.path) {
+            if let fileHandle = try? FileHandle(forWritingTo: filePath) {
+                fileHandle.seekToEndOfFile()
+                if let data = foodEntry.data(using: .utf8) {
+                    fileHandle.write(data)
+                }
+                fileHandle.closeFile()
+            }
+        } else {
+            try? foodEntry.write(to: filePath, atomically: true, encoding: .utf8)
+        }
+        
+        guard let url = Bundle.main.url(forResource: "FoodAndDrink", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              var foodItems = try? JSONDecoder().decode([FoodItem].self, from: data) else {
+            print("Failed to load or decode JSON")
+            return
+        }
+        
+        let newFood = FoodItem(name: name, cooking_technique: cookingTechnique, glycemic_index: glycemicIndex, dairies: dairies, saturated_fat: saturatedFat, gram_per_portion: gramPortion)
+        foodItems.append(newFood)
+        
+        guard let updatedData = try? JSONEncoder().encode(foodItems) else { return }
+        try? updatedData.write(to: url)
+    }
+
+    
     func detailDiet(name: String) {
         
-        guard let url = Bundle.main.url(forResource: "NutrisiMakanan", withExtension: "json"),
+        guard let url = Bundle.main.url(forResource: "FoodAndDrink", withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let foodItems = try? JSONDecoder().decode([FoodItem].self, from: data) else {
             print("Failed to load or decode JSON")
             return
         }
         
-        if let foodItem = foodItems.first(where: { $0.NamaMakanan == name }) {
-            food = Food(timestamp: Date(), name: name, protein: foodItem.Protein, fat: foodItem.Fat, glycemicIndex: parseGI(gi: foodItem.GI), dairy: foodItem.Dairy == 1)
+        if let foodItem = foodItems.first(where: { $0.name == name }) {
+            food = Food(timestamp: Date(), name: name, cookingTechnique: foodItem.cooking_technique, fat: foodItem.saturated_fat, glycemicIndex: parseGI(gi: foodItem.glycemic_index), dairy: foodItem.dairies == 1, gramPortion: foodItem.gram_per_portion)
         }
         
     }
@@ -83,16 +121,16 @@ final class SearchViewModel: ObservableObject {
         
         manageRecently(name: name)
         
-        guard let url = Bundle.main.url(forResource: "NutrisiMakanan", withExtension: "json"),
+        guard let url = Bundle.main.url(forResource: "FoodAndDrink", withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let foodItems = try? JSONDecoder().decode([FoodItem].self, from: data) else {
             print("Failed to load or decode JSON")
             return
         }
                 
-        if let foodItem = foodItems.first(where: { $0.NamaMakanan == name }) {
+        if let foodItem = foodItems.first(where: { $0.name == name }) {
             
-            let food = Food(timestamp: Date(), name: name, protein: foodItem.Protein, fat: foodItem.Fat, glycemicIndex: parseGI(gi: foodItem.GI), dairy: foodItem.Dairy == 1)
+            let food = Food(timestamp: Date(), name: name, cookingTechnique: foodItem.cooking_technique, fat: foodItem.saturated_fat, glycemicIndex: parseGI(gi: foodItem.glycemic_index), dairy: foodItem.dairies == 1, gramPortion: foodItem.gram_per_portion)
             
             if let todayJournal = hasEntriesFromToday(entries: entries) {
                 
@@ -140,15 +178,14 @@ final class SearchViewModel: ObservableObject {
     }
     
     private func parseGI(gi: Int) -> glycemicIndex {
-        switch gi {
-        case 0:
+        if gi <= 55 {
             return .low
-        case 1:
+        }
+        else if gi <= 69 {
             return .medium
-        case 2:
+        }
+        else {
             return .high
-        default:
-            fatalError("Invalid glycemic index value")
         }
     }
     
@@ -168,17 +205,10 @@ final class SearchViewModel: ObservableObject {
 }
 
 struct FoodItem: Codable {
-    let NamaMakanan: String
-    let GI: Int
-    let Dairy: Int
-    let Protein: Double
-    let Fat: Double
-    
-    private enum CodingKeys : String, CodingKey {
-        case NamaMakanan = "Nama Makanan"
-        case GI
-        case Dairy
-        case Protein
-        case Fat
-    }
+    var name: String
+    var cooking_technique: [String]
+    var glycemic_index: Int
+    var dairies: Int
+    var saturated_fat: Double
+    var gram_per_portion: Int
 }
