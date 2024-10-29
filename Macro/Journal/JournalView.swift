@@ -264,7 +264,7 @@ struct JournalView: View {
                                                                             .background(
                                                                                 Image("DrumStick")
                                                                                 
-                                                                                    .padding(.bottom, -30),
+                                                                                    .padding(.bottom, -50),
                                                                                 alignment: .bottomTrailing)
                                                                                 
                                                                             HStack(alignment: .firstTextBaseline, spacing: 0) {
