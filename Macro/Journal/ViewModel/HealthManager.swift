@@ -10,8 +10,8 @@ import HealthKit
 
 class HealthManager: ObservableObject {
     let healthStore = HKHealthStore()
-
-    func requestAuthorization(completion: @escaping (Bool) -> Void) {
+    
+    func requestAuthorization(completion: @escaping (Bool, [String: Bool]) -> Void) {
         let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)
         let dateOfBirth = HKObjectType.characteristicType(forIdentifier: .dateOfBirth)
         let biologicalSex = HKObjectType.characteristicType(forIdentifier: .biologicalSex)
@@ -20,7 +20,7 @@ class HealthManager: ObservableObject {
         
         guard let sleep = sleepType, let birthDate = dateOfBirth, let sex = biologicalSex, let mass = bodyMass, let heightType = height else {
             print("HealthKit data is not available.")
-            completion(false)
+            completion(false, ["HealthKitDataUnavailable": true])
             return
         }
         
@@ -28,30 +28,65 @@ class HealthManager: ObservableObject {
         
         healthStore.requestAuthorization(toShare: [], read: healthTypes) { success, error in
             DispatchQueue.main.async {
+                var navigationStates: [String: Bool] = [
+                    "AgeOnBoarding": true,
+                    "HeightOnBoarding": true,
+                    "WeightOnBoarding": true,
+                    "GenderOnBoarding": true,
+                    "ActivityOnBoarding": true,
+                    "showAlert": true
+                ]
+                
                 if let error = error {
                     print("Error requesting health data authorization: \(error.localizedDescription)")
-                    completion(false)
-                } else {
-                    if success {
-                        let statuses = healthTypes.map { self.healthStore.authorizationStatus(for: $0) }
-                        let allAuthorized = statuses.allSatisfy { $0 == .sharingAuthorized }
-                        if allAuthorized {
-                            print("User granted access to all requested HealthKit data.")
-                            UserDefaults.standard.set(self.getUserAge(), forKey: "age")
-                            UserDefaults.standard.set(self.getUserBiologicalSex(), forKey: "gender")
-                            completion(true)
-                        } else {
-                            print("User denied access to some HealthKit data.")
-                            completion(false)
-                        }
+                    completion(false, navigationStates)
+                    return
+                }
+                
+                if success {
+                    // Check for data availability instead of authorization status
+                    if let age = self.getUserAge() {
+                        print("Age data found: \(age)")
+                        navigationStates["AgeOnBoarding"] = false
                     } else {
-                        print("User denied access to HealthKit data.")
+                        print("No age data available.")
                     }
-                    completion(success)
+                    
+                    if self.getUserBiologicalSex() != nil {
+                        navigationStates["GenderOnBoarding"] = false
+                    }
+                    
+                    self.getUserWeight { bodyMass in
+                        if bodyMass != nil {
+                            navigationStates["WeightOnBoarding"] = false
+                        }
+                        self.getUserHeight { height in
+                            if height != nil {
+                                navigationStates["HeightOnBoarding"] = false
+                            }
+                            self.fetchSleepDataForLast7Days { sleepData, count in
+                                if count != 0 {
+                                    navigationStates["showAlert"] = false
+                                }
+                                self.finalizeNavigation(navigationStates, completion)
+                            }
+                        }
+                    }
+                } else {
+                    print("User denied access to HealthKit data.")
+                    completion(false, navigationStates)
                 }
             }
         }
     }
+
+    private func finalizeNavigation(_ navigationStates: [String: Bool], _ completion: @escaping (Bool, [String: Bool]) -> Void) {
+        DispatchQueue.main.async {
+            completion(!navigationStates.contains(where: { $0.value }), navigationStates)
+        }
+    }
+
+    
     
     func fetchSleepData(completion: @escaping ([HKCategorySample]?) -> Void) {
         guard let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis) else {
@@ -80,7 +115,9 @@ class HealthManager: ObservableObject {
             let calendar = Calendar.current
             let currentYear = calendar.component(.year, from: Date())
             let age = currentYear - dateOfBirth.year!
+            print("\(age)")
             return age
+            
         } catch {
             print("Error fetching date of birth: \(error)")
             return nil
@@ -133,4 +170,27 @@ class HealthManager: ObservableObject {
         }
         healthStore.execute(query)
     }
+    
+    func fetchSleepDataForLast7Days(completion: @escaping ([HKCategorySample]?, Int) -> Void) {
+        guard let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis) else {
+            print("Sleep type is no longer available in HealthKit.")
+            return
+        }
+        
+        let now = Date()
+        let startOfWeek = Calendar.current.date(byAdding: .day, value: -7, to: now)
+        let predicate = HKQuery.predicateForSamples(withStart: startOfWeek, end: now, options: .strictStartDate)
+        
+        let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) { query, result, error in
+            guard let result = result as? [HKCategorySample], error == nil else {
+                completion(nil, 0)
+                return
+            }
+            completion(result, result.count)
+        }
+        
+        healthStore.execute(query)
+    }
+    
+    
 }
