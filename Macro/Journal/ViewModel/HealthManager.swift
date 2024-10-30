@@ -29,6 +29,7 @@ class HealthManager: ObservableObject {
         healthStore.requestAuthorization(toShare: [], read: healthTypes) { success, error in
             DispatchQueue.main.async {
                 var navigationStates: [String: Bool] = [
+                    "NameOnBoarding": true,
                     "AgeOnBoarding": true,
                     "HeightOnBoarding": true,
                     "WeightOnBoarding": true,
@@ -44,7 +45,15 @@ class HealthManager: ObservableObject {
                 }
                 
                 if success {
-                    // Check for data availability instead of authorization status
+                    // Check if name is available in UserDefaults
+                    if let userName = UserDefaults.standard.string(forKey: "Name"), !userName.isEmpty {
+                        print("Name data found: \(userName)")
+                        navigationStates["NameOnBoarding"] = false
+                    } else {
+                        print("No name data available.")
+                    }
+
+                    // Check for other data availability
                     if let age = self.getUserAge() {
                         print("Age data found: \(age)")
                         navigationStates["AgeOnBoarding"] = false
@@ -79,6 +88,7 @@ class HealthManager: ObservableObject {
             }
         }
     }
+
 
     private func finalizeNavigation(_ navigationStates: [String: Bool], _ completion: @escaping (Bool, [String: Bool]) -> Void) {
         DispatchQueue.main.async {

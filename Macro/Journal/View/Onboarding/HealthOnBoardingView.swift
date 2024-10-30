@@ -3,7 +3,7 @@ import SwiftUI
 struct HealthOnBoardingView: View {
     @Binding var hasCompletedOnboarding: Bool
     @EnvironmentObject var manager: HealthManager
-    
+    @State private var navigateToNameOnBoarding = false
     @State private var navigateToAgeOnBoarding = false
     @State private var navigateToHeightOnBoarding = false
     @State private var navigateToWeightOnBoarding = false
@@ -67,6 +67,7 @@ struct HealthOnBoardingView: View {
                 }
                 
                 // Navigation links based on states, passing navigationStates to the next views
+                NavigationLink(destination: NameOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: navigationStates), isActive: $navigateToNameOnBoarding) { EmptyView() }
                 NavigationLink(destination: AgeOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: navigationStates), isActive: $navigateToAgeOnBoarding) { EmptyView() }
                 NavigationLink(destination: HeightOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: navigationStates), isActive: $navigateToHeightOnBoarding) { EmptyView() }
                 NavigationLink(destination: WeightOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: navigationStates), isActive: $navigateToWeightOnBoarding) { EmptyView() }
@@ -99,7 +100,9 @@ struct HealthOnBoardingView: View {
     
     // Function to navigate to the next onboarding view based on navigationStates
     private func navigateToNextOnboarding() {
-        if navigationStates["AgeOnBoarding"] == true {
+        if navigationStates["NameOnBoarding"] == true {
+            navigateToNameOnBoarding = true
+        } else if navigationStates["AgeOnBoarding"] == true {
             navigateToAgeOnBoarding = true
         } else if navigationStates["HeightOnBoarding"] == true {
             navigateToHeightOnBoarding = true
