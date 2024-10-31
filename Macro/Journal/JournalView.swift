@@ -16,6 +16,7 @@ struct JournalView: View {
     @State var isMenuSheetPresented = false
     @State var navigateToMenuPage = false
     @State var isAddSleepViewPresented = false
+    @State var isSettingsViewPresented = false
     @State var navigateToHistoryView = false
     @State var classificationTitle: String = ""
     @State var classificationProb: Double = 0.0
@@ -76,11 +77,14 @@ struct JournalView: View {
                             .padding(.trailing, 2)
                             
                             Button(action: {
-                                
+                                isSettingsViewPresented = true
                             }) {
                                 Image(systemName: "gearshape")
                                     .imageScale(.large)
                                     .foregroundColor(.accentColor)
+                            }
+                            .sheet(isPresented: $isSettingsViewPresented) {
+                                SettingsView()
                             }
                             
                         }
@@ -139,14 +143,15 @@ struct JournalView: View {
                                     
                                     Spacer()
                                 }
-                                .padding(.leading, 40)
+                                .padding(.leading, 30)
+                                .padding(.bottom, 2)
                                 
                                 HStack{
-                                    Text("")
+                                    Text(viewModel.sleepClassificationMessage(journals: journals))
                                         .foregroundColor(.white)
                                 }
-                                .padding(.leading, 40)
-                                .padding(.bottom, 100)
+                                .padding(.leading, 26)
+                                .padding(.bottom, 70)
                             }
                         }
                         
@@ -354,6 +359,7 @@ struct JournalView: View {
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .padding()
+                            
                             Spacer()
                             
                             NavigationLink(destination: HistoryView(), isActive: $navigateToHistoryView) {Button(action: {
@@ -369,7 +375,30 @@ struct JournalView: View {
                         }
                         
                         VStack(spacing: 0){
+                            let todayFoods = HistoryView.foodHistory(for: Date(), in: journals)
                             
+                            if todayFoods.isEmpty {
+                                Text("Belum ada riwayat makanan hari ini.")
+                                    .foregroundColor(.gray)
+                                    .padding()
+                            } else {
+                                ForEach(todayFoods, id: \.self) { food in
+                                    HStack {
+                                        Text(food.name)
+                                            .padding(.vertical, 10)
+                                            .padding(.horizontal)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .foregroundStyle(.black)
+                                        Text("Detail")
+                                            .foregroundColor(.gray)
+                                    }
+                                    Divider()
+                                        .padding(.leading)
+                                }
+                                .background(Color(UIColor.systemBackground))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .padding(.horizontal)
+                            }
                         }
                         
                         

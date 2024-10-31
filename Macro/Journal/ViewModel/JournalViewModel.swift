@@ -144,14 +144,14 @@ class JournalViewModel: ObservableObject {
     }
     
     func addDiet(context: ModelContext, name: String, entries: [Journal]) {
-                
+        
         guard let url = Bundle.main.url(forResource: "NutrisiMakanan", withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let foodItems = try? JSONDecoder().decode([FoodItem].self, from: data) else {
             print("Failed to load or decode JSON")
             return
         }
-                
+        
         if let foodItem = foodItems.first(where: { $0.name == name }) {
             
             let food = Food(timestamp: Date(), name: name, cookingTechnique: foodItem.cooking_technique, fat: foodItem.saturated_fat, glycemicIndex: parseGI(gi: foodItem.glycemic_index), dairy: foodItem.dairies == 1, gramPortion: foodItem.gram_per_portion)
@@ -205,7 +205,7 @@ class JournalViewModel: ObservableObject {
         func isSameDay(_ date1: Date, _ date2: Date) -> Bool {
             return calendar.isDate(date1, inSameDayAs: date2)
         }
-
+        
         for entry in entries {
             if isSameDay(entry.timestamp, date) {
                 return entry
@@ -227,7 +227,32 @@ class JournalViewModel: ObservableObject {
             fatalError("Invalid glycemic index value")
         }
     }
-
+    
+    func sleepClassificationMessage(journals: [Journal]) -> String {
+        let sleepDuration = getSleep(journals: journals)
+        guard let hours = Int(sleepDuration.hour), let minutes = Int(sleepDuration.minute) else {
+            return ""
+        }
+        
+        let totalMinutes = (hours * 60) + minutes
+        switch totalMinutes {
+        case ..<480:
+            return """
+                        Kayaknya tidurmu kurang, nih! 
+                        Banyakin istirahat, ya
+                       """
+        case 480...600:
+            return """
+                        Bagus waktu tidurmu sudah pas! 
+                        Pertahankan ya!
+                       """
+        default:
+            return """
+                        Kayanya tidurmu kebanyakan, nih! 
+                        Banyakin aktivitas ya
+                       """
+        }
+    }
 }
 
 
