@@ -51,7 +51,7 @@ struct NameOnBoardingView: View {
 
                 Button(action: {
                     if !inputName.isEmpty {
-                        UserDefaults.standard.set(inputName, forKey: "Name")
+                        UserDefaults.standard.set(inputName, forKey: "name")
                         navigateToNextStep()
                     }
                 }) {
