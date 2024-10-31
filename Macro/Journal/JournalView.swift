@@ -11,8 +11,6 @@ import SwiftData
 struct JournalView: View {
     @Environment(\.modelContext) private var context
     @StateObject var viewModel = JournalViewModel()
-    @StateObject private var icViewModel = FoodClassificationViewModel()
-    @StateObject private var searchViewModel = SearchViewModel()  // Add SearchViewModel to fetch food details
     @State var isPickerShowing = false
     @State var selectedImage: UIImage?
     @State var isMenuSheetPresented = false
@@ -212,9 +210,7 @@ struct JournalView: View {
                                 isPickerShowing: $isPickerShowing,
                                 sourceType: viewModel.sourceType,
                                 onImagePicked: {
-                                    if let image = selectedImage {
-                                        classifyImageAndFetchDetails(image: image)  // Classify and fetch food details
-                                    }
+                                    let image = selectedImage
                                 }
                             )
                         }

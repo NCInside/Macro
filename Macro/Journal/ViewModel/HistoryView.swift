@@ -172,55 +172,6 @@ struct HistoryView: View {
         }
     }
     
-    private func generateDummy() {
-        let calendar = Calendar.current
-        let today = Date()
-        let yesterday = calendar.date(byAdding: .day, value: -1, to: today)!
-        let dayBeforeYesterday = calendar.date(byAdding: .day, value: -2, to: today)!
-        
-        let todayFoods = [
-            Food(timestamp: today, name: "Steak", protein: 27.12, fat: 12.34, glycemicIndex: .low, dairy: false),
-            Food(timestamp: today, name: "Rice", protein: 10.22, fat: 3.58, glycemicIndex: .medium, dairy: false),
-            Food(timestamp: today, name: "Milk", protein: 8.37, fat: 7.53, glycemicIndex: .low, dairy: true)
-        ]
-        let yesterdayFoods = [
-            Food(timestamp: yesterday, name: "Apple", protein: 1.12, fat: 0.25, glycemicIndex: .medium, dairy: false),
-            Food(timestamp: yesterday, name: "Pasta", protein: 7.91, fat: 2.79, glycemicIndex: .high, dairy: false),
-            Food(timestamp: yesterday, name: "Yogurt", protein: 9.15, fat: 4.92, glycemicIndex: .low, dairy: true)
-        ]
-        let dayBeforeYesterdayFoods = [
-            Food(timestamp: dayBeforeYesterday, name: "Bread", protein: 6.54, fat: 2.78, glycemicIndex: .medium, dairy: false),
-            Food(timestamp: dayBeforeYesterday, name: "Chicken", protein: 23.17, fat: 8.66, glycemicIndex: .low, dairy: false),
-            Food(timestamp: dayBeforeYesterday, name: "Banana", protein: 1.29, fat: 0.33, glycemicIndex: .high, dairy: false)
-        ]
-        
-        // Example start and end times
-        let todayStart = calendar.date(byAdding: .hour, value: -8, to: today)!
-        let todayEnd = today
-        let yesterdayStart = calendar.date(byAdding: .hour, value: -8, to: yesterday)!
-        let yesterdayEnd = yesterday
-        let dayBeforeYesterdayStart = calendar.date(byAdding: .hour, value: -8, to: dayBeforeYesterday)!
-        let dayBeforeYesterdayEnd = dayBeforeYesterday
-
-        let todaySleep = Sleep(timestamp: today, duration: 8*3600, start: todayStart, end: todayEnd)
-        let yesterdaySleep = Sleep(timestamp: yesterday, duration: 6*3600, start: yesterdayStart, end: yesterdayEnd)
-        let dayBeforeYesterdaySleep = Sleep(timestamp: dayBeforeYesterday, duration: 5*3600, start: dayBeforeYesterdayStart, end: dayBeforeYesterdayEnd)
-        
-        let todayJournal = Journal(timestamp: today, foods: todayFoods, sleep: todaySleep)
-        let yesterdayJournal = Journal(timestamp: yesterday, foods: yesterdayFoods, sleep: yesterdaySleep)
-        let dayBeforeYesterdayJournal = Journal(timestamp: dayBeforeYesterday, foods: dayBeforeYesterdayFoods, sleep: dayBeforeYesterdaySleep)
-        
-        context.insert(todayJournal)
-        context.insert(yesterdayJournal)
-        context.insert(dayBeforeYesterdayJournal)
-        
-        do {
-            try context.save()
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-
 }
 
 #Preview {

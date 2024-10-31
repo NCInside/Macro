@@ -16,7 +16,7 @@ struct FoodFile: FoodSource {
     }
 
     init?() {
-        guard let location = Bundle.main.url(forResource: "FoodName", withExtension: nil) else {
+        guard let location = Bundle.main.url(forResource: "Name", withExtension: nil) else {
             assertionFailure("foods file is not in the main bundle")
             return nil
         }
