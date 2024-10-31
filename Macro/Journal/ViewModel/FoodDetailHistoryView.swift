@@ -20,7 +20,7 @@ struct FoodDetailHistoryView: View {
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(.black)
-                    Text(String(food.protein) + "gr")
+                    Text("0 gr")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .trailing)
