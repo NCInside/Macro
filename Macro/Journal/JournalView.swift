@@ -26,6 +26,16 @@ struct JournalView: View {
     @State private var toastMessage: String = ""
     @State var glycemicIndex: glycemicIndex = .low
     @Query var journals: [Journal]
+    @State private var showDatePicker = false
+    @State private var savedDate: Date? = nil
+    @State private var selectedDate: Date = Date()
+    
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMM"
+        formatter.locale = Locale(identifier: "id_ID")
+        return formatter
+    }
     
     private var todayJournal: Journal? {
         let calendar = Calendar.current
@@ -42,7 +52,16 @@ struct JournalView: View {
                 ScrollView {
                     VStack {
                         HStack {
-                            Text("Hari ini, \(viewModel.selectedDate, formatter: DateFormatter.indonesianLongDate)")
+                            Button(action: {
+                                showDatePicker.toggle()
+                            }) {
+                                Image(systemName: "calendar")
+                                    .imageScale(.large)
+                                    .foregroundColor(.accentColor)
+                            }
+                            .padding(.trailing, -4)
+                            
+                            Text("Hari ini, \(dateFormatter.string(from: selectedDate))")
                                 .fontWeight(.semibold)
                             
                             Spacer()
@@ -54,68 +73,26 @@ struct JournalView: View {
                                     .imageScale(.large)
                                     .foregroundColor(.accentColor)
                             }
+                            .padding(.trailing, 2)
                             
                             Button(action: {
                                 
                             }) {
-                                Image(systemName: "person.circle")
+                                Image(systemName: "gearshape")
                                     .imageScale(.large)
                                     .foregroundColor(.accentColor)
                             }
-                            .padding(.trailing)
-                            
                             
                         }
                         .padding()
                         
-                        VStack{
-                            HStack{
-                                Text(viewModel.getMonthInIndonesian())
-                                    .font(.title2)
-                                    .fontWeight(.semibold)
-                                Spacer()
-                            }
-                            .padding()
-                            .padding(.top, 12)
-                            
-                            HStack {
-                                ForEach(viewModel.days, id: \.self) { day in
-                                    Text(day)
-                                        .font(.caption)
-                                        .fontWeight(.bold)
-                                        .frame(maxWidth: .infinity)
-                                        .foregroundColor(day == "Min" ? .red : .accentColor)
-                                }
-                            }
-                            .padding(.horizontal, 8)
-                            .padding(.top, 4)
-                            
-                            HStack {
-                                ForEach(viewModel.daysInCurrentWeek(), id: \.self) { date in
-                                    VStack {
-                                        Text("\(Calendar.current.component(.day, from: date))")
-                                            .font(.body)
-                                            .frame(width: 24, height: 16)
-                                            .multilineTextAlignment(.center)
-                                            .padding(12)
-                                            .background(viewModel.isSelected(date: date) ? Color.accentColor : Color.clear)
-                                            .clipShape(Circle())
-                                            .foregroundColor(viewModel.isSelected(date: date) ? Color.white : Color.black)
-                                    }
-                                    .onTapGesture {
-                                        viewModel.selectDate(date: date)
-                                    }
-                                }
-                            }
-                            .padding(.top, 6)
-                            
+                        if showDatePicker {
+                            DatePickerView(showDatePicker: $showDatePicker, savedDate: $savedDate, selectedDate: $selectedDate)
+                                .animation(.linear)
+                                .transition(.opacity)
                         }
-                        .frame(width: .infinity, height: 170,  alignment: .topLeading)
-                        .cornerRadius(12)
-                        .background(Color.white)
                         
-                        
-                        HStack{
+                        HStack(alignment: .bottom){
                             Text("Tidur")
                                 .font(.title2)
                                 .fontWeight(.bold)
@@ -131,55 +108,57 @@ struct JournalView: View {
                             .padding(.trailing, 4)
                         }
                         .padding(.horizontal)
-                        .padding(.top, 28)
                         
-                        VStack {
-                            HStack() {
-                                VStack{
+                        ZStack {
+                            Image("Home")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 380)
+                            
+                            VStack(alignment: .leading){
+                                HStack(alignment: .bottom,spacing: 0) {
+                                    Text(viewModel.getSleep(journals: journals).hour)
+                                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                                        .foregroundColor(.white)
+                                        .bold()
                                     
-                                    HStack{
-                                        Text("Waktu di Tempat Tidur")
-                                            .padding(.horizontal)
-                                            .padding(.top, 20)
-                                            .foregroundColor(.gray)
-                                            .font(.callout)
-                                        
-                                        Spacer()
-                                    }
+                                    Text("jam ")
+                                        .font(.title3)
+                                        .foregroundColor(.white)
+                                        .fontWeight(.semibold)
                                     
-                                    HStack {
-                                        Text(viewModel.getSleep(journals: journals))
-                                            .font(.system(size: 18))
-                                            .foregroundColor(.gray)
-                                            .padding(.horizontal)
-                                            .padding(.top, 2)
-                                            .padding(.bottom, 20)
-                                        
-                                        Spacer()
-                                    }
+                                    Text(viewModel.getSleep(journals: journals).minute)
+                                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                                        .foregroundColor(.white)
+                                        .bold()
+                                    
+                                    Text("menit")
+                                        .font(.title3)
+                                        .foregroundColor(.white)
+                                        .fontWeight(.semibold)
+                                    
+                                    Spacer()
                                 }
+                                .padding(.leading, 40)
                                 
-                                Image(systemName: "moon.zzz.fill")
-                                    .foregroundColor(.systemGray2)
-                                    .font(.system(size: 80 ))
-                                    .padding(.bottom, -24)
-                                
+                                HStack{
+                                    Text("")
+                                        .foregroundColor(.white)
+                                }
+                                .padding(.leading, 40)
+                                .padding(.bottom, 100)
                             }
-                            .frame(maxWidth: .infinity)
-                            .background(.white)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
-                        .padding(.horizontal)
                         
-                        HStack {
-                            Text("Nutrisi")
+                        HStack(alignment: .bottom) {
+                            Text("Detail Makanan")
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .padding()
                             Spacer()
                             
                             Button(action: {
-                                viewModel.presentActionSheet()
+                                viewModel.isDietViewPresented = true
                             }) {
                                 Text("Tambah")
                                     .foregroundColor(.accentColor)
@@ -187,22 +166,7 @@ struct JournalView: View {
                             .padding(.top, 10)
                             .padding()
                             .padding(.trailing, 4)
-                            .actionSheet(isPresented: $viewModel.isImagePickerPresented) {
-                                ActionSheet(title: Text("Pilih gambar melalui"), buttons: [
-                                    .default(Text("🖼 Pilih Foto dari Album")) {
-                                        isPickerShowing = true
-                                        viewModel.sourceType = .photoLibrary
-                                    },
-                                    .default(Text("📷 Ambil Gambar")) {
-                                        isPickerShowing = true
-                                        viewModel.sourceType = .camera
-                                    },
-                                    .default(Text("🔍 Cari Menu Makanan")) {
-                                        viewModel.isDietViewPresented = true
-                                    },
-                                    .cancel()
-                                ])
-                            }
+                            
                         }
                         .sheet(isPresented: $isPickerShowing, onDismiss: nil) {
                             ImagePickerViewModel(
@@ -248,8 +212,6 @@ struct JournalView: View {
                         .padding()
                         .padding(.top, 10)
                         
-                        
-                        
                         VStack(spacing: 10) {
                             HStack(spacing: 10) {
                                 VStack(alignment: .leading, spacing: -24) {
@@ -262,19 +224,20 @@ struct JournalView: View {
                                         Spacer()
                                     }
                                     .background(
-                                        Image("DrumStick")
-                                        
-                                            .padding(.bottom, -30),
-                                        alignment: .bottomTrailing)
+                                        Image("drumstick")
+                                            .padding(.bottom, -42),
+                                        alignment: .bottomTrailing
+                                    )
+                                    
                                     
                                     HStack(alignment: .firstTextBaseline, spacing: 0) {
-                                        Text(String(format: "%.2f", viewModel.calcProtein(journals: journals)))
+                                        Text(String(format: "%.2f"))
                                             .font(.title)
                                             .fontWeight(.bold)
                                             .padding(.leading)
                                             .padding(.vertical)
                                         
-                                        Text("gram")
+                                        Text("porsi")
                                             .font(.callout)
                                             .foregroundColor(.systemGray3)
                                         
@@ -285,10 +248,11 @@ struct JournalView: View {
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 .background(.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .shadow(color: Color.black.opacity(0.2), radius: 3, x: 1, y: 2)
                                 
                                 VStack(alignment: .leading, spacing: -24) {
                                     HStack {
-                                        Text("Lemak")
+                                        Text("Lemak Jenuh")
                                             .padding()
                                             .fontWeight(.semibold)
                                             .foregroundColor(.systemGray3)
@@ -297,7 +261,7 @@ struct JournalView: View {
                                     .background(
                                         Image("Burger")
                                         
-                                            .padding(.bottom, -30),
+                                            .padding(.bottom, -42),
                                         alignment: .bottomTrailing)
                                     
                                     HStack {
@@ -307,7 +271,7 @@ struct JournalView: View {
                                             .padding(.leading)
                                             .padding(.vertical)
                                         
-                                        Text("gram")
+                                        Text("gr/17gr")
                                             .font(.callout)
                                             .foregroundColor(.systemGray3)
                                             .padding(.leading, -8)
@@ -317,7 +281,7 @@ struct JournalView: View {
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 .background(.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
-                                
+                                .shadow(color: Color.black.opacity(0.2), radius: 3, x: 2, y: 2)
                             }
                             
                             HStack(spacing: 10) {
@@ -336,7 +300,7 @@ struct JournalView: View {
                                             .padding(.leading)
                                             .padding(.vertical)
                                         
-                                        Text("kali")
+                                        Text("kali/1 porsi")
                                             .font(.callout)
                                             .foregroundColor(.systemGray3)
                                         Spacer()
@@ -351,19 +315,20 @@ struct JournalView: View {
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 .background(.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .shadow(color: Color.black.opacity(0.2), radius: 3, x: 2, y: 2)
+                                
                                 VStack(alignment: .leading, spacing: -24) {
                                     HStack {
                                         Text("Indeks Glikemik")
                                             .padding()
                                             .fontWeight(.semibold)
                                             .foregroundColor(.systemGray3)
-                                        
                                     }
                                     .background(
                                         Image("Donut")
-                                            .padding(.trailing, -10)
+                                            .padding(.trailing, -40)
                                         
-                                            .padding(.bottom, -50),
+                                            .padding(.bottom, -60),
                                         alignment: .bottomTrailing
                                     )
                                     
@@ -378,10 +343,35 @@ struct JournalView: View {
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 .background(.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .shadow(color: Color.black.opacity(0.2), radius: 3, x: 2, y: 2)
                             }
                         }
                         .padding(.horizontal)
                         .padding(.top, -60)
+                        
+                        HStack(alignment: .bottom) {
+                            Text("Riwayat Harian")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding()
+                            Spacer()
+                            
+                            NavigationLink(destination: HistoryView(), isActive: $navigateToHistoryView) {Button(action: {
+                                navigateToHistoryView = true
+                            }) {
+                                Text("Lihat Semua")
+                                    .foregroundColor(.accentColor)
+                            }
+                            .padding(.top, 10)
+                            .padding()
+                            .padding(.trailing, 4)
+                            }
+                        }
+                        
+                        VStack(spacing: 0){
+                            
+                        }
+                        
                         
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -389,13 +379,16 @@ struct JournalView: View {
                     .padding(.bottom, 96)
                     .sheet(isPresented: $isAddSleepViewPresented) {
                         AddSleepView()
-                        
                     }
                 }
                 .background(Color.white).edgesIgnoringSafeArea(.all)
             }
             .onAppear {
                 viewModel.fetchSleepData(context: context, journals: journals)
+                
+                if let saved = savedDate {
+                    selectedDate = saved
+                }
             }
             if showToast {
                 VStack {
@@ -408,78 +401,8 @@ struct JournalView: View {
             }
         }
     }
-    
-    
-    
-    func classifyImageAndFetchDetails(image: UIImage) {
-        // Show toast when classification begins
-        showToastMessage("Classifying image...")
-        
-        icViewModel.FoodClassificationModel(uiImage: image)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            if let title = icViewModel.imageClassificationText.first,
-               let prob = icViewModel.imageClassificationProb.first {
-                classificationTitle = title
-                classificationProb = prob
-                
-                // Fetch the food details using the classification title
-                searchViewModel.detailDiet(name: title)
-                
-                if let food = searchViewModel.food {
-                    protein = food.protein
-                    fat = food.fat
-                    dairy = food.dairy
-                    glycemicIndex = food.glycemicIndex
-                }
-                
-                // Hide toast and present MenuView as a sheet
-                hideToast()
-                isMenuSheetPresented = true
-            } else {
-                // Show toast if no classification result is available
-                print("Failed to classify image")
-                showToastMessage("No classification result available")
-            }
-        }
-    }
-    // Reset classification state after the sheet is dismissed
-    func resetClassificationState() {
-        classificationTitle = ""
-        classificationProb = 0.0
-        protein = 0.0
-        fat = 0.0
-        dairy = false
-        glycemicIndex = .low
-        selectedImage = nil  // Reset the selected image to trigger new image classification properly
-    }
-    
-    // Function to show a toast message
-    func showToastMessage(_ message: String) {
-        toastMessage = message
-        showToast = true
-        
-        // Hide the toast after 3 seconds
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            hideToast()
-        }
-    }
-    
-    // Function to hide the toast
-    func hideToast() {
-        showToast = false
-    }
-    
 }
 
-extension DateFormatter {
-    static let indonesianLongDate: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "d MMM"
-        formatter.locale = Locale(identifier: "id_ID")
-        return formatter
-    }()
-}
 
 #Preview {
     ContentView()

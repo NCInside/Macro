@@ -16,6 +16,7 @@ class JournalViewModel: ObservableObject {
     @Published var isDietViewPresented: Bool = false
     @Published var sourceType: UIImagePickerController.SourceType = .photoLibrary
     private var healthManager = HealthManager()
+    @Published var isDatePickerVisible: Bool = false
     
     var days: [String] {
         return ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"]
@@ -85,22 +86,24 @@ class JournalViewModel: ObservableObject {
         
     }
     
-    func getSleep(journals: [Journal]) -> String {
-        
+    func getSleep(journals: [Journal]) -> (hour: String, minute: String) {
         if let journal = hasEntriesFromDate(entries: journals, date: selectedDate) {
             let sleep = journal.sleep
             
             if sleep.duration == 0 {
-                return "No Data"
+                return ("0", "0")
             }
             
             let hour: Int = sleep.duration / 3600
-            let minut: Int = (sleep.duration % 3600) / 60
+            let minute: Int = (sleep.duration % 3600) / 60
             
-            return "\(hour)hrs \(minut)min"
+            let hourString = String(format: "%02d", hour)
+            let minuteString = String(format: "%02d", minute)
+            
+            return (hourString, minuteString)
         }
         
-        return "No Data"
+        return ("0", "0")
     }
     
     func calcFat(journals: [Journal]) -> Double {
