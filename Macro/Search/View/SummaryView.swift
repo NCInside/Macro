@@ -154,7 +154,7 @@ struct SummaryView: View {
             .background(Color.background)
         }
         .onAppear {
-            //generateDummy()
+//            generateDummy()
             viewModel.updateValue(journals: journals, chosenMonth: chosenMonth)
             let energyExpenditure = viewModel.calcEnergyExpenditure()
             protein = energyExpenditure * 0.1
@@ -215,17 +215,25 @@ struct SummaryView: View {
             Food(timestamp: dayBeforeYesterday, name: "Banana", protein: 1.29, fat: 0.33, glycemicIndex: .high, dairy: false)
         ]
         
-        //        let todaySleep = Sleep(timestamp: today, duration: 8*3600)
-        //        let yesterdaySleep = Sleep(timestamp: yesterday, duration: 6*3600)
-        //        let dayBeforeYesterdaySleep = Sleep(timestamp: dayBeforeYesterday, duration: 5*3600)
+        // Example start and end times
+        let todayStart = calendar.date(byAdding: .hour, value: -8, to: today)!
+        let todayEnd = today
+        let yesterdayStart = calendar.date(byAdding: .hour, value: -8, to: yesterday)!
+        let yesterdayEnd = yesterday
+        let dayBeforeYesterdayStart = calendar.date(byAdding: .hour, value: -8, to: dayBeforeYesterday)!
+        let dayBeforeYesterdayEnd = dayBeforeYesterday
+
+        let todaySleep = Sleep(timestamp: today, duration: 8*3600, start: todayStart, end: todayEnd)
+        let yesterdaySleep = Sleep(timestamp: yesterday, duration: 6*3600, start: yesterdayStart, end: yesterdayEnd)
+        let dayBeforeYesterdaySleep = Sleep(timestamp: dayBeforeYesterday, duration: 5*3600, start: dayBeforeYesterdayStart, end: dayBeforeYesterdayEnd)
         
-        //        let todayJournal = Journal(timestamp: today, foods: todayFoods, sleep: todaySleep)
-        //        let yesterdayJournal = Journal(timestamp: yesterday, foods: yesterdayFoods, sleep: yesterdaySleep)
-        //        let dayBeforeYesterdayJournal = Journal(timestamp: dayBeforeYesterday, foods: dayBeforeYesterdayFoods, sleep: dayBeforeYesterdaySleep)
+        let todayJournal = Journal(timestamp: today, foods: todayFoods, sleep: todaySleep)
+        let yesterdayJournal = Journal(timestamp: yesterday, foods: yesterdayFoods, sleep: yesterdaySleep)
+        let dayBeforeYesterdayJournal = Journal(timestamp: dayBeforeYesterday, foods: dayBeforeYesterdayFoods, sleep: dayBeforeYesterdaySleep)
         
-        //        context.insert(todayJournal)
-        //        context.insert(yesterdayJournal)
-        //        context.insert(dayBeforeYesterdayJournal)
+        context.insert(todayJournal)
+        context.insert(yesterdayJournal)
+        context.insert(dayBeforeYesterdayJournal)
         
         do {
             try context.save()

@@ -51,8 +51,6 @@
 		9094D83C2CBF6C1F00BA62EF /* HeightOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D83B2CBF6C1F00BA62EF /* HeightOnBoardingView.swift */; };
 		9094D83E2CBF8DAD00BA62EF /* WeightOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D83D2CBF8DAD00BA62EF /* WeightOnBoardingView.swift */; };
 		9094D8402CBF907700BA62EF /* GenderOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D83F2CBF907700BA62EF /* GenderOnBoardingView.swift */; };
-		9094D8462CC0FAD500BA62EF /* ChartCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D8452CC0FAD500BA62EF /* ChartCard.swift */; };
-		9094D8482CC1003300BA62EF /* ChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D8472CC1003300BA62EF /* ChartViewModel.swift */; };
 		9094D84C2CC109F400BA62EF /* DetailSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D84B2CC109F400BA62EF /* DetailSummaryView.swift */; };
 /* End PBXBuildFile section */
 
@@ -104,8 +102,6 @@
 		9094D83B2CBF6C1F00BA62EF /* HeightOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightOnBoardingView.swift; sourceTree = "<group>"; };
 		9094D83D2CBF8DAD00BA62EF /* WeightOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightOnBoardingView.swift; sourceTree = "<group>"; };
 		9094D83F2CBF907700BA62EF /* GenderOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderOnBoardingView.swift; sourceTree = "<group>"; };
-		9094D8452CC0FAD500BA62EF /* ChartCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCard.swift; sourceTree = "<group>"; };
-		9094D8472CC1003300BA62EF /* ChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewModel.swift; sourceTree = "<group>"; };
 		9094D84B2CC109F400BA62EF /* DetailSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSummaryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -168,7 +164,6 @@
 				900D533F2CCBA322003D308E /* PDFPrintView.swift */,
 				6A3A6AFD2CC0D639009319F8 /* SummaryView.swift */,
 				6A3A6B032CC0D6D8009319F8 /* SummaryCard.swift */,
-				9094D8452CC0FAD500BA62EF /* ChartCard.swift */,
 				9094D84B2CC109F400BA62EF /* DetailSummaryView.swift */,
 			);
 			path = View;
@@ -178,7 +173,6 @@
 			isa = PBXGroup;
 			children = (
 				6A3A6B012CC0D65A009319F8 /* SummaryViewModel.swift */,
-				9094D8472CC1003300BA62EF /* ChartViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -406,7 +400,6 @@
 				6AE757EF2CAE87FE00BEFDE0 /* ContentView.swift in Sources */,
 				6A3A6AFC2CC0C5E2009319F8 /* DetailSearchView.swift in Sources */,
 				6AEC4D0E2CB53A4C003DD2F3 /* Sleep.swift in Sources */,
-				9094D8462CC0FAD500BA62EF /* ChartCard.swift in Sources */,
 				6AEC4D0C2CB539EA003DD2F3 /* Food.swift in Sources */,
 				9094D8292CBD043200BA62EF /* MenuView.swift in Sources */,
 				6AEC4D022CB514A3003DD2F3 /* DietView.swift in Sources */,
@@ -421,7 +414,6 @@
 				6A3A6B042CC0D6D8009319F8 /* SummaryCard.swift in Sources */,
 				71A2BEC22CC270BF00687EA0 /* ToastView.swift in Sources */,
 				9015E76B2CB5190200C1D808 /* HealthManager.swift in Sources */,
-				9094D8482CC1003300BA62EF /* ChartViewModel.swift in Sources */,
 				9094D84C2CC109F400BA62EF /* DetailSummaryView.swift in Sources */,
 				6A3A6AFE2CC0D639009319F8 /* SummaryView.swift in Sources */,
 				6AEF1BF02CC25AB200B6F89F /* ActivityOnBoardingView.swift in Sources */,
@@ -569,7 +561,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Macro/Preview Content\"";
-				DEVELOPMENT_TEAM = 4C9DP8TQPJ;
+				DEVELOPMENT_TEAM = KKTJNS7KB7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "";
@@ -602,7 +594,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Macro/Preview Content\"";
-				DEVELOPMENT_TEAM = 4C9DP8TQPJ;
+				DEVELOPMENT_TEAM = KKTJNS7KB7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "";

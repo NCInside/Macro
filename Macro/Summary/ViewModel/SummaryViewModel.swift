@@ -18,10 +18,9 @@ class SummaryViewModel: ObservableObject {
     @Published var freqMilk: Int = 0
     @Published var ind: String = ""
     @Published var points: [Point] = []
+    @Published var piePoints: [PiePoint] = []
     @Published var selectedTab = "Mingguan"
-    
-    var tabs = ["Mingguan", "Bulanan"]
-    
+        
     func updateValue(journals: [Journal], chosenMonth: Int) {
         
         let filteredJournals = journals.filter { Calendar.current.component(.month, from: $0.timestamp) == chosenMonth }
@@ -60,47 +59,90 @@ class SummaryViewModel: ObservableObject {
         switch scenario {
         case .sleep:
             for journal in filteredJournals {
-                let point = Point(date: Calendar.current.component(.day, from: journal.timestamp), value: Double(journal.sleep.duration))
+                let point = Point(date: journal.timestamp, value: journal.sleep.duration / 3600)
                 points.append(point)
             }
         case .protein:
             for journal in filteredJournals {
-                let point = Point(date: Calendar.current.component(.day, from: journal.timestamp), value: journal.foods.reduce(0) { $0 + $1.protein })
+                let point = Point(date: journal.timestamp, value: Int(journal.foods.reduce(0) { $0 + $1.protein }))
                 points.append(point)
             }
         case .fat:
             for journal in filteredJournals {
-                let point = Point(date: Calendar.current.component(.day, from: journal.timestamp), value: journal.foods.reduce(0) { $0 + $1.fat })
+                let point = Point(date: journal.timestamp, value: Int(journal.foods.reduce(0) { $0 + $1.fat }))
                 points.append(point)
             }
         case .dairy:
             for journal in filteredJournals {
-                let point = Point(date: Calendar.current.component(.day, from: journal.timestamp), value: journal.foods.reduce(0) { $0 + ($1.dairy ? 1 : 0) })
+                let point = Point(date: journal.timestamp, value: Int(journal.foods.reduce(0) { $0 + ($1.dairy ? 1 : 0) }))
                 points.append(point)
             }
         case .gi:
             for journal in filteredJournals {
-                var point: Point
+//                var point: Point
                 let glycemicIndexCounts = journal.foods.reduce(into: [glycemicIndex: Int]()) { counts, food in
                     counts[food.glycemicIndex, default: 0] += 1
                 }
-                let majorityGlycemicIndex = glycemicIndexCounts.max(by: { $0.value < $1.value })?.key
                 
-                switch majorityGlycemicIndex {
-                case .low:
-                    point = Point(date: Calendar.current.component(.day, from: journal.timestamp), value: 1)
-                case .medium:
-                    point = Point(date: Calendar.current.component(.day, from: journal.timestamp), value: 2)
-                case .high:
-                    point = Point(date: Calendar.current.component(.day, from: journal.timestamp), value: 3)
-                case .none:
-                    point = Point(date: Calendar.current.component(.day, from: journal.timestamp), value: 0)
+                piePoints = glycemicIndexCounts.map { (key, value) in
+                    let category: String
+                    switch key {
+                    case .low: category = "Low"
+                    case .medium: category = "Medium"
+                    case .high: category = "High"
+                    }
+                    return PiePoint(date: journal.timestamp, category: category, value:value)
                 }
-                points.append(point)
+                
+//                let majorityGlycemicIndex = glycemicIndexCounts.max(by: { $0.value < $1.value })?.key
+//                
+//                switch majorityGlycemicIndex {
+//                case .low:
+//                    point = Point(date: journal.timestamp, value: 1)
+//                case .medium:
+//                    point = Point(date: journal.timestamp, value: 2)
+//                case .high:
+//                    point = Point(date: journal.timestamp, value: 3)
+//                case .none:
+//                    point = Point(date: journal.timestamp, value: 0)
+//                }
+//                points.append(point)
             }
         }
         
         self.points = points
+    }
+    
+    func getWeeks(of points: [Point]) -> [Int: [Point]] {
+        var weeks: [Int: [Point]] = [:]
+        let calendar = Calendar.current
+        
+        for point in points {
+            let weekOfMonth = calendar.component(.weekOfMonth, from: point.date)
+            if weeks[weekOfMonth] != nil {
+                weeks[weekOfMonth]?.append(point)
+            }
+            else {
+                weeks[weekOfMonth] = [point]
+            }
+        }
+        return weeks
+    }
+    
+    func getWeeksPie(of points: [PiePoint]) -> [Int: [PiePoint]] {
+        var weeks: [Int: [PiePoint]] = [:]
+        let calendar = Calendar.current
+        
+        for point in points {
+            let weekOfMonth = calendar.component(.weekOfMonth, from: point.date)
+            if weeks[weekOfMonth] != nil {
+                weeks[weekOfMonth]?.append(point)
+            }
+            else {
+                weeks[weekOfMonth] = [point]
+            }
+        }
+        return weeks
     }
     
     func calcEnergyExpenditure() -> Double {
@@ -111,8 +153,6 @@ class SummaryViewModel: ObservableObject {
         let weightMetric = UserDefaults.standard.string(forKey: "weightMetric")
         let gender = UserDefaults.standard.bool(forKey: "gender")
         let activityLevel = UserDefaults.standard.double(forKey: "activity")
-        
-        print(age, height, heightMetric, weight, weightMetric, gender, activityLevel)
         
         let heightInInches: Double
         if heightMetric == "ft" {
@@ -135,7 +175,6 @@ class SummaryViewModel: ObservableObject {
             bmr = 655 + (4.35 * weightInPounds) + (4.7 * heightInInches) - (4.7 * Double(age))
         }
 
-        print(bmr)
         return bmr * activityLevel
     }
 
@@ -148,6 +187,12 @@ enum scenario {
 
 struct Point: Identifiable {
     let id = UUID()
-    let date: Int
-    let value: Double
+    let date: Date
+    let value: Int
+}
+
+struct PiePoint {
+    let date: Date
+    let category: String
+    let value: Int
 }
