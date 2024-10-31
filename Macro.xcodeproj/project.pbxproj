@@ -40,6 +40,7 @@
 		900D53302CCB8BC8003D308E /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900D532F2CCB8BBE003D308E /* NotificationView.swift */; };
 		9015E76B2CB5190200C1D808 /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9015E76A2CB5190200C1D808 /* HealthManager.swift */; };
 		903A7AE82CD375BB00452B78 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903A7AE72CD375BB00452B78 /* DatePickerView.swift */; };
+		903A7AEA2CD38FB600452B78 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903A7AE92CD38FA800452B78 /* SettingsView.swift */; };
 		906D4E7D2CCF980D001047C5 /* AddFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906D4E7C2CCF97F7001047C5 /* AddFoodView.swift */; };
 		906D4E812CCF9A83001047C5 /* FoodInformationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906D4E802CCF9A77001047C5 /* FoodInformationCard.swift */; };
 		9094D8232CBD039500BA62EF /* JournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094D8222CBD039500BA62EF /* JournalView.swift */; };
@@ -98,6 +99,7 @@
 		9015E76A2CB5190200C1D808 /* HealthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
 		9015E76C2CB51CD300C1D808 /* Macro.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Macro.entitlements; sourceTree = "<group>"; };
 		903A7AE72CD375BB00452B78 /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
+		903A7AE92CD38FA800452B78 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		906D4E7C2CCF97F7001047C5 /* AddFoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodView.swift; sourceTree = "<group>"; };
 		906D4E802CCF9A77001047C5 /* FoodInformationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodInformationCard.swift; sourceTree = "<group>"; };
 		9094D8222CBD039500BA62EF /* JournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JournalView.swift; path = Macro/Journal/JournalView.swift; sourceTree = SOURCE_ROOT; };
@@ -238,6 +240,7 @@
 		6A3A6AE22CB7BEDB009319F8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				903A7AE92CD38FA800452B78 /* SettingsView.swift */,
 				903A7AE72CD375BB00452B78 /* DatePickerView.swift */,
 				900D532F2CCB8BBE003D308E /* NotificationView.swift */,
 				71A2BEC12CC270AA00687EA0 /* ToastView.swift */,
@@ -436,6 +439,7 @@
 				71E364EB2CC108E500EA4C82 /* UIImageExtension.swift in Sources */,
 				6AE757ED2CAE87FE00BEFDE0 /* MacroApp.swift in Sources */,
 				906D4E812CCF9A83001047C5 /* FoodInformationCard.swift in Sources */,
+				903A7AEA2CD38FB600452B78 /* SettingsView.swift in Sources */,
 				900D53302CCB8BC8003D308E /* NotificationView.swift in Sources */,
 				6A3A6B042CC0D6D8009319F8 /* SummaryCard.swift in Sources */,
 				71A2BEC22CC270BF00687EA0 /* ToastView.swift in Sources */,

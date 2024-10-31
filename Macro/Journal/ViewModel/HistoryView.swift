@@ -172,6 +172,15 @@ struct HistoryView: View {
         }
     }
     
+    static func foodHistory(for date: Date, in journals: [Journal]) -> [Food] {
+            let calendar = Calendar.current
+            if let todayJournal = journals.first(where: {
+                calendar.isDate($0.timestamp, inSameDayAs: date)
+            }) {
+                return todayJournal.foods
+            }
+            return []
+        }
 }
 
 #Preview {

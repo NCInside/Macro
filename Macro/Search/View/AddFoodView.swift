@@ -51,7 +51,6 @@ struct AddFoodView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(.black)
                     TextField("Makanan/Minuman",  text: $inputName)
-                        .keyboardType(.numberPad)
                         .multilineTextAlignment(.trailing)
                         .padding(.trailing, 16)
                     
