@@ -51,7 +51,7 @@ struct WeightOnBoardingView: View {
                 .foregroundColor(.gray)
                 .padding(.horizontal, 60)
             
-            Picker("Height", selection: $weightOption) {
+            Picker("Weight", selection: $weightOption) {
                 ForEach(weight, id: \.self) {
                     Text($0)
                 }
