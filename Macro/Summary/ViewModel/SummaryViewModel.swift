@@ -59,11 +59,6 @@ class SummaryViewModel: ObservableObject {
                 let point = Point(date: journal.timestamp, value: journal.sleep.duration / 3600)
                 points.append(point)
             }
-        case .protein:
-            for journal in filteredJournals {
-                let point = Point(date: journal.timestamp, value: Int(journal.foods.reduce(0) { $0 + $1.protein }))
-                points.append(point)
-            }
         case .fat:
             for journal in filteredJournals {
                 let point = Point(date: journal.timestamp, value: Int(journal.foods.reduce(0) { $0 + $1.fat }))
