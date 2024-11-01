@@ -8,14 +8,14 @@ import SwiftUI
 
 struct FoodInformationCard: View {
     
-    let processedOptions = ["Rebus", "Goreng", "Bakar", "Tumis", "Sangrai", "Kukus"]
-    @State private var selectedProcessedOption = "Goreng"
+    let processedOptions = ["Rebus", "Goreng", "Bakar", "Tumis", "Sangrai", "Kukus", "Fresh"]
+    @Binding var selectedProcessedOption: String
     let fatOptions = ["Jenuh", "Baik"]
-    @State private var selectedFatOption = "Jenuh"
+    @Binding var selectedFatOption: String
     let milkOptions = ["Tidak Ada", "Ada"]
-    @State private var selectedMilkOption = "Tidak Ada"
+    @Binding var selectedMilkOption: String
     let glycemicOptions = ["Rendah", "Sedang", "Tinggi"]
-    @State private var selectedGlycemicOption = "Rendah"
+    @Binding var selectedGlycemicOption: String
     
     
     var body: some View {
@@ -115,7 +115,7 @@ struct FoodInformationCard: View {
     }
 }
 
-#Preview {
-    FoodInformationCard()
-}
+//#Preview {
+//    FoodInformationCard()
+//}
 

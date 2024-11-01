@@ -92,13 +92,15 @@ struct DetailSearchView: View {
             .padding(.bottom, 20)
             
             
-            FoodInformationCard()
+            FoodInformationCard(selectedProcessedOption: $viewModel.selectedProcessedOption, selectedFatOption: $viewModel.selectedFatOption, selectedMilkOption: $viewModel.selectedMilkOption, selectedGlycemicOption: $viewModel.selectedGlycemicOption)
             Spacer()
             
             Button(action: {
-                viewModel.addDiet(context: context, name: name, entries: journals)
-                viewModel.isPresented.toggle()
-                dismiss()
+                if let portion = Int(inputPortion), portion > 0 {
+                    viewModel.addDiet(context: context, name: name, entries: journals, portion: portion, unit: selectedUnitOption)
+                    viewModel.isPresented.toggle()
+                    dismiss()
+                }
             }) {
                 Text("Simpan ke Jurnal")
                     .font(.headline)

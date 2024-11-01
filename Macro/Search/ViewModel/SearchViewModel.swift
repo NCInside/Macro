@@ -22,6 +22,11 @@ final class SearchViewModel: ObservableObject {
     @Published var food: Food?
     @Published var selectedSuggestion: String?
     
+    @Published var selectedProcessedOption = "Goreng"
+    @Published var selectedFatOption = "Jenuh"
+    @Published var selectedMilkOption = "Tidak Ada"
+    @Published var selectedGlycemicOption = "Rendah"
+    
     private let foodCache = FoodCache(source: FoodFile()!)
 
     private var task: Task<Void, Never>?
@@ -107,17 +112,31 @@ final class SearchViewModel: ObservableObject {
         guard let url = Bundle.main.url(forResource: "FoodAndDrink", withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let foodItems = try? JSONDecoder().decode([FoodItem].self, from: data) else {
-            print("Failed to load or decode JSON")
+            print("Failed to load or decode JSONw")
             return
         }
         
         if let foodItem = foodItems.first(where: { $0.name == name }) {
             food = Food(timestamp: Date(), name: name, cookingTechnique: foodItem.cooking_technique, fat: foodItem.saturated_fat, glycemicIndex: parseGI(gi: foodItem.glycemic_index), dairy: foodItem.dairies == 1, gramPortion: foodItem.gram_per_portion)
+            
+            selectedProcessedOption = food?.cookingTechnique[0] ?? "Goreng"
+            selectedFatOption = food?.fat ?? 0 >= 14 ? "Jenuh" : "Baik"
+            selectedMilkOption = food?.dairy ?? false ? "Ada" : "Tidak Ada"
+            switch food?.glycemicIndex {
+            case .low:
+                selectedGlycemicOption = "Rendah"
+            case .medium:
+                selectedGlycemicOption = "Sedang"
+            case .high:
+                selectedGlycemicOption = "Tinggi"
+            case .none:
+                selectedGlycemicOption = "Rendah"
+            }
         }
         
     }
     
-    func addDiet(context: ModelContext, name: String, entries: [Journal]) {
+    func addDiet(context: ModelContext, name: String, entries: [Journal], portion: Int, unit: String) {
         
         manageRecently(name: name)
         
@@ -130,16 +149,44 @@ final class SearchViewModel: ObservableObject {
                 
         if let foodItem = foodItems.first(where: { $0.name == name }) {
             
-            let food = Food(timestamp: Date(), name: name, cookingTechnique: foodItem.cooking_technique, fat: foodItem.saturated_fat, glycemicIndex: parseGI(gi: foodItem.glycemic_index), dairy: foodItem.dairies == 1, gramPortion: foodItem.gram_per_portion)
+            var gi: glycemicIndex
+            switch selectedGlycemicOption {
+            case "Rendah":
+                gi = .low
+            case "Sedang":
+                gi = .medium
+            case "Tinggi":
+                gi = .high
+            default:
+                gi = .low
+            }
+            
+            var mult: Int
+            if unit == "Porsi" {
+                mult = portion
+            }
+            else {
+                mult = portion / foodItem.gram_per_portion
+            }
+            print("Mult: \(mult)")
             
             if let todayJournal = hasEntriesFromToday(entries: entries) {
                 
-                todayJournal.foods.append(food)
+                for _ in 0..<mult {
+                    let food = Food(timestamp: Date(), name: name, cookingTechnique: [selectedProcessedOption], fat: foodItem.saturated_fat, glycemicIndex: gi, dairy: selectedMilkOption == "Ada", gramPortion: foodItem.gram_per_portion)
+                    todayJournal.foods.append(food)
+                }
+                
+                print(todayJournal.foods)
                 
             } else {
-                
                 let journal = Journal(timestamp: Date(), foods: [], sleep: Sleep(timestamp: Date(), duration: 0, start: Date(), end: Date()))
-                journal.foods.append(food)
+                
+                for _ in 0..<mult {
+                    let food = Food(timestamp: Date(), name: name, cookingTechnique: [selectedProcessedOption], fat: foodItem.saturated_fat, glycemicIndex: gi, dairy: selectedMilkOption == "Ada", gramPortion: foodItem.gram_per_portion)
+                    journal.foods.append(food)
+                }
+                                
                 context.insert(journal)
                 do {
                     try context.save()

@@ -8,11 +8,16 @@
 import SwiftUI
 
 struct AddFoodView: View {
-    let unitOptions = ["Porsi", "Gram (gr)", "Mililiter (m/l)"]
-    @State private var selectedUnitOption = "Porsi"
+    let unitOptions = ["Gram (gr)", "Mililiter (m/l)"]
     @Environment(\.dismiss) private var dismiss
-    @State private var inputPortion: String = ""
+    @ObservedObject private var viewModel = SearchViewModel()
     @State private var inputName: String = ""
+    @State private var inputPortion: String = ""
+    @State private var selectedUnitOption = "Gram (gr)"
+    @State var selectedProcessedOption = "Goreng"
+    @State var selectedFatOption = "Jenuh"
+    @State var selectedMilkOption = "Tidak Ada"
+    @State var selectedGlycemicOption = "Rendah"
     
     var body: some View {
         VStack (alignment: .leading) {
@@ -103,11 +108,12 @@ struct AddFoodView: View {
             .padding(.bottom, 20)
             
             
-            FoodInformationCard()
+            FoodInformationCard(selectedProcessedOption: $selectedProcessedOption, selectedFatOption: $selectedFatOption, selectedMilkOption: $selectedMilkOption, selectedGlycemicOption: $selectedGlycemicOption)
             Spacer()
             
             Button(action: {
-                
+                processSave()
+                dismiss()
             }) {
                 Text("Simpan ke Jurnal")
                     .font(.headline)
@@ -123,6 +129,31 @@ struct AddFoodView: View {
         .padding()
         .background(Color.background)
         .frame(maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+        
+    }
+    
+    func processSave() {
+        
+        if inputName.isEmpty || inputPortion.isEmpty {
+            return
+        }
+        if let portion = Int(inputPortion), portion > 0 {
+            let cook = [selectedProcessedOption]
+            var gi: Int
+            switch selectedGlycemicOption {
+            case "Rendah":
+                gi = 50
+            case "Sedang":
+                gi = 60
+            case "Tinggi":
+                gi = 70
+            default:
+                gi = 0
+            }
+            let dairy = selectedMilkOption == "Ada" ? 1 : 0
+            let fat = selectedFatOption == "Jenuh" ? 14 : 0
+            viewModel.addFoodName(name: inputName, cookingTechnique: cook, glycemicIndex: gi, dairies: dairy, saturatedFat: Double(fat), gramPortion: portion)
+        }
         
     }
 }

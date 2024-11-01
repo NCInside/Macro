@@ -13,7 +13,6 @@ struct SearchView: View {
     @ObservedObject private var viewModel = SearchViewModel()
     @Environment(\.dismiss) private var dismiss
     @Query private var journals: [Journal]
-    @State var isAddFoodViewPresented = false
     
     init() {
         if viewModel.defaults.object(forKey: "recent") == nil {
@@ -34,20 +33,8 @@ struct SearchView: View {
                     .bold()
                     .padding(.bottom, 0)
                     .padding(.leading, 106)
-                
-                Spacer()
-                
-                Button(action: {
-                    isAddFoodViewPresented = true
-                }) {
-                    Image(systemName: "plus")
-                        .foregroundColor(.accentColor)
-                }
-                
-                
             }
             .padding(.horizontal)
-            .padding(.top, 28)
             
             VStack {
                 CustomSearchBar(text: $viewModel.input)
@@ -87,7 +74,7 @@ struct SearchView: View {
                             viewModel.isPresented.toggle()
                         })
                         .frame(height: 40)
-                        .sheet(isPresented: $viewModel.isPresented) {
+                        .fullScreenCover(isPresented: $viewModel.isPresented) {
                             if viewModel.selectedSuggestion != nil {
                                 DetailSearchView(name: viewModel.selectedSuggestion ?? "", journals: journals)
                             }
@@ -113,46 +100,35 @@ struct SearchView: View {
                             .padding(.horizontal, 40)
                             .bold()
                         
-                        Button(action: {
-                            isAddFoodViewPresented = true
-                        }) {
-                            Text("Tambah Menu Baru")
-                                .foregroundColor(.accentColor)
-                                .padding(.top, 2)
-                        }
-                        
-                        
+                        Text("Periksa ejaan atau coba pencarian baru")
+                            .font(.callout)
+                            .foregroundColor(.gray)
                         
                     }
                     Spacer()
                 }
                 Spacer()
             } else {
-                Spacer()
-                
-                HStack {
-                    Spacer()
-                    VStack (alignment: .center){
-                        Image(systemName: "magnifyingglass")
-                            .resizable()
-                            .frame(width: 50, height: 50)
-                            .padding(.bottom, 20)
-                            .foregroundColor(.gray)
-                        
-                        Text("Cari menu makanan")
-                            .font(.title2)
-                            .foregroundColor(.black)
-                            .bold()
+                List {
+                    ForEach(viewModel.recent.reversed(), id: \.self) { suggestion in
+                        SearchCard(suggestion: suggestion, onTap: {
+                            viewModel.selectedSuggestion = suggestion
+                            viewModel.isPresented.toggle()
+                        })
+                        .frame(height: 40)
+                        .fullScreenCover(isPresented: $viewModel.isPresented) {
+                            if viewModel.selectedSuggestion != nil {
+                                DetailSearchView(name: viewModel.selectedSuggestion ?? "", journals: journals)
+                            }
+                        }
                     }
-                    Spacer()
                 }
-                Spacer()                           }
+                .listStyle(.plain)
+                .padding(.vertical)
+            }
         }
         .background(Color.background)
-        .sheet(isPresented: $isAddFoodViewPresented) {
-            AddFoodView()
-            
-        }
+        
     }
     
 }
