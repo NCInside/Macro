@@ -171,7 +171,6 @@ struct HistoryView: View {
             print(error.localizedDescription)
         }
     }
-    
 }
 
 #Preview {

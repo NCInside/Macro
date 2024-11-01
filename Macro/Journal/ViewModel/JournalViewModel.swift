@@ -16,6 +16,7 @@ class JournalViewModel: ObservableObject {
     @Published var isDietViewPresented: Bool = false
     @Published var sourceType: UIImagePickerController.SourceType = .photoLibrary
     private var healthManager = HealthManager()
+    @Published var isDatePickerVisible: Bool = false
     
     var days: [String] {
         return ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"]
@@ -85,22 +86,24 @@ class JournalViewModel: ObservableObject {
         
     }
     
-    func getSleep(journals: [Journal]) -> String {
-        
+    func getSleep(journals: [Journal]) -> (hour: String, minute: String) {
         if let journal = hasEntriesFromDate(entries: journals, date: selectedDate) {
             let sleep = journal.sleep
             
             if sleep.duration == 0 {
-                return "No Data"
+                return ("0", "0")
             }
             
             let hour: Int = sleep.duration / 3600
-            let minut: Int = (sleep.duration % 3600) / 60
+            let minute: Int = (sleep.duration % 3600) / 60
             
-            return "\(hour)hrs \(minut)min"
+            let hourString = String(format: "%02d", hour)
+            let minuteString = String(format: "%02d", minute)
+            
+            return (hourString, minuteString)
         }
         
-        return "No Data"
+        return ("0", "0")
     }
     
     func calcFat(journals: [Journal]) -> Double {
@@ -141,14 +144,14 @@ class JournalViewModel: ObservableObject {
     }
     
     func addDiet(context: ModelContext, name: String, entries: [Journal]) {
-                
+        
         guard let url = Bundle.main.url(forResource: "NutrisiMakanan", withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let foodItems = try? JSONDecoder().decode([FoodItem].self, from: data) else {
             print("Failed to load or decode JSON")
             return
         }
-                
+        
         if let foodItem = foodItems.first(where: { $0.name == name }) {
             
             let food = Food(timestamp: Date(), name: name, cookingTechnique: foodItem.cooking_technique, fat: foodItem.saturated_fat, glycemicIndex: parseGI(gi: foodItem.glycemic_index), dairy: foodItem.dairies == 1, gramPortion: foodItem.gram_per_portion)
@@ -202,7 +205,7 @@ class JournalViewModel: ObservableObject {
         func isSameDay(_ date1: Date, _ date2: Date) -> Bool {
             return calendar.isDate(date1, inSameDayAs: date2)
         }
-
+        
         for entry in entries {
             if isSameDay(entry.timestamp, date) {
                 return entry
@@ -224,7 +227,36 @@ class JournalViewModel: ObservableObject {
             fatalError("Invalid glycemic index value")
         }
     }
-
+    
+    func sleepClassificationMessage(journals: [Journal]) -> String {
+        let sleepDuration = getSleep(journals: journals)
+        guard let hours = Int(sleepDuration.hour), let minutes = Int(sleepDuration.minute) else {
+            return ""
+        }
+        
+        let totalMinutes = (hours * 60) + minutes
+        switch totalMinutes {
+        case 0:
+            return """
+                        Tidak ada data
+                       """
+        case ..<480:
+            return """
+                        Kayaknya tidurmu kurang, nih! 
+                        Banyakin istirahat, ya
+                       """
+        case 480...600:
+            return """
+                        Yay! Tidurmu tercukupi, nih!
+                        Pertahankan, ya
+                       """
+        default:
+            return """
+                        Kayanya tidurmu kebanyakan, nih! 
+                        Banyakin aktivitas ya
+                       """
+        }
+    }
 }
 
 
