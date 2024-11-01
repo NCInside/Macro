@@ -33,14 +33,6 @@ struct DetailSummaryView: View {
                         .padding(.leading, 8)
                     Spacer()
                 }
-            case .protein:
-                HStack {
-                    Text("Protein")
-                        .bold()
-                        .font(.largeTitle)
-                        .padding(.leading, 8)
-                    Spacer()
-                }
             case .fat:
                 HStack {
                     Text("Lemak")

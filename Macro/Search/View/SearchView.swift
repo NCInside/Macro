@@ -109,25 +109,23 @@ struct SearchView: View {
                 }
                 Spacer()
             } else {
-                Spacer()
-                
-                HStack {
-                    Spacer()
-                    VStack (alignment: .center){
-                        Image(systemName: "magnifyingglass")
-                            .resizable()
-                            .frame(width: 50, height: 50)
-                            .padding(.bottom, 20)
-                            .foregroundColor(.gray)
-                        
-                        Text("Cari menu makanan")
-                            .font(.title2)
-                            .foregroundColor(.black)
-                            .bold()
+                List {
+                    ForEach(viewModel.recent.reversed(), id: \.self) { suggestion in
+                        SearchCard(suggestion: suggestion, onTap: {
+                            viewModel.selectedSuggestion = suggestion
+                            viewModel.isPresented.toggle()
+                        })
+                        .frame(height: 40)
+                        .fullScreenCover(isPresented: $viewModel.isPresented) {
+                            if viewModel.selectedSuggestion != nil {
+                                DetailSearchView(name: viewModel.selectedSuggestion ?? "", journals: journals)
+                            }
+                        }
                     }
-                    Spacer()
                 }
-                Spacer()                           }
+                .listStyle(.plain)
+                .padding(.vertical)
+            }
         }
         .background(Color.background)
         

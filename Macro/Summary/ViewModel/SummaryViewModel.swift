@@ -13,7 +13,6 @@ import Combine
 class SummaryViewModel: ObservableObject {
     
     @Published var avgSleep: Int = 0
-    @Published var avgProtein: Int = 0
     @Published var avgFat: Int = 0
     @Published var freqMilk: Int = 0
     @Published var ind: String = ""
@@ -27,7 +26,6 @@ class SummaryViewModel: ObservableObject {
         let n = filteredJournals.count
         guard n > 0 else { 
             avgSleep = 0
-            avgProtein = 0
             avgFat = 0
             freqMilk = 0
             ind = ""
@@ -35,7 +33,6 @@ class SummaryViewModel: ObservableObject {
             return
         }
         avgSleep = ( filteredJournals.reduce(0) { $0 + Int($1.sleep.duration) } ) / n
-        avgProtein = ( filteredJournals.flatMap { $0.foods }.reduce(0) { $0 + Int($1.protein) } ) / n
         avgFat = ( filteredJournals.flatMap { $0.foods }.reduce(0) { $0 + Int($1.fat) } ) / n
         freqMilk = (filteredJournals.flatMap { $0.foods }.reduce(0) { $0 + ($1.dairy ? 1 : 0) }) / n
         let glycemicIndexCounts = filteredJournals
@@ -182,7 +179,7 @@ class SummaryViewModel: ObservableObject {
 }
 
 enum scenario {
-    case sleep, protein, fat, dairy, gi
+    case sleep, fat, dairy, gi
 }
 
 struct Point: Identifiable {
