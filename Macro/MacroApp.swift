@@ -17,7 +17,7 @@ struct MacroApp: App {
 
     init() {
         do {
-            container = try ModelContainer(for: Food.self, Sleep.self, Journal.self)
+            container = try ModelContainer(for: Food.self, Sleep.self, Journal.self, Reminder.self)
         } catch {
             fatalError("Failed to configure SwiftData container.")
         }

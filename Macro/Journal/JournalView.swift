@@ -18,7 +18,7 @@ struct JournalView: View {
     @State var isMenuSheetPresented = false
     @State var navigateToMenuPage = false
     @State var isAddSleepViewPresented = false
-    @State var navigateToHistoryView = false
+    @State var navigateToReminderView = false
     @State var classificationTitle: String = ""
     @State var classificationProb: Double = 0.0
     @State var protein: Double = 0.0
@@ -28,6 +28,7 @@ struct JournalView: View {
     @State private var toastMessage: String = ""
     @State var glycemicIndex: glycemicIndex = .low
     @Query var journals: [Journal]
+    @State private var isReminderSheetPresented = false
     
     private var todayJournal: Journal? {
         let calendar = Calendar.current
@@ -45,28 +46,26 @@ struct JournalView: View {
                     VStack {
                         HStack {
                             Text("Jurnal")
-                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                                .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                                .fontWeight(.bold)
+                                .font(.title)
                             
                             Spacer()
                             
-                            NavigationLink(destination: HistoryView(), isActive: $navigateToHistoryView) {
-                                Button(action: {
-                                    navigateToHistoryView = true
-                                }) {
-                                    Image(systemName: "book.pages")
-                                        .imageScale(.large)
-                                        .foregroundColor(.accentColor)
-                                        .bold()
-                                }
-                                .padding(.horizontal)
+                            Button(action: {
+                                isReminderSheetPresented = true // Set to present ReminderView as a modal
+                            }) {
+                                Image(systemName: "book.pages")
+                                    .imageScale(.large)
+                                    .foregroundColor(.accentColor)
+                                    .bold()
                             }
-                            
+                            .padding(.horizontal)
                             
                         }
                         .padding()
                         
                         VStack{
+                            
                             HStack{
                                 Text(viewModel.getMonthInIndonesian())
                                     .font(.title2)
@@ -114,74 +113,74 @@ struct JournalView: View {
                         
                         
                         HStack{
-                                                Text("Tidur")
-                                                    .font(.title2)
-                                                    .fontWeight(.bold)
-                                                Spacer()
-                                                
-                                                Button(action: {
-                                                    isAddSleepViewPresented = true
-                                                }) {
-                                                    Text("Edit")
-                                                        .foregroundColor(.accentColor)
-                                                }
-                                                .padding(.top, 10)
-                                                .padding(.trailing, 4)
-                                            }
-                                            .padding(.horizontal)
-                                            .padding(.top, 28)
+                            Text("Tidur")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                            Spacer()
+                            
+                            Button(action: {
+                                isAddSleepViewPresented = true
+                            }) {
+                                Text("Edit")
+                                    .foregroundColor(.accentColor)
+                            }
+                            .padding(.top, 10)
+                            .padding(.trailing, 4)
+                        }
+                        .padding(.horizontal)
+                        .padding(.top, 28)
                         
                         VStack {
-                                                HStack() {
-                                                    VStack{
-                                                        
-                                                        HStack{
-                                                            Text("Waktu di Tempat Tidur")
-                                                                .padding(.horizontal)
-                                                                .padding(.top, 20)
-                                                                .foregroundColor(.gray)
-                                                                .font(.callout)
-                                                            
-                                                            Spacer()
-                                                        }
-                                                        
-                                                        HStack {
-                                                            Text(viewModel.getSleep(journals: journals))
-                                                                .font(.system(size: 18))
-                                                                .foregroundColor(.gray)
-                                                                .padding(.horizontal)
-                                                                .padding(.top, 2)
-                                                                .padding(.bottom, 20)
-                                                            
-                                                            Spacer()
-                                                        }
-                                                    }
-                                                    
-                                                    Image(systemName: "moon.zzz.fill")
-                                                        .foregroundColor(.systemGray2)
-                                                        .font(.system(size: 80 ))
-                                                        .padding(.bottom, -24)
-                                                    
-                                                }
-                                                .frame(maxWidth: .infinity)
-                                                .background(.white)
-                                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                                            }
+                            HStack() {
+                                VStack{
+                                    
+                                    HStack{
+                                        Text("Waktu di Tempat Tidur")
                                             .padding(.horizontal)
+                                            .padding(.top, 20)
+                                            .foregroundColor(.gray)
+                                            .font(.callout)
+                                        
+                                        Spacer()
+                                    }
+                                    
+                                    HStack {
+                                        Text(viewModel.getSleep(journals: journals))
+                                            .font(.system(size: 18))
+                                            .foregroundColor(.gray)
+                                            .padding(.horizontal)
+                                            .padding(.top, 2)
+                                            .padding(.bottom, 20)
+                                        
+                                        Spacer()
+                                    }
+                                }
+                                
+                                Image(systemName: "moon.zzz.fill")
+                                    .foregroundColor(.systemGray2)
+                                    .font(.system(size: 80 ))
+                                    .padding(.bottom, -24)
+                                
+                            }
+                            .frame(maxWidth: .infinity)
+                            .background(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        }
+                        .padding(.horizontal)
                         
                         HStack {
-                                               Text("Nutrisi")
-                                                   .font(.title2)
-                                                   .fontWeight(.bold)
-                                                   .padding()
-                                               Spacer()
-                                               
-                                               Button(action: {
-                                                   viewModel.presentActionSheet()
-                                               }) {
-                                                   Text("Tambah")
-                                                       .foregroundColor(.accentColor)
-                                               }
+                            Text("Nutrisi")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding()
+                            Spacer()
+                            
+                            Button(action: {
+                                viewModel.presentActionSheet()
+                            }) {
+                                Text("Tambah")
+                                    .foregroundColor(.accentColor)
+                            }
                             .padding(.top, 10)
                             .padding()
                             .padding(.trailing, 4)
@@ -255,32 +254,32 @@ struct JournalView: View {
                                 VStack(alignment: .leading, spacing: -24) {
                                     HStack {
                                         Text("Protein")
-                                                                                    .padding()
-                                                                                    .fontWeight(.semibold)
-                                                                                    .foregroundColor(.systemGray3)
-                                                                                
-                                                                                Spacer()
-                                                                            }
-                                                                            .background(
-                                                                                Image("DrumStick")
-                                                                                
-                                                                                    .padding(.bottom, -30),
-                                                                                alignment: .bottomTrailing)
-                                                                                
-                                                                            HStack(alignment: .firstTextBaseline, spacing: 0) {
-                                                                                Text(String(format: "%.2f", viewModel.calcProtein(journals: journals)))
-                                                                                    .font(.title)
-                                                                                    .fontWeight(.bold)
-                                                                                    .padding(.leading)
-                                                                                    .padding(.vertical)
-                                                                                
-                                                                                Text("gram")
-                                                                                    .font(.callout)
-                                                                                    .foregroundColor(.systemGray3)
-                                                                                
-                                                                                Spacer()
-                                                                            }
-                                                                        
+                                            .padding()
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.systemGray3)
+                                        
+                                        Spacer()
+                                    }
+                                    .background(
+                                        Image("DrumStick")
+                                        
+                                            .padding(.bottom, -30),
+                                        alignment: .bottomTrailing)
+                                    
+                                    HStack(alignment: .firstTextBaseline, spacing: 0) {
+                                        Text(String(format: "%.2f", viewModel.calcProtein(journals: journals)))
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                            .padding(.leading)
+                                            .padding(.vertical)
+                                        
+                                        Text("gram")
+                                            .font(.callout)
+                                            .foregroundColor(.systemGray3)
+                                        
+                                        Spacer()
+                                    }
+                                    
                                 }
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 .background(.white)
@@ -289,28 +288,28 @@ struct JournalView: View {
                                 VStack(alignment: .leading, spacing: -24) {
                                     HStack {
                                         Text("Lemak")
-                                                                                   .padding()
-                                                                                   .fontWeight(.semibold)
-                                                                                   .foregroundColor(.systemGray3)
-                                                                               Spacer()
-                                                                           }
-                                                                           .background(
-                                                                               Image("Burger")
-                                                                               
-                                                                                   .padding(.bottom, -30),
-                                                                               alignment: .bottomTrailing)
-                                                                           
-                                                                           HStack {
-                                                                               Text(String(format: "%.2f", viewModel.calcFat(journals: journals)))
-                                                                                   .font(.title)
-                                                                                   .fontWeight(.bold)
-                                                                                   .padding(.leading)
-                                                                                   .padding(.vertical)
-                                                                               
-                                                                               Text("gram")
-                                                                                   .font(.callout)
-                                                                                   .foregroundColor(.systemGray3)
-                                                                                   .padding(.leading, -8)
+                                            .padding()
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.systemGray3)
+                                        Spacer()
+                                    }
+                                    .background(
+                                        Image("Burger")
+                                        
+                                            .padding(.bottom, -30),
+                                        alignment: .bottomTrailing)
+                                    
+                                    HStack {
+                                        Text(String(format: "%.2f", viewModel.calcFat(journals: journals)))
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                            .padding(.leading)
+                                            .padding(.vertical)
+                                        
+                                        Text("gram")
+                                            .font(.callout)
+                                            .foregroundColor(.systemGray3)
+                                            .padding(.leading, -8)
                                         Spacer()
                                     }
                                 }
@@ -324,29 +323,29 @@ struct JournalView: View {
                                 VStack(alignment: .leading, spacing: -24) {
                                     HStack {
                                         Text("Produk Susu")
-                                                                                    .padding()
-                                                                                    .fontWeight(.semibold)
-                                                                                    .foregroundColor(.systemGray3)
-                                                                                Spacer()
-                                                                            }
-                                                                            HStack(alignment: .firstTextBaseline, spacing: 0) {
-                                                                                Text(String(viewModel.calcDairy(journals: journals)))
-                                                                                    .font(.title)
-                                                                                    .fontWeight(.bold)
-                                                                                    .padding(.leading)
-                                                                                    .padding(.vertical)
-                                                                                
-                                                                                Text("kali")
-                                                                                    .font(.callout)
-                                                                                    .foregroundColor(.systemGray3)
-                                                                                Spacer()
-                                                                            }
-                                                                            .background(
-                                                                                Image("Milk")
-                                                                                
-                                                                                    .padding(.bottom, -20),
-                                                                                alignment: .bottomTrailing
-                                                                                )
+                                            .padding()
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.systemGray3)
+                                        Spacer()
+                                    }
+                                    HStack(alignment: .firstTextBaseline, spacing: 0) {
+                                        Text(String(viewModel.calcDairy(journals: journals)))
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                            .padding(.leading)
+                                            .padding(.vertical)
+                                        
+                                        Text("kali")
+                                            .font(.callout)
+                                            .foregroundColor(.systemGray3)
+                                        Spacer()
+                                    }
+                                    .background(
+                                        Image("Milk")
+                                        
+                                            .padding(.bottom, -20),
+                                        alignment: .bottomTrailing
+                                    )
                                 }
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 .background(.white)
@@ -354,24 +353,24 @@ struct JournalView: View {
                                 VStack(alignment: .leading, spacing: -24) {
                                     HStack {
                                         Text("Indeks Glikemik")
-                                                                                   .padding()
-                                                                                   .fontWeight(.semibold)
-                                                                                   .foregroundColor(.systemGray3)
+                                            .padding()
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.systemGray3)
                                         
                                     }
                                     .background(
-                                                                           Image("Donut")
-                                                                               .padding(.trailing, -10)
-                                                                           
-                                                                               .padding(.bottom, -50),
-                                                                           alignment: .bottomTrailing
-                                                                           )
+                                        Image("Donut")
+                                            .padding(.trailing, -10)
+                                        
+                                            .padding(.bottom, -50),
+                                        alignment: .bottomTrailing
+                                    )
                                     
                                     HStack {
                                         Text(String(viewModel.calcGI(journals: journals)))
-                                                                                   .padding()
-                                                                                   .fontWeight(.bold)
-                                                                                   .font(.title)
+                                            .padding()
+                                            .fontWeight(.bold)
+                                            .font(.title)
                                         Spacer()
                                     }
                                 }
@@ -401,18 +400,18 @@ struct JournalView: View {
                 content.title = "Sleep"
                 content.subtitle = "Do not forget to input your sleep!"
                 content.sound = UNNotificationSound.default
-
+                
                 var dateComponents = DateComponents()
                 dateComponents.hour = 9
                 dateComponents.minute = 30
-
+                
                 let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
                 
                 let notificationIdentifier = "uniqueNotificationId"
-
+                
                 // Cancel existing notification with the same identifier
                 UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notificationIdentifier])
-
+                
                 let request = UNNotificationRequest(identifier: notificationIdentifier, content: content, trigger: trigger)
                 UNUserNotificationCenter.current().add(request) { error in
                     if let error = error {
@@ -431,6 +430,10 @@ struct JournalView: View {
                 .animation(.easeInOut(duration: 0.5), value: showToast)
             }
         }
+        .sheet(isPresented: $isReminderSheetPresented) {
+                   ReminderView(viewModel: ReminderViewModel())
+                       .environment(\.modelContext, context)
+               }
     }
     
     func classifyImageAndFetchDetails(image: UIImage) {
