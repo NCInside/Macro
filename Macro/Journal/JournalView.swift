@@ -112,17 +112,20 @@ struct JournalView: View {
                             .padding(.trailing, 4)
                         }
                         .padding(.horizontal)
+                        .sheet(isPresented: $isAddSleepViewPresented) {
+                            AddSleepView()
+                        }
                         
                         ZStack {
-                            Image("Home")
+                            Image("HomeCard")
                                 .resizable()
                                 .scaledToFill()
-                                .frame(width: 380)
+                                .padding(.horizontal, 10)
                             
                             VStack(alignment: .leading){
                                 HStack(alignment: .bottom,spacing: 0) {
                                     Text(viewModel.getSleep(journals: journals).hour)
-                                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                                        .font(.largeTitle)
                                         .foregroundColor(.white)
                                         .bold()
                                     
@@ -132,7 +135,7 @@ struct JournalView: View {
                                         .fontWeight(.semibold)
                                     
                                     Text(viewModel.getSleep(journals: journals).minute)
-                                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                                        .font(.largeTitle)
                                         .foregroundColor(.white)
                                         .bold()
                                     
@@ -143,17 +146,18 @@ struct JournalView: View {
                                     
                                     Spacer()
                                 }
-                                .padding(.leading, 30)
+                                .padding(.leading, 50)
                                 .padding(.bottom, 2)
                                 
                                 HStack{
                                     Text(viewModel.sleepClassificationMessage(journals: journals))
                                         .foregroundColor(.white)
                                 }
-                                .padding(.leading, 26)
-                                .padding(.bottom, 70)
+                                .padding(.leading, 50)
+                                .padding(.bottom, 90)
                             }
                         }
+                        .padding(.bottom, -10)
                         
                         HStack(alignment: .bottom) {
                             Text("Detail Makanan")
@@ -358,7 +362,7 @@ struct JournalView: View {
                             Text("Riwayat Harian")
                                 .font(.title2)
                                 .fontWeight(.bold)
-                                .padding()
+//                                .padding()
                             
                             Spacer()
                             
@@ -369,69 +373,61 @@ struct JournalView: View {
                                     .foregroundColor(.accentColor)
                             }
                             .padding(.top, 10)
-                            .padding()
                             .padding(.trailing, 4)
                             }
                         }
+                        .padding(.top, 20)
+                        .padding(.horizontal, 16)
                         
-                        VStack(spacing: 0){
-                            let todayFoods = HistoryView.foodHistory(for: Date(), in: journals)
-                            
-                            if todayFoods.isEmpty {
-                                Text("Belum ada riwayat makanan hari ini.")
-                                    .foregroundColor(.gray)
-                                    .padding()
-                            } else {
-                                ForEach(todayFoods, id: \.self) { food in
-                                    HStack {
-                                        Text(food.name)
-                                            .padding(.vertical, 10)
-                                            .padding(.horizontal)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .foregroundStyle(.black)
-                                        Text("Detail")
-                                            .foregroundColor(.gray)
-                                    }
-                                    Divider()
-                                        .padding(.leading)
+                        VStack (spacing: 0){
+                            HStack {
+                                HStack{
+                                    Text("Data Makanan")
+                                    Spacer()
+                                    Text("Jam")
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray)
                                 }
-                                .background(Color(UIColor.systemBackground))
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                                .padding(.horizontal)
+                                .frame(maxWidth: .infinity)
+                                
+                               
                             }
+                            .padding()
+                            .background(Color(UIColor.systemBackground))
+                            Divider()
+                                .padding(.leading)
                         }
+                        .background(Color(UIColor.systemBackground))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 14)
+                        .shadow(color: Color.black.opacity(0.2), radius: 3, x: 1, y: 2)
                         
-                        
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                    .padding(.top, 40)
-                    .padding(.bottom, 96)
-                    .sheet(isPresented: $isAddSleepViewPresented) {
-                        AddSleepView()
-                    }
-                }
-                .background(Color.white).edgesIgnoringSafeArea(.all)
-            }
-            .onAppear {
-                viewModel.fetchSleepData(context: context, journals: journals)
                 
-                if let saved = savedDate {
-                    selectedDate = saved
+                        
+                    }
+                    .background(Color.white).edgesIgnoringSafeArea(.all)
                 }
-            }
-            if showToast {
-                VStack {
-                    Spacer()
-                    ToastView(message: toastMessage)
-                        .padding(.bottom, 20)
+                .onAppear {
+                    viewModel.fetchSleepData(context: context, journals: journals)
+                    
+                    if let saved = savedDate {
+                        selectedDate = saved
+                    }
                 }
-                .transition(.move(edge: .bottom).combined(with: .opacity))
-                .animation(.easeInOut(duration: 0.5), value: showToast)
+                if showToast {
+                    VStack {
+                        Spacer()
+                        ToastView(message: toastMessage)
+                            .padding(.bottom, 20)
+                    }
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .animation(.easeInOut(duration: 0.5), value: showToast)
+                }
             }
         }
     }
 }
-
 
 #Preview {
     ContentView()

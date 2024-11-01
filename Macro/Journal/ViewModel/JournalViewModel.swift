@@ -236,6 +236,10 @@ class JournalViewModel: ObservableObject {
         
         let totalMinutes = (hours * 60) + minutes
         switch totalMinutes {
+        case 0:
+            return """
+                        Tidak ada data
+                       """
         case ..<480:
             return """
                         Kayaknya tidurmu kurang, nih! 
@@ -243,8 +247,8 @@ class JournalViewModel: ObservableObject {
                        """
         case 480...600:
             return """
-                        Bagus waktu tidurmu sudah pas! 
-                        Pertahankan ya!
+                        Yay! Tidurmu tercukupi, nih!
+                        Pertahankan, ya
                        """
         default:
             return """
