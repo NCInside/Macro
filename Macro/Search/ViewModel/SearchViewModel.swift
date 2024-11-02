@@ -173,7 +173,7 @@ final class SearchViewModel: ObservableObject {
             if let todayJournal = hasEntriesFromToday(entries: entries) {
                 
                 for _ in 0..<mult {
-                    let food = Food(timestamp: Date(), name: name, cookingTechnique: [selectedProcessedOption], fat: foodItem.saturated_fat, glycemicIndex: gi, dairy: selectedMilkOption == "Ada", gramPortion: foodItem.gram_per_portion)
+                    let food = Food(timestamp: Date(), name: name, cookingTechnique: [selectedProcessedOption], fat: foodItem.saturated_fat * (Double(foodItem.gram_per_portion) / 100), glycemicIndex: gi, dairy: selectedMilkOption == "Ada", gramPortion: foodItem.gram_per_portion)
                     todayJournal.foods.append(food)
                 }
                 
@@ -183,7 +183,7 @@ final class SearchViewModel: ObservableObject {
                 let journal = Journal(timestamp: Date(), foods: [], sleep: Sleep(timestamp: Date(), duration: 0, start: Date(), end: Date()))
                 
                 for _ in 0..<mult {
-                    let food = Food(timestamp: Date(), name: name, cookingTechnique: [selectedProcessedOption], fat: foodItem.saturated_fat, glycemicIndex: gi, dairy: selectedMilkOption == "Ada", gramPortion: foodItem.gram_per_portion)
+                    let food = Food(timestamp: Date(), name: name, cookingTechnique: [selectedProcessedOption], fat: foodItem.saturated_fat * (Double(foodItem.gram_per_portion) / 100), glycemicIndex: gi, dairy: selectedMilkOption == "Ada", gramPortion: foodItem.gram_per_portion)
                     journal.foods.append(food)
                 }
                                 
