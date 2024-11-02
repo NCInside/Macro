@@ -407,6 +407,7 @@ struct JournalView: View {
                 
                         
                     }
+                    .padding(.top, 36)
                     .background(Color.white).edgesIgnoringSafeArea(.all)
                 }
                 .background(Color.background).edgesIgnoringSafeArea(.all)
@@ -454,30 +455,6 @@ struct JournalView: View {
                }
     }
     
-    func classifyImageAndFetchDetails(image: UIImage) {
-        // Show toast when classification begins
-        showToastMessage("Classifying image...")
-        
-        icViewModel.FoodClassificationModel(uiImage: image)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            if let title = icViewModel.imageClassificationText.first,
-               let prob = icViewModel.imageClassificationProb.first {
-                classificationTitle = title
-                classificationProb = prob
-                
-                // Fetch the food details using the classification title
-                searchViewModel.detailDiet(name: title)
-                
-                if let food = searchViewModel.food {
-                    protein = food.protein
-                    fat = food.fat
-                    dairy = food.dairy
-                    glycemicIndex = food.glycemicIndex
-                }
-            }
-        }
-    }
 }
 
 #Preview {

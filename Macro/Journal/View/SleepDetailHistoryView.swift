@@ -26,11 +26,6 @@ struct SleepDetailHistoryView: View {
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(.black)
-                    Text("\(sleep.start, formatter: dateFormatter) - \(sleep.end, formatter: dateFormatter)")
-                        .padding(.vertical, 10)
-                        .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .foregroundStyle(.gray)
                 }
                 .background(Color(UIColor.systemBackground))
             }

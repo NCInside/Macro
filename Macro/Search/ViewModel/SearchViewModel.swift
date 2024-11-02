@@ -180,7 +180,7 @@ final class SearchViewModel: ObservableObject {
                 print(todayJournal.foods)
                 
             } else {
-                let journal = Journal(timestamp: Date(), foods: [], sleep: Sleep(timestamp: Date(), duration: 0, start: Date(), end: Date()))
+                let journal = Journal(timestamp: Date(), foods: [], sleep: Sleep(timestamp: Date(), duration: 0))
                 
                 for _ in 0..<mult {
                     let food = Food(timestamp: Date(), name: name, cookingTechnique: [selectedProcessedOption], fat: foodItem.saturated_fat * (Double(foodItem.gram_per_portion) / 100), glycemicIndex: gi, dairy: selectedMilkOption == "Ada", gramPortion: foodItem.gram_per_portion)

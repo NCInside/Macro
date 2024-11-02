@@ -73,7 +73,7 @@ class JournalViewModel: ObservableObject {
                     first = samples.first!.endDate
                     last = samples.last!.startDate
                     
-                    let sleep: Sleep = Sleep(timestamp: Date(), duration: Int(first.timeIntervalSince(last)), start: first, end: last)
+                    let sleep: Sleep = Sleep(timestamp: Date(), duration: Int(first.timeIntervalSince(last)))
                     print(sleep.duration)
                     let journal = Journal(timestamp: Date(), foods: [], sleep: sleep)
                     
@@ -165,7 +165,7 @@ class JournalViewModel: ObservableObject {
                 
             } else {
                 
-                let journal = Journal(timestamp: Date(), foods: [], sleep: Sleep(timestamp: Date(), duration: 0, start: Date(), end: Date()))
+                let journal = Journal(timestamp: Date(), foods: [], sleep: Sleep(timestamp: Date(), duration: 0))
                 journal.foods.append(food)
                 context.insert(journal)
                 do {

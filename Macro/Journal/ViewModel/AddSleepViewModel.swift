@@ -74,7 +74,7 @@ class AddSleepViewModel: ObservableObject {
         let endTime: Date = Calendar.current.date(byAdding: .hour, value: 7, to: getTime(angle: toAngle)) ?? Date()
         
         if let journal = hasEntriesFromToday(entries: journals) {
-            journal.sleep = Sleep(timestamp: Date(), duration: Int(endTime.timeIntervalSince(startTime)), start: startTime, end: endTime)
+            journal.sleep = Sleep(timestamp: Date(), duration: Int(endTime.timeIntervalSince(startTime)))
         }
     }
     
