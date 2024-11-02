@@ -13,18 +13,20 @@ final class Food {
     
     var timestamp: Date
     var name: String
-    var protein: Double
+    var cookingTechnique: [String]
     var fat: Double
     var glycemicIndex: glycemicIndex
     var dairy: Bool
+    var gramPortion: Int
     
-    init(timestamp: Date, name: String, protein: Double, fat: Double, glycemicIndex: glycemicIndex, dairy: Bool) {
+    init(timestamp: Date, name: String, cookingTechnique: [String], fat: Double, glycemicIndex: glycemicIndex, dairy: Bool, gramPortion: Int) {
         self.timestamp = timestamp
         self.name = name
-        self.protein = protein
+        self.cookingTechnique = cookingTechnique
         self.fat = fat
         self.glycemicIndex = glycemicIndex
         self.dairy = dairy
+        self.gramPortion = gramPortion
     }
     
 }

@@ -13,10 +13,16 @@ struct DetailSummaryView: View {
     
     var scenario: scenario
     var chosenMonth: Int
+    let dayFormatter = DateFormatter()
+    let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     
     @StateObject private var viewModel = SummaryViewModel()
     @Query var journals: [Journal]
-        
+    @State var selectedWeek = 1
+    
+    @State var weekPoints: [Int: [Point]] = [:]
+    @State var weekPointsPie: [Int: [PiePoint]] = [:]
+    
     var body: some View {
         VStack(alignment: .leading) {
             switch scenario {
@@ -28,17 +34,9 @@ struct DetailSummaryView: View {
                         .padding(.leading, 8)
                     Spacer()
                 }
-            case .protein:
-                HStack {
-                    Text("Protein")
-                        .bold()
-                        .font(.largeTitle)
-                        .padding(.leading, 8)
-                    Spacer()
-                }
             case .fat:
                 HStack {
-                    Text("Lemak")
+                    Text("Makanan Berlemak")
                         .bold()
                         .font(.largeTitle)
                         .padding(.leading, 8)
@@ -60,27 +58,152 @@ struct DetailSummaryView: View {
                         .padding(.leading, 8)
                     Spacer()
                 }
+            case .saturatedFat:
+                HStack {
+                    Text("Lemak Jenuh")
+                        .bold()
+                        .font(.largeTitle)
+                        .padding(.leading, 8)
+                    Spacer()
+                }
             }
             
             HStack {
                 Spacer()
-                Chart {
-                    ForEach(viewModel.points) { item in
-                        BarMark(x: .value("date", item.date), y: .value("value", item.value))
-                            .foregroundStyle(Color.mint)
+                VStack {
+                    Picker("Minggu/Bulan", selection: $viewModel.selectedTab) {
+                        Text("Mingguan").tag("Mingguan")
+                        Text("Bulanan").tag("Bulanan")
                     }
-                }
-                .frame(width: 350, height: 250)
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(.bottom)
+                    if (scenario == .gi) {
+                        if (viewModel.selectedTab == "Bulanan") {
+                            Chart(viewModel.piePoints, id: \.category) { item in
+                                SectorMark(
+                                    angle: .value("Count", item.value)
+                                )
+                                .foregroundStyle(by: .value("Category", item.category))
+                                .annotation(position: .overlay, alignment: .center) {
+                                    VStack {
+                                        Text(item.category + " GI")
+                                            .font(.subheadline)
+                                            .foregroundColor(.white)
+                                            .bold()
+                                        Text(String(item.value) + "x")
+                                            .font(.subheadline)
+                                            .foregroundColor(.white)
+                                            .bold()
+                                    }
+                                }
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: 350)
+                            .padding(.horizontal)
+                        }
+                        else {
+                            Text("Week \(selectedWeek)")
+                            Chart {
+                                if weekPointsPie[selectedWeek] != nil {
+                                    ForEach(viewModel.piePoints, id: \.category) { item in
+                                        SectorMark(
+                                            angle: .value("Count", item.value)
+                                        )
+                                        .foregroundStyle(by: .value("Category", item.category))
+                                        .annotation(position: .overlay, alignment: .center) {
+                                            VStack {
+                                                Text(item.category + " GI")
+                                                    .font(.subheadline)
+                                                    .foregroundColor(.white)
+                                                    .bold()
+                                                Text(String(item.value) + "x")
+                                                    .font(.subheadline)
+                                                    .foregroundColor(.white)
+                                                    .bold()
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: 350)
+                            .padding(.horizontal)
+                            .gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
+                                .onEnded { value in
+                                    switch(value.translation.width, value.translation.height) {
+                                    case (...0, -30...30):
+                                        print("left swipe")
+                                        if selectedWeek < 5 {
+                                            selectedWeek += 1
+                                        }
+                                    case (0..., -30...30):
+                                        print("right swipe")
+                                        if selectedWeek > 1 {
+                                            selectedWeek -= 1
+                                        }
+                                    default:
+                                        print("no clue")
+                                    }
+                                }
+                            )
+                        }
+                    }
+                    else {
+                        if (viewModel.selectedTab == "Bulanan") {
+                            Chart {
+                                ForEach(viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth)) { item in
+                                    BarMark(x: .value("date", Calendar.current.component(.day, from: item.date)), y: .value("value", item.value))
+                                        .foregroundStyle(Color.mint)
+                                }
+                            }
+                            .chartXScale(domain: 0...Calendar.current.range(of: .day, in: .month, for: Calendar.current.date(from: DateComponents(year: 2024, month: chosenMonth))!)!.count + 1)
+                            .frame(maxWidth: .infinity, maxHeight: 350)
+                            .padding(.horizontal)
+                        }
+                        else {
+                            Text("Week \(selectedWeek)")
+                            Chart {
+                                if let week = weekPoints[selectedWeek] {
+                                    ForEach(week) { item in
+                                        let dayIndex = Calendar.current.component(.weekday, from: item.date) - 2
+                                        let dayName = dayIndex >= 0 ? daysOfWeek[dayIndex] : daysOfWeek[dayIndex + 7]
+                                        BarMark(x: .value("date", dayName), y: .value("value", item.value)) .foregroundStyle(Color.mint)
+                                    }
+                                }
+                                
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: 350)
+                            .padding(.horizontal)
+                            .gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
+                                .onEnded { value in
+                                    switch(value.translation.width, value.translation.height) {
+                                    case (...0, -30...30):
+                                        print("left swipe")
+                                        if selectedWeek < 5 {
+                                            selectedWeek += 1
+                                        }
+                                    case (0..., -30...30):
+                                        print("right swipe")
+                                        if selectedWeek > 1 {
+                                            selectedWeek -= 1
+                                        }
+                                    default:
+                                        print("no clue")
+                                    }
+                                }
+                            )
+                        }
+                    }
+                    }
+                    Spacer()
+            }
                 Spacer()
             }
-            
-            Spacer()
-        }
-        .onAppear {
-            viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth)
+            .onAppear {
+                dayFormatter.dateFormat = "EEEE"
+                weekPoints = viewModel.getWeeks(of: viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth))
+                weekPointsPie = viewModel.getWeeksPie(of: viewModel.piePoints)
+            }
         }
     }
-}
 
 //#Preview {
 //    DetailSummaryView(scenario: .sleep)
