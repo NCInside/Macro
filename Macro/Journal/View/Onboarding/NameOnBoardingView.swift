@@ -1,27 +1,25 @@
 import SwiftUI
 
-struct WeightOnBoardingView: View {
-    @State private var inputWeight: String = ""
+struct NameOnBoardingView: View {
+    @State private var inputName: String = ""
     @FocusState private var isInputActive: Bool
-    @State private var weightOption = "kg"
-    @Binding var hasCompletedOnboarding: Bool
-    var weight = ["lb", "kg"]
-    @ObservedObject var viewModel = OnBoardingViewModel()
     @State private var navigateToNext = false
+    @Binding var hasCompletedOnboarding: Bool
+    
     var navigationStates: [String: Bool]
+    @ObservedObject var viewModel = OnBoardingViewModel()
     
     var body: some View {
         NavigationView {
             VStack {
-                Text("Berapa beratmu?")
+                Text("Siapa namamu?")
                     .padding(.top, 80)
                     .font(.title)
                     .foregroundColor(.white)
                     .bold()
                 
                 VStack {
-                    TextField("", text: $inputWeight)
-                        .keyboardType(.numberPad)
+                    TextField("Enter your name", text: $inputName)
                         .focused($isInputActive)
                         .font(.largeTitle)
                         .foregroundColor(.white)
@@ -44,26 +42,16 @@ struct WeightOnBoardingView: View {
                     .foregroundColor(.gray)
                     .padding(.horizontal, 60)
                 
-                Picker("Weight", selection: $weightOption) {
-                    ForEach(weight, id: \.self) {
-                        Text($0)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .padding()
-                .padding(.horizontal, 42)
-                .colorMultiply(.accentColor)
-                
                 Spacer()
                 
-                // Dynamic NavigationLink
+                // Updated NavigationLink
                 NavigationLink(destination: nextView(updatedNavigationStates: updatedNavigationStates()), isActive: $navigateToNext) {
                     EmptyView()
                 }
-                
+
                 Button(action: {
-                    if !inputWeight.isEmpty {
-                        UserDefaults.standard.set(["weight": inputWeight, "metric": weightOption], forKey: "weight")
+                    if !inputName.isEmpty {
+                        UserDefaults.standard.set(inputName, forKey: "name")
                         navigateToNextStep()
                     }
                 }) {
@@ -77,46 +65,51 @@ struct WeightOnBoardingView: View {
                             .foregroundColor(.white)
                     }
                     .padding(.bottom, 20)
-                    .offset(y: viewModel.keyboardHeight > 0 ? -viewModel.keyboardHeight / 2 : 0)
+                    .offset(y: viewModel.keyboardHeight == 0 ? 0 : -viewModel.keyboardHeight / 14)
                     .animation(.easeOut(duration: 0.3), value: viewModel.keyboardHeight)
                 }
-                .disabled(inputWeight.isEmpty)
-                .opacity(inputWeight.isEmpty ? 0.5 : 1.0)
+                .disabled(inputName.isEmpty)
+                .opacity(inputName.isEmpty ? 0.5 : 1.0)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(Color.main)
-            .onAppear(perform: {
+            .onAppear {
                 viewModel.subscribeToKeyboardEvents()
                 
-                // Automatically skip this view if WeightOnBoarding is not needed
-                if navigationStates["WeightOnBoarding"] == false {
+                // Auto-navigate if NameOnBoarding is already completed
+                if navigationStates["NameOnBoarding"] == false {
                     navigateToNextStep()
                 }
-            })
+            }
             .onDisappear(perform: viewModel.unsubscribeFromKeyboardEvents)
         }
         .navigationBarBackButtonHidden()
     }
     
-    // Function to handle navigation to the next onboarding step
     private func navigateToNextStep() {
         navigateToNext = true
     }
     
-    // Helper function to update navigationStates to mark WeightOnBoarding as completed
     private func updatedNavigationStates() -> [String: Bool] {
         var updatedStates = navigationStates
-        updatedStates["WeightOnBoarding"] = false // Mark WeightOnBoarding as completed
+        updatedStates["NameOnBoarding"] = false
+        updatedStates["AgeOnBoarding"] = updatedStates["AgeOnBoarding"] ?? true // Ensure AgeOnBoarding is next
         return updatedStates
     }
     
-    // Determine the next view based on updated navigationStates
     @ViewBuilder
     private func nextView(updatedNavigationStates: [String: Bool]) -> some View {
-        if updatedNavigationStates["GenderOnBoarding"] == true {
+        if updatedNavigationStates["AgeOnBoarding"] == true {
+            AgeOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: updatedNavigationStates)
+        } else if updatedNavigationStates["HeightOnBoarding"] == true {
+            HeightOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: updatedNavigationStates)
+        } else if updatedNavigationStates["WeightOnBoarding"] == true {
+            WeightOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: updatedNavigationStates)
+        } else if updatedNavigationStates["GenderOnBoarding"] == true {
             GenderOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: updatedNavigationStates)
         } else {
             ActivityOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: updatedNavigationStates)
         }
     }
 }
+

@@ -10,13 +10,14 @@ import SwiftData
 
 @main
 struct MacroApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject var manager = HealthManager()
 
     var container: ModelContainer
 
     init() {
         do {
-            container = try ModelContainer(for: Food.self, Sleep.self, Journal.self)
+            container = try ModelContainer(for: Food.self, Sleep.self, Journal.self, Reminder.self)
         } catch {
             fatalError("Failed to configure SwiftData container.")
         }
@@ -31,12 +32,23 @@ struct MacroApp: App {
     }
 }
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-    let notificationViewModel = NotificationViewModel()
-    
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Set delegate untuk menampilkan notifikasi di foreground
-        UNUserNotificationCenter.current().delegate = notificationViewModel
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            if granted {
+                print("All set!")
+            } else if let error {
+                print(error.localizedDescription)
+            }
+        }
         return true
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        print(userInfo) // the payload that is attached to the push notification
+        // you can customize the notification presentation options. Below code will show notification banner as well as play a sound. If you want to add a badge too, add .badge in the array.
+        completionHandler([.alert,.sound])
     }
 }

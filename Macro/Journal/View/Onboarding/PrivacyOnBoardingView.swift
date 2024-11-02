@@ -48,7 +48,7 @@ struct PrivacyOnBoardingView: View {
                                 .frame(width: 353, height: 50)
                                 .background(.white)
                                 .cornerRadius(12)
-                            Text("Izinkan")
+                            Text("Lanjutkan")
                                 .foregroundColor(.white)
                             
                         }

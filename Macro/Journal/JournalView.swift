@@ -16,6 +16,7 @@ struct JournalView: View {
     @State var isMenuSheetPresented = false
     @State var navigateToMenuPage = false
     @State var isAddSleepViewPresented = false
+    @State var navigateToReminderView = false
     @State var isSettingsViewPresented = false
     @State var navigateToHistoryView = false
     @State var classificationTitle: String = ""
@@ -27,6 +28,7 @@ struct JournalView: View {
     @State private var toastMessage: String = ""
     @State var glycemicIndex: glycemicIndex = .low
     @Query var journals: [Journal]
+    @State private var isReminderSheetPresented = false
     @State private var showDatePicker = false
     @State private var savedDate: Date? = nil
     @State private var selectedDate: Date = Date()
@@ -68,7 +70,7 @@ struct JournalView: View {
                             Spacer()
                             
                             Button(action: {
-                                
+                                isReminderSheetPresented = true // Set to present ReminderView as a modal
                             }) {
                                 Image(systemName: "bell")
                                     .imageScale(.large)
@@ -85,8 +87,7 @@ struct JournalView: View {
                             }
                             .sheet(isPresented: $isSettingsViewPresented) {
                                 SettingsView()
-                            }
-                            
+                            }                            
                         }
                         .padding()
                         
@@ -269,7 +270,6 @@ struct JournalView: View {
                                     }
                                     .background(
                                         Image("Burger")
-                                        
                                             .padding(.bottom, -42),
                                         alignment: .bottomTrailing)
                                     
@@ -309,6 +309,7 @@ struct JournalView: View {
                                             .padding(.leading)
                                             .padding(.vertical)
                                         
+
                                         Text("kali/1 porsi")
                                             .font(.callout)
                                             .foregroundColor(.systemGray3)
@@ -408,21 +409,71 @@ struct JournalView: View {
                     }
                     .background(Color.white).edgesIgnoringSafeArea(.all)
                 }
-                .onAppear {
-                    viewModel.fetchSleepData(context: context, journals: journals)
-                    
-                    if let saved = savedDate {
-                        selectedDate = saved
+                .background(Color.background).edgesIgnoringSafeArea(.all)
+            }
+            .onAppear {
+                viewModel.fetchSleepData(context: context, journals: journals)
+                
+                let content = UNMutableNotificationContent()
+                content.title = "Sleep"
+                content.subtitle = "Do not forget to input your sleep!"
+                content.sound = UNNotificationSound.default
+                
+                var dateComponents = DateComponents()
+                dateComponents.hour = 9
+                dateComponents.minute = 30
+                
+                let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+                
+                let notificationIdentifier = "uniqueNotificationId"
+                
+                // Cancel existing notification with the same identifier
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notificationIdentifier])
+                
+                let request = UNNotificationRequest(identifier: notificationIdentifier, content: content, trigger: trigger)
+                UNUserNotificationCenter.current().add(request) { error in
+                    if let error = error {
+                        print("Error adding notification: \(error.localizedDescription)")
                     }
                 }
-                if showToast {
-                    VStack {
-                        Spacer()
-                        ToastView(message: toastMessage)
-                            .padding(.bottom, 20)
-                    }
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-                    .animation(.easeInOut(duration: 0.5), value: showToast)
+                
+            }
+            if showToast {
+                VStack {
+                    Spacer()
+                    ToastView(message: toastMessage)
+                        .padding(.bottom, 20)
+                }
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+                .animation(.easeInOut(duration: 0.5), value: showToast)
+            }
+        }
+        .sheet(isPresented: $isReminderSheetPresented) {
+                   ReminderView(viewModel: ReminderViewModel())
+                       .environment(\.modelContext, context)
+               }
+    }
+    
+    func classifyImageAndFetchDetails(image: UIImage) {
+        // Show toast when classification begins
+        showToastMessage("Classifying image...")
+        
+        icViewModel.FoodClassificationModel(uiImage: image)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            if let title = icViewModel.imageClassificationText.first,
+               let prob = icViewModel.imageClassificationProb.first {
+                classificationTitle = title
+                classificationProb = prob
+                
+                // Fetch the food details using the classification title
+                searchViewModel.detailDiet(name: title)
+                
+                if let food = searchViewModel.food {
+                    protein = food.protein
+                    fat = food.fat
+                    dairy = food.dairy
+                    glycemicIndex = food.glycemicIndex
                 }
             }
         }

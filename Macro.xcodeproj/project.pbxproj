@@ -31,11 +31,17 @@
 		6AEC4D0E2CB53A4C003DD2F3 /* Sleep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC4D0D2CB53A4C003DD2F3 /* Sleep.swift */; };
 		6AEC4D102CB53AA1003DD2F3 /* Journal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */; };
 		6AEF1BF02CC25AB200B6F89F /* ActivityOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF1BEF2CC25AB200B6F89F /* ActivityOnBoardingView.swift */; };
+		712C2C0E2CD2836C0032E754 /* NameOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712C2C0D2CD283650032E754 /* NameOnBoardingView.swift */; };
+		712C2C1C2CD36E340032E754 /* ReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712C2C1B2CD36E2C0032E754 /* ReminderView.swift */; };
+		712C2C1E2CD379330032E754 /* ReminderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712C2C1D2CD379290032E754 /* ReminderViewModel.swift */; };
+		712C2C222CD3811A0032E754 /* AddReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712C2C212CD381150032E754 /* AddReminderView.swift */; };
+		712C2C2A2CD388F60032E754 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712C2C292CD388F60032E754 /* Reminder.swift */; };
 		712C2BF82CCF8B490032E754 /* FoodAndDrink.json in Resources */ = {isa = PBXBuildFile; fileRef = 712C2BF72CCF8B410032E754 /* FoodAndDrink.json */; };
 		712C2BFC2CCF8B7A0032E754 /* Name in Resources */ = {isa = PBXBuildFile; fileRef = 712C2BFB2CCF8B750032E754 /* Name */; };
 		71A2BEC22CC270BF00687EA0 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A2BEC12CC270AA00687EA0 /* ToastView.swift */; };
 		71E364EB2CC108E500EA4C82 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E364EA2CC108DE00EA4C82 /* UIImageExtension.swift */; };
 		900D53112CC562EA003D308E /* OnBoardingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900D53102CC562EA003D308E /* OnBoardingsViewModel.swift */; };
+		900D53242CCB580C003D308E /* AddSleepCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900D53232CCB57FE003D308E /* AddSleepCard.swift */; };
 		900D53402CCBA322003D308E /* PDFPrintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900D533F2CCBA322003D308E /* PDFPrintView.swift */; };
 		900D532E2CCB8932003D308E /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900D532D2CCB891D003D308E /* NotificationViewModel.swift */; };
 		900D53302CCB8BC8003D308E /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900D532F2CCB8BBE003D308E /* NotificationView.swift */; };
@@ -90,11 +96,17 @@
 		6AEC4D0D2CB53A4C003DD2F3 /* Sleep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Sleep.swift; path = Macro/Sleep.swift; sourceTree = SOURCE_ROOT; };
 		6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Journal.swift; path = Macro/Journal.swift; sourceTree = SOURCE_ROOT; };
 		6AEF1BEF2CC25AB200B6F89F /* ActivityOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityOnBoardingView.swift; sourceTree = "<group>"; };
+		712C2C0D2CD283650032E754 /* NameOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameOnBoardingView.swift; sourceTree = "<group>"; };
+		712C2C1B2CD36E2C0032E754 /* ReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderView.swift; sourceTree = "<group>"; };
+		712C2C1D2CD379290032E754 /* ReminderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderViewModel.swift; sourceTree = "<group>"; };
+		712C2C212CD381150032E754 /* AddReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReminderView.swift; sourceTree = "<group>"; };
+		712C2C292CD388F60032E754 /* Reminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Reminder.swift; path = Macro/Reminder.swift; sourceTree = SOURCE_ROOT; };
 		712C2BF72CCF8B410032E754 /* FoodAndDrink.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FoodAndDrink.json; sourceTree = "<group>"; };
 		712C2BFB2CCF8B750032E754 /* Name */ = {isa = PBXFileReference; lastKnownFileType = text; path = Name; sourceTree = "<group>"; };
 		71A2BEC12CC270AA00687EA0 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		71E364EA2CC108DE00EA4C82 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		900D53102CC562EA003D308E /* OnBoardingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingsViewModel.swift; sourceTree = "<group>"; };
+		900D53232CCB57FE003D308E /* AddSleepCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSleepCard.swift; sourceTree = "<group>"; };
 		900D533F2CCBA322003D308E /* PDFPrintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFPrintView.swift; sourceTree = "<group>"; };
 		900D532D2CCB891D003D308E /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		900D532F2CCB8BBE003D308E /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
@@ -243,6 +255,9 @@
 		6A3A6AE22CB7BEDB009319F8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				712C2C212CD381150032E754 /* AddReminderView.swift */,
+				712C2C1B2CD36E2C0032E754 /* ReminderView.swift */,
+				900D53232CCB57FE003D308E /* AddSleepCard.swift */,
 				903A7AE92CD38FA800452B78 /* SettingsView.swift */,
 				903A7AE72CD375BB00452B78 /* DatePickerView.swift */,
 				900D532F2CCB8BBE003D308E /* NotificationView.swift */,
@@ -261,6 +276,7 @@
 		6A3A6AE32CB7BEE0009319F8 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				712C2C1D2CD379290032E754 /* ReminderViewModel.swift */,
 				900D532D2CCB891D003D308E /* NotificationViewModel.swift */,
 				900D53102CC562EA003D308E /* OnBoardingsViewModel.swift */,
 				71E364EA2CC108DE00EA4C82 /* UIImageExtension.swift */,
@@ -320,6 +336,7 @@
 				6AEC4D0B2CB539EA003DD2F3 /* Food.swift */,
 				6AEC4D0D2CB53A4C003DD2F3 /* Sleep.swift */,
 				6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */,
+				712C2C292CD388F60032E754 /* Reminder.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -327,6 +344,7 @@
 		9094D83A2CBE79D100BA62EF /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				712C2C0D2CD283650032E754 /* NameOnBoardingView.swift */,
 				9094D8382CBE776200BA62EF /* AgeOnBoardingView.swift */,
 				9094D83B2CBF6C1F00BA62EF /* HeightOnBoardingView.swift */,
 				9094D83D2CBF8DAD00BA62EF /* WeightOnBoardingView.swift */,
@@ -415,6 +433,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				712C2C2A2CD388F60032E754 /* Reminder.swift in Sources */,
 				9094D82D2CBD25DB00BA62EF /* AddSleepViewModel.swift in Sources */,
 				9094D8252CBD03B700BA62EF /* JournalViewModel.swift in Sources */,
 				9094D8392CBE776200BA62EF /* AgeOnBoardingView.swift in Sources */,
@@ -423,6 +442,7 @@
 				6AEC4D082CB5268C003DD2F3 /* FoodCache.swift in Sources */,
 				9094D83C2CBF6C1F00BA62EF /* HeightOnBoardingView.swift in Sources */,
 				6A3A6AEE2CBD13DF009319F8 /* CustomSearchBar.swift in Sources */,
+				900D53242CCB580C003D308E /* AddSleepCard.swift in Sources */,
 				6AEC4D042CB514C9003DD2F3 /* DietViewModel.swift in Sources */,
 				9094D8402CBF907700BA62EF /* GenderOnBoardingView.swift in Sources */,
 				6AE757EF2CAE87FE00BEFDE0 /* ContentView.swift in Sources */,
@@ -434,6 +454,7 @@
 				6AEC4D022CB514A3003DD2F3 /* DietView.swift in Sources */,
 				903A7AE82CD375BB00452B78 /* DatePickerView.swift in Sources */,
 				6A3A6B022CC0D65A009319F8 /* SummaryViewModel.swift in Sources */,
+				712C2C222CD3811A0032E754 /* AddReminderView.swift in Sources */,
 				6A3A6AEC2CBD0932009319F8 /* SearchViewModel.swift in Sources */,
 				6AEC4D0A2CB526E6003DD2F3 /* FoodFile.swift in Sources */,
 				9094D8272CBD040100BA62EF /* ImagePickerViewModel.swift in Sources */,
@@ -449,9 +470,12 @@
 				6A3A6B042CC0D6D8009319F8 /* SummaryCard.swift in Sources */,
 				71A2BEC22CC270BF00687EA0 /* ToastView.swift in Sources */,
 				9015E76B2CB5190200C1D808 /* HealthManager.swift in Sources */,
+				9094D8482CC1003300BA62EF /* ChartViewModel.swift in Sources */,
+				712C2C0E2CD2836C0032E754 /* NameOnBoardingView.swift in Sources */,
 				9094D84C2CC109F400BA62EF /* DetailSummaryView.swift in Sources */,
 				6A3A6AFE2CC0D639009319F8 /* SummaryView.swift in Sources */,
 				6AEF1BF02CC25AB200B6F89F /* ActivityOnBoardingView.swift in Sources */,
+				712C2C1E2CD379330032E754 /* ReminderViewModel.swift in Sources */,
 				9094D8312CBE4FBA00BA62EF /* HistoryView.swift in Sources */,
 				9094D8332CBE594D00BA62EF /* FoodDetailHistoryView.swift in Sources */,
 				6A3A6AF62CBF6C50009319F8 /* SleepDetailHistoryView.swift in Sources */,
@@ -459,6 +483,7 @@
 				9094D83E2CBF8DAD00BA62EF /* WeightOnBoardingView.swift in Sources */,
 				9094D8352CBE5AA700BA62EF /* PrivacyOnBoardingView.swift in Sources */,
 				6A3A6AF22CBE5C62009319F8 /* SearchCard.swift in Sources */,
+				712C2C1C2CD36E340032E754 /* ReminderView.swift in Sources */,
 				900D532E2CCB8932003D308E /* NotificationViewModel.swift in Sources */,
 				900D53112CC562EA003D308E /* OnBoardingsViewModel.swift in Sources */,
 				6AEC4D102CB53AA1003DD2F3 /* Journal.swift in Sources */,
@@ -613,7 +638,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ada.Macro;
+				PRODUCT_BUNDLE_IDENTIFIER = ada.Macro21;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -646,7 +671,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ada.Macro;
+				PRODUCT_BUNDLE_IDENTIFIER = ada.Macro21;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

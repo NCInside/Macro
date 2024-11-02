@@ -9,10 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct AddSleepView: View {
+    @State private var isHeartDataFetched = false
     @ObservedObject var viewModel = AddSleepViewModel()
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.modelContext) private var context
     @Query var journals: [Journal]
+    @State private var showAlert = false
+    @State private var showAddSleepCard = false
     
     var body: some View {
         VStack {
@@ -21,10 +24,12 @@ struct AddSleepView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
                 .foregroundColor(.mainLight)
-                
+                Spacer()
+                Text("TIDUR")
+                    .bold()
                 Spacer()
                 
-                Button("Selesai") {
+                Button("Tambah") {
                     viewModel.addSleep(context: context, journals: journals)
                     presentationMode.wrappedValue.dismiss()
                 }
@@ -33,173 +38,85 @@ struct AddSleepView: View {
             }
             .padding()
             
-            ZStack{
-                Rectangle()
-                    .foregroundColor(.background)
-                    .frame(width: 360, height: 560)
-                    .cornerRadius(12)
-                
-                VStack{
-                    HStack(spacing: 4) {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Label {
-                                Text("WAKTU TIDUR")
-                                    .foregroundColor(.black)
-                                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                                
-                            } icon: {
-                                Image(systemName: "bed.double.fill")
-                                    .foregroundColor(Color.mainLight)
-                            }
-                            .font(.callout)
-                            
-                            HStack {
-                                Spacer()
-                                Text(viewModel.getTime(angle: viewModel.startAngle).formatted(.dateTime.hour().minute()))
-                                    .font(.largeTitle.bold())
-                                Spacer()
-                            }
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        
-                        VStack(alignment: .leading, spacing: 8) {
-                            Label {
-                                Text("WAKTU BANGUN")
-                                    .foregroundColor(.black)
-                                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                            } icon: {
-                                Image(systemName: "alarm.waves.left.and.right.fill")
-                                    .foregroundColor(Color.mainLight)
-                            }
-                            .font(.callout)
-                            
-                            HStack {
-                                Spacer()
-                                Text(viewModel.getTime(angle: viewModel.toAngle).formatted(.dateTime.hour().minute()))
-                                    .font(.largeTitle.bold())
-                                Spacer()
-                            }
-                            
-                            
-                        }
-                        .padding(.leading, -10)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                    .padding()
+            Button(action: {
+                showAlert = true
+            }) {
+                HStack{
+                    Image("HealthIcon")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.systemGray4, lineWidth: 1)
+                        )
+                        .padding(.leading, 14)
                     
-                    SleepTimeSlider()
-                        .padding(.top, 20)
+                    Text("Ambil Data Tidur")
+                        .foregroundColor(Color.accentColor)
+                        .padding(.leading, 8)
                     
-                    Text("\(viewModel.getTimeDifference().0) jam \(viewModel.getTimeDifference().1) menit")
-                        .font(.title.bold())
-                        .padding(.top, 40)
-                    
-                    Text("Total Tidur")
-                        .foregroundColor(.mainLight)
-                    
+                    Spacer()
                 }
+                .frame(width: 360, height: 50)
+                .background(Color.white)
+                .cornerRadius(10)
+                .padding(.bottom, 10)
+            }
+            .padding(.top, 20)
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Hubungkan ke Kesehatan"),
+                    message: Text("Untuk aktivasi data tidur di Zora, buka Pengaturan di perangkat Anda → Aplikasi → Kesehatan → Akses Data & Perangkat → Zora → Nyalakan semua.")
+                )
+            }
+            
+            
+            AddSleepCard()
+            
+            Button(action: {
+                withAnimation {
+                    showAddSleepCard.toggle()
+                }
+            }) {
+                HStack{
+                    Image(systemName: "plus")
+                        .padding(.leading, 8)
+                    
+                    Text("Tambah Tidur")
+                        .foregroundColor(Color.accentColor)
+                    
+                    Spacer()
+                }
+                .padding(.top, 10)
                 
             }
+            if showAddSleepCard {
+                            AddSleepCard()
+//
+                        }
         }
+        
+        
         .padding()
         .frame(maxHeight: .infinity, alignment: .top)
-        
+        .background(Color.background)
+    }
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter
     }
     
-    @ViewBuilder
-    func SleepTimeSlider() -> some View {
-        GeometryReader { proxy in
-            let width = proxy.size.width
-            
-            ZStack {
-                ZStack {
-                    ForEach(1...60, id: \.self) { index in
-                        Rectangle()
-                            .fill(index % 5 == 0 ? .black : .gray)
-                            .frame(width: 2, height: index % 5 == 0 ? 10 : 5)
-                            .offset(y: (width - 60) / 2)
-                            .rotationEffect(.init(degrees: Double(index) * 6))
-                    }
-                    let texts = [12, 14, 16, 18, 20, 22,0, 2, 4, 6, 8, 10, ]
-                    ForEach(texts.indices, id: \.self) { index in
-                        Text("\(texts[index])")
-                            .font(.caption.bold())
-                            .foregroundColor(.black)
-                            .rotationEffect(.init(degrees: Double(index) * -30))
-                            .offset(y: (width - 90) / 2)
-                            .rotationEffect(.init(degrees: Double(index) * 30))
-                    }
-                    
-                    Image(systemName: "sun.max.fill")
-                        .font(.title3)
-                        .foregroundColor(.yellow)
-                        .offset(y: (width - 130) / 2)
-                    
-                    
-                    Image(systemName: "moon.fill")
-                        .font(.callout)
-                        .foregroundColor(.systemMint)
-                        .offset(y: -(width - 130) / 2)
-                        
-                }
-                
-                
-                Circle()
-                    .stroke(.white, lineWidth: 50)
-                
-                let reverseRotation = (viewModel.startProgress > viewModel.toProgress) ? -Double((1 - viewModel.startProgress) * 360) : 0
-                
-                Circle()
-                    .trim(from: viewModel.startProgress > viewModel.toProgress ? 0 : viewModel.startProgress, to: viewModel.toProgress + (-reverseRotation / 360))
-                    .stroke(Color.systemBeige, style: StrokeStyle(lineWidth: 40, lineCap: .round, lineJoin: .round))
-                    .rotationEffect(.init(degrees: -90))
-                    .rotationEffect(.init(degrees: reverseRotation))
-                    
-                Image(systemName: "bed.double.fill")
-                    .font(.callout)
-                    .foregroundColor(.mainLight)
-                    .frame(width: 30, height: 30)
-                    .rotationEffect(.init(degrees: 90))
-                    .rotationEffect(.init(degrees: -viewModel.startAngle))
-                    .background(.white, in: Circle())
-                    .offset(x: width / 2)
-                    .rotationEffect(.init(degrees: viewModel.startAngle))
-                    .gesture(
-                        DragGesture()
-                            .onChanged { value in
-                                viewModel.onDrag(value: value, fromSlider: true)
-                            }
-                    )
-                    .rotationEffect(.init(degrees: -90))
-                
-                Image(systemName: "sunrise.fill")
-                    .font(.callout)
-                    .foregroundColor(.mainLight)
-                    .frame(width: 30, height: 30)
-                    .rotationEffect(.init(degrees: 90))
-                    .rotationEffect(.init(degrees: -viewModel.toAngle))
-                    .background(.white, in: Circle())
-                    .offset(x: width / 2)
-                    .rotationEffect(.init(degrees: viewModel.toAngle))
-                    .gesture(
-                        DragGesture()
-                            .onChanged { value in
-                                viewModel.onDrag(value: value)
-                            }
-                    )
-                    .rotationEffect(.init(degrees: -90))
-                
-                
-            }
-            
-            
-        }
-        .frame(width: screenBounds().width / 1.6, height: screenBounds().width / 1.6)
-        
+    private var timeFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter
     }
+    
 }
 
-struct Preview: PreviewProvider {
+struct SleepInputView_Previews: PreviewProvider {
     static var previews: some View {
         AddSleepView()
     }

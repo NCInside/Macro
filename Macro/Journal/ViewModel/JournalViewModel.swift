@@ -59,28 +59,31 @@ class JournalViewModel: ObservableObject {
         
         if hasEntriesFromDate(entries: journals, date: Date()) == nil {
             
+            print("Fetching sleep data...")
             var first: Date = Date()
             var last: Date = Date()
             
+            print(first, last)
             healthManager.fetchSleepData { samples in
                 DispatchQueue.main.async {
                     guard let samples = samples, !samples.isEmpty else {
+                        print("Sample Empty")
                         return
                     }
+                    first = samples.first!.endDate
+                    last = samples.last!.startDate
                     
-                    first = samples.first?.endDate ?? Date()
-                    last = samples.last?.startDate ?? Date()
+                    let sleep: Sleep = Sleep(timestamp: Date(), duration: Int(first.timeIntervalSince(last)), start: first, end: last)
+                    print(sleep.duration)
+                    let journal = Journal(timestamp: Date(), foods: [], sleep: sleep)
+                    
+                    context.insert(journal)
+                    do {
+                        try context.save()
+                    } catch {
+                        print(error.localizedDescription)
+                    }
                 }
-            }
-            
-            let sleep: Sleep = Sleep(timestamp: Date(), duration: Int(first.timeIntervalSince(last)), start: first, end: last)
-            let journal = Journal(timestamp: Date(), foods: [], sleep: sleep)
-            
-            context.insert(journal)
-            do {
-                try context.save()
-            } catch {
-                print(error.localizedDescription)
             }
         }
         
