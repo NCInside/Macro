@@ -19,6 +19,7 @@ struct DetailSummaryView: View {
     @StateObject private var viewModel = SummaryViewModel()
     @Query var journals: [Journal]
     @State var selectedWeek = 1
+    
     @State var weekPoints: [Int: [Point]] = [:]
     @State var weekPointsPie: [Int: [PiePoint]] = [:]
     
@@ -35,7 +36,7 @@ struct DetailSummaryView: View {
                 }
             case .fat:
                 HStack {
-                    Text("Lemak")
+                    Text("Makanan Berlemak")
                         .bold()
                         .font(.largeTitle)
                         .padding(.leading, 8)
@@ -52,6 +53,14 @@ struct DetailSummaryView: View {
             case .gi:
                 HStack {
                     Text("Indeks Glikemik")
+                        .bold()
+                        .font(.largeTitle)
+                        .padding(.leading, 8)
+                    Spacer()
+                }
+            case .saturatedFat:
+                HStack {
+                    Text("Lemak Jenuh")
                         .bold()
                         .font(.largeTitle)
                         .padding(.leading, 8)
@@ -75,6 +84,18 @@ struct DetailSummaryView: View {
                                     angle: .value("Count", item.value)
                                 )
                                 .foregroundStyle(by: .value("Category", item.category))
+                                .annotation(position: .overlay, alignment: .center) {
+                                    VStack {
+                                        Text(item.category + " GI")
+                                            .font(.subheadline)
+                                            .foregroundColor(.white)
+                                            .bold()
+                                        Text(String(item.value) + "x")
+                                            .font(.subheadline)
+                                            .foregroundColor(.white)
+                                            .bold()
+                                    }
+                                }
                             }
                             .frame(maxWidth: .infinity, maxHeight: 350)
                             .padding(.horizontal)
@@ -82,12 +103,24 @@ struct DetailSummaryView: View {
                         else {
                             Text("Week \(selectedWeek)")
                             Chart {
-                                if let week = weekPointsPie[selectedWeek] {
+                                if weekPointsPie[selectedWeek] != nil {
                                     ForEach(viewModel.piePoints, id: \.category) { item in
                                         SectorMark(
                                             angle: .value("Count", item.value)
                                         )
                                         .foregroundStyle(by: .value("Category", item.category))
+                                        .annotation(position: .overlay, alignment: .center) {
+                                            VStack {
+                                                Text(item.category + " GI")
+                                                    .font(.subheadline)
+                                                    .foregroundColor(.white)
+                                                    .bold()
+                                                Text(String(item.value) + "x")
+                                                    .font(.subheadline)
+                                                    .foregroundColor(.white)
+                                                    .bold()
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -116,7 +149,7 @@ struct DetailSummaryView: View {
                     else {
                         if (viewModel.selectedTab == "Bulanan") {
                             Chart {
-                                ForEach(viewModel.points) { item in
+                                ForEach(viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth)) { item in
                                     BarMark(x: .value("date", Calendar.current.component(.day, from: item.date)), y: .value("value", item.value))
                                         .foregroundStyle(Color.mint)
                                 }
@@ -166,8 +199,7 @@ struct DetailSummaryView: View {
             }
             .onAppear {
                 dayFormatter.dateFormat = "EEEE"
-                viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth)
-                weekPoints = viewModel.getWeeks(of: viewModel.points)
+                weekPoints = viewModel.getWeeks(of: viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth))
                 weekPointsPie = viewModel.getWeeksPie(of: viewModel.piePoints)
             }
         }

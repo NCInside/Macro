@@ -14,8 +14,7 @@ struct SummaryView: View {
     @Environment(\.modelContext) var context
     @Query var journals: [Journal]
     @State var chosenMonth = Calendar.current.component(.month, from: Date())
-    @State var protein: Double = 0
-    @State var fat: Double = 0
+    @State var saturatedFat: Double = 0
     
     let months = [
         "January", "February", "March", "April", "May", "June",
@@ -86,7 +85,7 @@ struct SummaryView: View {
                                     Text(String(viewModel.avgFat))
                                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                                         .bold()
-                                    Text("/\(String(format: "%.2f", protein))gram")
+                                    Text("porsi")
                                         .font(.caption2)
                                 },
                                 icon: "DrumStickFull",
@@ -96,15 +95,15 @@ struct SummaryView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
                         .buttonStyle(.plain)
-                        NavigationLink(destination: DetailSummaryView(scenario: .fat, chosenMonth: chosenMonth)) {
+                        NavigationLink(destination: DetailSummaryView(scenario: .saturatedFat, chosenMonth: chosenMonth)) {
                             SummaryCard(
                                 title: "Lemak Jenuh",
                                 caption: "Rerata frekuensi harian",
                                 detail: HStack (alignment: .bottom,spacing: 0) {
-                                    Text(String(viewModel.avgFat))
+                                    Text(String(viewModel.avgSaturatedFat))
                                         .font(.title)
                                         .bold()
-                                    Text("/\(String(format: "%.2f", fat))gram")
+                                    Text("/\(String(format: "%.2f", saturatedFat))gram")
                                         .font(.caption2)
                                 },
                                 icon: "BurgerFull",
@@ -121,7 +120,7 @@ struct SummaryView: View {
                                     Text(String(viewModel.freqMilk))
                                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                                         .bold()
-                                    Text("x")
+                                    Text("/1 porsi")
                                         .font(.caption2)
                                 },
                                 icon: "Milk",
@@ -157,13 +156,26 @@ struct SummaryView: View {
 //            generateDummy()
             viewModel.updateValue(journals: journals, chosenMonth: chosenMonth)
             let energyExpenditure = viewModel.calcEnergyExpenditure()
-            fat = energyExpenditure * 0.2 / 9
+            saturatedFat = energyExpenditure * 0.2 / 9
         }
     }
     
     private func render() -> URL {
+        
+        let sleepPoints = fetchPoints(for: .sleep)
+        let fatPoints = fetchPoints(for: .fat)
+        let saturatedFatPoints = fetchPoints(for: .saturatedFat)
+        let dairyPoints = fetchPoints(for: .dairy)
+        let giPoints = viewModel.getGIPoints(journals: journals, chosenMonth: chosenMonth)
+                
         // 1: Render Hello World with some modifiers
-        let renderer = ImageRenderer(content: PDFPrintView())
+        let renderer = ImageRenderer(
+            content: PDFPrintView(chosenMonth: chosenMonth,
+                                  sleepPoints: sleepPoints,
+                                  fatPoints: fatPoints,
+                                  saturatedFatPoints: saturatedFatPoints,
+                                  dairyPoints: dairyPoints,
+                                  giPoints: giPoints))
         
         // 2: Save it to our documents directory
         let url = URL.documentsDirectory.appending(path: "output.pdf")
@@ -190,6 +202,11 @@ struct SummaryView: View {
         }
         
         return url
+    }
+    
+    private func fetchPoints(for scenario: scenario) -> [Point] {
+        let sortedPoints = viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth).sorted { $0.date < $1.date }
+        return sortedPoints
     }
     
 }
