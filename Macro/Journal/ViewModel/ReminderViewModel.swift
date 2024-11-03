@@ -38,12 +38,20 @@ class ReminderViewModel: ObservableObject {
 
     func updateReminder(context: ModelContext, reminder: Reminder) {
         print("Attempting to update reminder: \(reminder.clinicName)")
+        
+        // Remove previous notifications
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [
+            "\(reminder.id.uuidString)_3",
+            "\(reminder.id.uuidString)_1",
+            "\(reminder.id.uuidString)_0"
+        ])
+        
         do {
             try context.save()
             if let index = reminders.firstIndex(where: { $0.id == reminder.id }) {
                 reminders[index] = reminder
                 print("Successfully updated reminder: \(reminder.clinicName)")
-                scheduleNotifications(for: reminder)
+                scheduleNotifications(for: reminder) // Schedule new notifications with updated times
             }
         } catch {
             print("Failed to update reminder: \(error.localizedDescription)")
@@ -52,6 +60,7 @@ class ReminderViewModel: ObservableObject {
             }
         }
     }
+
 
     func removeReminder(_ reminder: Reminder, context: ModelContext) {
         print("Attempting to remove reminder: \(reminder.clinicName)")

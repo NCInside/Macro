@@ -31,20 +31,20 @@
 		6AEC4D0E2CB53A4C003DD2F3 /* Sleep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC4D0D2CB53A4C003DD2F3 /* Sleep.swift */; };
 		6AEC4D102CB53AA1003DD2F3 /* Journal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */; };
 		6AEF1BF02CC25AB200B6F89F /* ActivityOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF1BEF2CC25AB200B6F89F /* ActivityOnBoardingView.swift */; };
+		712C2BF82CCF8B490032E754 /* FoodAndDrink.json in Resources */ = {isa = PBXBuildFile; fileRef = 712C2BF72CCF8B410032E754 /* FoodAndDrink.json */; };
+		712C2BFC2CCF8B7A0032E754 /* Name in Resources */ = {isa = PBXBuildFile; fileRef = 712C2BFB2CCF8B750032E754 /* Name */; };
 		712C2C0E2CD2836C0032E754 /* NameOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712C2C0D2CD283650032E754 /* NameOnBoardingView.swift */; };
 		712C2C1C2CD36E340032E754 /* ReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712C2C1B2CD36E2C0032E754 /* ReminderView.swift */; };
 		712C2C1E2CD379330032E754 /* ReminderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712C2C1D2CD379290032E754 /* ReminderViewModel.swift */; };
 		712C2C222CD3811A0032E754 /* AddReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712C2C212CD381150032E754 /* AddReminderView.swift */; };
 		712C2C2A2CD388F60032E754 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712C2C292CD388F60032E754 /* Reminder.swift */; };
-		712C2BF82CCF8B490032E754 /* FoodAndDrink.json in Resources */ = {isa = PBXBuildFile; fileRef = 712C2BF72CCF8B410032E754 /* FoodAndDrink.json */; };
-		712C2BFC2CCF8B7A0032E754 /* Name in Resources */ = {isa = PBXBuildFile; fileRef = 712C2BFB2CCF8B750032E754 /* Name */; };
 		71A2BEC22CC270BF00687EA0 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A2BEC12CC270AA00687EA0 /* ToastView.swift */; };
 		71E364EB2CC108E500EA4C82 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E364EA2CC108DE00EA4C82 /* UIImageExtension.swift */; };
 		900D53112CC562EA003D308E /* OnBoardingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900D53102CC562EA003D308E /* OnBoardingsViewModel.swift */; };
 		900D53242CCB580C003D308E /* AddSleepCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900D53232CCB57FE003D308E /* AddSleepCard.swift */; };
-		900D53402CCBA322003D308E /* PDFPrintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900D533F2CCBA322003D308E /* PDFPrintView.swift */; };
 		900D532E2CCB8932003D308E /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900D532D2CCB891D003D308E /* NotificationViewModel.swift */; };
 		900D53302CCB8BC8003D308E /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900D532F2CCB8BBE003D308E /* NotificationView.swift */; };
+		900D53402CCBA322003D308E /* PDFPrintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900D533F2CCBA322003D308E /* PDFPrintView.swift */; };
 		9015E76B2CB5190200C1D808 /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9015E76A2CB5190200C1D808 /* HealthManager.swift */; };
 		903A7AE82CD375BB00452B78 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903A7AE72CD375BB00452B78 /* DatePickerView.swift */; };
 		903A7AEA2CD38FB600452B78 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903A7AE92CD38FA800452B78 /* SettingsView.swift */; };
@@ -96,20 +96,20 @@
 		6AEC4D0D2CB53A4C003DD2F3 /* Sleep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Sleep.swift; path = Macro/Sleep.swift; sourceTree = SOURCE_ROOT; };
 		6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Journal.swift; path = Macro/Journal.swift; sourceTree = SOURCE_ROOT; };
 		6AEF1BEF2CC25AB200B6F89F /* ActivityOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityOnBoardingView.swift; sourceTree = "<group>"; };
+		712C2BF72CCF8B410032E754 /* FoodAndDrink.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FoodAndDrink.json; sourceTree = "<group>"; };
+		712C2BFB2CCF8B750032E754 /* Name */ = {isa = PBXFileReference; lastKnownFileType = text; path = Name; sourceTree = "<group>"; };
 		712C2C0D2CD283650032E754 /* NameOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameOnBoardingView.swift; sourceTree = "<group>"; };
 		712C2C1B2CD36E2C0032E754 /* ReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderView.swift; sourceTree = "<group>"; };
 		712C2C1D2CD379290032E754 /* ReminderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderViewModel.swift; sourceTree = "<group>"; };
 		712C2C212CD381150032E754 /* AddReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReminderView.swift; sourceTree = "<group>"; };
 		712C2C292CD388F60032E754 /* Reminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Reminder.swift; path = Macro/Reminder.swift; sourceTree = SOURCE_ROOT; };
-		712C2BF72CCF8B410032E754 /* FoodAndDrink.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FoodAndDrink.json; sourceTree = "<group>"; };
-		712C2BFB2CCF8B750032E754 /* Name */ = {isa = PBXFileReference; lastKnownFileType = text; path = Name; sourceTree = "<group>"; };
 		71A2BEC12CC270AA00687EA0 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		71E364EA2CC108DE00EA4C82 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		900D53102CC562EA003D308E /* OnBoardingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingsViewModel.swift; sourceTree = "<group>"; };
 		900D53232CCB57FE003D308E /* AddSleepCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSleepCard.swift; sourceTree = "<group>"; };
-		900D533F2CCBA322003D308E /* PDFPrintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFPrintView.swift; sourceTree = "<group>"; };
 		900D532D2CCB891D003D308E /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		900D532F2CCB8BBE003D308E /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		900D533F2CCBA322003D308E /* PDFPrintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFPrintView.swift; sourceTree = "<group>"; };
 		9015E76A2CB5190200C1D808 /* HealthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
 		9015E76C2CB51CD300C1D808 /* Macro.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Macro.entitlements; sourceTree = "<group>"; };
 		903A7AE72CD375BB00452B78 /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
@@ -470,7 +470,6 @@
 				6A3A6B042CC0D6D8009319F8 /* SummaryCard.swift in Sources */,
 				71A2BEC22CC270BF00687EA0 /* ToastView.swift in Sources */,
 				9015E76B2CB5190200C1D808 /* HealthManager.swift in Sources */,
-				9094D8482CC1003300BA62EF /* ChartViewModel.swift in Sources */,
 				712C2C0E2CD2836C0032E754 /* NameOnBoardingView.swift in Sources */,
 				9094D84C2CC109F400BA62EF /* DetailSummaryView.swift in Sources */,
 				6A3A6AFE2CC0D639009319F8 /* SummaryView.swift in Sources */,
@@ -622,7 +621,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Macro/Preview Content\"";
-				DEVELOPMENT_TEAM = KKTJNS7KB7;
+				DEVELOPMENT_TEAM = 64HTLCWMUT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "";
@@ -655,7 +654,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Macro/Preview Content\"";
-				DEVELOPMENT_TEAM = KKTJNS7KB7;
+				DEVELOPMENT_TEAM = 64HTLCWMUT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "";
