@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct AddSleepCard: View {
-    @State var startDate = Date()
-    @State var endDate = Date()
-    @State var showStartPicker = false
-    @State var showEndPicker = false
+    @Binding var startDate: Date
+    @Binding var endDate: Date
+    @Binding var showStartPicker: Bool
+    @Binding var showEndPicker: Bool
     
     var body: some View {
         
@@ -53,10 +53,10 @@ struct AddSleepCard: View {
                     .datePickerStyle(WheelDatePickerStyle())
                     .labelsHidden()
                     .onChange(of: startDate) { newStartDate in
-                                            if endDate < newStartDate {
-                                                endDate = newStartDate
-                                            }
-                                        }
+                        if endDate < newStartDate {
+                            endDate = newStartDate
+                        }
+                    }
             }
             
             HStack {

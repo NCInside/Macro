@@ -71,55 +71,85 @@ final class SearchViewModel: ObservableObject {
     
     func addFoodName(name: String, cookingTechnique: [String], glycemicIndex: Int, dairies: Int, saturatedFat: Double, gramPortion: Int) {
         print("Add Food Name")
+        
+        // Set up paths in Documents directory
         let fileManager = FileManager.default
-
-        guard let filePath = Bundle.main.url(forResource: "Name", withExtension: nil) else {
-            print("File 'Name' not found in bundle")
-            return
-        }
-
-        let foodEntry = name + "\n"
-
-        if fileManager.fileExists(atPath: filePath.path) {
-            if let fileHandle = try? FileHandle(forWritingTo: filePath) {
-                fileHandle.seekToEndOfFile()
-                if let data = foodEntry.data(using: .utf8) {
-                    fileHandle.write(data)
-                }
-                fileHandle.closeFile()
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let filePath = documentsDirectory.appendingPathComponent("Name")
+        let jsonFilePath = documentsDirectory.appendingPathComponent("FoodAndDrink.json")
+        
+        // Ensure 'Name' file exists in Documents directory
+        if !fileManager.fileExists(atPath: filePath.path) {
+            if let bundleFilePath = Bundle.main.url(forResource: "Name", withExtension: nil) {
+                try? fileManager.copyItem(at: bundleFilePath, to: filePath)
+            } else {
+                print("File 'Name' not found in bundle")
+                return
             }
+        }
+        
+        // Append the food name to the file in the Documents directory
+        let foodEntry = name + "\n"
+        if let fileHandle = try? FileHandle(forWritingTo: filePath) {
+            fileHandle.seekToEndOfFile()
+            if let data = foodEntry.data(using: .utf8) {
+                fileHandle.write(data)
+            }
+            fileHandle.closeFile()
         } else {
             try? foodEntry.write(to: filePath, atomically: true, encoding: .utf8)
         }
         
-        guard let url = Bundle.main.url(forResource: "FoodAndDrink", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
+        // Ensure 'FoodAndDrink.json' exists in Documents directory
+        if !fileManager.fileExists(atPath: jsonFilePath.path) {
+            if let bundleJsonPath = Bundle.main.url(forResource: "FoodAndDrink", withExtension: "json") {
+                try? fileManager.copyItem(at: bundleJsonPath, to: jsonFilePath)
+            } else {
+                print("Failed to find 'FoodAndDrink.json' in bundle")
+                return
+            }
+        }
+        
+        // Load, modify, and save JSON data in Documents directory
+        guard let data = try? Data(contentsOf: jsonFilePath),
               var foodItems = try? JSONDecoder().decode([FoodItem].self, from: data) else {
             print("Failed to load or decode JSON")
             return
         }
         
+        // Add new food item and encode the updated list back to JSON
         let newFood = FoodItem(name: name, cooking_technique: cookingTechnique, glycemic_index: glycemicIndex, dairies: dairies, saturated_fat: saturatedFat, gram_per_portion: gramPortion)
         foodItems.append(newFood)
         
         guard let updatedData = try? JSONEncoder().encode(foodItems) else { return }
-        try? updatedData.write(to: url)
+        try? updatedData.write(to: jsonFilePath)
     }
 
-    
     func detailDiet(name: String) {
+        // Updated to load JSON from Documents directory
+        let fileManager = FileManager.default
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let jsonFilePath = documentsDirectory.appendingPathComponent("FoodAndDrink.json")
         
-        guard let url = Bundle.main.url(forResource: "FoodAndDrink", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
+        guard let data = try? Data(contentsOf: jsonFilePath),
               let foodItems = try? JSONDecoder().decode([FoodItem].self, from: data) else {
-            print("Failed to load or decode JSONw")
+            print("Failed to load or decode JSON")
             return
         }
         
         if let foodItem = foodItems.first(where: { $0.name == name }) {
-            food = Food(timestamp: Date(), name: name, cookingTechnique: foodItem.cooking_technique, fat: foodItem.saturated_fat, glycemicIndex: parseGI(gi: foodItem.glycemic_index), dairy: foodItem.dairies == 1, gramPortion: foodItem.gram_per_portion)
+            food = Food(
+                timestamp: Date(),
+                name: name,
+                cookingTechnique: foodItem.cooking_technique,
+                fat: foodItem.saturated_fat,
+                glycemicIndex: parseGI(gi: foodItem.glycemic_index),
+                dairy: foodItem.dairies == 1,
+                gramPortion: foodItem.gram_per_portion
+            )
             
-            selectedProcessedOption = food?.cookingTechnique[0] ?? "Goreng"
+            // Update selected options for UI
+            selectedProcessedOption = food?.cookingTechnique.first ?? "Goreng"
             selectedFatOption = food?.fat ?? 0 >= 14 ? "Jenuh" : "Baik"
             selectedMilkOption = food?.dairy ?? false ? "Ada" : "Tidak Ada"
             switch food?.glycemicIndex {
@@ -133,22 +163,24 @@ final class SearchViewModel: ObservableObject {
                 selectedGlycemicOption = "Rendah"
             }
         }
-        
     }
     
     func addDiet(context: ModelContext, name: String, entries: [Journal], portion: Int, unit: String) {
         
         manageRecently(name: name)
         
-        guard let url = Bundle.main.url(forResource: "FoodAndDrink", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
+        // Load JSON from Documents directory
+        let fileManager = FileManager.default
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let jsonFilePath = documentsDirectory.appendingPathComponent("FoodAndDrink.json")
+        
+        guard let data = try? Data(contentsOf: jsonFilePath),
               let foodItems = try? JSONDecoder().decode([FoodItem].self, from: data) else {
-            print("Failed to load or decode JSON")
+            print("Failed to load or decode JSON!")
             return
         }
-                
+        
         if let foodItem = foodItems.first(where: { $0.name == name }) {
-            
             var gi: glycemicIndex
             switch selectedGlycemicOption {
             case "Rendah":
@@ -161,46 +193,43 @@ final class SearchViewModel: ObservableObject {
                 gi = .low
             }
             
-            var mult: Int
-            if unit == "Porsi" {
-                mult = portion
-            }
-            else {
-                mult = portion / foodItem.gram_per_portion
-            }
+            let mult: Int = unit == "Porsi" ? portion : portion / foodItem.gram_per_portion
             print("Mult: \(mult)")
             
-            if let todayJournal = hasEntriesFromToday(entries: entries) {
-                
-                for _ in 0..<mult {
-                    let food = Food(timestamp: Date(), name: name, cookingTechnique: [selectedProcessedOption], fat: foodItem.saturated_fat * (Double(foodItem.gram_per_portion) / 100), glycemicIndex: gi, dairy: selectedMilkOption == "Ada", gramPortion: foodItem.gram_per_portion)
-                    todayJournal.foods.append(food)
-                }
-                
-                print(todayJournal.foods)
-                
-            } else {
-                let journal = Journal(timestamp: Date(), foods: [], sleep: Sleep(timestamp: Date(), duration: 0))
-                
-                for _ in 0..<mult {
-                    let food = Food(timestamp: Date(), name: name, cookingTechnique: [selectedProcessedOption], fat: foodItem.saturated_fat * (Double(foodItem.gram_per_portion) / 100), glycemicIndex: gi, dairy: selectedMilkOption == "Ada", gramPortion: foodItem.gram_per_portion)
-                    journal.foods.append(food)
-                }
-                                
-                context.insert(journal)
-                do {
-                    try context.save()
-                } catch {
-                    print(error.localizedDescription)
-                }
-                
+            var foodItemsToAdd: [Food] = []
+            for _ in 0..<mult {
+                let food = Food(
+                    timestamp: Date(),
+                    name: name,
+                    cookingTechnique: [selectedProcessedOption],
+                    fat: foodItem.saturated_fat * (Double(foodItem.gram_per_portion) / 100),
+                    glycemicIndex: gi,
+                    dairy: selectedMilkOption == "Ada",
+                    gramPortion: foodItem.gram_per_portion
+                )
+                foodItemsToAdd.append(food)
             }
             
+            if let todayJournal = hasEntriesFromToday(entries: entries) {
+                todayJournal.foods.append(contentsOf: foodItemsToAdd)
+                print("Updated today’s journal with foods: \(todayJournal.foods)")
+            } else {
+                let journal = Journal(timestamp: Date(), foods: foodItemsToAdd, sleep: Sleep(timestamp: Date(), duration: 0, start: Date(), end: Date()))
+                context.insert(journal)
+                print("Created new journal with foods: \(journal.foods)")
+            }
+            
+            do {
+                try context.save()
+                print("Data saved successfully.")
+            } catch {
+                print("Failed to save context: \(error.localizedDescription)")
+            }
         } else {
             print("Food item not found")
         }
     }
-    
+
     func clearRecent() {
         
         defaults.set([], forKey: "recent")

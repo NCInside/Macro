@@ -46,6 +46,6 @@ struct SearchCard: View {
     }
 }
 
-#Preview {
-    SearchView()
-}
+//#Preview {
+//    SearchView()
+//}

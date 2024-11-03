@@ -15,6 +15,8 @@ struct DetailSearchView: View {
     let unitOptions = ["Porsi", "Gram (gr)", "Mililiter (m/l)"]
     @State private var selectedUnitOption = "Porsi"
     
+    @Binding var isDetailViewPresented: Bool
+    
     var name: String
     var journals: [Journal]
     @State private var inputPortion: String = ""
@@ -98,8 +100,7 @@ struct DetailSearchView: View {
             Button(action: {
                 if let portion = Int(inputPortion), portion > 0 {
                     viewModel.addDiet(context: context, name: name, entries: journals, portion: portion, unit: selectedUnitOption)
-                    viewModel.isPresented.toggle()
-                    dismiss()
+                    isDetailViewPresented = false
                 }
             }) {
                 Text("Simpan ke Jurnal")
@@ -134,6 +135,6 @@ struct DetailSearchView: View {
     
 }
 
-#Preview {
-    DetailSearchView(name: "Abon", journals: [])
-}
+//#Preview {
+//    DetailSearchView(name: "Abon", journals: [])
+//}

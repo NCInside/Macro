@@ -13,8 +13,12 @@ struct SearchView: View {
     @ObservedObject private var viewModel = SearchViewModel()
     @Environment(\.dismiss) private var dismiss
     @Query private var journals: [Journal]
+    @State var isAddFoodViewPresented = false
     
-    init() {
+    @Binding var isDetailViewPresented: Bool
+    
+    init(isDetailViewPresented: Binding<Bool>) {
+        self._isDetailViewPresented = isDetailViewPresented
         if viewModel.defaults.object(forKey: "recent") == nil {
             viewModel.defaults.set([], forKey: "recent")
         }
@@ -33,6 +37,16 @@ struct SearchView: View {
                     .bold()
                     .padding(.bottom, 0)
                     .padding(.leading, 106)
+                
+                Spacer()
+                
+                Button(action: {
+                    isAddFoodViewPresented = true
+                }) {
+                    Image(systemName: "plus")
+                        .foregroundColor(.accentColor)
+                }
+                
             }
             .padding(.horizontal)
             
@@ -74,11 +88,6 @@ struct SearchView: View {
                             viewModel.isPresented.toggle()
                         })
                         .frame(height: 40)
-                        .fullScreenCover(isPresented: $viewModel.isPresented) {
-                            if viewModel.selectedSuggestion != nil {
-                                DetailSearchView(name: viewModel.selectedSuggestion ?? "", journals: journals)
-                            }
-                        }
                     }
                 }
                 .listStyle(.plain)
@@ -116,23 +125,27 @@ struct SearchView: View {
                             viewModel.isPresented.toggle()
                         })
                         .frame(height: 40)
-                        .fullScreenCover(isPresented: $viewModel.isPresented) {
-                            if viewModel.selectedSuggestion != nil {
-                                DetailSearchView(name: viewModel.selectedSuggestion ?? "", journals: journals)
-                            }
-                        }
                     }
                 }
                 .listStyle(.plain)
                 .padding(.vertical)
             }
         }
+        .padding(.top, 24)
         .background(Color.background)
-        
+        .fullScreenCover(isPresented: $viewModel.isPresented) {
+            if viewModel.selectedSuggestion != nil {
+                DetailSearchView(isDetailViewPresented: $isDetailViewPresented, name: viewModel.selectedSuggestion ?? "", journals: journals)
+            }
+        }
+        .sheet(isPresented: $isAddFoodViewPresented) {
+            AddFoodView()
+            
+        }
     }
     
 }
 
-#Preview {
-    SearchView()
-}
+//#Preview {
+//    SearchView()
+//}

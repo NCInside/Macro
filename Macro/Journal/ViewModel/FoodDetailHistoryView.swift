@@ -15,21 +15,6 @@ struct FoodDetailHistoryView: View {
         VStack {
             VStack(spacing: 0) {
                 HStack {
-                    Text("Protein")
-                        .padding(.vertical, 10)
-                        .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
-                    Text("0 gr")
-                        .padding(.vertical, 10)
-                        .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .foregroundStyle(.gray)
-                }
-                .background(Color(UIColor.systemBackground))
-                Divider()
-                    .padding(.leading)
-                HStack {
                     Text("Fat")
                         .padding(.vertical, 10)
                         .padding(.horizontal)

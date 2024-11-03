@@ -55,9 +55,10 @@ class JournalViewModel: ObservableObject {
         isImagePickerPresented = true
     }
     
-    func fetchSleepData(context: ModelContext, journals: [Journal]) {
+    func fetchSleepData(context: ModelContext, journals: [Journal], date: Date) {
         
-        if hasEntriesFromDate(entries: journals, date: Date()) == nil {
+        print("Y")
+        if hasEntriesFromDate(entries: journals, date: date) == nil {
             
             print("Fetching sleep data...")
             var first: Date = Date()
@@ -73,7 +74,9 @@ class JournalViewModel: ObservableObject {
                     first = samples.first!.endDate
                     last = samples.last!.startDate
                     
-                    let sleep: Sleep = Sleep(timestamp: Date(), duration: Int(first.timeIntervalSince(last)))
+                    print("Sleep:", first, last)
+                    
+                    let sleep: Sleep = Sleep(timestamp: Date(), duration: Int(first.timeIntervalSince(last)), start: last, end: first)
                     print(sleep.duration)
                     let journal = Journal(timestamp: Date(), foods: [], sleep: sleep)
                     
@@ -87,6 +90,18 @@ class JournalViewModel: ObservableObject {
             }
         }
         
+    }
+    
+    func addSleep(context: ModelContext, journals: [Journal], start: Date, end: Date, mode: Bool) {
+        if let journal = hasEntriesFromDate(entries: journals, date: end) {
+            let sleep: Sleep = Sleep(timestamp: Date(), duration: Int(end.timeIntervalSince(start)), start: start, end: end)
+            if mode {
+                journal.sleep = sleep
+            }
+            else {
+                journal.sleep.duration += sleep.duration
+            }
+        }
     }
     
     func getSleep(journals: [Journal]) -> (hour: String, minute: String) {
@@ -109,7 +124,17 @@ class JournalViewModel: ObservableObject {
         return ("0", "0")
     }
     
-    func calcFat(journals: [Journal]) -> Double {
+    func calcFat(journals: [Journal]) -> Int {
+        var fat: Int = 0
+        if let todayJournal = hasEntriesFromDate(entries: journals, date: selectedDate) {
+            for food in todayJournal.foods {
+                fat += food.fat >= 14 ? 1 : 0
+            }
+        }
+        return fat
+    }
+    
+    func calcSaturatedFat(journals: [Journal]) -> Double {
         var fat: Double = 0
         if let todayJournal = hasEntriesFromDate(entries: journals, date: selectedDate) {
             for food in todayJournal.foods {
@@ -129,21 +154,20 @@ class JournalViewModel: ObservableObject {
         return dairy
     }
     
-    func calcGI(journals: [Journal]) -> Int {
-        var gi = 0
+    func calcGI(journals: [Journal]) -> String {
+        var ind = "Unknown"
         if let todayJournal = hasEntriesFromDate(entries: journals, date: selectedDate) {
-            for food in todayJournal.foods {
-                switch food.glycemicIndex {
-                case .low:
-                    continue
-                case .medium:
-                    gi += 1
-                case .high:
-                    gi += 2
-                }
+            let glycemicIndexCounts = todayJournal.foods
+                        .reduce(into: [glycemicIndex: Int]()) { counts, food in
+                            counts[food.glycemicIndex, default: 0] += 1
+                        }
+            if let mostFrequentIndex = glycemicIndexCounts.max(by: { $0.value < $1.value })?.key {
+                ind = "\(mostFrequentIndex)"
+            } else {
+                ind = "Unknown"
             }
         }
-        return gi
+        return ind
     }
     
     func addDiet(context: ModelContext, name: String, entries: [Journal]) {
@@ -165,7 +189,7 @@ class JournalViewModel: ObservableObject {
                 
             } else {
                 
-                let journal = Journal(timestamp: Date(), foods: [], sleep: Sleep(timestamp: Date(), duration: 0))
+                let journal = Journal(timestamp: Date(), foods: [], sleep: Sleep(timestamp: Date(), duration: 0, start: Date(), end: Date()))
                 journal.foods.append(food)
                 context.insert(journal)
                 do {
@@ -186,8 +210,9 @@ class JournalViewModel: ObservableObject {
         return formattedFood.prefix(1).capitalized + formattedFood.dropFirst()
     }
     
-    private func hasEntriesFromToday(entries: [Journal]) -> Journal? {
+    func hasEntriesFromToday(entries: [Journal]) -> Journal? {
         
+        print("X")
         func isDateToday(_ date: Date) -> Bool {
             let calendar = Calendar.current
             return calendar.isDateInToday(date)
@@ -259,6 +284,39 @@ class JournalViewModel: ObservableObject {
                         Banyakin aktivitas ya
                        """
         }
+    }
+    
+    func calcEnergyExpenditure() -> Double {
+        let age = UserDefaults.standard.integer(forKey: "age")
+        let height = UserDefaults.standard.double(forKey: "height")
+        let heightMetric = UserDefaults.standard.string(forKey: "heightMetric")
+        let weight = UserDefaults.standard.double(forKey: "weight")
+        let weightMetric = UserDefaults.standard.string(forKey: "weightMetric")
+        let gender = UserDefaults.standard.bool(forKey: "gender")
+        let activityLevel = UserDefaults.standard.double(forKey: "activity")
+        
+        let heightInInches: Double
+        if heightMetric == "ft" {
+            heightInInches = height * 12.0
+        } else {
+            heightInInches = height * 0.393701
+        }
+
+        let weightInPounds: Double
+        if weightMetric == "kg" {
+            weightInPounds = weight * 2.20462
+        } else {
+            weightInPounds = weight
+        }
+
+        let bmr: Double
+        if gender {
+            bmr = 66 + (6.23 * weightInPounds) + (12.7 * heightInInches) - (6.8 * Double(age))
+        } else {
+            bmr = 655 + (4.35 * weightInPounds) + (4.7 * heightInInches) - (4.7 * Double(age))
+        }
+
+        return bmr * activityLevel
     }
 }
 

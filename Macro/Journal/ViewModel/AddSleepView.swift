@@ -10,12 +10,22 @@ import SwiftData
 
 struct AddSleepView: View {
     @State private var isHeartDataFetched = false
-    @ObservedObject var viewModel = AddSleepViewModel()
+    @ObservedObject var viewModel = JournalViewModel()
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.modelContext) private var context
     @Query var journals: [Journal]
     @State private var showAlert = false
     @State private var showAddSleepCard = false
+    
+    @State var startDate1 = Date()
+    @State var endDate1 = Date()
+    @State var showStartPicker1 = false
+    @State var showEndPicker1 = false
+    
+    @State var startDate2 = Date()
+    @State var endDate2 = Date()
+    @State var showStartPicker2 = false
+    @State var showEndPicker2 = false
     
     var body: some View {
         VStack {
@@ -30,7 +40,10 @@ struct AddSleepView: View {
                 Spacer()
                 
                 Button("Tambah") {
-                    viewModel.addSleep(context: context, journals: journals)
+                    viewModel.addSleep(context: context, journals: journals, start: startDate1, end: endDate1, mode: true)
+                    if showAddSleepCard {
+                        viewModel.addSleep(context: context, journals: journals, start: startDate2, end: endDate2, mode: false)
+                    }
                     presentationMode.wrappedValue.dismiss()
                 }
                 .foregroundColor(.mainLight)
@@ -72,7 +85,7 @@ struct AddSleepView: View {
             }
             
             
-            AddSleepCard()
+            AddSleepCard(startDate: $startDate1, endDate: $endDate1, showStartPicker: $showStartPicker1, showEndPicker: $showEndPicker1)
             
             Button(action: {
                 withAnimation {
@@ -92,15 +105,18 @@ struct AddSleepView: View {
                 
             }
             if showAddSleepCard {
-                            AddSleepCard()
-//
-                        }
+                AddSleepCard(startDate: $startDate2, endDate: $endDate2, showStartPicker: $showStartPicker2, showEndPicker: $showEndPicker2)
+            }
         }
-        
-        
         .padding()
         .frame(maxHeight: .infinity, alignment: .top)
         .background(Color.background)
+        .onAppear {
+            if let todayEntry = viewModel.hasEntriesFromToday(entries: journals) {
+                startDate1 = todayEntry.sleep.start
+                endDate1 = todayEntry.sleep.end
+            }
+        }
     }
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
