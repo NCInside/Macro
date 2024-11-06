@@ -23,6 +23,26 @@ struct DetailSummaryView: View {
     @State var weekPoints: [Int: [Point]] = [:]
     @State var weekPointsPie: [Int: [PiePoint]] = [:]
     
+    private var yAxisLabel: String {
+            switch scenario {
+            case .sleep: return "Total Tidur"
+            case .fat: return "Total Lemak"
+            case .dairy: return "Total Produk Susu"
+            case .gi: return "Total Indeks Glikemik"
+            case .saturatedFat: return "Total Lemak Jenuh"
+            }
+        }
+    
+    private var average: String {
+            switch scenario {
+            case .sleep: return "RERATA DI TEMPAT TIDUR"
+            case .fat: return "RERATA MAKANAN BERLEMAK"
+            case .dairy: return "RERATA KONSUMSI SUSU"
+            case .gi: return "RERATA GLIKEMIK"
+            case .saturatedFat: return "RERATA LEMAK JENUH"
+            }
+        }
+    
     var body: some View {
         VStack(alignment: .leading) {
             switch scenario {
@@ -150,27 +170,65 @@ struct DetailSummaryView: View {
                         if (viewModel.selectedTab == "Bulanan") {
                             Chart {
                                 ForEach(viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth)) { item in
-                                    BarMark(x: .value("date", Calendar.current.component(.day, from: item.date)), y: .value("value", item.value))
+                                    LineMark(x: .value("date", Calendar.current.component(.day, from: item.date)), y: .value("value", item.value))
                                         .foregroundStyle(Color.mint)
                                 }
                             }
+                            .chartYAxisLabel(yAxisLabel)
+                            .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2)) {
+                                AxisValueLabel()
+                            }}
                             .chartXScale(domain: 0...Calendar.current.range(of: .day, in: .month, for: Calendar.current.date(from: DateComponents(year: 2024, month: chosenMonth))!)!.count + 1)
-                            .frame(maxWidth: .infinity, maxHeight: 350)
+                            .frame(maxHeight: 350)
                             .padding(.horizontal)
+                            .chartYScale(domain: 0...10)
+                            
+                            
                         }
                         else {
-                            Text("Week \(selectedWeek)")
+                            VStack {
+                                HStack {
+                                    Text("WEEK \(selectedWeek)")
+                                        .bold()
+                                    
+                                    Spacer()
+                                }
+                                
+                                HStack {
+                                    Text(average)
+                                        .font(.footnote)
+                                        .foregroundColor(.gray)
+                                        .fontWeight(.semibold)
+                                        .padding(.bottom, 10)
+                                    
+                                    Spacer()
+                                }
+                                
+                            }
+                            
+                            
+                            
                             Chart {
                                 if let week = weekPoints[selectedWeek] {
                                     ForEach(week) { item in
                                         let dayIndex = Calendar.current.component(.weekday, from: item.date) - 2
                                         let dayName = dayIndex >= 0 ? daysOfWeek[dayIndex] : daysOfWeek[dayIndex + 7]
-                                        BarMark(x: .value("date", dayName), y: .value("value", item.value)) .foregroundStyle(Color.mint)
+                                        LineMark(x: .value("date", dayName), y: .value("value", item.value)) .foregroundStyle(Color.mint)
                                     }
                                 }
-                                
                             }
-                            .frame(maxWidth: .infinity, maxHeight: 350)
+                            .chartXAxis {
+                            AxisMarks(values: .automatic) {
+                                AxisValueLabel()
+                            }
+                        }
+                            .chartYAxisLabel(yAxisLabel)
+                            .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2)) {
+                                AxisValueLabel()
+                            }}
+                            
+                            .frame(maxHeight: 350)
+                            .chartYScale(domain: 0...10.8)
                             .padding(.horizontal)
                             .gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
                                 .onEnded { value in
@@ -205,6 +263,6 @@ struct DetailSummaryView: View {
         }
     }
 
-//#Preview {
-//    DetailSummaryView(scenario: .sleep)
-//}
+#Preview {
+    DetailSummaryView(scenario: .sleep , chosenMonth: 2)
+}
