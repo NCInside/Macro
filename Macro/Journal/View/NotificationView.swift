@@ -19,7 +19,7 @@ struct NotificationView: View {
                     date: Date(),
                     type: "time",
                     timeInterval: 6,
-                    title: "Zora",
+                    title: "Zora ",
                     body: "Jangan lupa untuk isi jurnalmu!")
             }
             

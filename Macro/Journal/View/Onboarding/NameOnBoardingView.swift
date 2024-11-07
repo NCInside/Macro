@@ -44,13 +44,18 @@ struct NameOnBoardingView: View {
                 
                 Spacer()
                 
-                // Updated NavigationLink
-                NavigationLink(destination: nextView(updatedNavigationStates: updatedNavigationStates()), isActive: $navigateToNext) {
+                // Conditional NavigationLink based on hasCompletedOnboarding state
+                NavigationLink(destination: JournalView(), isActive: $hasCompletedOnboarding) {
+                    EmptyView()
+                }
+                
+                NavigationLink(destination: AgeOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: navigationStates), isActive: $navigateToNext) {
                     EmptyView()
                 }
 
                 Button(action: {
                     if !inputName.isEmpty {
+                        // Save the name to UserDefaults
                         UserDefaults.standard.set(inputName, forKey: "name")
                         navigateToNextStep()
                     }
@@ -76,7 +81,6 @@ struct NameOnBoardingView: View {
             .onAppear {
                 viewModel.subscribeToKeyboardEvents()
                 
-                // Auto-navigate if NameOnBoarding is already completed
                 if navigationStates["NameOnBoarding"] == false {
                     navigateToNextStep()
                 }
@@ -87,29 +91,11 @@ struct NameOnBoardingView: View {
     }
     
     private func navigateToNextStep() {
-        navigateToNext = true
-    }
-    
-    private func updatedNavigationStates() -> [String: Bool] {
-        var updatedStates = navigationStates
-        updatedStates["NameOnBoarding"] = false
-        updatedStates["AgeOnBoarding"] = updatedStates["AgeOnBoarding"] ?? true // Ensure AgeOnBoarding is next
-        return updatedStates
-    }
-    
-    @ViewBuilder
-    private func nextView(updatedNavigationStates: [String: Bool]) -> some View {
-        if updatedNavigationStates["AgeOnBoarding"] == true {
-            AgeOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: updatedNavigationStates)
-        } else if updatedNavigationStates["HeightOnBoarding"] == true {
-            HeightOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: updatedNavigationStates)
-        } else if updatedNavigationStates["WeightOnBoarding"] == true {
-            WeightOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: updatedNavigationStates)
-        } else if updatedNavigationStates["GenderOnBoarding"] == true {
-            GenderOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: updatedNavigationStates)
+        // Check if dateOfBirth exists in UserDefaults
+        if UserDefaults.standard.string(forKey: "dateOfBirth") == nil {
+            navigateToNext = true // Navigate to AgeOnBoardingView
         } else {
-            ActivityOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: updatedNavigationStates)
+            hasCompletedOnboarding = true // Complete onboarding and go to JournalView
         }
     }
 }
-

@@ -20,7 +20,7 @@ struct ActivityOnBoardingView: View {
                 }
                 
                 Button(action: {
-                    UserDefaults.standard.set(1.2, forKey: "activity")
+                    UserDefaults.standard.set(1.2, forKey: "activtyLevel")
                     completeOnboarding()
                 }) {
                     activityOptionView(
@@ -31,7 +31,7 @@ struct ActivityOnBoardingView: View {
                 }
                 
                 Button(action: {
-                    UserDefaults.standard.set(1.375, forKey: "activity")
+                    UserDefaults.standard.set(1.375, forKey: "activtyLevel")
                     completeOnboarding()
                 }) {
                     activityOptionView(
@@ -42,7 +42,7 @@ struct ActivityOnBoardingView: View {
                 }
                 
                 Button(action: {
-                    UserDefaults.standard.set(1.55, forKey: "activity")
+                    UserDefaults.standard.set(1.55, forKey: "activtyLevel")
                     completeOnboarding()
                 }) {
                     activityOptionView(
@@ -53,7 +53,7 @@ struct ActivityOnBoardingView: View {
                 }
                 
                 Button(action: {
-                    UserDefaults.standard.set(1.725, forKey: "activity")
+                    UserDefaults.standard.set(1.725, forKey: "activtyLevel")
                     completeOnboarding()
                 }) {
                     activityOptionView(
