@@ -19,7 +19,7 @@ struct DetailSearchView: View {
     
     var name: String
     var journals: [Journal]
-    @State private var inputPortion: String = ""
+    @State private var inputPortion: String = "1"
     
     var body: some View {
         VStack (alignment: .leading) {

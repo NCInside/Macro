@@ -178,7 +178,7 @@ struct SummaryView: View {
                                   giPoints: giPoints))
         
         // 2: Save it to our documents directory
-        let url = URL.documentsDirectory.appending(path: "output.pdf")
+        let url = URL.documentsDirectory.appending(path: "\(chosenMonth) Summary - \(UserDefaults.standard.string(forKey: "name") ?? "Unknown").pdf")
         
         // 3: Start the rendering process
         renderer.render { size, context in

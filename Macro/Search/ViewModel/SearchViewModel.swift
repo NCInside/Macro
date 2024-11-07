@@ -131,6 +131,16 @@ final class SearchViewModel: ObservableObject {
         let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
         let jsonFilePath = documentsDirectory.appendingPathComponent("FoodAndDrink.json")
         
+        // Ensure 'FoodAndDrink.json' exists in Documents directory
+        if !fileManager.fileExists(atPath: jsonFilePath.path) {
+            if let bundleJsonPath = Bundle.main.url(forResource: "FoodAndDrink", withExtension: "json") {
+                try? fileManager.copyItem(at: bundleJsonPath, to: jsonFilePath)
+            } else {
+                print("Failed to find 'FoodAndDrink.json' in bundle")
+                return
+            }
+        }
+        
         guard let data = try? Data(contentsOf: jsonFilePath),
               let foodItems = try? JSONDecoder().decode([FoodItem].self, from: data) else {
             print("Failed to load or decode JSON")

@@ -36,7 +36,7 @@ struct HistoryView: View {
                     VStack(alignment: .leading) {
                         
                         ForEach(journals.sorted { $0.timestamp > $1.timestamp }, id: \.self) { journal in
-                            if historyOption == "Diet" {
+                            if historyOption == "Diet" && !journal.foods.isEmpty {
                                 
                                 HStack {
                                     Text("\(journal.timestamp, formatter: dateFormatter)")
@@ -94,43 +94,46 @@ struct HistoryView: View {
                                 
                             } else {
                                 
-                                HStack {
-                                    Text("\(Calendar.current.date(byAdding: .day, value: -1, to: journal.timestamp) ?? Date(), formatter: dateFormatter) - \(journal.timestamp, formatter: dateFormatter)")
-                                        .font(.callout)
-                                    Spacer()
-                                }
-                                .padding(.leading, 24)
-                                
-                                VStack(spacing: 0) {
-                                    NavigationLink(destination: SleepDetailHistoryView(sleep: journal.sleep)) {
-                                        HStack {
-                                            VStack(spacing: 0) {
-                                                HStack {
-                                                    Text("In Bed")
-                                                        .foregroundStyle(.gray)
-                                                        .font(.footnote)
-                                                    Spacer()
-                                                }
-                                                HStack {
-                                                    Text(parseSleepDuration(sleep: journal.sleep))
-                                                    Spacer()
-                                                }
-                                            }
-                                            .padding(.vertical, 10)
-                                            .padding(.horizontal)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .foregroundStyle(.black)
-                                            Image(systemName: "chevron.right")
-                                                .foregroundColor(.gray)
-                                                .padding(.trailing)
-                                        }
-                                        .background(Color(UIColor.systemBackground))
+                                if journal.sleep.duration > 0 {
+                                    HStack {
+                                        Text("\(Calendar.current.date(byAdding: .day, value: -1, to: journal.timestamp) ?? Date(), formatter: dateFormatter) - \(journal.timestamp, formatter: dateFormatter)")
+                                            .font(.callout)
+                                        Spacer()
                                     }
+                                    .padding(.leading, 24)
+                                    
+                                    VStack(spacing: 0) {
+                                        NavigationLink(destination: SleepDetailHistoryView(sleep: journal.sleep)) {
+                                            HStack {
+                                                VStack(spacing: 0) {
+                                                    HStack {
+                                                        Text("In Bed")
+                                                            .foregroundStyle(.gray)
+                                                            .font(.footnote)
+                                                        Spacer()
+                                                    }
+                                                    HStack {
+                                                        Text(parseSleepDuration(sleep: journal.sleep))
+                                                        Spacer()
+                                                    }
+                                                }
+                                                .padding(.vertical, 10)
+                                                .padding(.horizontal)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .foregroundStyle(.black)
+                                                Image(systemName: "chevron.right")
+                                                    .foregroundColor(.gray)
+                                                    .padding(.trailing)
+                                            }
+                                            .background(Color(UIColor.systemBackground))
+                                        }
+
+                                    }
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .padding(.horizontal)
+                                    .padding(.bottom, 12)
 
                                 }
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                                .padding(.horizontal)
-                                .padding(.bottom, 12)
                                 
                             }
                         }
