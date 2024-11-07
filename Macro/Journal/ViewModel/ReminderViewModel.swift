@@ -96,7 +96,7 @@ class ReminderViewModel: ObservableObject {
 
     private func createNotification(for reminder: Reminder, daysBefore: Int, hour: Int) {
         let content = UNMutableNotificationContent()
-        content.title = "Pengingat Kunjungan"
+        content.title = "Zora - Pengingat Kunjungan"
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .none

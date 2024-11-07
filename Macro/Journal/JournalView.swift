@@ -86,7 +86,8 @@ struct JournalView: View {
                                         .foregroundColor(.accentColor)
                                 }
                                 .sheet(isPresented: $isSettingsViewPresented) {
-                                    SettingsView()
+                                    SettingsView( journalViewModel: viewModel,
+                                                  journals: journals)
                                 }
                             }
                             .padding()
@@ -382,7 +383,7 @@ struct JournalView: View {
                 }
                 
                 let content = UNMutableNotificationContent()
-                content.title = "Sleep"
+                content.title = "Zora - Sleep"
                 content.subtitle = "Do not forget to input your sleep!"
                 content.sound = UNNotificationSound.default
                 

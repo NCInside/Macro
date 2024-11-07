@@ -1,6 +1,8 @@
 import SwiftUI
+import UserNotifications
 
 struct SettingsView: View {
+    // User information
     @State private var inputName: String = UserDefaults.standard.string(forKey: "name") ?? "Unknown name"
     @State private var inputDayOfBirth: Date = {
         let birthDateString = UserDefaults.standard.string(forKey: "dateOfBirth") ?? ""
@@ -9,13 +11,17 @@ struct SettingsView: View {
         return formatter.date(from: birthDateString) ?? Date()
     }()
     
-    @State private var showDatePicker = false
-    
     // Notification toggles
-    @State private var fatLimit = UserDefaults.standard.bool(forKey: "fatLimit")
-    @State private var dairyLimit = UserDefaults.standard.bool(forKey: "dairyLimit")
     @State private var nutritionReminder = UserDefaults.standard.bool(forKey: "nutritionReminder")
+    @State private var reminderTime: Date = {
+        let storedTime = UserDefaults.standard.object(forKey: "reminderTime") as? Date
+        return storedTime ?? Calendar.current.date(bySettingHour: 19, minute: 0, second: 0, of: Date())!
+    }()
     
+    @StateObject var journalViewModel: JournalViewModel
+    var journals: [Journal]
+    
+    @State private var showDatePicker = false
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -26,7 +32,7 @@ struct SettingsView: View {
                     Image(systemName: "chevron.left")
                     Text("Jurnal")
                 }.onTapGesture {
-                    saveSettings() // Save settings when dismissing
+                    saveSettings()
                     dismiss()
                 }
                 
@@ -57,7 +63,6 @@ struct SettingsView: View {
                 .padding(.top, 10)
             
             VStack(spacing: 0) {
-                // Name Field
                 HStack {
                     Text("Nama")
                         .padding(.vertical, 10)
@@ -100,7 +105,7 @@ struct SettingsView: View {
                             
                             Button("Selesai") {
                                 showDatePicker = false
-                                saveBirthDate(inputDayOfBirth) // Save the new birthdate immediately
+                                saveBirthDate(inputDayOfBirth)
                             }
                             .padding()
                         }
@@ -120,14 +125,40 @@ struct SettingsView: View {
                 .padding(.top, 10)
             
             VStack(spacing: 0) {
-                // Fat Limit Toggle
-                notificationToggle(title: "Batas Lemak Jenuh", description: "Jika melewati rekomendasi", isOn: $fatLimit)
+                // Nutrition Reminder Toggle with Time Picker
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("Pengingat Pengisian Nutrisi")
+                            .foregroundColor(.primary)
+                        
+                        Text("Diberitahu jika belum ada data di jam yang ditentukan")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    Toggle("", isOn: $nutritionReminder)
+                        .labelsHidden()
+                        .onChange(of: nutritionReminder) { isEnabled in
+                            toggleNutritionReminderNotification(isEnabled: isEnabled)
+                        }
+                }
+                .padding()
+                .background(Color(UIColor.systemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
                 
-                // Dairy Limit Toggle
-                notificationToggle(title: "Batas Produk Susu", description: "Jika melebihi 1 porsi per hari", isOn: $dairyLimit)
-                
-                // Nutrition Reminder Toggle
-                notificationToggle(title: "Pengingat Pengisian Nutrisi", description: "Diingatkan setiap jam 19.00", isOn: $nutritionReminder)
+                // Time Picker for Notification
+                if nutritionReminder {
+                    DatePicker("Waktu Pengingat", selection: $reminderTime, displayedComponents: .hourAndMinute)
+                        .datePickerStyle(.compact)
+                        .onChange(of: reminderTime) { newTime in
+                            UserDefaults.standard.set(newTime, forKey: "reminderTime")
+                            rescheduleNutritionReminderNotification() // Reschedule notification with updated time
+                        }
+                        .padding()
+                        .background(Color(UIColor.systemBackground))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
             }
             .background(Color(UIColor.systemBackground))
             .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -137,19 +168,57 @@ struct SettingsView: View {
         }
         .padding()
         .background(Color.background.ignoresSafeArea())
-        .onDisappear {
-            saveSettings() // Save settings when the view disappears
+    }
+    
+    // Notification Toggle and Scheduling Functions
+    private func toggleNutritionReminderNotification(isEnabled: Bool) {
+        if isEnabled {
+            rescheduleNutritionReminderNotification()
+        } else {
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["nutritionReminder"])
         }
     }
     
-    // Date formatting function
+    private func rescheduleNutritionReminderNotification() {
+        // Remove any existing reminder
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["nutritionReminder"])
+        
+        // Check if there’s data entered for today; schedule only if none exists
+        if journalViewModel.hasEntriesFromToday(entries: journals) == nil {
+            let components = Calendar.current.dateComponents([.hour, .minute], from: reminderTime)
+            var dailyTrigger = DateComponents()
+            dailyTrigger.hour = components.hour
+            dailyTrigger.minute = components.minute
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dailyTrigger, repeats: true)
+            
+            let content = UNMutableNotificationContent()
+            content.title = "Zora - Nutrition Reminder"
+            content.body = "No food or drink entries logged today."
+            content.sound = .default
+            
+            let request = UNNotificationRequest(identifier: "nutritionReminder", content: content, trigger: trigger)
+            
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("Error scheduling notification: \(error.localizedDescription)")
+                } else {
+                    print("Daily nutrition reminder notification successfully scheduled for hour: \(components.hour ?? 0) minute: \(components.minute ?? 0)")
+                }
+            }
+        } else {
+            print("Entries found for today; no notification scheduled.")
+        }
+    }
+
+
+    // Helper functions
     private func dateFormatted(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/yyyy"
         return formatter.string(from: date)
     }
     
-    // Save the date of birth in UserDefaults
     private func saveBirthDate(_ date: Date) {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -157,40 +226,10 @@ struct SettingsView: View {
         UserDefaults.standard.set(birthDateString, forKey: "dateOfBirth")
     }
     
-    // Save all settings to UserDefaults
     private func saveSettings() {
         UserDefaults.standard.set(inputName, forKey: "name")
-        UserDefaults.standard.set(fatLimit, forKey: "fatLimit")
-        UserDefaults.standard.set(dairyLimit, forKey: "dairyLimit")
         UserDefaults.standard.set(nutritionReminder, forKey: "nutritionReminder")
-        saveBirthDate(inputDayOfBirth) // Ensure birth date is saved as well
+        UserDefaults.standard.set(reminderTime, forKey: "reminderTime")
+        saveBirthDate(inputDayOfBirth)
     }
-    
-    // Reusable view for notification toggle rows
-    private func notificationToggle(title: String, description: String, isOn: Binding<Bool>) -> some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(title)
-                    .foregroundColor(.primary)
-                
-                Text(description)
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            
-            Toggle("", isOn: isOn)
-                .labelsHidden()
-                .onChange(of: isOn.wrappedValue) { newValue in
-                    UserDefaults.standard.set(newValue, forKey: title.lowercased().replacingOccurrences(of: " ", with: ""))
-                }
-        }
-        .padding()
-        .background(Color(UIColor.systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-    }
-}
-
-#Preview {
-    SettingsView()
 }
