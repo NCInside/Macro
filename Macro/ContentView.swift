@@ -17,6 +17,11 @@ struct ContentView: View {
                     Label("Journal", systemImage: "book.pages.fill")
                 }
             
+            SkinHealthView()
+                .tabItem {
+                    Label("Journal", systemImage: "face.smiling.inverse")
+                }
+            
             SummaryView()
                 .tabItem {
                     Label("Ringkasan", systemImage: "book")
