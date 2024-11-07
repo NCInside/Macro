@@ -31,7 +31,6 @@ struct PDFPrintView: View {
     var saturatedFatPoints: [Point]
     var dairyPoints: [Point]
     var giPoints: [PiePoint]
-    
     var sleepData: [Int] { sleepPoints.map { $0.value } }
     var fatData: [Int] { fatPoints.map { $0.value } }
     var saturatedFatData: [Int] { saturatedFatPoints.map { $0.value } }
@@ -83,7 +82,7 @@ struct PDFPrintView: View {
     }
     
     var body: some View {
-        //        ScrollView{
+                ScrollView{
         VStack (alignment: .leading) {
             VStack(alignment: .center) {
                 Image("ZoraHeader")
@@ -149,38 +148,135 @@ struct PDFPrintView: View {
             
             Text("Tidur")
                 .fontWeight(.semibold)
+            
+            Text("RERATA DI TEMPAT TIDUR")
+                .font(.footnote)
+                .foregroundColor(.gray)
+                .fontWeight(.semibold)
+            
+            HStack(alignment: .bottom,spacing: 0) {
+                Text("0")
+                    .font(.largeTitle)
+                    .bold()
+                
+                Text("jam ")
+                    .font(.title3)
+                    .padding(.bottom, 5)
+                
+                Text("0")
+                    .font(.largeTitle)
+                    .bold()
+                
+                Text("menit")
+                    .font(.title3)
+                    .padding(.bottom, 5)
+                
+                Spacer()
+            }
+            .padding(.bottom, 2)
                         
-            Chart {ForEach(sleepData.indices, id: \.self) { index in BarMark( x: .value("Index", index), y: .value("Value", sleepData[sleepData.count - 1 - index]) ) .foregroundStyle(Color.blue) } }
-                .chartXAxis { AxisMarks(values: .stride(by: 1)) }
-                .chartYAxis { AxisMarks(values: .stride(by: 1)) }
-                .frame(height: 120) .background(Color.black)
+            Chart {ForEach(sleepData.indices, id: \.self) { index in LineMark( x: .value("Index", index), y: .value("Value", sleepData[sleepData.count - 1 - index]) )
+                .foregroundStyle(Color.main) } }
+                .frame(height: 220)
+                .chartXAxis { AxisMarks(values: .stride(by: 10)) }
+                .chartYScale(domain: 0...8.2)
+                .chartYAxisLabel("Total Tidur")
+                .padding(2)
+                .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2))}
+                .background(Color.white)
                 .cornerRadius(10)
             
             Text("Makanan Berlemak")
                 .fontWeight(.semibold)
             
-            Chart {ForEach(fatData.indices, id: \.self) { index in BarMark( x: .value("Index", index), y: .value("Value", fatData[fatData.count - 1 - index]) ) .foregroundStyle(Color.blue) } }
-                .chartXAxis { AxisMarks(values: .stride(by: 1)) }
-                .chartYAxis { AxisMarks(values: .stride(by: 1)) }
-                .frame(height: 120) .background(Color.black)
+            Text("RERATA MAKANAN BERLEMAK")
+                .font(.footnote)
+                .foregroundColor(.gray)
+                .fontWeight(.semibold)
+            
+            HStack(alignment: .bottom, spacing: 0) {
+                Text("0")
+                    .font(.largeTitle)
+                    .bold()
+                
+                Text("kali")
+                    .font(.title3)
+                    .padding(.bottom, 5)
+                
+                Spacer()
+            }
+            .padding(.bottom, 2)
+            
+            Chart {ForEach(fatData.indices, id: \.self) { index in LineMark( x: .value("Index", index), y: .value("Value", fatData[fatData.count - 1 - index]) ) .foregroundStyle(Color.main) } }
+                .frame(height: 220)
+                .chartXAxis { AxisMarks(values: .stride(by: 10)) }
+                .chartYScale(domain: 0...8.2)
+                .chartYAxisLabel("Total Makanan Berlemak")
+                .padding(2)
+                .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2)) }
+                .background(Color.white)
                 .cornerRadius(10)
             
             Text("Lemak Jenuh")
                 .fontWeight(.semibold)
             
-            Chart {ForEach(saturatedFatData.indices, id: \.self) { index in BarMark( x: .value("Index", index), y: .value("Value", saturatedFatData[saturatedFatData.count - 1 - index]) ) .foregroundStyle(Color.blue) } }
-                .chartXAxis { AxisMarks(values: .stride(by: 1)) }
-                .chartYAxis { AxisMarks(values: .stride(by: 1)) }
-                .frame(height: 120) .background(Color.black)
+            Text("RERATA LEMAK JENUH")
+                .font(.footnote)
+                .foregroundColor(.gray)
+                .fontWeight(.semibold)
+            
+            HStack(alignment: .bottom, spacing: 0) {
+                Text("0")
+                    .font(.largeTitle)
+                    .bold()
+                
+                Text("kali")
+                    .font(.title3)
+                    .padding(.bottom, 5)
+                
+                Spacer()
+            }
+            
+            Chart {ForEach(saturatedFatData.indices, id: \.self) { index in LineMark( x: .value("Index", index), y: .value("Value", saturatedFatData[saturatedFatData.count - 1 - index]) )
+                .foregroundStyle(Color.main) } }
+                .frame(height: 220)
+                .chartXAxis { AxisMarks(values: .stride(by: 10)) }
+                .chartYScale(domain: 0...8.2)
+                .chartYAxisLabel("Total Lemak Jenuh")
+                .padding(2)
+                .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2)) }
+                .background(Color.white)
                 .cornerRadius(10)
             
             Text("Produk Susu")
                 .fontWeight(.semibold)
             
-            Chart {ForEach(dairyData.indices, id: \.self) { index in BarMark( x: .value("Index", index), y: .value("Value", dairyData[dairyData.count - 1 - index]) ) .foregroundStyle(Color.blue) } }
-                .chartXAxis { AxisMarks(values: .stride(by: 1)) }
-                .chartYAxis { AxisMarks(values: .stride(by: 1)) }
-                .frame(height: 120) .background(Color.black)
+            Text("RERATA KONSUMSI SUSU")
+                .font(.footnote)
+                .foregroundColor(.gray)
+                .fontWeight(.semibold)
+            
+            HStack(alignment: .bottom, spacing: 0) {
+                Text("0")
+                    .font(.largeTitle)
+                    .bold()
+                
+                Text("kali")
+                    .font(.title3)
+                    .padding(.bottom, 5)
+                
+                Spacer()
+            }
+            
+            Chart {ForEach(dairyData.indices, id: \.self) { index in LineMark( x: .value("Index", index), y: .value("Value", dairyData[dairyData.count - 1 - index]) )
+//                .chartYAxisLabel("Total Produk Susu")
+                .foregroundStyle(Color.main) } }
+                .frame(height: 220)
+                .chartXAxis { AxisMarks(values: .stride(by: 10)) }
+                .chartYScale(domain: 0...8.2)
+                .padding(2)
+                .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2)) }
+                .background(Color.white)
                 .cornerRadius(10)
             
             Text("Indeks Glikemik")
@@ -238,11 +334,38 @@ struct PDFPrintView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.horizontal)
-        .background(Color.background)
-        //        }
+        .background(Color.white)
+                }
     }
 }
 
-//#Preview {
-//    PDFPrintView(chosenMonth: 1)
-//}
+struct PDFPrintView_Previews: PreviewProvider {
+    static var previews: some View {
+        PDFPrintView(
+            chosenMonth: 1,
+            sleepPoints: [
+                            Point(date: Date(), value: 7),
+                            Point(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, value: 6),
+                            Point(date: Calendar.current.date(byAdding: .day, value: -2, to: Date())!, value: 8),
+                            Point(date: Calendar.current.date(byAdding: .day, value: -3, to: Date())!, value: 6),
+                            Point(date: Calendar.current.date(byAdding: .day, value: -4, to: Date())!, value: 8),
+                            Point(date: Calendar.current.date(byAdding: .day, value: -5, to: Date())!, value: 6),
+                            Point(date: Calendar.current.date(byAdding: .day, value: -6, to: Date())!, value: 8),
+                            Point(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, value: 6),
+                            Point(date: Calendar.current.date(byAdding: .day, value: -2, to: Date())!, value: 8),
+                            Point(date: Calendar.current.date(byAdding: .day, value: -3, to: Date())!, value: 6),
+                            Point(date: Calendar.current.date(byAdding: .day, value: -4, to: Date())!, value: 8),
+                            Point(date: Calendar.current.date(byAdding: .day, value: -5, to: Date())!, value: 6),
+                            Point(date: Calendar.current.date(byAdding: .day, value: -6, to: Date())!, value: 8),
+                            Point(date: Calendar.current.date(byAdding: .day, value: -7, to: Date())!, value: 5)
+                        ],
+            fatPoints: [Point(date: Date(), value: 7),
+                        Point(date: Date().addingTimeInterval(-6400), value: 6),
+                        Point(date: Date().addingTimeInterval(-6400), value: 4)],
+            saturatedFatPoints: [Point(date: Date(), value: 5), Point(date: Date().addingTimeInterval(-86400), value: 4)],
+            dairyPoints: [Point(date: Date(), value: 1), Point(date: Date().addingTimeInterval(-86400), value: 2)],
+            giPoints: [PiePoint(date: Date(), category: "Low", value: 2), PiePoint(date: Date(), category: "High", value: 3)]
+        )
+    }
+}
+
