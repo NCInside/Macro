@@ -1,115 +1,92 @@
 import SwiftUI
 
 struct AgeOnBoardingView: View {
-    @State private var inputAge: String = ""
-    @FocusState private var isInputActive: Bool
-    @State private var navigateToNext = false // Control navigation to the next view
+    @State private var selectedDate: Date = Date()
     @Binding var hasCompletedOnboarding: Bool
-    
-    var navigationStates: [String: Bool] // Receive navigation states as a parameter
+    var navigationStates: [String: Bool]
+    @State private var isDatePickerPresented = false
     @ObservedObject var viewModel = OnBoardingViewModel()
     
     var body: some View {
         NavigationView {
             VStack {
-                Text("Berapa usiamu?")
-                    .padding(.top, 80)
-                    .font(.title)
+                Text("Kapan tanggal lahirmu?")
+                    .font(.system(size: 24, weight: .bold))
                     .foregroundColor(.white)
-                    .bold()
-                
-                VStack {
-                    TextField("", text: $inputAge)
-                        .keyboardType(.numberPad)
-                        .focused($isInputActive)
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                        .padding(.top, 120)
-                        .bold()
-                        .toolbar {
-                            ToolbarItemGroup(placement: .keyboard) {
-                                Spacer()
-                                Button("Done") {
-                                    isInputActive = false
-                                }
-                            }
-                        }
-                }
-                
-                Rectangle()
-                    .frame(height: 1)
-                    .foregroundColor(.gray)
-                    .padding(.horizontal, 60)
+                    .padding(.top, 80)
                 
                 Spacer()
                 
-                // NavigationLink that dynamically determines the next destination
-                NavigationLink(destination: nextView(updatedNavigationStates: updatedNavigationStates()), isActive: $navigateToNext) {
-                    EmptyView()
+                // Custom date display and date picker button
+                Button(action: {
+                    isDatePickerPresented.toggle()
+                }) {
+                    VStack {
+                        Text(selectedDateFormatted())
+                            .font(.system(size: 20))
+                            .foregroundColor(.white)
+                            .padding(.vertical, 8)
+                        
+                        Divider()
+                            .background(Color.white)
+                            .padding(.horizontal, 50)
+                    }
                 }
+                .sheet(isPresented: $isDatePickerPresented) {
+                    VStack {
+                        DatePicker("Pilih Tanggal Lahir", selection: $selectedDate, in: ...Date(), displayedComponents: .date)
+                            .datePickerStyle(.wheel)
+                            .labelsHidden()
+                            .padding()
+                        
+                        Button("Selesai") {
+                            isDatePickerPresented = false
+                        }
+                        .padding()
+                        .font(.headline)
+                    }
+                    .presentationDetents([.fraction(0.4)]) // Customize the modal height
+                }
+                
+                Spacer()
 
                 Button(action: {
-                    if !inputAge.isEmpty {
-                        UserDefaults.standard.set(inputAge, forKey: "age")
-                        navigateToNextStep()
-                    }
+                    saveBirthDate()
+                    hasCompletedOnboarding = true // Complete onboarding and go to JournalView
                 }) {
-                    ZStack {
-                        Rectangle()
-                            .foregroundColor(.accentColor)
-                            .frame(width: 353, height: 50)
-                            .background(.white)
-                            .cornerRadius(12)
-                        Text("Selanjutnya")
-                            .foregroundColor(.white)
-                    }
-                    .padding(.bottom, 20)
-                    .offset(y: viewModel.keyboardHeight == 0 ? 0 : -viewModel.keyboardHeight / 14)
-                    .animation(.easeOut(duration: 0.3), value: viewModel.keyboardHeight)
+                    Text("Selanjutnya")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.accentColor)
+                        .cornerRadius(12)
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 30)
                 }
-                .disabled(inputAge.isEmpty)
-                .opacity(inputAge.isEmpty ? 0.5 : 1.0)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .background(Color.main)
-            .onAppear(perform: {
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.main.ignoresSafeArea())
+            .onAppear {
                 viewModel.subscribeToKeyboardEvents()
-                
-                // Auto-navigate if AgeOnBoarding is not needed
-                if navigationStates["AgeOnBoarding"] == false {
-                    navigateToNextStep()
-                }
-            })
-            .onDisappear(perform: viewModel.unsubscribeFromKeyboardEvents)
+            }
+            .onDisappear {
+                viewModel.unsubscribeFromKeyboardEvents()
+            }
         }
         .navigationBarBackButtonHidden()
     }
     
-    // Function to handle navigation to the next onboarding step
-    private func navigateToNextStep() {
-        navigateToNext = true
+    private func selectedDateFormatted() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMMM yyyy"
+        return formatter.string(from: selectedDate)
     }
     
-    // Helper function to update navigationStates to mark AgeOnBoarding as completed
-    private func updatedNavigationStates() -> [String: Bool] {
-        var updatedStates = navigationStates
-        updatedStates["AgeOnBoarding"] = false // Mark AgeOnBoarding as completed
-        return updatedStates
-    }
-    
-    // Determine the next view based on the updated navigationStates
-    @ViewBuilder
-    private func nextView(updatedNavigationStates: [String: Bool]) -> some View {
-        if updatedNavigationStates["HeightOnBoarding"] == true {
-            HeightOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: updatedNavigationStates)
-        } else if updatedNavigationStates["WeightOnBoarding"] == true {
-            WeightOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: updatedNavigationStates)
-        } else if updatedNavigationStates["GenderOnBoarding"] == true {
-            GenderOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: updatedNavigationStates)
-        } else {
-            ActivityOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: updatedNavigationStates)
-        }
+    private func saveBirthDate() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd" // Save in yyyy-MM-dd format
+        let birthDateString = formatter.string(from: selectedDate)
+        UserDefaults.standard.set(birthDateString, forKey: "dateOfBirth")
     }
 }

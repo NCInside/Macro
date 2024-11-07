@@ -1,310 +1,133 @@
-//
-//  SettingsView.swift
-//  Macro
-//
-//  Created by Vebrillia Santoso on 31/10/24.
-//
-
 import SwiftUI
 
 struct SettingsView: View {
-    let age = UserDefaults.standard.string(forKey: "age") ?? "Unknown age"
-    @State private var gender: String = UserDefaults.standard.string(forKey: "gender") ?? "Unknown gender"
-    @State private var weight: String = UserDefaults.standard.string(forKey: "weight") ?? "Unknown weigth"
-    @State private var height: String = UserDefaults.standard.string(forKey: "height") ?? "Unknown heigth"
-    @State private var activityLevel: String =  UserDefaults.standard.string(forKey: "activityLevel") ?? "Unknown activity level"
+    @State private var inputName: String = UserDefaults.standard.string(forKey: "name") ?? "Unknown name"
+    @State private var inputDayOfBirth: Date = {
+        let birthDateString = UserDefaults.standard.string(forKey: "dateOfBirth") ?? ""
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.date(from: birthDateString) ?? Date()
+    }()
+    
+    @State private var showDatePicker = false
+    
+    // Notification toggles
+    @State private var fatLimit = UserDefaults.standard.bool(forKey: "fatLimit")
+    @State private var dairyLimit = UserDefaults.standard.bool(forKey: "dairyLimit")
+    @State private var nutritionReminder = UserDefaults.standard.bool(forKey: "nutritionReminder")
     
     @Environment(\.dismiss) private var dismiss
-    @State private var showHeightPicker = false
-    @State private var showWeightPicker = false
-    @State private var selectedHeight: String = "cm"
-    @State private var selectedWeight: String = "kg"
-    @State private var inputName: String = ""
-    @State private var inputDayOfBirth: String = ""
-    @State private var fatLimit = false
-    @State private var dairyLimit = false
-    @State private var nutritionReminder = false
-    
-    let genderOptions = ["Perempuan", "Laki-Laki"]
-    let activityOptions = ["Tidak Terlalu Aktif", "Sedikit Aktif", "Aktif", "Sangat Aktif"]
-    let heights = (120...250).map { "\($0)" }
-    let weights = (30...200).map { "\($0)" }
-    
     
     var body: some View {
-        VStack(alignment: .leading){
+        VStack(alignment: .leading) {
+            // Navigation Bar
             HStack {
-                HStack (spacing: 4) {
+                HStack(spacing: 4) {
                     Image(systemName: "chevron.left")
-                    
                     Text("Jurnal")
-                    
                 }.onTapGesture {
+                    saveSettings() // Save settings when dismissing
                     dismiss()
                 }
                 
                 Spacer()
+                
                 Text("Pengaturan")
                     .foregroundColor(.black)
                     .fontWeight(.semibold)
-                    .multilineTextAlignment(.center)
                 
                 Spacer()
                 
                 Button(action: {
+                    saveSettings()
                     dismiss()
                 }) {
                     Text("Selesai")
                         .font(.headline)
-                        .foregroundColor(.mainLight)
+                        .foregroundColor(.accentColor)
                         .padding(.leading, 6)
                 }
             }
             .padding(.bottom, 12)
-            .foregroundColor(.accentColor)
             
+            // Data Diri Section
             Text("DATA DIRI")
                 .font(.caption)
                 .padding(.horizontal, 4)
                 .padding(.top, 10)
             
-            VStack (spacing: 0){
+            VStack(spacing: 0) {
+                // Name Field
                 HStack {
                     Text("Nama")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
-                    TextField("Nama",  text: $inputName)
-                        .keyboardType(.numberPad)
-                        .multilineTextAlignment(.leading)
-                        .padding(.leading, -40)
                     
+                    TextField("Nama", text: $inputName)
+                        .multilineTextAlignment(.trailing)
+                        .foregroundColor(.gray)
+                        .padding(.trailing, 16)
+                        .onChange(of: inputName) { newValue in
+                            UserDefaults.standard.set(newValue, forKey: "name")
+                        }
                 }
                 .background(Color(UIColor.systemBackground))
+                
                 Divider()
                     .padding(.leading)
                 
+                // Date of Birth Field
                 HStack {
                     Text("Tanggal Lahir")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
-                    TextField("Tanggal Lahir",  text: $inputDayOfBirth)
-                        .keyboardType(.numberPad)
-                        .multilineTextAlignment(.leading)
-                        .padding(.leading, -40)
                     
+                    Button(action: {
+                        showDatePicker.toggle()
+                    }) {
+                        Text(dateFormatted(inputDayOfBirth))
+                            .foregroundColor(.gray)
+                            .padding(.trailing, 16)
+                    }
+                    .sheet(isPresented: $showDatePicker) {
+                        VStack {
+                            DatePicker("Pilih Tanggal Lahir", selection: $inputDayOfBirth, in: ...Date(), displayedComponents: .date)
+                                .datePickerStyle(.wheel)
+                                .labelsHidden()
+                                .padding()
+                            
+                            Button("Selesai") {
+                                showDatePicker = false
+                                saveBirthDate(inputDayOfBirth) // Save the new birthdate immediately
+                            }
+                            .padding()
+                        }
+                        .presentationDetents([.fraction(0.4)])
+                    }
                 }
                 .background(Color(UIColor.systemBackground))
-                
             }
             .background(Color(UIColor.systemBackground))
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .padding(.bottom, 14)
             
-            Text("PROFIL TUBUH")
-                .font(.caption)
-                .padding(.horizontal, 4)
-                .padding(.top, 10)
-            
-            VStack (spacing: 0){
-                HStack {
-                    Text("Tinggi Badan")
-                        .padding(.vertical, 10)
-                        .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
-                    
-                    Button(action: {
-                        showHeightPicker.toggle()
-                    }) {
-                        Text(height)
-                            .foregroundColor(.mainLight)
-                            .frame(width: 40)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 6)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                    }
-                    
-                    Picker("Unit", selection: $selectedHeight) {
-                        Text("cm").tag("cm")
-                        Text("ft").tag("ft")
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .frame(width: 100)
-                    .padding(.trailing, 10)
-                    
-                }
-                .background(Color(UIColor.systemBackground))
-                Divider()
-                    .padding(.leading)
-                
-                if showHeightPicker {
-                    Picker("Pilih Tinggi", selection: $height) {
-                        ForEach(heights, id: \.self) { height in
-                            Text(height).tag(height)
-                        }
-                    }
-                    .pickerStyle(.wheel)
-                    .frame(height: 150)
-                    .clipped()
-                    .onChange(of: height) { newHeight in
-                        UserDefaults.standard.set(newHeight, forKey: "height")
-                    }
-                }
-                
-                HStack {
-                    Text("Berat Badan")
-                        .padding(.vertical, 10)
-                        .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
-                    
-                    Button(action: {
-                        showWeightPicker.toggle()
-                    }) {
-                        Text(weight)
-                            .foregroundColor(.mainLight)
-                            .frame(width: 40)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 6)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                    }
-                    
-                    Picker("Unit", selection: $selectedWeight) {
-                        Text("kg").tag("kg")
-                        Text("lb").tag("lb")
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .frame(width: 100)
-                    .padding(.trailing, 10)
-                    
-                }
-                Divider()
-                    .padding(.leading)
-                    .background(Color(UIColor.systemBackground))
-                
-                if showWeightPicker {
-                    Picker("Pilih Tinggi", selection: $weight) {
-                        ForEach(weights, id: \.self) { weight in
-                            Text(weight).tag(weight)
-                        }
-                    }
-                    .pickerStyle(.wheel)
-                    .frame(height: 150)
-                    .clipped()
-                    .onChange(of: weight) { newWeight in
-                        UserDefaults.standard.set(newWeight, forKey: "weight")
-                    }
-                }
-                
-                HStack{
-                    Text("Jenis Kelamin")
-                        .padding(.vertical, 10)
-                        .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
-                    
-                    Picker("", selection: $gender) {
-                        ForEach(genderOptions, id: \.self) { option in
-                            Text(option)
-                                .tag(option)
-                        }
-                    }
-                    .accentColor(.gray)
-                    .onChange(of: gender) { newGender in
-                        UserDefaults.standard.set(newGender, forKey: "gender")
-                    }
-                }
-                
-                HStack{
-                    Text("Aktivitas")
-                        .padding(.vertical, 10)
-                        .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
-                    
-                    Picker("", selection: $activityLevel) {
-                        ForEach(activityOptions, id: \.self) { option in
-                            Text(option)
-                                .tag(option)
-                        }
-                    }
-                    .accentColor(.gray)
-                    .onChange(of: activityLevel) { newActivityLevel in
-                        UserDefaults.standard.set(newActivityLevel, forKey: "activityLevel")
-                    }
-                }
-            }
-            .background(Color(UIColor.systemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .padding(.bottom, 10)
-            
+            // Notifications Section
             Text("NOTIFIKASI")
                 .font(.caption)
                 .padding(.horizontal, 4)
                 .padding(.top, 10)
             
-            
-            VStack (spacing: 0){
-                HStack {
-                    VStack(alignment: .leading){
-                        Text("Diatas Lemak Jenuh")
-                        Text("Jika melewati rekomendasi")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.trailing, -40)
-                    
-                    Toggle("", isOn: $fatLimit)
-                        .padding(.trailing, 10)
-                }
-                .padding(.vertical, 10)
-                .background(Color(UIColor.systemBackground))
-                Divider()
-                    .padding(.leading)
+            VStack(spacing: 0) {
+                // Fat Limit Toggle
+                notificationToggle(title: "Batas Lemak Jenuh", description: "Jika melewati rekomendasi", isOn: $fatLimit)
                 
-                HStack {
-                    VStack(alignment: .leading){
-                        Text("Batas Produk Susu")
-                        Text("Jika melebihi 1 porsi per hari")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.trailing, -48)
-                    
-                    Toggle("", isOn: $dairyLimit)
-                        .padding(.trailing, 10)
-                }
-                .padding(.vertical, 10)
-                .background(Color(UIColor.systemBackground))
-                Divider()
-                    .padding(.leading)
+                // Dairy Limit Toggle
+                notificationToggle(title: "Batas Produk Susu", description: "Jika melebihi 1 porsi per hari", isOn: $dairyLimit)
                 
-                HStack {
-                    VStack(alignment: .leading){
-                        Text("Pengingat Pengisian Nutrisi")
-                        Text("Diingatkan setiap jam 19.00")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.trailing, -66)
-                    
-                    Toggle("", isOn: $nutritionReminder)
-                        .padding(.trailing, 10)
-                }
-                .padding(.vertical, 10)
-                .background(Color(UIColor.systemBackground))
-                
+                // Nutrition Reminder Toggle
+                notificationToggle(title: "Pengingat Pengisian Nutrisi", description: "Diingatkan setiap jam 19.00", isOn: $nutritionReminder)
             }
             .background(Color(UIColor.systemBackground))
             .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -313,10 +136,59 @@ struct SettingsView: View {
             Spacer()
         }
         .padding()
-        .frame(maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-        .background(Color.background)
+        .background(Color.background.ignoresSafeArea())
+        .onDisappear {
+            saveSettings() // Save settings when the view disappears
+        }
     }
     
+    // Date formatting function
+    private func dateFormatted(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter.string(from: date)
+    }
+    
+    // Save the date of birth in UserDefaults
+    private func saveBirthDate(_ date: Date) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let birthDateString = formatter.string(from: date)
+        UserDefaults.standard.set(birthDateString, forKey: "dateOfBirth")
+    }
+    
+    // Save all settings to UserDefaults
+    private func saveSettings() {
+        UserDefaults.standard.set(inputName, forKey: "name")
+        UserDefaults.standard.set(fatLimit, forKey: "fatLimit")
+        UserDefaults.standard.set(dairyLimit, forKey: "dairyLimit")
+        UserDefaults.standard.set(nutritionReminder, forKey: "nutritionReminder")
+        saveBirthDate(inputDayOfBirth) // Ensure birth date is saved as well
+    }
+    
+    // Reusable view for notification toggle rows
+    private func notificationToggle(title: String, description: String, isOn: Binding<Bool>) -> some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text(title)
+                    .foregroundColor(.primary)
+                
+                Text(description)
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Toggle("", isOn: isOn)
+                .labelsHidden()
+                .onChange(of: isOn.wrappedValue) { newValue in
+                    UserDefaults.standard.set(newValue, forKey: title.lowercased().replacingOccurrences(of: " ", with: ""))
+                }
+        }
+        .padding()
+        .background(Color(UIColor.systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
 }
 
 #Preview {

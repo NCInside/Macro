@@ -4,13 +4,8 @@ struct HealthOnBoardingView: View {
     @Binding var hasCompletedOnboarding: Bool
     @EnvironmentObject var manager: HealthManager
     @State private var navigateToNameOnBoarding = false
-    @State private var navigateToAgeOnBoarding = false
-    @State private var navigateToHeightOnBoarding = false
-    @State private var navigateToWeightOnBoarding = false
-    @State private var navigateToGenderOnBoarding = false
-    @State private var navigateToActivityOnBoarding = false
     @State private var showAlert = false
-    @State private var navigationStates: [String: Bool] = [:] // Store navigation states
+    @State private var navigationStates: [String: Bool] = [:]
 
     var body: some View {
         NavigationView {
@@ -44,13 +39,11 @@ struct HealthOnBoardingView: View {
                 
                 Button(action: {
                     manager.requestAuthorization { success, returnedNavigationStates in
-                        // Update navigation states and showAlert if necessary
                         navigationStates = returnedNavigationStates
                         showAlert = navigationStates["showAlert"] ?? false
                         
-                        // Trigger navigation only if showAlert is false
-                        if !showAlert {
-                            navigateToNextOnboarding()
+                        if success && !showAlert {
+                            navigateToNameOnBoarding = true
                         }
                     }
                 }) {
@@ -66,14 +59,7 @@ struct HealthOnBoardingView: View {
                     .padding()
                 }
                 
-                // Navigation links based on states, passing navigationStates to the next views
                 NavigationLink(destination: NameOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: navigationStates), isActive: $navigateToNameOnBoarding) { EmptyView() }
-                NavigationLink(destination: AgeOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: navigationStates), isActive: $navigateToAgeOnBoarding) { EmptyView() }
-                NavigationLink(destination: HeightOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: navigationStates), isActive: $navigateToHeightOnBoarding) { EmptyView() }
-                NavigationLink(destination: WeightOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: navigationStates), isActive: $navigateToWeightOnBoarding) { EmptyView() }
-                NavigationLink(destination: GenderOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding, navigationStates: navigationStates), isActive: $navigateToGenderOnBoarding) { EmptyView() }
-                NavigationLink(destination: ActivityOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding , navigationStates: navigationStates), isActive: $navigateToActivityOnBoarding) { EmptyView() }
-                
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.main)
@@ -85,33 +71,16 @@ struct HealthOnBoardingView: View {
                         if let url = URL(string: "https://support.apple.com/en-us/108906") {
                             UIApplication.shared.open(url)
                         }
-                        navigationStates["showAlert"] = false // Reset alert state
-                        navigateToNextOnboarding()
+                        navigationStates["showAlert"] = false
+                        navigateToNameOnBoarding = true
                     }),
                     secondaryButton: .cancel(Text("Skip"), action: {
-                        navigationStates["showAlert"] = false // Reset alert state
-                        navigateToNextOnboarding()
+                        navigationStates["showAlert"] = false
+                        navigateToNameOnBoarding = true
                     })
                 )
             }
         }
         .navigationBarBackButtonHidden(true)
-    }
-    
-    // Function to navigate to the next onboarding view based on navigationStates
-    private func navigateToNextOnboarding() {
-        if navigationStates["NameOnBoarding"] == true {
-            navigateToNameOnBoarding = true
-        } else if navigationStates["AgeOnBoarding"] == true {
-            navigateToAgeOnBoarding = true
-        } else if navigationStates["HeightOnBoarding"] == true {
-            navigateToHeightOnBoarding = true
-        } else if navigationStates["WeightOnBoarding"] == true {
-            navigateToWeightOnBoarding = true
-        } else if navigationStates["GenderOnBoarding"] == true {
-            navigateToGenderOnBoarding = true
-        } else {
-            navigateToActivityOnBoarding = true // Default to ActivityOnBoarding if all other steps are completed
-        }
     }
 }

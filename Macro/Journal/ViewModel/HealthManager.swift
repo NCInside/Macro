@@ -1,10 +1,3 @@
-//
-//  HealthManager.swift
-//  Macro
-//
-//  Created by Vebrillia Santoso on 08/10/24.
-//
-
 import Foundation
 import HealthKit
 
@@ -12,92 +5,100 @@ class HealthManager: ObservableObject {
     let healthStore = HKHealthStore()
     
     func requestAuthorization(completion: @escaping (Bool, [String: Bool]) -> Void) {
-        let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)
-        let dateOfBirth = HKObjectType.characteristicType(forIdentifier: .dateOfBirth)
-        let biologicalSex = HKObjectType.characteristicType(forIdentifier: .biologicalSex)
-        let bodyMass = HKObjectType.quantityType(forIdentifier: .bodyMass)
-        let height = HKObjectType.quantityType(forIdentifier: .height)
-        
-        guard let sleep = sleepType, let birthDate = dateOfBirth, let sex = biologicalSex, let mass = bodyMass, let heightType = height else {
-            print("HealthKit data is not available.")
-            completion(false, ["HealthKitDataUnavailable": true])
+        guard let dateOfBirthType = HKObjectType.characteristicType(forIdentifier: .dateOfBirth),
+              let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis) else {
+            print("Date of birth or sleep type is not available in HealthKit.")
+            completion(false, ["showAlert": true])
             return
         }
         
-        let healthTypes: Set = [sleep, birthDate, sex, mass, heightType]
+        let healthTypes: Set = [dateOfBirthType, sleepType]
         
         healthStore.requestAuthorization(toShare: [], read: healthTypes) { success, error in
-            DispatchQueue.main.async {
-                var navigationStates: [String: Bool] = [
-                    "NameOnBoarding": true,
-                    "AgeOnBoarding": true,
-                    "HeightOnBoarding": true,
-                    "WeightOnBoarding": true,
-                    "GenderOnBoarding": true,
-                    "ActivityOnBoarding": true,
-                    "showAlert": true
-                ]
-                
-                if let error = error {
-                    print("Error requesting health data authorization: \(error.localizedDescription)")
-                    completion(false, navigationStates)
-                    return
+            if let error = error {
+                print("Error requesting HealthKit authorization: \(error.localizedDescription)")
+            }
+            
+            var navigationStates: [String: Bool] = [
+                "NameOnBoarding": true,
+                "DateOfBirthOnBoarding": true,
+                "showAlert": false
+            ]
+            
+            if success {
+                // Fetch and save the date of birth if available
+                if let birthDate = self.getUserDateOfBirth() {
+                    self.saveDateOfBirthToUserDefaults(birthDate)
+                    navigationStates["DateOfBirthOnBoarding"] = false
                 }
                 
-                if success {
-                    // Check if name is available in UserDefaults
-                    if let userName = UserDefaults.standard.string(forKey: "Name"), !userName.isEmpty {
-                        print("Name data found: \(userName)")
-                        navigationStates["NameOnBoarding"] = false
-                    } else {
-                        print("No name data available.")
+                // Fetch sleep data to check if there is any recent data
+                self.fetchSleepDataForLast7Days { sleepData, count in
+                    if count == 0 {
+                        navigationStates["showAlert"] = true
                     }
-
-                    // Check for other data availability
-                    if let age = self.getUserAge() {
-                        print("Age data found: \(age)")
-                        navigationStates["AgeOnBoarding"] = false
-                    } else {
-                        print("No age data available.")
-                    }
-                    
-                    if self.getUserBiologicalSex() != nil {
-                        navigationStates["GenderOnBoarding"] = false
-                    }
-                    
-                    self.getUserWeight { bodyMass in
-                        if bodyMass != nil {
-                            navigationStates["WeightOnBoarding"] = false
-                        }
-                        self.getUserHeight { height in
-                            if height != nil {
-                                navigationStates["HeightOnBoarding"] = false
-                            }
-                            self.fetchSleepDataForLast7Days { sleepData, count in
-                                if count != 0 {
-                                    navigationStates["showAlert"] = false
-                                }
-                                self.finalizeNavigation(navigationStates, completion)
-                            }
-                        }
-                    }
-                } else {
-                    print("User denied access to HealthKit data.")
-                    completion(false, navigationStates)
+                    completion(success, navigationStates)
                 }
+            } else {
+                completion(false, navigationStates)
             }
         }
     }
-
-
-    private func finalizeNavigation(_ navigationStates: [String: Bool], _ completion: @escaping (Bool, [String: Bool]) -> Void) {
-        DispatchQueue.main.async {
-            completion(!navigationStates.contains(where: { $0.value }), navigationStates)
+    
+    // Function to fetch date of birth from HealthKit
+    func getUserDateOfBirth() -> DateComponents? {
+        do {
+            let dateOfBirth = try healthStore.dateOfBirthComponents()
+            print("Fetched Date of Birth from HealthKit: \(dateOfBirth)")
+            return dateOfBirth
+        } catch {
+            print("Error fetching date of birth: \(error)")
+            return nil
         }
+    }
+    
+    // Helper function to save date of birth to UserDefaults
+    private func saveDateOfBirthToUserDefaults(_ dateOfBirth: DateComponents) {
+        guard let year = dateOfBirth.year, let month = dateOfBirth.month, let day = dateOfBirth.day else { return }
+        
+        let birthDateString = "\(year)-\(String(format: "%02d", month))-\(String(format: "%02d", day))"
+        UserDefaults.standard.set(birthDateString, forKey: "dateOfBirth")
+        print("Date of Birth saved to UserDefaults: \(birthDateString)")
     }
 
     
-    
+
+    func fetchAge() -> Int? {
+            guard let birthDateString = UserDefaults.standard.string(forKey: "dateOfBirth") else {
+                return nil // Date of birth not found
+            }
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            
+            // Convert the string to a Date object
+            guard let birthDate = formatter.date(from: birthDateString) else {
+                return nil // Invalid date format
+            }
+            
+            let calendar = Calendar.current
+            let now = Date()
+            
+            let ageComponents = calendar.dateComponents([.year, .month, .day], from: birthDate, to: now)
+            guard let age = ageComponents.year else {
+                return nil
+            }
+            
+            // Determine if birthday has occurred this year
+            let birthdayThisYear = calendar.date(byAdding: .year, value: age, to: birthDate)!
+            
+            if now < birthdayThisYear {
+                return age - 1
+            }
+            
+            return age
+        }
+
     func fetchSleepData(completion: @escaping ([HKCategorySample]?) -> Void) {
         guard let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis) else {
             print("Sleep type is no longer available in HealthKit.")
@@ -119,21 +120,20 @@ class HealthManager: ObservableObject {
         healthStore.execute(query)
     }
     
-    func getUserAge() -> Int? {
-        do {
-            let dateOfBirth = try healthStore.dateOfBirthComponents()
-            let calendar = Calendar.current
-            let currentYear = calendar.component(.year, from: Date())
-            let age = currentYear - dateOfBirth.year!
-            print("\(age)")
-            return age
+    func getStoredBirthDate() -> DateComponents? {
+        if let birthDateString = UserDefaults.standard.string(forKey: "dateOfBirth") {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
             
-        } catch {
-            print("Error fetching date of birth: \(error)")
-            return nil
+            if let date = formatter.date(from: birthDateString) {
+                let calendar = Calendar.current
+                return calendar.dateComponents([.year, .month, .day], from: date)
+            }
         }
+        return nil
     }
-    
+
+
     func getUserBiologicalSex() -> Bool? {
         do {
             let biologicalSex = try healthStore.biologicalSex().biologicalSex
