@@ -95,23 +95,6 @@ struct SummaryView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
                         .buttonStyle(.plain)
-                        NavigationLink(destination: DetailSummaryView(scenario: .saturatedFat, chosenMonth: chosenMonth)) {
-                            SummaryCard(
-                                title: "Lemak Jenuh",
-                                caption: "Rerata frekuensi harian",
-                                detail: HStack (alignment: .bottom,spacing: 0) {
-                                    Text(String(viewModel.avgSaturatedFat))
-                                        .font(.title)
-                                        .bold()
-                                    Text("/\(String(format: "%.2f", saturatedFat))gram")
-                                        .font(.caption2)
-                                },
-                                icon: "BurgerFull",
-                                iconSize: CGSize(width: 100, height: 90),
-                                iconPadding: EdgeInsets(top: 0, leading: 0, bottom: -50, trailing: -6))
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                        }
-                        .buttonStyle(.plain)
                         NavigationLink(destination: DetailSummaryView(scenario: .dairy, chosenMonth: chosenMonth)) {
                             SummaryCard(
                                 title: "Produk Susu",
@@ -164,7 +147,6 @@ struct SummaryView: View {
         
         let sleepPoints = fetchPoints(for: .sleep)
         let fatPoints = fetchPoints(for: .fat)
-        let saturatedFatPoints = fetchPoints(for: .saturatedFat)
         let dairyPoints = fetchPoints(for: .dairy)
         let giPoints = viewModel.getGIPoints(journals: journals, chosenMonth: chosenMonth)
                 
@@ -173,7 +155,6 @@ struct SummaryView: View {
             content: PDFPrintView(chosenMonth: chosenMonth,
                                   sleepPoints: sleepPoints,
                                   fatPoints: fatPoints,
-                                  saturatedFatPoints: saturatedFatPoints,
                                   dairyPoints: dairyPoints,
                                   giPoints: giPoints))
         

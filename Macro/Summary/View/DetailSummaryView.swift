@@ -14,6 +14,7 @@ struct DetailSummaryView: View {
     var scenario: scenario
     var chosenMonth: Int
     let dayFormatter = DateFormatter()
+    let dateFormatter = DateFormatter()
     let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     
     @StateObject private var viewModel = SummaryViewModel()
@@ -23,25 +24,33 @@ struct DetailSummaryView: View {
     @State var weekPoints: [Int: [Point]] = [:]
     @State var weekPointsPie: [Int: [PiePoint]] = [:]
     
-    private var yAxisLabel: String {
-            switch scenario {
-            case .sleep: return "Total Tidur"
-            case .fat: return "Total Lemak"
-            case .dairy: return "Total Produk Susu"
-            case .gi: return "Total Indeks Glikemik"
-            case .saturatedFat: return "Total Lemak Jenuh"
-            }
-        }
+    @State var selectedPoint: Point?
     
-    private var average: String {
-            switch scenario {
-            case .sleep: return "RERATA DI TEMPAT TIDUR"
-            case .fat: return "RERATA MAKANAN BERLEMAK"
-            case .dairy: return "RERATA KONSUMSI SUSU"
-            case .gi: return "RERATA GLIKEMIK"
-            case .saturatedFat: return "RERATA LEMAK JENUH"
-            }
+    var data: [Point] {
+        viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth)
+    }
+    
+    private var yAxisLabel: String {
+        switch scenario {
+        case .sleep: return "Total Tidur"
+        case .fat: return "Total Lemak"
+        case .dairy: return "Total Produk Susu"
+        case .gi: return "Total Indeks Glikemik"
         }
+    }
+    
+    private var descHeader: String {
+        switch scenario {
+        case .sleep:
+            return "DI TEMPAT TIDUR"
+        case .fat:
+            return "MAKANAN BERLEMAK JENUH"
+        case .dairy:
+            return "KONSUMSI SUSU"
+        case .gi:
+            return ""
+        }
+    }
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -78,14 +87,6 @@ struct DetailSummaryView: View {
                         .padding(.leading, 8)
                     Spacer()
                 }
-            case .saturatedFat:
-                HStack {
-                    Text("Lemak Jenuh")
-                        .bold()
-                        .font(.largeTitle)
-                        .padding(.leading, 8)
-                    Spacer()
-                }
             }
             
             HStack {
@@ -97,6 +98,28 @@ struct DetailSummaryView: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     .padding(.bottom)
+                    
+                    if let point = selectedPoint {
+                        VStack(alignment: .leading) {
+                            Text(descHeader)
+                                .foregroundStyle(.gray)
+                                .font(.subheadline)
+                                .bold()
+                            HStack(alignment: .bottom) {
+                                Text("\(point.value)")
+                                    .font(.title2)
+                                    .bold()
+                                Text("\(scenario == .sleep ? "Jam" : "Kali")")
+                                    .font(.caption)
+                                Spacer()
+                            }
+                            Text("\(dateFormatter.string(from: point.date))")
+                                .foregroundStyle(.gray)
+                                .font(.subheadline)
+                        }
+                        .padding(.bottom, 12)
+                    }
+                    
                     if (scenario == .gi) {
                         if (viewModel.selectedTab == "Bulanan") {
                             Chart(viewModel.piePoints, id: \.category) { item in
@@ -169,9 +192,11 @@ struct DetailSummaryView: View {
                     else {
                         if (viewModel.selectedTab == "Bulanan") {
                             Chart {
-                                ForEach(viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth)) { item in
+                                ForEach(data) { item in
                                     LineMark(x: .value("date", Calendar.current.component(.day, from: item.date)), y: .value("value", item.value))
                                         .foregroundStyle(Color.mint)
+                                    
+                                    PointMark(x: .value("date", Calendar.current.component(.day, from: item.date)), y: .value("value", item.value))
                                 }
                             }
                             .chartYAxisLabel(yAxisLabel)
@@ -182,31 +207,38 @@ struct DetailSummaryView: View {
                             .frame(maxHeight: 350)
                             .padding(.horizontal)
                             .chartYScale(domain: 0...10)
-                            
-                            
+                            .chartOverlay { chart in
+                                GeometryReader { geometry in
+                                    Rectangle()
+                                        .fill(Color.clear)
+                                        .contentShape(Rectangle())
+                                        .gesture(
+                                            DragGesture()
+                                                .onChanged { value in
+                                                    let currentX = value.location.x - geometry[chart.plotFrame!].origin.x
+                                                    guard currentX >= 0, currentX < chart.plotSize.width else {
+                                                        return
+                                                    }
+                                                    
+                                                    // Calculate day based on the X position in the monthly chart (full month range)
+                                                    let day = Int((currentX / chart.plotSize.width) * CGFloat(Calendar.current.range(of: .day, in: .month, for: Calendar.current.date(from: DateComponents(year: 2024, month: chosenMonth))!)!.count))
+                                                    
+                                                    // Find the point corresponding to the calculated day
+                                                    if let point = data.first(where: { Calendar.current.component(.day, from: $0.date) == day + 1 }) {
+                                                        selectedPoint = point
+                                                    }
+                                                }
+                                        )
+                                }
+                            }
                         }
                         else {
-                            VStack {
-                                HStack {
-                                    Text("WEEK \(selectedWeek)")
-                                        .bold()
-                                    
-                                    Spacer()
-                                }
-                                
-                                HStack {
-                                    Text(average)
-                                        .font(.footnote)
-                                        .foregroundColor(.gray)
-                                        .fontWeight(.semibold)
-                                        .padding(.bottom, 10)
-                                    
-                                    Spacer()
-                                }
-                                
+                            HStack {
+                                Spacer()
+                                Text("WEEK \(selectedWeek)")
+                                    .bold()
+                                Spacer()
                             }
-                            
-                            
                             
                             Chart {
                                 if let week = weekPoints[selectedWeek] {
@@ -214,14 +246,16 @@ struct DetailSummaryView: View {
                                         let dayIndex = Calendar.current.component(.weekday, from: item.date) - 2
                                         let dayName = dayIndex >= 0 ? daysOfWeek[dayIndex] : daysOfWeek[dayIndex + 7]
                                         LineMark(x: .value("date", dayName), y: .value("value", item.value)) .foregroundStyle(Color.mint)
+                                        
+                                        PointMark(x: .value("date", Calendar.current.component(.day, from: item.date)), y: .value("value", item.value))
                                     }
                                 }
                             }
                             .chartXAxis {
-                            AxisMarks(values: .automatic) {
-                                AxisValueLabel()
+                                AxisMarks(values: .automatic) {
+                                    AxisValueLabel()
+                                }
                             }
-                        }
                             .chartYAxisLabel(yAxisLabel)
                             .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2)) {
                                 AxisValueLabel()
@@ -230,38 +264,69 @@ struct DetailSummaryView: View {
                             .frame(maxHeight: 350)
                             .chartYScale(domain: 0...10.8)
                             .padding(.horizontal)
-                            .gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
-                                .onEnded { value in
-                                    switch(value.translation.width, value.translation.height) {
-                                    case (...0, -30...30):
-                                        print("left swipe")
-                                        if selectedWeek < 5 {
-                                            selectedWeek += 1
-                                        }
-                                    case (0..., -30...30):
-                                        print("right swipe")
-                                        if selectedWeek > 1 {
-                                            selectedWeek -= 1
-                                        }
-                                    default:
-                                        print("no clue")
-                                    }
+                            .chartOverlay { chart in
+                                GeometryReader { geometry in
+                                    Rectangle()
+                                        .fill(Color.clear)
+                                        .contentShape(Rectangle())
+                                        .gesture(
+                                            DragGesture()
+                                                .onChanged { value in
+                                                    let currentX = value.location.x - geometry[chart.plotFrame!].origin.x
+                                                    guard currentX >= 0, currentX < chart.plotSize.width else {
+                                                        return
+                                                    }
+                                                    
+                                                    // Calculate day based on the X position in the weekly chart (7-day range)
+                                                    let dayIndex = Int((currentX / chart.plotSize.width) * 7)  // 7 days in the week
+                                                    
+                                                    // Find the corresponding day name for the weekly chart
+                                                    let selectedDay = daysOfWeek[dayIndex % 7]  // Ensure index is within bounds
+                                                    
+                                                    // Find the point for the corresponding day
+                                                    if let point = weekPoints[selectedWeek]?.first(where: {
+                                                        Calendar.current.component(.weekday, from: $0.date) == dayIndex + 2 // Adjust weekday to match
+                                                    }) {
+                                                        selectedPoint = point
+                                                    }
+                                                }
+                                        )
                                 }
+                            }
+                            .simultaneousGesture(
+                                DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
+                                    .onEnded { value in
+                                        switch(value.translation.width, value.translation.height) {
+                                        case (...0, -30...30):
+                                            print("left swipe")
+                                            if selectedWeek < 5 {
+                                                selectedWeek += 1
+                                            }
+                                        case (0..., -30...30):
+                                            print("right swipe")
+                                            if selectedWeek > 1 {
+                                                selectedWeek -= 1
+                                            }
+                                        default:
+                                            print("no clue")
+                                        }
+                                    }
                             )
                         }
                     }
-                    }
-                    Spacer()
-            }
+                }
                 Spacer()
             }
-            .onAppear {
-                dayFormatter.dateFormat = "EEEE"
-                weekPoints = viewModel.getWeeks(of: viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth))
-                weekPointsPie = viewModel.getWeeksPie(of: viewModel.piePoints)
-            }
+            Spacer()
+        }
+        .onAppear {
+            dayFormatter.dateFormat = "EEEE"
+            dateFormatter.dateFormat = "dd MMM yyyy"
+            weekPoints = viewModel.getWeeks(of: viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth))
+            weekPointsPie = viewModel.getWeeksPie(of: viewModel.piePoints)
         }
     }
+}
 
 #Preview {
     DetailSummaryView(scenario: .sleep , chosenMonth: 2)

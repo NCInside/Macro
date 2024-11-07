@@ -71,11 +71,6 @@ class SummaryViewModel: ObservableObject {
                 let point = Point(date: journal.timestamp, value: filteredJournals.flatMap { $0.foods }.filter { $0.fat >= 14 }.count)
                 points.append(point)
             }
-        case .saturatedFat:
-            for journal in filteredJournals {
-                let point = Point(date: journal.timestamp, value: Int(journal.foods.reduce(0) { $0 + $1.fat }))
-                points.append(point)
-            }
         case .dairy:
             for journal in filteredJournals {
                 let point = Point(date: journal.timestamp, value: Int(journal.foods.reduce(0) { $0 + ($1.dairy ? 1 : 0) }))
@@ -194,7 +189,7 @@ class SummaryViewModel: ObservableObject {
 }
 
 enum scenario {
-    case sleep, fat, saturatedFat, dairy, gi
+    case sleep, fat, dairy, gi
 }
 
 struct Point: Identifiable {

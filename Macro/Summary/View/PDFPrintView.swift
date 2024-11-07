@@ -28,12 +28,10 @@ struct PDFPrintView: View {
     
     var sleepPoints: [Point]
     var fatPoints: [Point]
-    var saturatedFatPoints: [Point]
     var dairyPoints: [Point]
     var giPoints: [PiePoint]
     var sleepData: [Int] { sleepPoints.map { $0.value } }
     var fatData: [Int] { fatPoints.map { $0.value } }
-    var saturatedFatData: [Int] { saturatedFatPoints.map { $0.value } }
     var dairyData: [Int] { dairyPoints.map { $0.value }}
     
     var sleepRows: [TableRow] {
@@ -43,11 +41,6 @@ struct PDFPrintView: View {
     }
     var fatRows: [TableRow] {
         fatPoints.map { item in
-            TableRow(date: viewModel.dateFormatter.string(from: item.date), value: String(item.value))
-        }
-    }
-    var saturatedFatRows: [TableRow] {
-        saturatedFatPoints.map { item in
             TableRow(date: viewModel.dateFormatter.string(from: item.date), value: String(item.value))
         }
     }
@@ -220,34 +213,6 @@ struct PDFPrintView: View {
             Text("Lemak Jenuh")
                 .fontWeight(.semibold)
             
-            Text("RERATA LEMAK JENUH")
-                .font(.footnote)
-                .foregroundColor(.gray)
-                .fontWeight(.semibold)
-            
-            HStack(alignment: .bottom, spacing: 0) {
-                Text("0")
-                    .font(.largeTitle)
-                    .bold()
-                
-                Text("kali")
-                    .font(.title3)
-                    .padding(.bottom, 5)
-                
-                Spacer()
-            }
-            
-            Chart {ForEach(saturatedFatData.indices, id: \.self) { index in LineMark( x: .value("Index", index), y: .value("Value", saturatedFatData[saturatedFatData.count - 1 - index]) )
-                .foregroundStyle(Color.main) } }
-                .frame(height: 220)
-                .chartXAxis { AxisMarks(values: .stride(by: 10)) }
-                .chartYScale(domain: 0...8.2)
-                .chartYAxisLabel("Total Lemak Jenuh")
-                .padding(2)
-                .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2)) }
-                .background(Color.white)
-                .cornerRadius(10)
-            
             Text("Produk Susu")
                 .fontWeight(.semibold)
             
@@ -315,12 +280,6 @@ struct PDFPrintView: View {
                 note: "(>5gr lemak jenuh)")
             
             TableCard(
-                title: "Riwayat Data Lemak Jenuh",
-                column2Header: "Komposisi Lemak Jenuh",
-                rows: saturatedFatRows,
-                note: "(rekomendasi <17 gram)")
-            
-            TableCard(
                 title: "Riwayat Data Produk Susu",
                 column2Header: "Jumlah Porsi",
                 rows: dairyRows,
@@ -362,7 +321,6 @@ struct PDFPrintView_Previews: PreviewProvider {
             fatPoints: [Point(date: Date(), value: 7),
                         Point(date: Date().addingTimeInterval(-6400), value: 6),
                         Point(date: Date().addingTimeInterval(-6400), value: 4)],
-            saturatedFatPoints: [Point(date: Date(), value: 5), Point(date: Date().addingTimeInterval(-86400), value: 4)],
             dairyPoints: [Point(date: Date(), value: 1), Point(date: Date().addingTimeInterval(-86400), value: 2)],
             giPoints: [PiePoint(date: Date(), category: "Low", value: 2), PiePoint(date: Date(), category: "High", value: 3)]
         )
