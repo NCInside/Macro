@@ -6,6 +6,7 @@ struct ReminderView: View {
     @State private var isEditing = false
     @State private var sheetMode: SheetMode? // Single state for sheet
     @State private var reminderToDelete: Reminder? // New state variable for deletion
+    @State private var notifications: [Bool] = Array(repeating: false, count: 6) // Define notifications state here
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss // Add dismiss environment variable
 
@@ -90,25 +91,33 @@ struct ReminderView: View {
                 switch mode {
                 case .add:
                     AddReminderView(
+                        notifications: $notifications,
                         onSave: { modelContext, newReminder in
-                            viewModel.addReminder(context: modelContext, reminder: newReminder)
-                            print("Reminder added: \(newReminder.clinicName)")
+                            viewModel.addReminder(context: modelContext, reminder: newReminder, notificationOptions: notifications)
                         }
                     )
                 case .edit(let reminder):
+                    // Load saved notifications into a temporary state variable
+                    var editableNotifications = viewModel.getNotificationOptions(for: reminder)
+                    
                     AddReminderView(
                         reminder: reminder,
+                        notifications: Binding(
+                            get: { editableNotifications },
+                            set: { editableNotifications = $0 }
+                        ),
                         onSave: { modelContext, updatedReminder in
-                            viewModel.updateReminder(context: modelContext, reminder: updatedReminder)
-                            print("Reminder updated: \(updatedReminder.clinicName)")
+                            viewModel.updateReminder(context: modelContext, reminder: updatedReminder, notificationOptions: editableNotifications)
                         },
                         onDelete: {
-                            print("onDelete closure called for reminder: \(reminder.clinicName)")
                             viewModel.removeReminder(reminder, context: context)
                         }
                     )
                 }
             }
+
+
+
 
             .confirmationDialog(
                 "Hapus Kunjungan",
@@ -136,7 +145,6 @@ struct ReminderView: View {
         }
     }
 }
-
 
 
 // Reminder List Item with Edit/Delete Button
@@ -188,9 +196,10 @@ struct ReminderItemView: View {
     let reminder: Reminder
     let action: () -> Void
 
-    private var formattedVisitDate: String {
+    private var formattedVisitDateTime: String {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
+        formatter.timeStyle = .short // Include time in the formatting
         return formatter.string(from: reminder.visitDate)
     }
 
@@ -201,7 +210,7 @@ struct ReminderItemView: View {
                     Text(reminder.clinicName)
                         .font(.body)
                         .foregroundColor(.black)
-                    Text(formattedVisitDate)
+                    Text(formattedVisitDateTime) // Display both date and time
                         .font(.caption)
                         .foregroundColor(.gray)
                 }
@@ -257,7 +266,6 @@ extension View {
     }
 }
 
-
 // Define the SheetMode enum
 enum SheetMode: Identifiable {
     case add
@@ -272,4 +280,3 @@ enum SheetMode: Identifiable {
         }
     }
 }
-

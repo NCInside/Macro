@@ -20,59 +20,42 @@ class ReminderViewModel: ObservableObject {
         }
     }
 
-    func addReminder(context: ModelContext, reminder: Reminder) {
-        print("Attempting to add reminder: \(reminder.clinicName)")
+    func addReminder(context: ModelContext, reminder: Reminder, notificationOptions: [Bool]) {
         context.insert(reminder)
         do {
             try context.save()
             reminders.append(reminder)
-            print("Successfully added reminder: \(reminder.clinicName)")
-            scheduleNotifications(for: reminder)
+            storeNotificationOptions(for: reminder, options: notificationOptions)
+            scheduleNotifications(for: reminder, notificationOptions: notificationOptions)
         } catch {
-            print("Failed to add reminder: \(error.localizedDescription)")
-            DispatchQueue.main.async {
-                self.errorMessage = "Gagal menambahkan pengingat: \(error.localizedDescription)"
-            }
+            self.errorMessage = "Gagal menambahkan pengingat: \(error.localizedDescription)"
         }
     }
 
-    func updateReminder(context: ModelContext, reminder: Reminder) {
-        print("Attempting to update reminder: \(reminder.clinicName)")
-        
-        // Remove previous notifications
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [
-            "\(reminder.id.uuidString)_3",
-            "\(reminder.id.uuidString)_1",
-            "\(reminder.id.uuidString)_0"
-        ])
-        
+    func updateReminder(context: ModelContext, reminder: Reminder, notificationOptions: [Bool]) {
+        removeNotificationRequests(for: reminder)  // Remove existing notifications
+
         do {
-            try context.save()
+            try context.save()  // Save updated reminder in context
+            storeNotificationOptions(for: reminder, options: notificationOptions)  // Update notification options
+            scheduleNotifications(for: reminder, notificationOptions: notificationOptions)  // Schedule new notifications
+            
             if let index = reminders.firstIndex(where: { $0.id == reminder.id }) {
-                reminders[index] = reminder
-                print("Successfully updated reminder: \(reminder.clinicName)")
-                scheduleNotifications(for: reminder) // Schedule new notifications with updated times
+                reminders[index] = reminder  // Update the reminder in the list
             }
         } catch {
-            print("Failed to update reminder: \(error.localizedDescription)")
-            DispatchQueue.main.async {
-                self.errorMessage = "Gagal memperbarui pengingat: \(error.localizedDescription)"
-            }
+            self.errorMessage = "Failed to update reminder: \(error.localizedDescription)"
         }
     }
-
 
     func removeReminder(_ reminder: Reminder, context: ModelContext) {
         print("Attempting to remove reminder: \(reminder.clinicName)")
         context.delete(reminder)
+        
         do {
             try context.save()
             reminders.removeAll { $0.id == reminder.id }
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [
-                "\(reminder.id.uuidString)_3",
-                "\(reminder.id.uuidString)_1",
-                "\(reminder.id.uuidString)_0"
-            ])
+            removeNotificationRequests(for: reminder) // Remove all notifications for this reminder
             print("Successfully removed reminder: \(reminder.clinicName)")
         } catch {
             print("Failed to remove reminder: \(error.localizedDescription)")
@@ -81,35 +64,79 @@ class ReminderViewModel: ObservableObject {
             }
         }
     }
-    
-    private func scheduleNotifications(for reminder: Reminder) {
+
+    func scheduleNotifications(for reminder: Reminder, notificationOptions: [Bool]) {
+        let identifiers = [
+            "\(reminder.id.uuidString)_exact",
+            "\(reminder.id.uuidString)_3days",
+            "\(reminder.id.uuidString)_1day",
+            "\(reminder.id.uuidString)_3hours",
+            "\(reminder.id.uuidString)_1hour",
+            "\(reminder.id.uuidString)_15min"
+        ]
+        
+        let intervals: [TimeInterval] = [
+            0,                  // Exact time of the reminder
+            -3 * 24 * 60 * 60,  // 3 days
+            -24 * 60 * 60,      // 1 day
+            -3 * 60 * 60,       // 3 hours
+            -1 * 60 * 60,       // 1 hour
+            -15 * 60            // 15 minutes
+        ]
+        
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             guard settings.authorizationStatus == .authorized else {
                 print("Notifications not authorized.")
                 return
             }
-            self.createNotification(for: reminder, daysBefore: 3, hour: 9)
-            self.createNotification(for: reminder, daysBefore: 1, hour: 9)
-            self.createNotification(for: reminder, daysBefore: 0, hour: 7)
+
+            for (index, enabled) in notificationOptions.enumerated() {
+                let identifier = identifiers[index]
+                if enabled {
+                    let triggerDate = reminder.visitDate.addingTimeInterval(intervals[index])
+                    self.createNotification(for: reminder, identifier: identifier, triggerDate: triggerDate)
+                } else {
+                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
+                }
+            }
         }
     }
 
-    private func createNotification(for reminder: Reminder, daysBefore: Int, hour: Int) {
+    private func removeNotificationRequests(for reminder: Reminder) {
+        // All identifiers for notifications associated with this reminder
+        let identifiers = [
+            "\(reminder.id.uuidString)_exact",
+            "\(reminder.id.uuidString)_3days",
+            "\(reminder.id.uuidString)_1day",
+            "\(reminder.id.uuidString)_3hours",
+            "\(reminder.id.uuidString)_1hour",
+            "\(reminder.id.uuidString)_15min"
+        ]
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+        print("Removed all notifications for reminder: \(reminder.clinicName)")
+    }
+
+    func storeNotificationOptions(for reminder: Reminder, options: [Bool]) {
+        let userDefaultsKey = "notificationOptions_\(reminder.id.uuidString)"
+        UserDefaults.standard.set(options, forKey: userDefaultsKey)
+    }
+    func getNotificationOptions(for reminder: Reminder) -> [Bool] {
+        let userDefaultsKey = "notificationOptions_\(reminder.id.uuidString)"
+        if let savedOptions = UserDefaults.standard.array(forKey: userDefaultsKey) as? [Bool] {
+            return savedOptions // Return saved options if they exist
+        }
+        // Return a default array if no saved options exist
+        return [false, false, false, false, false, false]
+    }
+
+    private func createNotification(for reminder: Reminder, identifier: String, triggerDate: Date) {
         let content = UNMutableNotificationContent()
         content.title = "Zora - Pengingat Kunjungan"
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .none
-        let formattedDate = dateFormatter.string(from: reminder.visitDate)
-        content.body = "Kunjungan ke \(reminder.clinicName) pada \(formattedDate)"
+        content.body = "Kunjungan ke \(reminder.clinicName)"
         content.sound = .default
 
-        var triggerDate = Calendar.current.date(byAdding: .day, value: -daysBefore, to: reminder.visitDate) ?? Date()
-        triggerDate = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: triggerDate) ?? triggerDate
+        let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: triggerDate), repeats: false)
         
-        let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year, .month, .day, .hour], from: triggerDate), repeats: false)
-        
-        let identifier = "\(reminder.id.uuidString)_\(daysBefore)"
         let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {

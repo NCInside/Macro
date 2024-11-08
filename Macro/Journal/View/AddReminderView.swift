@@ -4,9 +4,12 @@ import SwiftData
 struct AddReminderView: View {
     @State var clinicName: String
     @State var visitDate: Date
+    @State var visitTime: Date = Date()
+    @Binding var notifications: [Bool]
     @State private var showDeleteConfirmation = false
     @State private var showErrorDialog = false
     @State private var errorMessage = ""
+    @State private var showReminderOptions = false // Controls dropdown visibility
     let isEditMode: Bool
     var reminderToEdit: Reminder?
     var onSave: (ModelContext, Reminder) -> Void
@@ -15,25 +18,30 @@ struct AddReminderView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     
-    // Custom initializer to handle both add and edit modes
     init(reminder: Reminder? = nil,
+         notifications: Binding<[Bool]>,
          onSave: @escaping (ModelContext, Reminder) -> Void,
          onDelete: (() -> Void)? = nil) {
         if let reminder = reminder {
             _clinicName = State(initialValue: reminder.clinicName)
             _visitDate = State(initialValue: reminder.visitDate)
+            _visitTime = State(initialValue: reminder.visitDate)
             self.isEditMode = true
             self.reminderToEdit = reminder
-            print("Initialized in Edit Mode with clinic: \(reminder.clinicName)")
         } else {
             _clinicName = State(initialValue: "")
             _visitDate = State(initialValue: Date())
             self.isEditMode = false
             self.reminderToEdit = nil
-            print("Initialized in Add Mode")
         }
+        self._notifications = notifications
         self.onSave = onSave
         self.onDelete = onDelete
+        
+        if notifications.wrappedValue.count >= 6 {
+            self._notifications.wrappedValue[0] = true
+        }
+
     }
     
     var body: some View {
@@ -41,7 +49,6 @@ struct AddReminderView: View {
             VStack(alignment: .leading, spacing: 16) {
                 Text("PENGINGAT KUNJUNGAN KONTROL")
                     .font(.caption)
-                    .foregroundColor(.black)
                     .padding(.horizontal)
                     .padding(.top, 16)
                 
@@ -49,18 +56,26 @@ struct AddReminderView: View {
                     HStack {
                         Text("Klinik")
                             .font(.body)
-                            .frame(width: 80, alignment: .leading) // Ensure consistent alignment for label and input
+                            .frame(width: 80, alignment: .leading)
                         TextField("Nama Klinik", text: $clinicName)
-                            .multilineTextAlignment(.leading)
-                            .textFieldStyle(PlainTextFieldStyle()) // Make TextField borderless
+                            .textFieldStyle(PlainTextFieldStyle())
                             .foregroundColor(.gray)
                     }
                     Divider()
                     HStack {
                         Text("Kunjungan")
                             .font(.body)
-                            .frame(width: 80, alignment: .leading) // Ensure consistent alignment for label and input
+                            .frame(width: 80, alignment: .leading)
                         DatePicker("", selection: $visitDate, displayedComponents: .date)
+                            .labelsHidden()
+                            .foregroundColor(.gray)
+                    }
+                    Divider()
+                    HStack {
+                        Text("Waktu")
+                            .font(.body)
+                            .frame(width: 80, alignment: .leading)
+                        DatePicker("", selection: $visitTime, displayedComponents: .hourAndMinute)
                             .labelsHidden()
                             .foregroundColor(.gray)
                     }
@@ -70,109 +85,97 @@ struct AddReminderView: View {
                 .cornerRadius(10)
                 .padding(.horizontal)
                 
-                Text("Aplikasi akan mengingatkan Anda tiga hari dan sehari sebelum kunjungan, pada jam 09.00 pagi. Anda juga akan mendapatkan pengingat pada hari kunjungan di jam 07.00 pagi.")
-                    .font(.caption)
-                    .foregroundColor(.gray)
-                    .padding(.horizontal)
-                
-                if isEditMode {
-                    Button(action: {
-                        
-                            print("Hapus Pengingat button clicked")
-                            
-                        
-                        showDeleteConfirmation = true
-                    }) {
-                        HStack {
-                        Text("Hapus Kunjungan")
-                            .foregroundColor(.red)
+                // Dropdown for time reminders
+                Button(action: {
+                    withAnimation {
+                        showReminderOptions.toggle()
+                    }
+                }) {
+                    HStack {
+                        Text("Pilih pengingat waktu:")
+                            .font(.caption)
                         Spacer()
-                        }
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(8)
-                        .shadow(radius: 1)
+                        Image(systemName: showReminderOptions ? "chevron.up" : "chevron.down")
+                            .foregroundColor(.gray)
                     }
                     .padding(.horizontal)
-                    .confirmationDialog("Hapus Kunjungan", isPresented: $showDeleteConfirmation, titleVisibility: .visible) {
-                        Button("Hapus", role: .destructive) {
-                            print("Delete confirmed for clinic: \(reminderToEdit?.clinicName ?? "Unknown")")
-                            onDelete?() // Trigger deletion in the parent view
-                            dismiss()   // Dismiss view after deletion
-                        }
-                        Button("Batal", role: .cancel) {
-                            print("Delete cancelled for clinic: \(reminderToEdit?.clinicName ?? "Unknown")")
-                        }
-                    } message: {
-                        Text("Apakah Anda yakin ingin menghapus pengingat kunjungan ke klinik \(reminderToEdit?.clinicName ?? "ini") ")
+                }
+                
+                if showReminderOptions {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Toggle("Pada Waktunya", isOn: $notifications[0])
+                        Toggle("3 Hari Sebelumnya", isOn: $notifications[1])
+                        Toggle("1 Hari Sebelumnya", isOn: $notifications[2])
+                        Toggle("3 Jam Sebelumnya", isOn: $notifications[3])
+                        Toggle("1 Jam Sebelumnya", isOn: $notifications[4])
+                        Toggle("15 Menit Sebelumnya", isOn: $notifications[5])
                     }
+                    .padding(.horizontal)
                 }
                 
                 Spacer()
+                
+                if isEditMode {
+                    Button(action: {
+                        showDeleteConfirmation = true
+                    }) {
+                        Text("Hapus Kunjungan")
+                            .foregroundColor(.red)
+                            .padding()
+                            .frame(maxWidth: .infinity) // Fill the entire width
+                            .background(Color.white)
+                            .cornerRadius(8)
+                            .shadow(radius: 1)
+                    }
+                    .confirmationDialog("Hapus Kunjungan", isPresented: $showDeleteConfirmation) {
+                        Button("Hapus", role: .destructive) {
+                            onDelete?()
+                            dismiss()
+                        }
+                        Button("Batal", role: .cancel) { }
+                    }
+                    .padding(.horizontal) // Add horizontal padding to give some space on the sides
+                }
+
             }
-            .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
-                leading: Button(action: {
-                    print("Back button clicked")
-                    dismiss()
-                }) {
+                leading: Button(action: { dismiss() }) {
                     HStack {
                         Image(systemName: "chevron.left")
                         Text("Pengingat")
                     }
                 },
                 trailing: Button("Simpan") {
-                    print("Simpan button clicked")
                     saveReminder()
-                }
-                    .disabled(clinicName.trimmingCharacters(in: .whitespaces).isEmpty)
+                }.disabled(clinicName.trimmingCharacters(in: .whitespaces).isEmpty)
             )
-            .confirmationDialog("Error", isPresented: $showErrorDialog, titleVisibility: .visible) {
-                Button("OK", role: .cancel) {
-                    print("Error dialog dismissed")
-                }
-            } message: {
-                Text(errorMessage)
-            }
             .background(Color(.systemGray6).ignoresSafeArea())
         }
     }
     
-    // Function to handle saving the reminder
     private func saveReminder() {
-        print("Attempting to save reminder...")
-        if isEditMode, let reminder = reminderToEdit {
-            print("Editing reminder: \(reminder.clinicName)")
-            reminder.clinicName = clinicName
-            reminder.visitDate = visitDate
-            do {
-                try modelContext.save()
-                print("Successfully saved edited reminder.")
-            } catch {
-                print("Failed to save edited reminder: \(error.localizedDescription)")
-                showError(message: "Gagal menyimpan pengingat. Silakan coba lagi.")
-                return
-            }
+        if let reminderToEdit = reminderToEdit {
+            // Update existing reminder with new values
+            reminderToEdit.clinicName = clinicName.trimmingCharacters(in: .whitespaces)
+            reminderToEdit.visitDate = combineDateAndTime()
+            
+            // Call onSave to update the reminder in the model context
+            onSave(modelContext, reminderToEdit)
         } else {
-            let trimmedClinicName = clinicName.trimmingCharacters(in: .whitespaces)
-            guard !trimmedClinicName.isEmpty else {
-                print("Clinic name is empty.")
-                showError(message: "Nama Klinik tidak boleh kosong.")
-                return
-            }
-            let newReminder = Reminder(clinicName: trimmedClinicName, visitDate: visitDate)
-            print("Creating new reminder: \(newReminder.clinicName) on \(newReminder.visitDate)")
+            // Create a new reminder
+            let newReminder = Reminder(clinicName: clinicName.trimmingCharacters(in: .whitespaces), visitDate: combineDateAndTime())
             onSave(modelContext, newReminder)
-            print("onSave called for new reminder.")
         }
+        
+        // Dismiss the view after saving
         dismiss()
-        print("Dismissed AddReminderView.")
     }
+
     
-    // Function to show error dialogs
-    private func showError(message: String) {
-        errorMessage = message
-        showErrorDialog = true
-        print("Error: \(message)")
+    private func combineDateAndTime() -> Date {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: visitDate)
+        let timeComponents = calendar.dateComponents([.hour, .minute], from: visitTime)
+        return calendar.date(from: DateComponents(year: components.year, month: components.month, day: components.day, hour: timeComponents.hour, minute: timeComponents.minute))!
     }
 }
