@@ -17,15 +17,26 @@ struct AddSleepView: View {
     @State private var showAlert = false
     @State private var showAddSleepCard = false
     
-    @State var startDate1 = Date()
-    @State var endDate1 = Date()
+    var date: Date
+    
+    @State var startDate1: Date
+    @State var endDate1: Date
     @State var showStartPicker1 = false
     @State var showEndPicker1 = false
     
-    @State var startDate2 = Date()
-    @State var endDate2 = Date()
+    @State var startDate2: Date
+    @State var endDate2: Date
     @State var showStartPicker2 = false
     @State var showEndPicker2 = false
+    
+    init (date: Date) {
+        print("Date: \(date)")
+        self.date = date
+        _startDate1 = State(initialValue: date)
+        _endDate1 = State(initialValue: date)
+        _startDate2 = State(initialValue: date)
+        _endDate2 = State(initialValue: date)
+    }
     
     var body: some View {
         VStack {
@@ -132,11 +143,11 @@ struct AddSleepView: View {
     
 }
 
-struct SleepInputView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddSleepView()
-    }
-}
+//struct SleepInputView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddSleepView()
+//    }
+//}
 
 extension View {
     func screenBounds() -> CGRect {

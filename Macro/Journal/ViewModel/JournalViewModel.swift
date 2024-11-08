@@ -61,11 +61,11 @@ class JournalViewModel: ObservableObject {
         if hasEntriesFromDate(entries: journals, date: date) == nil {
             
             print("Fetching sleep data...")
-            var first: Date = Date()
-            var last: Date = Date()
+            var first: Date = date
+            var last: Date = date
             
             print(first, last)
-            healthManager.fetchSleepData { samples in
+            healthManager.fetchSleepData(for: date) { samples in
                 DispatchQueue.main.async {
                     guard let samples = samples, !samples.isEmpty else {
                         print("Sample Empty")
@@ -76,9 +76,9 @@ class JournalViewModel: ObservableObject {
                     
                     print("Sleep:", first, last)
                     
-                    let sleep: Sleep = Sleep(timestamp: Date(), duration: Int(first.timeIntervalSince(last)), start: last, end: first)
+                    let sleep: Sleep = Sleep(timestamp: date, duration: Int(first.timeIntervalSince(last)), start: last, end: first)
                     print(sleep.duration)
-                    let journal = Journal(timestamp: Date(), foods: [], sleep: sleep)
+                    let journal = Journal(timestamp: date, foods: [], sleep: sleep)
                     
                     context.insert(journal)
                     do {
@@ -93,6 +93,7 @@ class JournalViewModel: ObservableObject {
     }
     
     func addSleep(context: ModelContext, journals: [Journal], start: Date, end: Date, mode: Bool) {
+        print("addSleep: \(start) - \(end)")
         if let journal = hasEntriesFromDate(entries: journals, date: end) {
             let sleep: Sleep = Sleep(timestamp: selectedDate, duration: Int(end.timeIntervalSince(start)), start: start, end: end)
             if mode {
@@ -100,6 +101,17 @@ class JournalViewModel: ObservableObject {
             }
             else {
                 journal.sleep.duration += sleep.duration
+            }
+        }
+        else {
+            let sleep: Sleep = Sleep(timestamp: selectedDate, duration: Int(end.timeIntervalSince(start)), start: start, end: end)
+            let journal = Journal(timestamp: end, foods: [], sleep: sleep)
+            
+            context.insert(journal)
+            do {
+                try context.save()
+            } catch {
+                print(error.localizedDescription)
             }
         }
     }

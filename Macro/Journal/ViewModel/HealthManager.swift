@@ -99,13 +99,13 @@ class HealthManager: ObservableObject {
             return age
         }
 
-    func fetchSleepData(completion: @escaping ([HKCategorySample]?) -> Void) {
+    func fetchSleepData(for date: Date, completion: @escaping ([HKCategorySample]?) -> Void) {
         guard let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis) else {
             print("Sleep type is no longer available in HealthKit.")
             return
         }
         
-        let now = Date()
+        let now = date
         let startOfDay = Calendar.current.date(byAdding: .day, value: -1, to: now)
         let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
         

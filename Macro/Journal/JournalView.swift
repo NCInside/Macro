@@ -153,7 +153,7 @@ struct JournalView: View {
                             }
                             .padding(.horizontal)
                             .sheet(isPresented: $isAddSleepViewPresented) {
-                                AddSleepView()
+                                AddSleepView(date: viewModel.selectedDate)
                             }
                             
                             ZStack {
