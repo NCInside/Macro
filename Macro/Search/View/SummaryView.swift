@@ -136,7 +136,7 @@ struct SummaryView: View {
             .background(Color.background)
         }
         .onAppear {
-//            generateDummy()
+//            createDummyData()
             viewModel.updateValue(journals: journals, chosenMonth: chosenMonth)
             let energyExpenditure = viewModel.calcEnergyExpenditure()
             saturatedFat = energyExpenditure * 0.2 / 9
@@ -188,6 +188,66 @@ struct SummaryView: View {
     private func fetchPoints(for scenario: scenario) -> [Point] {
         let sortedPoints = viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth).sorted { $0.date < $1.date }
         return sortedPoints
+    }
+    
+    
+    func createDummyData() {
+        var journals = [Journal]()
+        var journalImages = [JournalImage]()
+
+        let now = Date()
+        let calendar = Calendar.current
+
+        for dayOffset in 0..<3 {
+            // Create a timestamp for each day from today to the day before yesterday
+            guard let date = calendar.date(byAdding: .day, value: -dayOffset, to: now) else { continue }
+            
+            // Create dummy Sleep data
+            let sleepStart = calendar.date(bySettingHour: 22, minute: 0, second: 0, of: date)!
+            let sleepEnd = calendar.date(bySettingHour: 6, minute: 0, second: 0, of: date)!
+            let sleepDuration = Int(sleepEnd.timeIntervalSince(sleepStart) / 60)  // Duration in minutes
+            let sleep = Sleep(timestamp: date, duration: sleepDuration, start: sleepStart, end: sleepEnd)
+
+            // Create dummy Food entries
+            var foods = [Food]()
+            for i in 1...3 {
+                let foodName = "Food \(i)"
+                let food = Food(
+                    timestamp: date,
+                    name: foodName,
+                    cookingTechnique: [["Baked", "Fried", "Boiled"][i % 3]],
+                    fat: Double(i) * 2.5,
+                    glycemicIndex: glycemicIndex(rawValue: i % 3) ?? .low,
+                    dairy: i % 2 == 0,
+                    gramPortion: 100 + (i * 20)
+                )
+                foods.append(food)
+            }
+
+            // Create dummy JournalImage
+            journalImages.append(JournalImage(
+                timestamp: date,
+                image: Data(), // Placeholder for image data
+                isBreakout: true,
+                isMenstrual: dayOffset % 3 == 0,
+                notes: "Sample notes for day \(dayOffset)"
+            ))
+
+            // Create the Journal entry
+            let journal = Journal(timestamp: date, foods: foods, sleep: sleep)
+            journals.append(journal)
+        }
+        
+        for journal in journals {
+            context.insert(journal)
+        }
+        
+        for image in journalImages {
+            print(image)
+            context.insert(image)
+        }
+        
+        try? context.save()
     }
     
 }

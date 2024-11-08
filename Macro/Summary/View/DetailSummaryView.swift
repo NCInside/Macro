@@ -19,12 +19,14 @@ struct DetailSummaryView: View {
     
     @StateObject private var viewModel = SummaryViewModel()
     @Query var journals: [Journal]
+    @Query var journalImage: [JournalImage]
     @State var selectedWeek = 1
     
     @State var weekPoints: [Int: [Point]] = [:]
     @State var weekPointsPie: [Int: [PiePoint]] = [:]
     
     @State var selectedPoint: Point?
+    @State private var xPosition: CGFloat = 0
     
     var data: [Point] {
         viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth)
@@ -99,6 +101,7 @@ struct DetailSummaryView: View {
                     .pickerStyle(SegmentedPickerStyle())
                     .padding(.bottom)
                     
+                    
                     if let point = selectedPoint {
                         VStack(alignment: .leading) {
                             Text(descHeader)
@@ -114,6 +117,27 @@ struct DetailSummaryView: View {
                                 Spacer()
                             }
                             Text("\(dateFormatter.string(from: point.date))")
+                                .foregroundStyle(.gray)
+                                .font(.subheadline)
+                        }
+                        .padding(.bottom, 12)
+                        .offset(x: xPosition - 25)
+                    }
+                    else {
+                        VStack(alignment: .leading) {
+                            Text("RERATA " + descHeader)
+                                .foregroundStyle(.gray)
+                                .font(.subheadline)
+                                .bold()
+                            HStack(alignment: .bottom) {
+                                Text("0")
+                                    .font(.title2)
+                                    .bold()
+                                Text("\(scenario == .sleep ? "Jam" : "Kali")")
+                                    .font(.caption)
+                                Spacer()
+                            }
+                            Text("idfk")
                                 .foregroundStyle(.gray)
                                 .font(.subheadline)
                         }
@@ -191,45 +215,60 @@ struct DetailSummaryView: View {
                     }
                     else {
                         if (viewModel.selectedTab == "Bulanan") {
-                            Chart {
-                                ForEach(data) { item in
-                                    LineMark(x: .value("date", Calendar.current.component(.day, from: item.date)), y: .value("value", item.value))
-                                        .foregroundStyle(Color.mint)
-                                    
-                                    PointMark(x: .value("date", Calendar.current.component(.day, from: item.date)), y: .value("value", item.value))
+                            ZStack {
+                                Chart {
+                                    ForEach(data) { item in
+                                        LineMark(x: .value("date", Calendar.current.component(.day, from: item.date)), y: .value("value", item.value))
+                                            .foregroundStyle(Color.mint)
+                                        
+                                        if hasBreakoutImage(on: item.date, in: journalImage) {
+                                            PointMark(x: .value("date", Calendar.current.component(.day, from: item.date)), y: .value("value", item.value))
+                                                .foregroundStyle(Color.red)
+                                        }
+                                    }
                                 }
-                            }
-                            .chartYAxisLabel(yAxisLabel)
-                            .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2)) {
-                                AxisValueLabel()
-                            }}
-                            .chartXScale(domain: 0...Calendar.current.range(of: .day, in: .month, for: Calendar.current.date(from: DateComponents(year: 2024, month: chosenMonth))!)!.count + 1)
-                            .frame(maxHeight: 350)
-                            .padding(.horizontal)
-                            .chartYScale(domain: 0...10)
-                            .chartOverlay { chart in
-                                GeometryReader { geometry in
-                                    Rectangle()
-                                        .fill(Color.clear)
-                                        .contentShape(Rectangle())
-                                        .gesture(
-                                            DragGesture()
-                                                .onChanged { value in
-                                                    let currentX = value.location.x - geometry[chart.plotFrame!].origin.x
-                                                    guard currentX >= 0, currentX < chart.plotSize.width else {
-                                                        return
+                                .offset(y: -100)
+                                .chartYAxisLabel(yAxisLabel)
+                                .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2)) {
+                                    AxisValueLabel()
+                                }}
+                                .chartXScale(domain: 0...Calendar.current.range(of: .day, in: .month, for: Calendar.current.date(from: DateComponents(year: 2024, month: chosenMonth))!)!.count + 1)
+                                .frame(maxHeight: 350)
+                                .padding(.horizontal)
+                                .chartYScale(domain: 0...10)
+                                .chartOverlay { chart in
+                                    GeometryReader { geometry in
+                                        Rectangle()
+                                            .fill(Color.clear)
+                                            .contentShape(Rectangle())
+                                            .gesture(
+                                                DragGesture()
+                                                    .onChanged { value in
+                                                        let currentX = value.location.x - geometry[chart.plotFrame!].origin.x
+                                                        guard currentX >= 0, currentX < chart.plotSize.width else {
+                                                            return
+                                                        }
+                                                        
+                                                        xPosition = currentX
+                                                        
+                                                        // Calculate day based on the X position in the monthly chart (full month range)
+                                                        let day = Int((currentX / chart.plotSize.width) * CGFloat(Calendar.current.range(of: .day, in: .month, for: Calendar.current.date(from: DateComponents(year: 2024, month: chosenMonth))!)!.count))
+                                                        
+                                                        // Find the point corresponding to the calculated day
+                                                        if let point = data.first(where: { Calendar.current.component(.day, from: $0.date) == day + 1 }) {
+                                                            selectedPoint = point
+                                                        }
                                                     }
-                                                    
-                                                    // Calculate day based on the X position in the monthly chart (full month range)
-                                                    let day = Int((currentX / chart.plotSize.width) * CGFloat(Calendar.current.range(of: .day, in: .month, for: Calendar.current.date(from: DateComponents(year: 2024, month: chosenMonth))!)!.count))
-                                                    
-                                                    // Find the point corresponding to the calculated day
-                                                    if let point = data.first(where: { Calendar.current.component(.day, from: $0.date) == day + 1 }) {
-                                                        selectedPoint = point
-                                                    }
-                                                }
-                                        )
+                                            )
+                                    }
                                 }
+                                
+                                Path { path in
+                                    path.move(to: CGPoint(x: xPosition + 30, y: -25))
+                                    path.addLine(to: CGPoint(x: xPosition + 30, y: 340))  // Line down to chart bottom
+                                }
+                                .stroke(Color.gray, style: StrokeStyle(lineWidth: 1, dash: [5, 5]))
+                                .offset(y: 20)
                             }
                         }
                         else {
@@ -247,7 +286,10 @@ struct DetailSummaryView: View {
                                         let dayName = dayIndex >= 0 ? daysOfWeek[dayIndex] : daysOfWeek[dayIndex + 7]
                                         LineMark(x: .value("date", dayName), y: .value("value", item.value)) .foregroundStyle(Color.mint)
                                         
-                                        PointMark(x: .value("date", Calendar.current.component(.day, from: item.date)), y: .value("value", item.value))
+                                        if hasBreakoutImage(on: item.date, in: journalImage) {
+                                            PointMark(x: .value("date", Calendar.current.component(.day, from: item.date)), y: .value("value", item.value))
+                                                .foregroundStyle(Color.red)
+                                        }
                                     }
                                 }
                             }
@@ -276,6 +318,8 @@ struct DetailSummaryView: View {
                                                     guard currentX >= 0, currentX < chart.plotSize.width else {
                                                         return
                                                     }
+                                                    
+                                                    xPosition = currentX
                                                     
                                                     // Calculate day based on the X position in the weekly chart (7-day range)
                                                     let dayIndex = Int((currentX / chart.plotSize.width) * 7)  // 7 days in the week
@@ -320,12 +364,52 @@ struct DetailSummaryView: View {
             Spacer()
         }
         .onAppear {
+            print(journalImage)
             dayFormatter.dateFormat = "EEEE"
             dateFormatter.dateFormat = "dd MMM yyyy"
             weekPoints = viewModel.getWeeks(of: viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth))
             weekPointsPie = viewModel.getWeeksPie(of: viewModel.piePoints)
         }
     }
+    
+    func hasBreakoutImage(on date: Date, in journalImages: [JournalImage]) -> Bool {
+        let calendar = Calendar.current
+        let targetDate = calendar.startOfDay(for: date)
+                
+        return journalImages.contains { image in
+            let imageDate = calendar.startOfDay(for: image.timestamp)
+            return imageDate == targetDate && image.isBreakout
+        }
+    }
+    
+    func segmentedBreakoutData(data: [Point]) -> [SegmentedData] {
+        var segments: [SegmentedData] = []
+        var currentSegment: [Point] = []
+        var inBreakout = false
+        
+        for point in data {
+            let hasBreakout = hasBreakoutImage(on: point.date, in: journalImage)
+            
+            if hasBreakout != inBreakout, !currentSegment.isEmpty {
+                segments.append(SegmentedData(points: currentSegment, hasBreakout: inBreakout))
+                currentSegment = []
+            }
+            
+            inBreakout = hasBreakout
+            currentSegment.append(point)
+        }
+        
+        if !currentSegment.isEmpty {
+            segments.append(SegmentedData(points: currentSegment, hasBreakout: inBreakout))
+        }
+        
+        return segments
+    }
+}
+
+struct SegmentedData {
+    let points: [Point]
+    let hasBreakout: Bool
 }
 
 #Preview {

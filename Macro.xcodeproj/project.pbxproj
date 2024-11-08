@@ -30,6 +30,7 @@
 		6AEC4D0E2CB53A4C003DD2F3 /* Sleep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC4D0D2CB53A4C003DD2F3 /* Sleep.swift */; };
 		6AEC4D102CB53AA1003DD2F3 /* Journal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */; };
 		6AEF1BF02CC25AB200B6F89F /* ActivityOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF1BEF2CC25AB200B6F89F /* ActivityOnBoardingView.swift */; };
+		6AF7EB232CDCCFD700D9AB3E /* JournalImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF7EB222CDCCFD700D9AB3E /* JournalImage.swift */; };
 		712C2BF82CCF8B490032E754 /* FoodAndDrink.json in Resources */ = {isa = PBXBuildFile; fileRef = 712C2BF72CCF8B410032E754 /* FoodAndDrink.json */; };
 		712C2BFC2CCF8B7A0032E754 /* Name in Resources */ = {isa = PBXBuildFile; fileRef = 712C2BFB2CCF8B750032E754 /* Name */; };
 		712C2C0E2CD2836C0032E754 /* NameOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712C2C0D2CD283650032E754 /* NameOnBoardingView.swift */; };
@@ -95,6 +96,7 @@
 		6AEC4D0D2CB53A4C003DD2F3 /* Sleep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Sleep.swift; path = Macro/Sleep.swift; sourceTree = SOURCE_ROOT; };
 		6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Journal.swift; path = Macro/Journal.swift; sourceTree = SOURCE_ROOT; };
 		6AEF1BEF2CC25AB200B6F89F /* ActivityOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityOnBoardingView.swift; sourceTree = "<group>"; };
+		6AF7EB222CDCCFD700D9AB3E /* JournalImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JournalImage.swift; path = Macro/JournalImage.swift; sourceTree = SOURCE_ROOT; };
 		712C2BF72CCF8B410032E754 /* FoodAndDrink.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FoodAndDrink.json; sourceTree = "<group>"; };
 		712C2BFB2CCF8B750032E754 /* Name */ = {isa = PBXFileReference; lastKnownFileType = text; path = Name; sourceTree = "<group>"; };
 		712C2C0D2CD283650032E754 /* NameOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameOnBoardingView.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 				6AEC4D0D2CB53A4C003DD2F3 /* Sleep.swift */,
 				6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */,
 				712C2C292CD388F60032E754 /* Reminder.swift */,
+				6AF7EB222CDCCFD700D9AB3E /* JournalImage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 				9094D8312CBE4FBA00BA62EF /* HistoryView.swift in Sources */,
 				9094D8332CBE594D00BA62EF /* FoodDetailHistoryView.swift in Sources */,
 				6A3A6AF62CBF6C50009319F8 /* SleepDetailHistoryView.swift in Sources */,
+				6AF7EB232CDCCFD700D9AB3E /* JournalImage.swift in Sources */,
 				6A3A6AF82CBFA927009319F8 /* RootView.swift in Sources */,
 				9094D83E2CBF8DAD00BA62EF /* WeightOnBoardingView.swift in Sources */,
 				9094D8352CBE5AA700BA62EF /* PrivacyOnBoardingView.swift in Sources */,
