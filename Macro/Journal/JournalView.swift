@@ -31,9 +31,12 @@ struct JournalView: View {
     @State private var isReminderSheetPresented = false
     @State private var showDatePicker = false
     @State private var savedDate: Date? = nil
-    @State private var selectedDate: Date = Date()
     
     @State private var isDataLoaded = false
+    
+    private var GIs: [glycemicIndex: Int]? {
+        viewModel.calcGIDetail(journals: journals)
+    }
     
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -93,7 +96,8 @@ struct JournalView: View {
                                 
                                 HStack {
                                     Button(action: {
-                                        selectedDate = Calendar.current.date(byAdding: .day, value: -1, to: selectedDate) ?? selectedDate
+                                        viewModel.selectedDate = Calendar.current.date(byAdding: .day, value: -1, to: viewModel.selectedDate) ?? viewModel.selectedDate
+                                        viewModel.fetchSleepData(context: context, journals: journals, date: viewModel.selectedDate)
                                             }) {
                                                 Image(systemName: "chevron.left")
                                                     .foregroundColor(.accentColor)
@@ -104,7 +108,7 @@ struct JournalView: View {
                                     Button(action: {
                                         showDatePicker.toggle()
                                     }) {
-                                        Text("Hari ini, \(dateFormatter.string(from: selectedDate))")
+                                        Text("Hari ini, \(dateFormatter.string(from: viewModel.selectedDate))")
                                             .fontWeight(.semibold)
                                     }
                                     .padding()
@@ -112,7 +116,8 @@ struct JournalView: View {
                                     Spacer()
                                     
                                     Button(action: {
-                                                selectedDate = Calendar.current.date(byAdding: .day, value: 1, to: selectedDate) ?? selectedDate
+                                        viewModel.selectedDate = Calendar.current.date(byAdding: .day, value: 1, to: viewModel.selectedDate) ?? viewModel.selectedDate
+                                        viewModel.fetchSleepData(context: context, journals: journals, date: viewModel.selectedDate)
                                             }) {
                                                 Image(systemName: "chevron.right")
                                                     .foregroundColor(.accentColor)
@@ -122,9 +127,12 @@ struct JournalView: View {
                             }
                             
                             if showDatePicker {
-                                DatePickerView(showDatePicker: $showDatePicker, savedDate: $savedDate, selectedDate: $selectedDate)
+                                DatePickerView(showDatePicker: $showDatePicker, savedDate: $savedDate, selectedDate: $viewModel.selectedDate)
                                     .animation(.linear)
                                     .transition(.opacity)
+                                    .onChange(of: viewModel.selectedDate) {
+                                        viewModel.fetchSleepData(context: context, journals: journals, date: viewModel.selectedDate)
+                                    }
                             }
                             
                             HStack(alignment: .bottom){
@@ -206,7 +214,7 @@ struct JournalView: View {
                                 .padding(.trailing, 4)
                             }
                             .sheet(isPresented: $viewModel.isDietViewPresented) {
-                                SearchView(isDetailViewPresented: $viewModel.isDietViewPresented)
+                                SearchView(isDetailViewPresented: $viewModel.isDietViewPresented, date: viewModel.selectedDate)
                             }
                             
                             VStack(spacing: 10) {
@@ -289,25 +297,41 @@ struct JournalView: View {
                                         
                                         HStack {
                                             Spacer()
+                                            
                                             Text("Rendah: ")
-                                            Text("")
-                                                .bold()
+                                            if let low = GIs?[.low] {
+                                                Text("\(String(low))")
+                                                    .bold()
+                                            } else {
+                                                Text("0")
+                                                    .bold()
+                                            }
                                             
                                             Spacer()
                                             Divider()
                                             Spacer()
                                             
                                             Text("Sedang: ")
-                                            Text("")
-                                                .bold()
+                                            if let medium = GIs?[.medium] {
+                                                Text("\(String(medium))")
+                                                    .bold()
+                                            } else {
+                                                Text("0")
+                                                    .bold()
+                                            }
                                             
                                             Spacer()
                                             Divider()
                                             Spacer()
                                             
                                             Text("Tinggi: ")
-                                            Text("")
-                                                .bold()
+                                            if let high = GIs?[.high] {
+                                                Text("\(String(high))")
+                                                    .bold()
+                                            } else {
+                                                Text("0")
+                                                    .bold()
+                                            }
                                             
                                             Spacer()
                                         }
@@ -345,7 +369,7 @@ struct JournalView: View {
                             .padding(.horizontal, 16)
                             
                             VStack (spacing: 0){
-                                if let foods = viewModel.hasEntriesFromToday(entries: journals)?.foods.sorted(by: { $0.timestamp < $1.timestamp }).reversed() {
+                                if let foods = viewModel.hasEntriesFromDate(entries: journals, date: viewModel.selectedDate)?.foods.sorted(by: { $0.timestamp < $1.timestamp }).reversed() {
                                     ForEach(foods) { food in
                                         HStack {
                                             HStack{
@@ -380,7 +404,7 @@ struct JournalView: View {
                 .background(Color.background).edgesIgnoringSafeArea(.all)
             }
             .onAppear {
-                viewModel.fetchSleepData(context: context, journals: journals, date: selectedDate)
+                viewModel.fetchSleepData(context: context, journals: journals, date: viewModel.selectedDate)
                 
                 if !isDataLoaded {
                     isDataLoaded.toggle()

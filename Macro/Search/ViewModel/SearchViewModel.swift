@@ -175,7 +175,7 @@ final class SearchViewModel: ObservableObject {
         }
     }
     
-    func addDiet(context: ModelContext, name: String, entries: [Journal], portion: Int, unit: String) {
+    func addDiet(context: ModelContext, name: String, entries: [Journal], portion: Int, unit: String, date: Date) {
         
         manageRecently(name: name)
         
@@ -209,7 +209,7 @@ final class SearchViewModel: ObservableObject {
             var foodItemsToAdd: [Food] = []
             for _ in 0..<mult {
                 let food = Food(
-                    timestamp: Date(),
+                    timestamp: date,
                     name: name,
                     cookingTechnique: [selectedProcessedOption],
                     fat: foodItem.saturated_fat * (Double(foodItem.gram_per_portion) / 100),
@@ -220,11 +220,11 @@ final class SearchViewModel: ObservableObject {
                 foodItemsToAdd.append(food)
             }
             
-            if let todayJournal = hasEntriesFromToday(entries: entries) {
+            if let todayJournal = hasEntriesFromDate(entries: entries, date: date) {
                 todayJournal.foods.append(contentsOf: foodItemsToAdd)
                 print("Updated today’s journal with foods: \(todayJournal.foods)")
             } else {
-                let journal = Journal(timestamp: Date(), foods: foodItemsToAdd, sleep: Sleep(timestamp: Date(), duration: 0, start: Date(), end: Date()))
+                let journal = Journal(timestamp: date, foods: foodItemsToAdd, sleep: Sleep(timestamp: date, duration: 0, start: date, end: date))
                 context.insert(journal)
                 print("Created new journal with foods: \(journal.foods)")
             }
@@ -256,6 +256,22 @@ final class SearchViewModel: ObservableObject {
         
         for entry in entries {
             if isDateToday(entry.timestamp) {
+                return entry
+            }
+        }
+        
+        return nil
+    }
+    
+    private func hasEntriesFromDate(entries: [Journal], date: Date) -> Journal? {
+        let calendar = Calendar.current
+        
+        func isSameDay(_ date1: Date, _ date2: Date) -> Bool {
+            return calendar.isDate(date1, inSameDayAs: date2)
+        }
+        
+        for entry in entries {
+            if isSameDay(entry.timestamp, date) {
                 return entry
             }
         }

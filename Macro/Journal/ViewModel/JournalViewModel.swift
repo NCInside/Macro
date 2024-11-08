@@ -94,7 +94,7 @@ class JournalViewModel: ObservableObject {
     
     func addSleep(context: ModelContext, journals: [Journal], start: Date, end: Date, mode: Bool) {
         if let journal = hasEntriesFromDate(entries: journals, date: end) {
-            let sleep: Sleep = Sleep(timestamp: Date(), duration: Int(end.timeIntervalSince(start)), start: start, end: end)
+            let sleep: Sleep = Sleep(timestamp: selectedDate, duration: Int(end.timeIntervalSince(start)), start: start, end: end)
             if mode {
                 journal.sleep = sleep
             }
@@ -128,7 +128,7 @@ class JournalViewModel: ObservableObject {
         var fat: Int = 0
         if let todayJournal = hasEntriesFromDate(entries: journals, date: selectedDate) {
             for food in todayJournal.foods {
-                fat += food.fat >= 14 ? 1 : 0
+                fat += food.fat >= 5 ? 1 : 0
             }
         }
         return fat
@@ -168,6 +168,16 @@ class JournalViewModel: ObservableObject {
             }
         }
         return ind
+    }
+    
+    func calcGIDetail(journals: [Journal]) -> [glycemicIndex: Int]? {
+        if let todayJournal = hasEntriesFromDate(entries: journals, date: selectedDate) {
+            return todayJournal.foods
+                    .reduce(into: [glycemicIndex: Int]()) { counts, food in
+                        counts[food.glycemicIndex, default: 0] += 1
+                    }
+        }
+        return nil
     }
     
     func addDiet(context: ModelContext, name: String, entries: [Journal]) {
@@ -227,7 +237,7 @@ class JournalViewModel: ObservableObject {
         return nil
     }
     
-    private func hasEntriesFromDate(entries: [Journal], date: Date) -> Journal? {
+    func hasEntriesFromDate(entries: [Journal], date: Date) -> Journal? {
         let calendar = Calendar.current
         
         func isSameDay(_ date1: Date, _ date2: Date) -> Bool {

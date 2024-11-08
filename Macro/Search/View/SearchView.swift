@@ -15,9 +15,12 @@ struct SearchView: View {
     @Query private var journals: [Journal]
     @State var isAddFoodViewPresented = false
     
+    var date: Date
+    
     @Binding var isDetailViewPresented: Bool
     
-    init(isDetailViewPresented: Binding<Bool>) {
+    init(isDetailViewPresented: Binding<Bool>, date: Date) {
+        self.date = date
         self._isDetailViewPresented = isDetailViewPresented
         if viewModel.defaults.object(forKey: "recent") == nil {
             viewModel.defaults.set([], forKey: "recent")
@@ -135,7 +138,7 @@ struct SearchView: View {
         .background(Color.background)
         .fullScreenCover(isPresented: $viewModel.isPresented) {
             if viewModel.selectedSuggestion != nil {
-                DetailSearchView(isDetailViewPresented: $isDetailViewPresented, name: viewModel.selectedSuggestion ?? "", journals: journals)
+                DetailSearchView(date: date, isDetailViewPresented: $isDetailViewPresented, name: viewModel.selectedSuggestion ?? "", journals: journals)
             }
         }
         .sheet(isPresented: $isAddFoodViewPresented) {
