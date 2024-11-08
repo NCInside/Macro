@@ -6,6 +6,9 @@ struct DetailJournalView: View {
     let context: ModelContext
     @Environment(\.dismiss) private var dismiss
     @State private var isEditJournalViewPresented = false
+    @ObservedObject var viewModel: JournalImageViewModel
+    
+    @Binding var isDetailJournalViewPresented: Bool
 
     var body: some View {
         ScrollView {
@@ -144,7 +147,7 @@ struct DetailJournalView: View {
         }
         .sheet(isPresented: $isEditJournalViewPresented) {
             if let journalImage = journalImage {
-                EditJournalView(viewModel: JournalImageViewModel(context: context), journalImage: journalImage)
+                EditJournalView(viewModel: viewModel, journalImage: journalImage, isDetailJournalViewPresented: $isDetailJournalViewPresented)
             }
         }
     }

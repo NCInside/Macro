@@ -4,6 +4,7 @@ struct EditJournalView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: JournalImageViewModel
     var journalImage: JournalImage
+    @Environment(\.modelContext) private var context
 
     @State private var selectedImage: UIImage? = nil
     @State private var isActionSheetPresented = false
@@ -14,8 +15,12 @@ struct EditJournalView: View {
     @State private var praMens: Bool
     @State private var inputNote: String
     @State private var showDeleteConfirmation = false
+    
+    @Binding var isDetailJournalViewPresented: Bool
 
-    init(viewModel: JournalImageViewModel, journalImage: JournalImage) {
+    init(viewModel: JournalImageViewModel,
+         journalImage: JournalImage,
+         isDetailJournalViewPresented: Binding<Bool>) {
         self.viewModel = viewModel
         self.journalImage = journalImage
         _selectedImage = State(initialValue: journalImage.image.flatMap { UIImage(data: $0) })
@@ -23,6 +28,7 @@ struct EditJournalView: View {
         _breakOut = State(initialValue: journalImage.isBreakout)
         _praMens = State(initialValue: journalImage.isMenstrual)
         _inputNote = State(initialValue: journalImage.notes ?? "")
+        self._isDetailJournalViewPresented = isDetailJournalViewPresented
     }
 
     var body: some View {
@@ -268,10 +274,15 @@ struct EditJournalView: View {
     }
 
     private func deleteJournalImage() {
-        viewModel.deleteJournalImage(journalImage: journalImage)
-        dismiss() // Dismiss EditJournalView
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            dismiss() // Dismiss DetailJournalView if presented from there
+        if let index = viewModel.journalImages.firstIndex(of: journalImage) {
+            viewModel.journalImages.remove(at: index)
         }
+        context.delete(journalImage)
+        do {
+            try context.save()
+        } catch {
+            print("Failed to delete JournalImage: \(error.localizedDescription)")
+        }
+        isDetailJournalViewPresented = false
     }
 }

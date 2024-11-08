@@ -52,23 +52,21 @@ struct SkinHealthView: View {
                     .padding(.top, 50)
                 } else {
                     ScrollView {
-                        LazyVGrid(columns: columns, spacing: 0) { // Remove spacing between grid items
+                        LazyVGrid(columns: columns, spacing: 0) {
                             ForEach(viewModel.journalImages.sorted(by: { $0.timestamp > $1.timestamp }), id: \.id) { journalImage in
                                 ZStack(alignment: .topLeading) {
-                                    // Display Image or Placeholder
                                     if let imageData = journalImage.image, let uiImage = UIImage(data: imageData) {
                                         Image(uiImage: uiImage)
                                             .resizable()
                                             .scaledToFill()
-                                            .frame(width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.width / 3) // Square frame
+                                            .frame(width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.width / 3)
                                             .clipped()
                                     } else {
                                         Rectangle()
                                             .fill(Color.gray)
-                                            .frame(width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.width / 3) // Square frame
+                                            .frame(width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.width / 3)
                                     }
                                     
-                                    // Date and Breakout Indicator
                                     VStack(alignment: .center, spacing: 4) {
                                         Text("\(journalImage.timestamp, formatter: dateFormatter)")
                                             .font(.caption2)
@@ -89,9 +87,6 @@ struct SkinHealthView: View {
                                 }
                                 .onTapGesture {
                                     selectedJournalImage = journalImage
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { // Add a small delay
-                                        isDetailJournalViewPresented = true
-                                    }
                                 }
                             }
                         }
@@ -113,13 +108,21 @@ struct SkinHealthView: View {
                 .padding(.bottom, 16)
             }
             .padding(.horizontal, 0)
-            .sheet(isPresented: $isDetailJournalViewPresented) {
+            .onChange(of: selectedJournalImage) { _ in
+                if selectedJournalImage != nil {
+                    isDetailJournalViewPresented = true
+                }
+            }
+            .sheet(isPresented: $isDetailJournalViewPresented, onDismiss: {
+                selectedJournalImage = nil // Reset after the sheet is dismissed
+            }) {
                 if let journalImage = selectedJournalImage {
-                    DetailJournalView(journalImage: .constant(journalImage), context: context)
+                    DetailJournalView(journalImage: .constant(journalImage), context: context, viewModel: viewModel, isDetailJournalViewPresented: $isDetailJournalViewPresented)
                 }
             }
         }
     }
+
     
     private func handleAddButtonTapped() {
         // Check if there is a journal entry for the current date
