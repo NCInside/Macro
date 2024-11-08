@@ -18,7 +18,35 @@ class JournalImageViewModel: ObservableObject {
             self.context = context
             fetchJournalImages()
         }
-    
+    func addDummyData() {
+            let calendar = Calendar.current
+            let today = Date()
+            
+            let yesterday = calendar.date(byAdding: .day, value: -1, to: today)!
+            let dayBeforeYesterday = calendar.date(byAdding: .day, value: -2, to: today)!
+
+            // Add dummy for yesterday
+            addJournalImage(
+                timestamp: yesterday,
+                image: nil,
+                isBreakout: true,
+                isMenstrual: false,
+                notes: "Dummy entry for yesterday."
+            )
+            
+            // Add dummy for the day before yesterday
+            addJournalImage(
+                timestamp: dayBeforeYesterday,
+                image: nil,
+                isBreakout: false,
+                isMenstrual: true,
+                notes: "Dummy entry for the day before yesterday."
+            )
+            
+            // Refresh the view
+            fetchJournalImages()
+        }
+
     // Fetch all JournalImage entries using FetchDescriptor
     func fetchJournalImages(for date: Date? = nil) {
         let descriptor = FetchDescriptor<JournalImage>()

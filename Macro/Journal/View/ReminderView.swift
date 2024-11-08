@@ -86,7 +86,7 @@ struct ReminderView: View {
                 viewModel.loadReminders(context: context)
                 print("Reminders loaded on appear")
             }
-            .sheet(item: $sheetMode) { mode in
+            .sheet(item: $sheetMode, onDismiss: { sheetMode = nil }) { mode in
                 switch mode {
                 case .add:
                     AddReminderView(
@@ -109,6 +109,7 @@ struct ReminderView: View {
                     )
                 }
             }
+
             .confirmationDialog(
                 "Hapus Kunjungan",
                 isPresented: Binding(
@@ -262,12 +263,13 @@ enum SheetMode: Identifiable {
     case add
     case edit(Reminder)
     
-    var id: UUID {
+    var id: String {
         switch self {
         case .add:
-            return UUID()
+            return "add"
         case .edit(let reminder):
-            return reminder.id
+            return reminder.id.uuidString
         }
     }
 }
+

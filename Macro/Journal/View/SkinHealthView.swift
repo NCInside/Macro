@@ -97,7 +97,20 @@ struct SkinHealthView: View {
                         }
                     }
                 }
+                
                 Spacer()
+                
+                // Button to add dummy data
+                Button(action: {
+                    viewModel.addDummyData()
+                }) {
+                    Text("Add Dummy Data for Testing")
+                        .foregroundColor(.blue)
+                        .padding()
+                        .background(Color.blue.opacity(0.1))
+                        .cornerRadius(8)
+                }
+                .padding(.bottom, 16)
             }
             .padding(.horizontal, 0)
             .sheet(isPresented: $isDetailJournalViewPresented) {
