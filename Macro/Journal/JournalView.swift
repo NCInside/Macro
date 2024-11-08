@@ -37,7 +37,7 @@ struct JournalView: View {
     
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "d MMM"
+        formatter.dateFormat = "d MMMM yyyy"
         formatter.locale = Locale(identifier: "id_ID")
         return formatter
     }
@@ -54,23 +54,15 @@ struct JournalView: View {
                 ScrollView {
                     if isDataLoaded {
                         VStack {
-                            HStack {
-                                Button(action: {
-                                    showDatePicker.toggle()
-                                }) {
-                                    Image(systemName: "calendar")
-                                        .imageScale(.large)
-                                        .foregroundColor(.accentColor)
-                                }
-                                .padding(.trailing, -4)
-                                
-                                Text("Hari ini, \(dateFormatter.string(from: selectedDate))")
+                            HStack{
+                                Text("Jurnal Harian")
+                                    .font(.largeTitle)
                                     .fontWeight(.semibold)
                                 
                                 Spacer()
                                 
                                 Button(action: {
-                                    isReminderSheetPresented = true // Set to present ReminderView as a modal
+                                    isReminderSheetPresented = true
                                 }) {
                                     Image(systemName: "bell")
                                         .imageScale(.large)
@@ -89,8 +81,45 @@ struct JournalView: View {
                                     SettingsView( journalViewModel: viewModel,
                                                   journals: journals)
                                 }
+                                
                             }
-                            .padding()
+                            .padding(.top, 10)
+                            .padding(.horizontal)
+                            
+                            
+                            ZStack {
+                                Rectangle()
+                                    .fill(Color.white)
+                                
+                                HStack {
+                                    Button(action: {
+                                        selectedDate = Calendar.current.date(byAdding: .day, value: -1, to: selectedDate) ?? selectedDate
+                                            }) {
+                                                Image(systemName: "chevron.left")
+                                                    .foregroundColor(.accentColor)
+                                            }
+                                    
+                                    Spacer()
+                                    
+                                    Button(action: {
+                                        showDatePicker.toggle()
+                                    }) {
+                                        Text("Hari ini, \(dateFormatter.string(from: selectedDate))")
+                                            .fontWeight(.semibold)
+                                    }
+                                    .padding()
+                                    
+                                    Spacer()
+                                    
+                                    Button(action: {
+                                                selectedDate = Calendar.current.date(byAdding: .day, value: 1, to: selectedDate) ?? selectedDate
+                                            }) {
+                                                Image(systemName: "chevron.right")
+                                                    .foregroundColor(.accentColor)
+                                            }
+                                }
+                                .padding(.horizontal)
+                            }
                             
                             if showDatePicker {
                                 DatePickerView(showDatePicker: $showDatePicker, savedDate: $savedDate, selectedDate: $selectedDate)
@@ -99,9 +128,9 @@ struct JournalView: View {
                             }
                             
                             HStack(alignment: .bottom){
-                                Text("Tidur")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
+                                Text("Waktu Tidur")
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
                                 Spacer()
                                 
                                 Button(action: {
@@ -112,6 +141,7 @@ struct JournalView: View {
                                 }
                                 .padding(.top, 10)
                                 .padding(.trailing, 4)
+                                
                             }
                             .padding(.horizontal)
                             .sheet(isPresented: $isAddSleepViewPresented) {
@@ -119,10 +149,9 @@ struct JournalView: View {
                             }
                             
                             ZStack {
-                                Image("HomeCard")
+                                Image("BannerFix")
                                     .resizable()
-                                    .scaledToFill()
-                                    .padding(.horizontal, 10)
+                                    .scaledToFit()
                                 
                                 VStack(alignment: .leading){
                                     HStack(alignment: .bottom,spacing: 0) {
@@ -148,18 +177,17 @@ struct JournalView: View {
                                         
                                         Spacer()
                                     }
-                                    .padding(.leading, 50)
+                                    .padding(.leading, 30)
                                     .padding(.bottom, 2)
                                     
                                     HStack{
                                         Text(viewModel.sleepClassificationMessage(journals: journals))
                                             .foregroundColor(.white)
                                     }
-                                    .padding(.leading, 50)
-                                    .padding(.bottom, 90)
+                                    .padding(.leading, 30)
                                 }
                             }
-                            .padding(.bottom, -10)
+                            .padding(.vertical, -20)
                             
                             HStack(alignment: .bottom) {
                                 Text("Detail Makanan")
@@ -174,7 +202,6 @@ struct JournalView: View {
                                     Text("Tambah")
                                         .foregroundColor(.accentColor)
                                 }
-                                .padding(.top, 10)
                                 .padding()
                                 .padding(.trailing, 4)
                             }
@@ -187,7 +214,8 @@ struct JournalView: View {
                                     VStack(alignment: .leading, spacing: -24) {
                                         HStack {
                                             Text("Makanan Berlemak")
-                                                .padding()
+                                                .padding(.leading)
+                                                .padding(.vertical)
                                                 .fontWeight(.semibold)
                                                 .foregroundColor(.systemGray3)
                                             
@@ -209,7 +237,6 @@ struct JournalView: View {
                                             
                                             Text("porsi")
                                                 .font(.callout)
-                                                .foregroundColor(.systemGray3)
                                             
                                             Spacer()
                                         }
@@ -218,35 +245,30 @@ struct JournalView: View {
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                                     .background(.white)
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
-                                    .shadow(color: Color.black.opacity(0.2), radius: 3, x: 1, y: 2)
+                                    .shadow(color: Color.black.opacity(0.2), radius: 3, x: 2, y: 2)
                                     
                                     VStack(alignment: .leading, spacing: -24) {
                                         HStack {
-                                            Text("Lemak Jenuh")
+                                            Text("Produk Susu")
                                                 .padding()
                                                 .fontWeight(.semibold)
                                                 .foregroundColor(.systemGray3)
                                             Spacer()
                                         }
-                                        .background(
-                                            Image("Burger")
-                                                .padding(.bottom, -42),
-                                            alignment: .bottomTrailing)
                                         
-                                        HStack {
-                                            Text(String(format: "%.2f", viewModel.calcSaturatedFat(journals: journals)))
+                                        HStack(alignment: .firstTextBaseline, spacing: 0) {
+                                            Text(String(viewModel.calcDairy(journals: journals)))
                                                 .font(.title)
                                                 .fontWeight(.bold)
                                                 .padding(.leading)
                                                 .padding(.vertical)
                                             
-                                            Text("gr/\(Int(viewModel.calcEnergyExpenditure() * 0.2 / 9))gr")
+                                            
+                                            Text("porsi")
                                                 .font(.callout)
-                                                .foregroundColor(.systemGray3)
-                                                .padding(.leading, -8)
+                                            
                                             Spacer()
-                                        }
-                                    }
+                                        }                                    }
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                                     .background(.white)
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -256,60 +278,42 @@ struct JournalView: View {
                                 HStack(spacing: 10) {
                                     VStack(alignment: .leading, spacing: -24) {
                                         HStack {
-                                            Text("Produk Susu")
-                                                .padding()
-                                                .fontWeight(.semibold)
-                                                .foregroundColor(.systemGray3)
-                                            Spacer()
-                                        }
-                                        HStack(alignment: .firstTextBaseline, spacing: 0) {
-                                            Text(String(viewModel.calcDairy(journals: journals)))
-                                                .font(.title)
-                                                .fontWeight(.bold)
-                                                .padding(.leading)
-                                                .padding(.vertical)
-                                            
-
-                                            Text("kali/1 porsi")
-                                                .font(.callout)
-                                                .foregroundColor(.systemGray3)
-                                            Spacer()
-                                        }
-                                        .background(
-                                            Image("Milk")
-                                            
-                                                .padding(.bottom, -20),
-                                            alignment: .bottomTrailing
-                                        )
-                                    }
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    .background(.white)
-                                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                                    .shadow(color: Color.black.opacity(0.2), radius: 3, x: 2, y: 2)
-                                    
-                                    VStack(alignment: .leading, spacing: -24) {
-                                        HStack {
                                             Text("Indeks Glikemik")
                                                 .padding()
                                                 .fontWeight(.semibold)
                                                 .foregroundColor(.systemGray3)
-                                        }
-                                        .background(
-                                            Image("Donut")
-                                                .padding(.trailing, -40)
                                             
-                                                .padding(.bottom, -60),
-                                            alignment: .bottomTrailing
-                                        )
-                                        
-                                        HStack {
-                                            Text(viewModel.calcGI(journals: journals))
-                                                .padding()
-                                                .fontWeight(.bold)
-                                                .font(.title)
                                             Spacer()
                                         }
+                                        .padding(.bottom, 20)
+                                        
+                                        HStack {
+                                            Spacer()
+                                            Text("Rendah: ")
+                                            Text("")
+                                                .bold()
+                                            
+                                            Spacer()
+                                            Divider()
+                                            Spacer()
+                                            
+                                            Text("Sedang: ")
+                                            Text("")
+                                                .bold()
+                                            
+                                            Spacer()
+                                            Divider()
+                                            Spacer()
+                                            
+                                            Text("Tinggi: ")
+                                            Text("")
+                                                .bold()
+                                            
+                                            Spacer()
+                                        }
+                                        
                                     }
+                                    .padding(.bottom, 20)
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                                     .background(.white)
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -323,7 +327,7 @@ struct JournalView: View {
                                 Text("Riwayat Harian")
                                     .font(.title2)
                                     .fontWeight(.bold)
-    //                                .padding()
+                                //                                .padding()
                                 
                                 Spacer()
                                 
@@ -366,11 +370,11 @@ struct JournalView: View {
                             .padding(.bottom, 14)
                             .shadow(color: Color.black.opacity(0.2), radius: 3, x: 1, y: 2)
                             
-                    
+                            
                             
                         }
                         .padding(.top, 36)
-                        .background(Color.white).edgesIgnoringSafeArea(.all)
+                        .background(Color.background).edgesIgnoringSafeArea(.all)
                     }
                 }
                 .background(Color.background).edgesIgnoringSafeArea(.all)
@@ -417,9 +421,9 @@ struct JournalView: View {
             }
         }
         .sheet(isPresented: $isReminderSheetPresented) {
-                   ReminderView(viewModel: ReminderViewModel())
-                       .environment(\.modelContext, context)
-               }
+            ReminderView(viewModel: ReminderViewModel())
+                .environment(\.modelContext, context)
+        }
     }
     
 }
