@@ -54,7 +54,7 @@ struct SummaryView: View {
                 
                 ScrollView {
                     VStack {
-                        NavigationLink(destination: DetailSummaryView(scenario: .sleep, chosenMonth: chosenMonth)) {
+                        NavigationLink(destination: DetailSummaryView(scenario: .sleep, chosenMonth: chosenMonth, average: viewModel.avgSleep)) {
                             SummaryCard(
                                 title: "Tidur",
                                 caption: "Rerata waktu tidur harian",
@@ -77,7 +77,7 @@ struct SummaryView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
                         .buttonStyle(.plain)
-                        NavigationLink(destination: DetailSummaryView(scenario: .fat, chosenMonth: chosenMonth)) {
+                        NavigationLink(destination: DetailSummaryView(scenario: .fat, chosenMonth: chosenMonth, average: viewModel.avgFat)) {
                             SummaryCard(
                                 title: "Makanan Berlemak",
                                 caption: "Rerata frekuensi harian",
@@ -95,7 +95,7 @@ struct SummaryView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
                         .buttonStyle(.plain)
-                        NavigationLink(destination: DetailSummaryView(scenario: .dairy, chosenMonth: chosenMonth)) {
+                        NavigationLink(destination: DetailSummaryView(scenario: .dairy, chosenMonth: chosenMonth, average: viewModel.freqMilk)) {
                             SummaryCard(
                                 title: "Produk Susu",
                                 caption: "Rerata frekuensi harian",
@@ -112,7 +112,7 @@ struct SummaryView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
                         .buttonStyle(.plain)
-                        NavigationLink(destination: DetailSummaryView(scenario: .gi, chosenMonth: chosenMonth)) {
+                        NavigationLink(destination: DetailSummaryView(scenario: .gi, chosenMonth: chosenMonth, average: 0)) {
                             SummaryCard(
                                 title: "Indeks Glikemik",
                                 caption: "Kategori Indeks Terbanyak",

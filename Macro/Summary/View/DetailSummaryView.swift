@@ -13,9 +13,14 @@ struct DetailSummaryView: View {
     
     var scenario: scenario
     var chosenMonth: Int
+    var average: Int
     let dayFormatter = DateFormatter()
     let dateFormatter = DateFormatter()
     let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    let months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ]
     
     @StateObject private var viewModel = SummaryViewModel()
     @Query var journals: [Journal]
@@ -100,6 +105,9 @@ struct DetailSummaryView: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     .padding(.bottom)
+                    .onChange(of: viewModel.selectedTab) { oldValue, newValue in
+                        selectedPoint = nil
+                    }
                     
                     
                     if let point = selectedPoint {
@@ -122,6 +130,9 @@ struct DetailSummaryView: View {
                         }
                         .padding(.bottom, 12)
                         .offset(x: xPosition - 25)
+                        .onTapGesture {
+                            selectedPoint = nil
+                        }
                     }
                     else {
                         VStack(alignment: .leading) {
@@ -130,14 +141,21 @@ struct DetailSummaryView: View {
                                 .font(.subheadline)
                                 .bold()
                             HStack(alignment: .bottom) {
-                                Text("0")
+                                Text("\(String(scenario == .sleep ? average / 3600 : average))")
                                     .font(.title2)
                                     .bold()
                                 Text("\(scenario == .sleep ? "Jam" : "Kali")")
                                     .font(.caption)
+                                if scenario == .sleep {
+                                    Text("\(String((average % 3600) / 60))")
+                                        .font(.title2)
+                                        .bold()
+                                    Text("Menit")
+                                        .font(.caption)
+                                }
                                 Spacer()
                             }
-                            Text("idfk")
+                            Text("1 \(months[chosenMonth - 1]) - \(lastDay(ofMonth: chosenMonth, year: 2024)) \(months[chosenMonth - 1]) 2024")
                                 .foregroundStyle(.gray)
                                 .font(.subheadline)
                         }
@@ -227,7 +245,7 @@ struct DetailSummaryView: View {
                                         }
                                     }
                                 }
-                                .offset(y: -100)
+                                .offset(y: selectedPoint != nil ? -100 : 7)
                                 .chartYAxisLabel(yAxisLabel)
                                 .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2)) {
                                     AxisValueLabel()
@@ -263,99 +281,109 @@ struct DetailSummaryView: View {
                                     }
                                 }
                                 
-                                Path { path in
-                                    path.move(to: CGPoint(x: xPosition + 30, y: -25))
-                                    path.addLine(to: CGPoint(x: xPosition + 30, y: 340))  // Line down to chart bottom
+                                if selectedPoint != nil {
+                                    Path { path in
+                                        path.move(to: CGPoint(x: xPosition + 30, y: -25))
+                                        path.addLine(to: CGPoint(x: xPosition + 30, y: 340))  // Line down to chart bottom
+                                    }
+                                    .stroke(Color.gray, style: StrokeStyle(lineWidth: 1, dash: [5, 5]))
+                                    .offset(y: 20)
                                 }
-                                .stroke(Color.gray, style: StrokeStyle(lineWidth: 1, dash: [5, 5]))
-                                .offset(y: 20)
                             }
                         }
                         else {
+                            ZStack {
+                                Chart {
+                                    if let week = weekPoints[selectedWeek] {
+                                        ForEach(week) { item in
+                                            let dayIndex = Calendar.current.component(.weekday, from: item.date) - 2
+                                            let dayName = dayIndex >= 0 ? daysOfWeek[dayIndex] : daysOfWeek[dayIndex + 7]
+                                            LineMark(x: .value("date", dayName), y: .value("value", item.value)) .foregroundStyle(Color.mint)
+                                            
+                                            if hasBreakoutImage(on: item.date, in: journalImage) {
+                                                PointMark(x: .value("date", dayName), y: .value("value", item.value))
+                                                    .foregroundStyle(Color.red)
+                                            }
+                                        }
+                                    }
+                                    
+                                }
+                                .offset(y: selectedPoint != nil ? -100 : -7)
+                                .chartYAxisLabel(yAxisLabel)
+                                .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2)) {
+                                    AxisValueLabel()
+                                }}
+                                .frame(maxWidth: .infinity, maxHeight: 350)
+                                .padding(.horizontal)
+                                .chartYScale(domain: 0...10.8)
+                                .chartOverlay { chart in
+                                    GeometryReader { geometry in
+                                        Rectangle()
+                                            .fill(Color.clear)
+                                            .contentShape(Rectangle())
+                                            .gesture(
+                                                DragGesture()
+                                                    .onChanged { value in
+                                                        let currentX = value.location.x - geometry[chart.plotFrame!].origin.x
+                                                        guard currentX >= 0, currentX < chart.plotSize.width else {
+                                                            return
+                                                        }
+                                                        
+                                                        xPosition = currentX
+                                                        
+                                                        // Calculate day based on the X position in the weekly chart (7-day range)
+                                                        let dayIndex = Int((currentX / chart.plotSize.width) * 7)  // 7 days in the week
+                                                        
+                                                        // Find the corresponding day name for the weekly chart
+                                                        let selectedDay = daysOfWeek[dayIndex % 7]  // Ensure index is within bounds
+                                                        
+                                                        // Find the point for the corresponding day
+                                                        if let point = weekPoints[selectedWeek]?.first(where: {
+                                                            Calendar.current.component(.weekday, from: $0.date) == dayIndex + 2 // Adjust weekday to match
+                                                        }) {
+                                                            selectedPoint = point
+                                                        }
+                                                    }
+                                            )
+                                    }
+                                }
+                                .simultaneousGesture(
+                                    DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
+                                        .onEnded { value in
+                                            switch(value.translation.width, value.translation.height) {
+                                            case (...0, -30...30):
+                                                print("left swipe")
+                                                if selectedWeek < 5 {
+                                                    selectedWeek += 1
+                                                }
+                                            case (0..., -30...30):
+                                                print("right swipe")
+                                                if selectedWeek > 1 {
+                                                    selectedWeek -= 1
+                                                }
+                                            default:
+                                                print("no clue")
+                                            }
+                                        }
+                                )
+                                
+                                if selectedPoint != nil {
+                                    Path { path in
+                                        path.move(to: CGPoint(x: xPosition + 30, y: -25))
+                                        path.addLine(to: CGPoint(x: xPosition + 30, y: 340))  // Line down to chart bottom
+                                    }
+                                    .stroke(Color.gray, style: StrokeStyle(lineWidth: 1, dash: [5, 5]))
+                                    .offset(y: 20)
+                                }
+                            }
+                                                                            
                             HStack {
                                 Spacer()
                                 Text("WEEK \(selectedWeek)")
                                     .bold()
                                 Spacer()
                             }
-                            
-                            Chart {
-                                if let week = weekPoints[selectedWeek] {
-                                    ForEach(week) { item in
-                                        let dayIndex = Calendar.current.component(.weekday, from: item.date) - 2
-                                        let dayName = dayIndex >= 0 ? daysOfWeek[dayIndex] : daysOfWeek[dayIndex + 7]
-                                        LineMark(x: .value("date", dayName), y: .value("value", item.value)) .foregroundStyle(Color.mint)
-                                        
-                                        if hasBreakoutImage(on: item.date, in: journalImage) {
-                                            PointMark(x: .value("date", Calendar.current.component(.day, from: item.date)), y: .value("value", item.value))
-                                                .foregroundStyle(Color.red)
-                                        }
-                                    }
-                                }
-                            }
-                            .chartXAxis {
-                                AxisMarks(values: .automatic) {
-                                    AxisValueLabel()
-                                }
-                            }
-                            .chartYAxisLabel(yAxisLabel)
-                            .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2)) {
-                                AxisValueLabel()
-                            }}
-                            
-                            .frame(maxHeight: 350)
-                            .chartYScale(domain: 0...10.8)
-                            .padding(.horizontal)
-                            .chartOverlay { chart in
-                                GeometryReader { geometry in
-                                    Rectangle()
-                                        .fill(Color.clear)
-                                        .contentShape(Rectangle())
-                                        .gesture(
-                                            DragGesture()
-                                                .onChanged { value in
-                                                    let currentX = value.location.x - geometry[chart.plotFrame!].origin.x
-                                                    guard currentX >= 0, currentX < chart.plotSize.width else {
-                                                        return
-                                                    }
-                                                    
-                                                    xPosition = currentX
-                                                    
-                                                    // Calculate day based on the X position in the weekly chart (7-day range)
-                                                    let dayIndex = Int((currentX / chart.plotSize.width) * 7)  // 7 days in the week
-                                                    
-                                                    // Find the corresponding day name for the weekly chart
-                                                    let selectedDay = daysOfWeek[dayIndex % 7]  // Ensure index is within bounds
-                                                    
-                                                    // Find the point for the corresponding day
-                                                    if let point = weekPoints[selectedWeek]?.first(where: {
-                                                        Calendar.current.component(.weekday, from: $0.date) == dayIndex + 2 // Adjust weekday to match
-                                                    }) {
-                                                        selectedPoint = point
-                                                    }
-                                                }
-                                        )
-                                }
-                            }
-                            .simultaneousGesture(
-                                DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
-                                    .onEnded { value in
-                                        switch(value.translation.width, value.translation.height) {
-                                        case (...0, -30...30):
-                                            print("left swipe")
-                                            if selectedWeek < 5 {
-                                                selectedWeek += 1
-                                            }
-                                        case (0..., -30...30):
-                                            print("right swipe")
-                                            if selectedWeek > 1 {
-                                                selectedWeek -= 1
-                                            }
-                                        default:
-                                            print("no clue")
-                                        }
-                                    }
-                            )
+                            .offset(y: selectedPoint != nil ? -187 : 0)
                         }
                     }
                 }
@@ -382,36 +410,16 @@ struct DetailSummaryView: View {
         }
     }
     
-    func segmentedBreakoutData(data: [Point]) -> [SegmentedData] {
-        var segments: [SegmentedData] = []
-        var currentSegment: [Point] = []
-        var inBreakout = false
-        
-        for point in data {
-            let hasBreakout = hasBreakoutImage(on: point.date, in: journalImage)
-            
-            if hasBreakout != inBreakout, !currentSegment.isEmpty {
-                segments.append(SegmentedData(points: currentSegment, hasBreakout: inBreakout))
-                currentSegment = []
-            }
-            
-            inBreakout = hasBreakout
-            currentSegment.append(point)
-        }
-        
-        if !currentSegment.isEmpty {
-            segments.append(SegmentedData(points: currentSegment, hasBreakout: inBreakout))
-        }
-        
-        return segments
+    func lastDay(ofMonth m: Int, year y: Int) -> Int {
+        let cal = Calendar.current
+        var comps = DateComponents(calendar: cal, year: y, month: m)
+        comps.setValue(m + 1, for: .month)
+        comps.setValue(0, for: .day)
+        let date = cal.date(from: comps)!
+        return cal.component(.day, from: date)
     }
 }
 
-struct SegmentedData {
-    let points: [Point]
-    let hasBreakout: Bool
-}
-
 #Preview {
-    DetailSummaryView(scenario: .sleep , chosenMonth: 2)
+    DetailSummaryView(scenario: .sleep , chosenMonth: 2, average: 3660)
 }
