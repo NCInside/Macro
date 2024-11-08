@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
-    
+    @Environment(\.modelContext) private var context: ModelContext
     var body: some View {
         
         TabView {
@@ -17,7 +18,7 @@ struct ContentView: View {
                     Label("Journal", systemImage: "book.pages.fill")
                 }
             
-            SkinHealthView()
+            SkinHealthView(context: context)
                 .tabItem {
                     Label("Journal", systemImage: "face.smiling.inverse")
                 }

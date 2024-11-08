@@ -1,128 +1,127 @@
-//
-//  SkinHealthView.swift
-//  Macro
-//
-//  Created by Vebrillia Santoso on 07/11/24.
-//
-
 import SwiftUI
+import SwiftData
 
 struct SkinHealthView: View {
     @State private var selectedDate = Date()
     @State var isAddJournalViewPresented = false
-    
-    let normalDays: [Int] = [1, 2, 3, 5]
-    let breakoutDays: [Int] = [4]
-    
+    @State var isDetailJournalViewPresented = false
+    @StateObject private var viewModel: JournalImageViewModel
+    @State private var selectedJournalImage: JournalImage? // Track selected journal
+    let context: ModelContext
+
+    init(context: ModelContext) {
+        _viewModel = StateObject(wrappedValue: JournalImageViewModel(context: context))
+        self.context = context
+    }
+
+    let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 0), count: 3) // 3-column grid without spacing
+
     var body: some View {
-        VStack(spacing: 16) {
-            HStack {
-                Text("Kesehatan Kulit")
-                    .font(.title)
-                    .bold()
-                
-                Spacer()
-                
-                Button(action: {
-                    isAddJournalViewPresented = true
-                }) {
-                    Image(systemName: "plus")
-                        .imageScale(.large)
-                        .foregroundColor(.accentColor)
-                        .bold()
-                }
-                .sheet(isPresented: $isAddJournalViewPresented) {
-                    AddJournalView()
-                }
-            }
-            .padding(.bottom, 10)
-            
-            VStack {
-                DatePicker("Select Date", selection: $selectedDate, displayedComponents: [.date])
-                    .datePickerStyle(.graphical)
-                
-                //                .overlay(calendarOverlay)
-                
-                Divider()
-                
+        NavigationView {
+            VStack(spacing: 16) {
                 HStack {
-                    Circle()
-                        .fill(Color.green)
-                        .frame(width: 8, height: 8)
-                    Text("Normal")
+                    Text("Kesehatan Kulit")
+                        .font(.title)
+                        .bold()
                     
-                    Triangle()
-                        .fill(Color.yellow)
-                        .frame(width: 10, height: 10)
-                    Text("Breakout")
+                    Spacer()
+                    
+                    Button(action: {
+                        handleAddButtonTapped()
+                    }) {
+                        Image(systemName: "plus")
+                            .imageScale(.large)
+                            .foregroundColor(.accentColor)
+                            .bold()
+                    }
+                    .sheet(isPresented: $isAddJournalViewPresented) {
+                        AddJournalView(viewModel: viewModel)
+                    }
                 }
-                .padding(.vertical, 16)
-            }
-            .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.white)
-                        .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.white, lineWidth: 2)
-                        )
-                )
-            
-            Button(action: {
+                .padding(.bottom, 10)
                 
-            }) {
-                ZStack {
-                    Rectangle()
-                        .foregroundColor(.accentColor)
-                        .frame(width: 372, height: 50)
-                        .background(.white)
-                        .cornerRadius(12)
-                    Text("Riwayat")
-                        .foregroundColor(.white)
+                if viewModel.journalImages.isEmpty {
+                    VStack {
+                        Image(systemName: "exclamationmark.circle")
+                            .font(.largeTitle)
+                            .foregroundColor(.gray)
+                        Text("Kamu belum menambahkan foto")
+                            .foregroundColor(.gray)
+                            .font(.body)
+                    }
+                    .padding(.top, 50)
+                } else {
+                    ScrollView {
+                        LazyVGrid(columns: columns, spacing: 0) { // Remove spacing between grid items
+                            ForEach(viewModel.journalImages.sorted(by: { $0.timestamp > $1.timestamp }), id: \.id) { journalImage in
+                                ZStack(alignment: .topLeading) {
+                                    // Display Image or Placeholder
+                                    if let imageData = journalImage.image, let uiImage = UIImage(data: imageData) {
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.width / 3) // Square frame
+                                            .clipped()
+                                    } else {
+                                        Rectangle()
+                                            .fill(Color.gray)
+                                            .frame(width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.width / 3) // Square frame
+                                    }
+                                    
+                                    // Date and Breakout Indicator
+                                    VStack(alignment: .center, spacing: 4) {
+                                        Text("\(journalImage.timestamp, formatter: dateFormatter)")
+                                            .font(.caption2)
+                                            .bold()
+                                            .multilineTextAlignment(.center)
+                                            .frame(width: 36, height: 36)
+                                            .background(Color.black.opacity(0.7))
+                                            .foregroundColor(.white)
+                                            .cornerRadius(4)
+                                        
+                                        if journalImage.isBreakout {
+                                            Triangle()
+                                                .fill(Color.yellow)
+                                                .frame(width: 12, height: 12)
+                                        }
+                                    }
+                                    .padding(6)
+                                }
+                                .onTapGesture {
+                                    selectedJournalImage = journalImage
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { // Add a small delay
+                                        isDetailJournalViewPresented = true
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-                .padding(.bottom, 20)
-                .padding(.top, 10)
+                Spacer()
             }
-            Spacer()
+            .padding(.horizontal, 0)
+            .sheet(isPresented: $isDetailJournalViewPresented) {
+                if let journalImage = selectedJournalImage {
+                    DetailJournalView(journalImage: .constant(journalImage), context: context)
+                }
+            }
         }
-        .padding()
     }
     
-//    private var calendarOverlay: some View {
-//        GeometryReader { geometry in
-//            let cellSize = geometry.size.width / 7
-//            VStack {
-//                ForEach(1..<32, id: \.self) { day in
-//                    let dateComponents = Calendar.current.dateComponents([.year, .month], from: selectedDate)
-//                    let date = Calendar.current.date(from: DateComponents(year: dateComponents.year, month: dateComponents.month, day: day))
-//                    
-//                    if let date = date,
-//                       Calendar.current.isDate(date, equalTo: selectedDate, toGranularity: .month) {
-//                        let dayOfWeek = Calendar.current.component(.weekday, from: date)
-//                        let row = (day + dayOfWeek - 2) / 7
-//                        let column = (dayOfWeek - 1) % 7
-//                        
-//                        // Position each marker precisely within each cell
-//                        Group {
-//                            if normalDays.contains(day) {
-//                                Circle()
-//                                    .fill(Color.green)
-//                                    .frame(width: 8, height: 8)
-//                                    .position(x: cellSize * CGFloat(column) + cellSize / 2, y: cellSize * CGFloat(row) + cellSize * 0.7)
-//                            } else if breakoutDays.contains(day) {
-//                                Triangle()
-//                                    .fill(Color.yellow)
-//                                    .frame(width: 10, height: 10)
-//                                    .position(x: cellSize * CGFloat(column) + cellSize / 2, y: cellSize * CGFloat(row) + cellSize * 0.7)
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
+    private func handleAddButtonTapped() {
+        // Check if there is a journal entry for the current date
+        if let todayEntry = viewModel.journalImages.first(where: { Calendar.current.isDateInToday($0.timestamp) }) {
+            // If a journal entry for today exists, show the detail view of the latest entry
+            selectedJournalImage = todayEntry
+            isDetailJournalViewPresented = true
+        } else {
+            // Otherwise, open the add journal view
+            isAddJournalViewPresented = true
+        }
+    }
 }
 
+// Define the Triangle shape if it is missing
 struct Triangle: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
@@ -134,8 +133,10 @@ struct Triangle: Shape {
     }
 }
 
-struct CalendarView_Previews: PreviewProvider {
-    static var previews: some View {
-        SkinHealthView()
-    }
-}
+// DateFormatter for displaying date
+private let dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "d\nMMM" // Display day and short month in Indonesian format, split into two lines
+    formatter.locale = Locale(identifier: "id_ID") // Set locale to Indonesian
+    return formatter
+}()

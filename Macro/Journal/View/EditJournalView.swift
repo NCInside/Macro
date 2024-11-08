@@ -1,19 +1,29 @@
 import SwiftUI
-import SwiftData
 
-struct AddJournalView: View {
+struct EditJournalView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: JournalImageViewModel
-    
+    var journalImage: JournalImage
+
     @State private var selectedImage: UIImage? = nil
     @State private var isActionSheetPresented = false
     @State private var isImagePickerPresented = false
     @State private var imagePickerSource: UIImagePickerController.SourceType = .photoLibrary
-    @State private var selectedDate = Date()
-    @State private var breakOut = false
-    @State private var praMens = false
-    @State private var inputNote: String = ""
-    
+    @State private var selectedDate: Date
+    @State private var breakOut: Bool
+    @State private var praMens: Bool
+    @State private var inputNote: String
+
+    init(viewModel: JournalImageViewModel, journalImage: JournalImage) {
+        self.viewModel = viewModel
+        self.journalImage = journalImage
+        _selectedImage = State(initialValue: journalImage.image.flatMap { UIImage(data: $0) })
+        _selectedDate = State(initialValue: journalImage.timestamp)
+        _breakOut = State(initialValue: journalImage.isBreakout)
+        _praMens = State(initialValue: journalImage.isMenstrual)
+        _inputNote = State(initialValue: journalImage.notes ?? "")
+    }
+
     var body: some View {
         ScrollView {
             VStack {
@@ -28,7 +38,7 @@ struct AddJournalView: View {
                     
                     Spacer()
                     
-                    Text("Pengaturan")
+                    Text("Edit Jurnal")
                         .foregroundColor(.black)
                         .fontWeight(.semibold)
                         .multilineTextAlignment(.center)
@@ -36,7 +46,7 @@ struct AddJournalView: View {
                     Spacer()
                     
                     Button(action: {
-                        saveJournalImage()
+                        updateJournalImage()
                     }) {
                         Text("Selesai")
                             .font(.headline)
@@ -105,6 +115,7 @@ struct AddJournalView: View {
                         )
                 )
                 .padding(.bottom, 36)
+                
                 // Breakout and PMS Toggles
                 HStack {
                     Text("Keterangan")
@@ -189,7 +200,6 @@ struct AddJournalView: View {
         }
     }
     
-    // ImagePicker Implementation
     struct ImagePicker: UIViewControllerRepresentable {
         @Binding var selectedImage: UIImage?
         var sourceType: UIImagePickerController.SourceType = .photoLibrary
@@ -227,18 +237,18 @@ struct AddJournalView: View {
             }
         }
     }
-    
-    private func saveJournalImage() {
+
+    private func updateJournalImage() {
         let imageData = selectedImage?.jpegData(compressionQuality: 1.0)
-        
-        viewModel.addJournalImage(
-            timestamp: selectedDate,
-            image: imageData,
+
+        viewModel.updateJournalImage(
+            journalImage: journalImage,
+            newImage: selectedImage,
             isBreakout: breakOut,
             isMenstrual: praMens,
             notes: inputNote.isEmpty ? nil : inputNote
         )
-        
+
         dismiss()
     }
 }
