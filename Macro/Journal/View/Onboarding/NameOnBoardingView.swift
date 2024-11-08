@@ -25,7 +25,7 @@ struct NameOnBoardingView: View {
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                         .padding()
-                        .padding(.top, 120)
+                        .padding(.top, 100)
                         .bold()
                         .toolbar {
                             ToolbarItemGroup(placement: .keyboard) {
@@ -69,7 +69,7 @@ struct NameOnBoardingView: View {
                         Text("Selanjutnya")
                             .foregroundColor(.white)
                     }
-                    .padding(.bottom, 20)
+                    .padding(.bottom, 10)
                     .offset(y: viewModel.keyboardHeight == 0 ? 0 : -viewModel.keyboardHeight / 14)
                     .animation(.easeOut(duration: 0.3), value: viewModel.keyboardHeight)
                 }

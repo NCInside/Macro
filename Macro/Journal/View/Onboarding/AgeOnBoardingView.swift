@@ -11,11 +11,11 @@ struct AgeOnBoardingView: View {
         NavigationView {
             VStack {
                 Text("Kapan tanggal lahirmu?")
-                    .font(.system(size: 24, weight: .bold))
+                    .bold()
+                    .font(.title)
                     .foregroundColor(.white)
-                    .padding(.top, 80)
+                    .padding(.top, 40)
                 
-                Spacer()
                 
                 // Custom date display and date picker button
                 Button(action: {
@@ -46,7 +46,7 @@ struct AgeOnBoardingView: View {
                         .font(.headline)
                     }
                     .presentationDetents([.fraction(0.4)]) // Customize the modal height
-                }
+                }.padding(.top, 140)
                 
                 Spacer()
 
@@ -74,7 +74,6 @@ struct AgeOnBoardingView: View {
                 viewModel.unsubscribeFromKeyboardEvents()
             }
         }
-        .navigationBarBackButtonHidden()
     }
     
     private func selectedDateFormatted() -> String {
