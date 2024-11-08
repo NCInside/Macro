@@ -26,14 +26,28 @@ struct HealthOnBoardingView: View {
                     .padding(.horizontal)
                     .foregroundColor(.white)
                 
-                Text("Penting!")
-                    .foregroundColor(.accentColor)
-                    .padding(.top)
-                    .padding(.horizontal)
-                
-                Text("Harap aktifkan semua kategori dalam dialog yang akan muncul. Tanpa akses penuh, Zora tidak akan dapat memberikan analisis dan wawasan yang lengkap.")
-                    .padding(.horizontal)
-                    .foregroundColor(.white)
+                VStack {
+                    HStack {
+                        Text("Penting!")
+                            .foregroundColor(Color.mainLight)
+                            .padding(.horizontal)
+                            .bold()
+                        
+                        Spacer()
+                    }
+                    .padding(.bottom, 4)
+                    .padding(.leading,3)
+                    
+                    Text("Harap aktifkan semua kategori dalam dialog yang akan muncul. Tanpa akses penuh, Zora tidak akan dapat memberikan analisis dan wawasan yang lengkap.")
+                        .padding(.horizontal)
+                        .foregroundColor(.white)
+                }
+                .frame(maxWidth: 370, maxHeight: 160)
+                .background(Color.mainLight.opacity(0.2))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .shadow(color: Color.black.opacity(0.2), radius: 3, x: 2, y: 2)
+                    .padding(.leading, 10)
+                    .padding(.top, 20)
                 
                 Spacer()
                 
@@ -84,3 +98,12 @@ struct HealthOnBoardingView: View {
         .navigationBarBackButtonHidden(true)
     }
 }
+
+struct HealthOnBoardingView_Previews: PreviewProvider {
+    static var previews: some View {
+        HealthOnBoardingView(hasCompletedOnboarding: .constant(false))
+            .environmentObject(HealthManager())
+    }
+}
+
+

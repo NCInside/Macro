@@ -31,11 +31,6 @@ struct PrivacyOnBoardingView: View {
                     .padding(.horizontal)
                     .foregroundColor(.white)
                 
-                Text("Pelajari lebih lanjut")
-                    .padding()
-                    .foregroundColor(.accentColor)
-                    .underline()
-                
                 Spacer()
                 NavigationLink(destination: HealthOnBoardingView(hasCompletedOnboarding: $hasCompletedOnboarding), isActive: $navigateToHealthOnBoarding){
                     Button(action: {
