@@ -186,6 +186,16 @@ class SummaryViewModel: ObservableObject {
         return bmr * activityLevel
     }
     
+    func hasBreakoutImage(on date: Date, in journalImages: [JournalImage]) -> Bool {
+        let calendar = Calendar.current
+        let targetDate = calendar.startOfDay(for: date)
+                
+        return journalImages.contains { image in
+            let imageDate = calendar.startOfDay(for: image.timestamp)
+            return imageDate == targetDate && image.isBreakout
+        }
+    }
+    
 }
 
 enum scenario {

@@ -237,9 +237,9 @@ struct DetailSummaryView: View {
                                 Chart {
                                     ForEach(data) { item in
                                         LineMark(x: .value("date", Calendar.current.component(.day, from: item.date)), y: .value("value", item.value))
-                                            .foregroundStyle(Color.mint)
+                                            .foregroundStyle(Color.main)
                                         
-                                        if hasBreakoutImage(on: item.date, in: journalImage) {
+                                        if viewModel.hasBreakoutImage(on: item.date, in: journalImage) {
                                             PointMark(x: .value("date", Calendar.current.component(.day, from: item.date)), y: .value("value", item.value))
                                                 .foregroundStyle(Color.red)
                                         }
@@ -298,9 +298,9 @@ struct DetailSummaryView: View {
                                         ForEach(week) { item in
                                             let dayIndex = Calendar.current.component(.weekday, from: item.date) - 2
                                             let dayName = dayIndex >= 0 ? daysOfWeek[dayIndex] : daysOfWeek[dayIndex + 7]
-                                            LineMark(x: .value("date", dayName), y: .value("value", item.value)) .foregroundStyle(Color.mint)
+                                            LineMark(x: .value("date", dayName), y: .value("value", item.value)) .foregroundStyle(Color.main)
                                             
-                                            if hasBreakoutImage(on: item.date, in: journalImage) {
+                                            if viewModel.hasBreakoutImage(on: item.date, in: journalImage) {
                                                 PointMark(x: .value("date", dayName), y: .value("value", item.value))
                                                     .foregroundStyle(Color.red)
                                             }
@@ -397,16 +397,6 @@ struct DetailSummaryView: View {
             dateFormatter.dateFormat = "dd MMM yyyy"
             weekPoints = viewModel.getWeeks(of: viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth))
             weekPointsPie = viewModel.getWeeksPie(of: viewModel.piePoints)
-        }
-    }
-    
-    func hasBreakoutImage(on date: Date, in journalImages: [JournalImage]) -> Bool {
-        let calendar = Calendar.current
-        let targetDate = calendar.startOfDay(for: date)
-                
-        return journalImages.contains { image in
-            let imageDate = calendar.startOfDay(for: image.timestamp)
-            return imageDate == targetDate && image.isBreakout
         }
     }
     

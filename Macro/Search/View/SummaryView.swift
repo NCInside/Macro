@@ -13,6 +13,7 @@ struct SummaryView: View {
     @StateObject private var viewModel = SummaryViewModel()
     @Environment(\.modelContext) var context
     @Query var journals: [Journal]
+    @Query var journalImage: [JournalImage]
     @State var chosenMonth = Calendar.current.component(.month, from: Date())
     @State var saturatedFat: Double = 0
     
@@ -153,10 +154,14 @@ struct SummaryView: View {
         // 1: Render Hello World with some modifiers
         let renderer = ImageRenderer(
             content: PDFPrintView(chosenMonth: chosenMonth,
+                                  avgSleep: viewModel.avgSleep,
+                                  avgFat: viewModel.avgFat,
+                                  avgDairy: viewModel.freqMilk,
                                   sleepPoints: sleepPoints,
                                   fatPoints: fatPoints,
                                   dairyPoints: dairyPoints,
-                                  giPoints: giPoints))
+                                  giPoints: giPoints,
+                                  journalImage: journalImage))
         
         // 2: Save it to our documents directory
         let url = URL.documentsDirectory.appending(path: "\(chosenMonth) Summary - \(UserDefaults.standard.string(forKey: "name") ?? "Unknown").pdf")
