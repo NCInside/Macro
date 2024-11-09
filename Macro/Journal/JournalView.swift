@@ -410,29 +410,37 @@ struct JournalView: View {
                     isDataLoaded.toggle()
                 }
                 
-                let content = UNMutableNotificationContent()
-                content.title = "Zora - Sleep"
-                content.subtitle = "Do not forget to input your sleep!"
-                content.sound = UNNotificationSound.default
-                
-                var dateComponents = DateComponents()
-                dateComponents.hour = 9
-                dateComponents.minute = 30
-                
-                let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-                
-                let notificationIdentifier = "uniqueNotificationId"
-                
-                // Cancel existing notification with the same identifier
-                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notificationIdentifier])
-                
-                let request = UNNotificationRequest(identifier: notificationIdentifier, content: content, trigger: trigger)
-                UNUserNotificationCenter.current().add(request) { error in
-                    if let error = error {
-                        print("Error adding notification: \(error.localizedDescription)")
+                // Get the value for "sleepConnected" from UserDefaults
+                let sleepConnected = UserDefaults.standard.bool(forKey: "sleepConnected")
+
+                // Check if sleepConnected is false, and if so, schedule the notification
+                if !sleepConnected {
+                    let content = UNMutableNotificationContent()
+                    content.title = "Zora - Sleep"
+                    content.subtitle = "Jangan lupa untuk memasukkan data tidur anda!"
+                    content.sound = UNNotificationSound.default
+                    
+                    var dateComponents = DateComponents()
+                    dateComponents.hour = 9
+                    dateComponents.minute = 30
+                    
+                    let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+                    let notificationIdentifier = "uniqueNotificationId"
+                    
+                    // Cancel existing notification with the same identifier
+                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notificationIdentifier])
+                    
+                    // Create the notification request
+                    let request = UNNotificationRequest(identifier: notificationIdentifier, content: content, trigger: trigger)
+                    
+                    // Add the notification request to the notification center
+                    UNUserNotificationCenter.current().add(request) { error in
+                        if let error = error {
+                            print("Error adding notification: \(error.localizedDescription)")
+                        }
                     }
                 }
-                
+
             }
             if showToast {
                 VStack {

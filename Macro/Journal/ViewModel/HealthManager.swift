@@ -26,6 +26,7 @@ class HealthManager: ObservableObject {
             ]
             
             if success {
+                UserDefaults.standard.set(true, forKey: "sleepConnected")
                 // Fetch and save the date of birth if available
                 if let birthDate = self.getUserDateOfBirth() {
                     self.saveDateOfBirthToUserDefaults(birthDate)
