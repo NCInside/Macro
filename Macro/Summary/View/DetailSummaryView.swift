@@ -110,56 +110,58 @@ struct DetailSummaryView: View {
                     }
                     
                     
-                    if let point = selectedPoint {
-                        VStack(alignment: .leading) {
-                            Text(descHeader)
-                                .foregroundStyle(.gray)
-                                .font(.subheadline)
-                                .bold()
-                            HStack(alignment: .bottom) {
-                                Text("\(point.value)")
-                                    .font(.title2)
+                    if (scenario != .gi) {
+                        if let point = selectedPoint {
+                            VStack(alignment: .leading) {
+                                Text(descHeader)
+                                    .foregroundStyle(.gray)
+                                    .font(.subheadline)
                                     .bold()
-                                Text("\(scenario == .sleep ? "Jam" : "Kali")")
-                                    .font(.caption)
-                                Spacer()
-                            }
-                            Text("\(dateFormatter.string(from: point.date))")
-                                .foregroundStyle(.gray)
-                                .font(.subheadline)
-                        }
-                        .padding(.bottom, 12)
-                        .offset(x: xPosition - 25)
-                        .onTapGesture {
-                            selectedPoint = nil
-                        }
-                    }
-                    else {
-                        VStack(alignment: .leading) {
-                            Text("RERATA " + descHeader)
-                                .foregroundStyle(.gray)
-                                .font(.subheadline)
-                                .bold()
-                            HStack(alignment: .bottom) {
-                                Text("\(String(scenario == .sleep ? average / 3600 : average))")
-                                    .font(.title2)
-                                    .bold()
-                                Text("\(scenario == .sleep ? "Jam" : "Kali")")
-                                    .font(.caption)
-                                if scenario == .sleep {
-                                    Text("\(String((average % 3600) / 60))")
+                                HStack(alignment: .bottom) {
+                                    Text("\(point.value)")
                                         .font(.title2)
                                         .bold()
-                                    Text("Menit")
+                                    Text("\(scenario == .sleep ? "Jam" : "Kali")")
                                         .font(.caption)
+                                    Spacer()
                                 }
-                                Spacer()
+                                Text("\(dateFormatter.string(from: point.date))")
+                                    .foregroundStyle(.gray)
+                                    .font(.subheadline)
                             }
-                            Text("1 \(months[chosenMonth - 1]) - \(lastDay(ofMonth: chosenMonth, year: 2024)) \(months[chosenMonth - 1]) 2024")
-                                .foregroundStyle(.gray)
-                                .font(.subheadline)
+                            .padding(.bottom, 12)
+                            .offset(x: xPosition - 25)
+                            .onTapGesture {
+                                selectedPoint = nil
+                            }
                         }
-                        .padding(.bottom, 12)
+                        else {
+                            VStack(alignment: .leading) {
+                                Text("RERATA " + descHeader)
+                                    .foregroundStyle(.gray)
+                                    .font(.subheadline)
+                                    .bold()
+                                HStack(alignment: .bottom) {
+                                    Text("\(String(scenario == .sleep ? average / 3600 : average))")
+                                        .font(.title2)
+                                        .bold()
+                                    Text("\(scenario == .sleep ? "Jam" : "Kali")")
+                                        .font(.caption)
+                                    if scenario == .sleep {
+                                        Text("\(String((average % 3600) / 60))")
+                                            .font(.title2)
+                                            .bold()
+                                        Text("Menit")
+                                            .font(.caption)
+                                    }
+                                    Spacer()
+                                }
+                                Text("1 \(months[chosenMonth - 1]) - \(lastDay(ofMonth: chosenMonth, year: 2024)) \(months[chosenMonth - 1]) 2024")
+                                    .foregroundStyle(.gray)
+                                    .font(.subheadline)
+                            }
+                            .padding(.bottom, 12)
+                        }
                     }
                     
                     if (scenario == .gi) {
@@ -188,24 +190,13 @@ struct DetailSummaryView: View {
                         else {
                             Text("Week \(selectedWeek)")
                             Chart {
-                                if weekPointsPie[selectedWeek] != nil {
-                                    ForEach(viewModel.piePoints, id: \.category) { item in
-                                        SectorMark(
-                                            angle: .value("Count", item.value)
-                                        )
-                                        .foregroundStyle(by: .value("Category", item.category))
-                                        .annotation(position: .overlay, alignment: .center) {
-                                            VStack {
-                                                Text(item.category + " GI")
-                                                    .font(.subheadline)
-                                                    .foregroundColor(.white)
-                                                    .bold()
-                                                Text(String(item.value) + "x")
-                                                    .font(.subheadline)
-                                                    .foregroundColor(.white)
-                                                    .bold()
-                                            }
-                                        }
+                                if let week = weekPointsPie[selectedWeek] {
+                                    ForEach(week) { item in
+                                        let dayIndex = Calendar.current.component(.weekday, from: item.date) - 2
+                                        let dayName = dayIndex >= 0 ? daysOfWeek[dayIndex] : daysOfWeek[dayIndex + 7]
+                                        BarMark(x: .value("date", dayName), y: .value("value", item.value)) 
+                                            .foregroundStyle(by: .value("Category", item.category))
+                                        
                                     }
                                 }
                             }

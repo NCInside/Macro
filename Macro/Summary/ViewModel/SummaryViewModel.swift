@@ -208,7 +208,8 @@ struct Point: Identifiable {
     let value: Int
 }
 
-struct PiePoint {
+struct PiePoint: Identifiable {
+    let id = UUID()
     let date: Date
     let category: String
     let value: Int
