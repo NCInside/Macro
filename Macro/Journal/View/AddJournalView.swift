@@ -28,10 +28,11 @@ struct AddJournalView: View {
                     
                     Spacer()
                     
-                    Text("Pengaturan")
+                    Text("Tambah Foto")
                         .foregroundColor(.black)
                         .fontWeight(.semibold)
                         .multilineTextAlignment(.center)
+                        .padding(.trailing, 32)
                     
                     Spacer()
                     
@@ -40,7 +41,7 @@ struct AddJournalView: View {
                     }) {
                         Text("Selesai")
                             .font(.headline)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.accentColor)
                             .padding(.leading, 6)
                     }
                 }
@@ -54,9 +55,9 @@ struct AddJournalView: View {
                     }) {
                         ZStack {
                             Rectangle()
-                                .fill(Color.gray.opacity(0.2))
+                                .fill(selectedImage == nil ? Color.gray.opacity(0.2) : Color.white)
                                 .frame(width: 240, height: 300)
-                                .shadow(radius: 5)
+                                .shadow(radius: selectedImage == nil ? 5 : 0)
                             
                             if let image = selectedImage {
                                 Image(uiImage: image)
@@ -130,39 +131,39 @@ struct AddJournalView: View {
                             .labelsHidden()
                             .padding(.trailing, 10)
                     }
-                    .padding(.vertical, 10)
-                    .background(Color(UIColor.systemBackground))
+                    .padding(.vertical, 6)
+                    .background(Color(UIColor.white))
                     
                     Divider()
                         .padding(.leading)
                     
-                    // PMS Toggle
                     HStack {
-                        VStack(alignment: .leading){
-                            Text("Apakah Sedang PMS?")
-                                .padding(.leading, 10)
-                        }
-                        .frame(maxWidth: .infinity)
+                        Text("Apakah Sedang PMS?")
+                            .padding(.leading, 16)
+                            
+                        Spacer()
                         
                         Toggle("", isOn: $praMens)
                             .labelsHidden()
                             .padding(.trailing, 10)
                     }
-                    .padding(.vertical, 10)
-                    .background(Color(UIColor.systemBackground))
+                    .padding(.top, 4)
+                    .padding(.vertical, 6)
+                    .background(Color(UIColor.white))
                 }
-                .background(Color(UIColor.systemBackground))
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .padding(.bottom, 14)
+                .padding(.vertical, 8)
+                .background(Color.white)
+                .cornerRadius(10)
                 
                 // Notes Section
                 HStack {
                     Text("Catatan Tambahan")
                         .font(.footnote)
-                        .padding(.leading, 10)
-                    
+                        
                     Spacer()
                 }
+                .padding(.leading, 10)
+                .padding(.top, 10)
                 
                 VStack(spacing: 0) {
                     HStack {
@@ -177,7 +178,7 @@ struct AddJournalView: View {
                 .padding(.bottom, 14)
             }
             .padding()
-            .background(Color(UIColor.systemBackground))
+            .background(Color(.systemGray6).ignoresSafeArea())
             .frame(maxHeight: .infinity)
             .toolbar {
                 ToolbarItem(placement: .keyboard) {
@@ -187,6 +188,7 @@ struct AddJournalView: View {
                 }
             }
         }
+        .background(Color(.systemGray6).ignoresSafeArea())
     }
     
     // ImagePicker Implementation
@@ -241,4 +243,8 @@ struct AddJournalView: View {
         
         dismiss()
     }
+}
+
+#Preview{
+    ContentView()
 }

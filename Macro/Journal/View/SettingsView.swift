@@ -23,6 +23,8 @@ struct SettingsView: View {
     
     @State private var showDatePicker = false
     @Environment(\.dismiss) private var dismiss
+    @State private var  isDatePickerEnabled = false
+    @State private var isDatePickerVisible = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -35,10 +37,11 @@ struct SettingsView: View {
                     saveSettings()
                     dismiss()
                 }
+                .foregroundColor(.accentColor)
                 
                 Spacer()
                 
-                Text("Pengaturan")
+                Text("Profil")
                     .foregroundColor(.black)
                     .fontWeight(.semibold)
                 
@@ -61,55 +64,60 @@ struct SettingsView: View {
                 .font(.caption)
                 .padding(.horizontal, 4)
                 .padding(.top, 10)
+                .padding(.leading, 10)
             
             VStack(spacing: 0) {
-                HStack {
+                HStack{
                     Text("Nama")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frame(width: 140, alignment: .leading)
                     
                     TextField("Nama", text: $inputName)
-                        .multilineTextAlignment(.trailing)
+                        .multilineTextAlignment(.leading)
                         .foregroundColor(.gray)
-                        .padding(.trailing, 16)
-                        .onChange(of: inputName) { newValue in
-                            UserDefaults.standard.set(newValue, forKey: "name")
-                        }
+                                    .padding(.vertical, 10)
+                                    .padding(.trailing, 18)
+                                    .onChange(of: inputName) { newValue in
+                                        UserDefaults.standard.set(newValue, forKey: "name")
+                                    }
+                    
                 }
                 .background(Color(UIColor.systemBackground))
                 
                 Divider()
                     .padding(.leading)
                 
-                // Date of Birth Field
                 HStack {
                     Text("Tanggal Lahir")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frame(width: 140, alignment: .leading)
                     
-                    Button(action: {
-                        showDatePicker.toggle()
-                    }) {
-                        Text(dateFormatted(inputDayOfBirth))
-                            .foregroundColor(.gray)
-                            .padding(.trailing, 16)
-                    }
-                    .sheet(isPresented: $showDatePicker) {
-                        VStack {
-                            DatePicker("Pilih Tanggal Lahir", selection: $inputDayOfBirth, in: ...Date(), displayedComponents: .date)
-                                .datePickerStyle(.wheel)
-                                .labelsHidden()
-                                .padding()
-                            
-                            Button("Selesai") {
-                                showDatePicker = false
-                                saveBirthDate(inputDayOfBirth)
-                            }
-                            .padding()
+                    HStack {
+                        Button(action: {
+                            showDatePicker.toggle()
+                        }) {
+                            Text(dateFormatted(inputDayOfBirth))
+                                .foregroundColor(.gray)
                         }
-                        .presentationDetents([.fraction(0.4)])
+                        .sheet(isPresented: $showDatePicker) {
+                            VStack {
+                                DatePicker("Pilih Tanggal Lahir", selection: $inputDayOfBirth, in: ...Date(), displayedComponents: .date)
+                                    .datePickerStyle(.wheel)
+                                    .labelsHidden()
+                                    .padding()
+                                
+                                Button("Selesai") {
+                                    showDatePicker = false
+                                    saveBirthDate(inputDayOfBirth)
+                                }
+                                .padding()
+                            }
+                            .presentationDetents([.fraction(0.4)])
+                        }
+                        
+                        Spacer()
                     }
                 }
                 .background(Color(UIColor.systemBackground))
@@ -123,46 +131,58 @@ struct SettingsView: View {
                 .font(.caption)
                 .padding(.horizontal, 4)
                 .padding(.top, 10)
+                .padding(.leading, 10)
             
             VStack(spacing: 0) {
                 // Nutrition Reminder Toggle with Time Picker
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("Pengingat Pengisian Nutrisi")
-                            .foregroundColor(.primary)
+                        HStack {
+                            Text("Pengingat Pengisian Jurnal")
+                                .foregroundColor(.primary)
+                            
+                            Spacer()
+                            
+                            Toggle("", isOn: $nutritionReminder)
+                                .labelsHidden()
+                                .onChange(of: nutritionReminder) { isEnabled in
+                                    toggleNutritionReminderNotification(isEnabled: isEnabled)
+                                }
+                                .frame(maxHeight: 20)
+                        }
                         
-                        Text("Diberitahu jika belum ada data di jam yang ditentukan")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
+                        if nutritionReminder {
+                            Text(reminderTime, style: .time)
+                                .padding(.top, -6)
+                                .font(.subheadline)
+                                .foregroundColor(.accentColor)
+                                .onTapGesture {
+                                    withAnimation {
+                                        isDatePickerVisible.toggle()
+                                    }
+                                }
+                                
+                            if isDatePickerVisible {
+                                                DatePicker("", selection: $reminderTime, displayedComponents: .hourAndMinute)
+                                                    .datePickerStyle(.wheel)
+                                                    .labelsHidden()
+                                                    .frame(maxWidth: .infinity)
+                                                    .padding(.top, 4)
+                                                    .onChange(of: reminderTime) { newTime in
+                                                        UserDefaults.standard.set(newTime, forKey: "reminderTime")
+                                                        rescheduleNutritionReminderNotification()
+                                                        
+                                                    }
+                                            }
+                        }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    Toggle("", isOn: $nutritionReminder)
-                        .labelsHidden()
-                        .onChange(of: nutritionReminder) { isEnabled in
-                            toggleNutritionReminderNotification(isEnabled: isEnabled)
-                        }
                 }
                 .padding()
                 .background(Color(UIColor.systemBackground))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
-                
-                // Time Picker for Notification
-                if nutritionReminder {
-                    DatePicker("Waktu Pengingat", selection: $reminderTime, displayedComponents: .hourAndMinute)
-                        .datePickerStyle(.compact)
-                        .onChange(of: reminderTime) { newTime in
-                            UserDefaults.standard.set(newTime, forKey: "reminderTime")
-                            rescheduleNutritionReminderNotification() // Reschedule notification with updated time
-                        }
-                        .padding()
-                        .background(Color(UIColor.systemBackground))
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
             }
-            .background(Color(UIColor.systemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .padding(.bottom, 14)
+
             
             Spacer()
         }
@@ -231,5 +251,16 @@ struct SettingsView: View {
         UserDefaults.standard.set(nutritionReminder, forKey: "nutritionReminder")
         UserDefaults.standard.set(reminderTime, forKey: "reminderTime")
         saveBirthDate(inputDayOfBirth)
+    }
+}
+
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+       
+        let journalViewModel = JournalViewModel()
+        let sampleJournals: [Journal] = []
+
+        SettingsView(journalViewModel: journalViewModel, journals: sampleJournals)
+            .environment(\.locale, .init(identifier: "id"))
     }
 }

@@ -38,6 +38,7 @@ struct SkinHealthView: View {
                         AddJournalView(viewModel: viewModel)
                     }
                 }
+                .padding(.horizontal)
                 .padding(.bottom, 10)
                 
                 if viewModel.journalImages.isEmpty {
@@ -80,7 +81,7 @@ struct SkinHealthView: View {
                                         if journalImage.isBreakout {
                                             Triangle()
                                                 .fill(Color.yellow)
-                                                .frame(width: 12, height: 12)
+                                                .frame(width: 20, height: 20)
                                         }
                                     }
                                     .padding(6)
@@ -96,16 +97,16 @@ struct SkinHealthView: View {
                 Spacer()
                 
                 // Button to add dummy data
-                Button(action: {
-                    viewModel.addDummyData()
-                }) {
-                    Text("Add Dummy Data for Testing")
-                        .foregroundColor(.blue)
-                        .padding()
-                        .background(Color.blue.opacity(0.1))
-                        .cornerRadius(8)
-                }
-                .padding(.bottom, 16)
+//                Button(action: {
+//                    viewModel.addDummyData()
+//                }) {
+//                    Text("Add Dummy Data for Testing")
+//                        .foregroundColor(.blue)
+//                        .padding()
+//                        .background(Color.blue.opacity(0.1))
+//                        .cornerRadius(8)
+//                }
+//                .padding(.bottom, 16)
             }
             .padding(.horizontal, 0)
             .onChange(of: selectedJournalImage) { _ in
@@ -121,21 +122,16 @@ struct SkinHealthView: View {
                 }
             }
         }
+        .background(Color.background)
     }
 
     
     private func handleAddButtonTapped() {
         // Check if there is a journal entry for the current date
-        if let todayEntry = viewModel.journalImages.first(where: { Calendar.current.isDateInToday($0.timestamp) }) {
-            // If a journal entry for today exists, show the detail view of the latest entry
-            selectedJournalImage = todayEntry
-            isDetailJournalViewPresented = true
-        } else {
-            // Otherwise, open the add journal view
-            isAddJournalViewPresented = true
-        }
+        isAddJournalViewPresented = true
     }
 }
+    
 
 // Define the Triangle shape if it is missing
 struct Triangle: Shape {
@@ -156,3 +152,5 @@ private let dateFormatter: DateFormatter = {
     formatter.locale = Locale(identifier: "id_ID") // Set locale to Indonesian
     return formatter
 }()
+
+

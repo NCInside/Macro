@@ -288,22 +288,19 @@ class JournalViewModel: ObservableObject {
         switch totalMinutes {
         case 0:
             return """
-                        Tidak ada data
+                       Tidak ada data
                        """
         case ..<480:
             return """
-                        Kayaknya tidurmu kurang, nih! 
-                        Banyakin istirahat, ya
+                        Tidurmu kurang, banyak istirahat ya!
                        """
         case 480...600:
             return """
-                        Yay! Tidurmu tercukupi, nih!
-                        Pertahankan, ya
+                        Tidurmu sudah baik, pertahankan ya!
                        """
         default:
             return """
-                        Kayanya tidurmu kebanyakan, nih! 
-                        Banyakin aktivitas ya
+                        Tidurmu berlebihan, banyakin aktivitas ya!
                        """
         }
     }

@@ -41,7 +41,7 @@ struct EditJournalView: View {
                 deleteButton
             }
             .padding()
-            .background(Color(UIColor.systemBackground))
+            .background(Color(.systemGray6).ignoresSafeArea())
             .frame(maxHeight: .infinity)
             .toolbar {
                 ToolbarItem(placement: .keyboard) {
@@ -55,6 +55,7 @@ struct EditJournalView: View {
                 Button("Cancel", role: .cancel, action: {})
             }
         }
+        .background(Color(.systemGray6).ignoresSafeArea())
     }
     
     // MARK: - Header Section
@@ -74,13 +75,14 @@ struct EditJournalView: View {
                 .foregroundColor(.black)
                 .fontWeight(.semibold)
                 .multilineTextAlignment(.center)
+                .padding(.trailing,36)
             
             Spacer()
             
             Button(action: updateJournalImage) {
                 Text("Selesai")
                     .font(.headline)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.accentColor)
                     .padding(.leading, 6)
             }
         }
@@ -96,9 +98,8 @@ struct EditJournalView: View {
             }) {
                 ZStack {
                     Rectangle()
-                        .fill(Color.gray.opacity(0.2))
+                        .fill(Color.white)
                         .frame(width: 240, height: 300)
-                        .shadow(radius: 5)
                     
                     if let image = selectedImage {
                         Image(uiImage: image)
@@ -151,14 +152,25 @@ struct EditJournalView: View {
     
     // MARK: - Information Section
     private var informationSection: some View {
-        VStack(spacing: 0) {
-            informationToggle(title: "Apakah Sedang Breakout?", description: "Kulit iritasi, kemerahan, dan berjerawat", isOn: $breakOut)
-            Divider().padding(.leading)
-            informationToggle(title: "Apakah Sedang PMS?", description: "", isOn: $praMens)
+        VStack{
+            HStack{
+            Text("Keterangan")
+                .font(.footnote)
+                .padding(.leading, 10)
+                
+                Spacer()
         }
-        .background(Color(UIColor.systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .padding(.bottom, 14)
+            
+            VStack(spacing: 0) {
+                informationToggle(title: "Apakah Sedang Breakout?", description: "Kulit iritasi, kemerahan, dan berjerawat", isOn: $breakOut)
+                Divider().padding(.leading)
+                informationToggle(title: "Apakah Sedang PMS?", description: "", isOn: $praMens)
+                    .padding(.leading, -100)
+            }
+            .background(Color(UIColor.systemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .padding(.bottom, 14)
+        }
     }
     
     private func informationToggle(title: String, description: String, isOn: Binding<Bool>) -> some View {
@@ -189,6 +201,7 @@ struct EditJournalView: View {
                 Text("Catatan Tambahan")
                     .font(.footnote)
                     .padding(.leading, 10)
+                    .padding(.bottom, 10)
                 
                 Spacer()
             }
@@ -212,12 +225,16 @@ struct EditJournalView: View {
         Button(role: .destructive, action: {
             showDeleteConfirmation = true
         }) {
-            Text("Delete Entry")
-                .foregroundColor(.red)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.red.opacity(0.1))
-                .cornerRadius(10)
+            HStack {
+                Text("Hapus Jurnal")
+                    .foregroundColor(.red)
+                    .padding()
+                    .frame(maxWidth: 360, alignment: .leading)
+                    .background(Color.white)
+                    .cornerRadius(10)
+                
+                
+            }
         }
     }
 

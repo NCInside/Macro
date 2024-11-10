@@ -76,7 +76,7 @@ struct JournalView: View {
                                 Button(action: {
                                     isSettingsViewPresented = true
                                 }) {
-                                    Image(systemName: "gearshape")
+                                    Image(systemName: "person")
                                         .imageScale(.large)
                                         .foregroundColor(.accentColor)
                                 }
@@ -86,7 +86,7 @@ struct JournalView: View {
                                 }
                                 
                             }
-                            .padding(.top, 10)
+                            .padding(.top, 16)
                             .padding(.horizontal)
                             
                             
@@ -124,7 +124,9 @@ struct JournalView: View {
                                             }
                                 }
                                 .padding(.horizontal)
+                                
                             }
+                            .padding(.top, -8)
                             
                             if showDatePicker {
                                 DatePickerView(showDatePicker: $showDatePicker, savedDate: $savedDate, selectedDate: $viewModel.selectedDate)
@@ -137,7 +139,7 @@ struct JournalView: View {
                             
                             HStack(alignment: .bottom){
                                 Text("Waktu Tidur")
-                                    .font(.title3)
+                                    .font(.title2)
                                     .fontWeight(.semibold)
                                 Spacer()
                                 
@@ -147,7 +149,7 @@ struct JournalView: View {
                                     Text("Edit")
                                         .foregroundColor(.accentColor)
                                 }
-                                .padding(.top, 10)
+                                .padding(.top, 20)
                                 .padding(.trailing, 4)
                                 
                             }
@@ -200,7 +202,7 @@ struct JournalView: View {
                             HStack(alignment: .bottom) {
                                 Text("Detail Makanan")
                                     .font(.title2)
-                                    .fontWeight(.bold)
+                                    .fontWeight(.semibold)
                                     .padding()
                                 Spacer()
                                 
@@ -216,6 +218,7 @@ struct JournalView: View {
                             .sheet(isPresented: $viewModel.isDietViewPresented) {
                                 SearchView(isDetailViewPresented: $viewModel.isDietViewPresented, date: viewModel.selectedDate)
                             }
+                            .padding(.top, 6)
                             
                             VStack(spacing: 10) {
                                 HStack(spacing: 10) {
@@ -229,12 +232,6 @@ struct JournalView: View {
                                             
                                             Spacer()
                                         }
-                                        .background(
-                                            Image("drumstick")
-                                                .padding(.bottom, -42),
-                                            alignment: .bottomTrailing
-                                        )
-                                        
                                         
                                         HStack(alignment: .firstTextBaseline, spacing: 0) {
                                             Text(String(viewModel.calcFat(journals: journals)))
@@ -302,10 +299,13 @@ struct JournalView: View {
                                             if let low = GIs?[.low] {
                                                 Text("\(String(low))")
                                                     .bold()
+                                                    .padding(.leading, -10)
                                             } else {
                                                 Text("0")
                                                     .bold()
+                                                    .padding(.leading, -10)
                                             }
+                                                
                                             
                                             Spacer()
                                             Divider()
@@ -315,9 +315,11 @@ struct JournalView: View {
                                             if let medium = GIs?[.medium] {
                                                 Text("\(String(medium))")
                                                     .bold()
+                                                    .padding(.leading, -10)
                                             } else {
                                                 Text("0")
                                                     .bold()
+                                                    .padding(.leading, -10)
                                             }
                                             
                                             Spacer()
@@ -328,9 +330,11 @@ struct JournalView: View {
                                             if let high = GIs?[.high] {
                                                 Text("\(String(high))")
                                                     .bold()
+                                                    .padding(.leading, -10)
                                             } else {
                                                 Text("0")
                                                     .bold()
+                                                    .padding(.leading, -10)
                                             }
                                             
                                             Spacer()
@@ -350,7 +354,7 @@ struct JournalView: View {
                             HStack(alignment: .bottom) {
                                 Text("Riwayat Harian")
                                     .font(.title2)
-                                    .fontWeight(.bold)
+                                    .fontWeight(.semibold)
                                 //                                .padding()
                                 
                                 Spacer()
