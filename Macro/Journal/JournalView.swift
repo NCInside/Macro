@@ -40,7 +40,7 @@ struct JournalView: View {
     
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "d MMMM yyyy"
+        formatter.dateFormat = "EEEE, d MMMM yyyy"
         formatter.locale = Locale(identifier: "id_ID")
         return formatter
     }
@@ -108,7 +108,7 @@ struct JournalView: View {
                                     Button(action: {
                                         showDatePicker.toggle()
                                     }) {
-                                        Text("Hari ini, \(dateFormatter.string(from: viewModel.selectedDate))")
+                                        Text(" \(dateFormatter.string(from: viewModel.selectedDate))")
                                             .fontWeight(.semibold)
                                     }
                                     .padding()
