@@ -25,6 +25,9 @@ struct AddSleepCard: View {
                 Button(action: {
                     withAnimation {
                         showStartPicker.toggle()
+                        if showStartPicker {
+                            showEndPicker = false
+                        }
                     }
                 }) {
                     HStack {
@@ -68,6 +71,9 @@ struct AddSleepCard: View {
                 Button(action: {
                     withAnimation {
                         showEndPicker.toggle()
+                        if showEndPicker {
+                            showStartPicker = false
+                        }
                     }
                 }) {
                     HStack {
@@ -92,10 +98,10 @@ struct AddSleepCard: View {
             }
             
             if showEndPicker {
-                DatePicker("", selection: $endDate, displayedComponents: [.date, .hourAndMinute])
-                    .datePickerStyle(WheelDatePickerStyle())
-                    .labelsHidden()
-            }
+                           DatePicker("", selection: $endDate, in: startDate..., displayedComponents: [.date, .hourAndMinute])
+                               .datePickerStyle(WheelDatePickerStyle())
+                               .labelsHidden()
+                       }
             
         }
         .frame(width: 360)

@@ -46,7 +46,7 @@ struct AddSleepView: View {
                 }
                 .foregroundColor(.mainLight)
                 Spacer()
-                Text("TIDUR")
+                Text("Tidur")
                     .bold()
                 Spacer()
                 
@@ -96,7 +96,32 @@ struct AddSleepView: View {
             }
             
             
-            AddSleepCard(startDate: $startDate1, endDate: $endDate1, showStartPicker: $showStartPicker1, showEndPicker: $showEndPicker1)
+            AddSleepCard(
+                            startDate: $startDate1,
+                            endDate: $endDate1,
+                            showStartPicker: Binding(
+                                get: { showStartPicker1 },
+                                set: { newValue in
+                                    showStartPicker1 = newValue
+                                    if newValue {
+                                        showEndPicker1 = false
+                                        showStartPicker2 = false
+                                        showEndPicker2 = false
+                                    }
+                                }
+                            ),
+                            showEndPicker: Binding(
+                                get: { showEndPicker1 },
+                                set: { newValue in
+                                    showEndPicker1 = newValue
+                                    if newValue {
+                                        showStartPicker1 = false
+                                        showStartPicker2 = false
+                                        showEndPicker2 = false
+                                    }
+                                }
+                            )
+                        )
             
             Button(action: {
                 withAnimation {
@@ -116,8 +141,33 @@ struct AddSleepView: View {
                 
             }
             if showAddSleepCard {
-                AddSleepCard(startDate: $startDate2, endDate: $endDate2, showStartPicker: $showStartPicker2, showEndPicker: $showEndPicker2)
-            }
+                            AddSleepCard(
+                                startDate: $startDate2,
+                                endDate: $endDate2,
+                                showStartPicker: Binding(
+                                    get: { showStartPicker2 },
+                                    set: { newValue in
+                                        showStartPicker2 = newValue
+                                        if newValue {
+                                            showStartPicker1 = false
+                                            showEndPicker1 = false
+                                            showEndPicker2 = false
+                                        }
+                                    }
+                                ),
+                                showEndPicker: Binding(
+                                    get: { showEndPicker2 },
+                                    set: { newValue in
+                                        showEndPicker2 = newValue
+                                        if newValue {
+                                            showStartPicker1 = false
+                                            showEndPicker1 = false
+                                            showStartPicker2 = false
+                                        }
+                                    }
+                                )
+                            )
+                        }
         }
         .padding()
         .frame(maxHeight: .infinity, alignment: .top)

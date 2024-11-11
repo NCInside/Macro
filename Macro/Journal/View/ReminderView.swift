@@ -20,9 +20,9 @@ struct ReminderView: View {
                 // Title for the section
                 Text("KUNJUNGAN")
                     .font(.caption)
-                    .foregroundColor(.gray)
                     .padding(.horizontal)
                     .padding(.top, 16)
+                    .padding(.leading, 12)
 
                 // Reminder list and Add Reminder button
                 ScrollView {
@@ -49,7 +49,7 @@ struct ReminderView: View {
                             Text("Kontrol terdekat berada di posisi paling atas. Ketuk Edit untuk menghapus pengingat kunjungan")
                                 .font(.footnote)
                                 .foregroundColor(.gray)
-                                .padding(.horizontal)
+                                .padding(.horizontal, 12)
                                 .padding(.top, 8)
                                 .padding(.bottom, 8)
                         }
@@ -75,7 +75,7 @@ struct ReminderView: View {
                 }) {
                     HStack {
                         Image(systemName: "chevron.left")
-                        Text("Journal")
+                        Text("Jurnal")
                     }
                 },
                 trailing: Button(isEditing ? "Selesai" : "Edit") {
@@ -174,7 +174,11 @@ struct ReminderListItemView: View {
         .background(Color.white)
         .cornerRadius(10, corners: getRoundedCorners())
         .padding(.horizontal)
-        .shadow(radius: 1)
+        
+        if !isLast {
+                        Divider()
+                .padding(.horizontal, 32)
+                    }
     }
     
     // Determine which corners to round
@@ -198,8 +202,7 @@ struct ReminderItemView: View {
 
     private var formattedVisitDateTime: String {
         let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .short // Include time in the formatting
+        formatter.dateFormat = "dd/MM/yyyy - HH.mm"
         return formatter.string(from: reminder.visitDate)
     }
 
@@ -231,7 +234,7 @@ struct AddReminderButton: View {
     var body: some View {
         Button(action: action) {
             HStack {
-                Text("Tambahkan kunjungan")
+                Text("Tambah kunjungan")
                     .foregroundColor(.primary)
                 Spacer()
                 Image(systemName: "chevron.right")
@@ -240,7 +243,6 @@ struct AddReminderButton: View {
             .padding()
             .background(Color.white)
             .cornerRadius(8)
-            .shadow(radius: 1)
         }
     }
 }
@@ -280,3 +282,5 @@ enum SheetMode: Identifiable {
         }
     }
 }
+
+
