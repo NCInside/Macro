@@ -26,7 +26,7 @@ struct AddReminderView: View {
     @Environment(\.modelContext) private var modelContext
     
     init(reminder: Reminder? = nil,
-         notifications: Binding<[Bool]>,
+         notifications: Binding<[Bool]> = .constant([true, false, false, false, false, false]),
          onSave: @escaping (ModelContext, Reminder) -> Void,
          onDelete: (() -> Void)? = nil) {
         if let reminder = reminder {
@@ -41,15 +41,14 @@ struct AddReminderView: View {
             self.isEditMode = false
             self.reminderToEdit = nil
         }
+        
+        // Ensure notifications array is passed in correctly
         self._notifications = notifications
         self.onSave = onSave
         self.onDelete = onDelete
-        
-        if notifications.wrappedValue.count >= 6 {
-            self._notifications.wrappedValue[0] = true
-        }
-        
     }
+
+
     
     var body: some View {
         NavigationView {
@@ -155,10 +154,16 @@ struct AddReminderView: View {
                         saveReminder()
                     }.disabled(clinicName.trimmingCharacters(in: .whitespaces).isEmpty)
                 )
+                .onAppear {
+                    if !isEditMode {
+                        notifications[0] = true
+                    }
+                }
             }
             .background(Color(.systemGray6).ignoresSafeArea())
         }
     }
+
     
     
     private func saveReminder() {
