@@ -16,6 +16,7 @@ struct DetailSummaryView: View {
     var average: Int
     let dayFormatter = DateFormatter()
     let dateFormatter = DateFormatter()
+    let weekFormatter = DateFormatter()
     let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     let months = [
         "January", "February", "March", "April", "May", "June",
@@ -156,9 +157,16 @@ struct DetailSummaryView: View {
                                     }
                                     Spacer()
                                 }
-                                Text("1 \(months[chosenMonth - 1]) - \(lastDay(ofMonth: chosenMonth, year: 2024)) \(months[chosenMonth - 1]) 2024")
-                                    .foregroundStyle(.gray)
-                                    .font(.subheadline)
+                                if viewModel.selectedTab == "Bulanan" {
+                                    Text("1 \(months[chosenMonth - 1]) - \(lastDay(ofMonth: chosenMonth, year: 2024)) \(months[chosenMonth - 1]) 2024")
+                                        .foregroundStyle(.gray)
+                                        .font(.subheadline)
+                                }
+                                else {
+                                    Text("\(weekFormatter.string(from: getFirstAndLastDateOfWeek(week: selectedWeek, month: chosenMonth, year: 2024).firstDate ?? Date())) - \(weekFormatter.string(from: getFirstAndLastDateOfWeek(week: selectedWeek, month: chosenMonth, year: 2024).lastDate ?? Date()))")
+                                        .foregroundStyle(.gray)
+                                        .font(.subheadline)
+                                }
                             }
                             .padding(.bottom, 12)
                         }
@@ -377,17 +385,19 @@ struct DetailSummaryView: View {
                             .offset(y: selectedPoint != nil ? -187 : 0)
                         }
                     }
-                    HStack {
-                        Circle()
-                            .foregroundStyle(Color.red)
-                            .frame(width: 12)
-                        Text("BREAKOUT")
-                            .bold()
-                            .font(.subheadline)
-                        Spacer()
+                    if (scenario != .gi) {
+                        HStack {
+                            Circle()
+                                .foregroundStyle(Color.red)
+                                .frame(width: 12)
+                            Text("BREAKOUT")
+                                .bold()
+                                .font(.subheadline)
+                            Spacer()
+                        }
+                        .padding(.leading, 24)
+                        .offset(y: selectedPoint != nil ? -187 : 0)
                     }
-                    .padding(.leading, 24)
-                    .offset(y: selectedPoint != nil ? -187 : 0)
                 }
                 Spacer()
             }
@@ -397,6 +407,7 @@ struct DetailSummaryView: View {
             print(journalImage)
             dayFormatter.dateFormat = "EEEE"
             dateFormatter.dateFormat = "dd MMM yyyy"
+            weekFormatter.dateFormat = "dd MMM"
             weekPoints = viewModel.getWeeks(of: viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth))
             weekPointsPie = viewModel.getWeeksPie(of: viewModel.piePoints)
         }
@@ -409,6 +420,25 @@ struct DetailSummaryView: View {
         comps.setValue(0, for: .day)
         let date = cal.date(from: comps)!
         return cal.component(.day, from: date)
+    }
+    
+    func getFirstAndLastDateOfWeek(week: Int, month: Int, year: Int) -> (firstDate: Date?, lastDate: Date?) {
+        let calendar = Calendar.current
+        var components = DateComponents()
+        components.year = year
+        components.month = month
+        components.weekOfMonth = week
+        components.weekday = calendar.firstWeekday  // typically Sunday or Monday, depending on the locale
+
+        // Get the first date of the week
+        guard let firstDate = calendar.date(from: components) else {
+            return (nil, nil)
+        }
+
+        // Get the last date of the week by adding 6 days to the first date
+        let lastDate = calendar.date(byAdding: .day, value: 6, to: firstDate)
+
+        return (firstDate, lastDate)
     }
 }
 
