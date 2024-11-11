@@ -15,12 +15,12 @@ struct FoodDetailHistoryView: View {
         VStack {
             VStack(spacing: 0) {
                 HStack {
-                    Text("Fat")
+                    Text("Jenis Lemak")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(.black)
-                    Text(String(food.fat) + "gr")
+                    Text(food.fat >= 5 ? "Jenuh" : "Tidak Jenuh")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .trailing)
@@ -35,7 +35,7 @@ struct FoodDetailHistoryView: View {
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(.black)
-                    Text(food.dairy ? "Yes" : "No")
+                    Text(food.dairy ? "Ada" : "Tidak Ada")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .trailing)
@@ -45,7 +45,7 @@ struct FoodDetailHistoryView: View {
                 Divider()
                     .padding(.leading)
                 HStack {
-                    Text("Glycemic")
+                    Text("Indeks Glikemik")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -70,11 +70,11 @@ struct FoodDetailHistoryView: View {
     private func giToString(gi: glycemicIndex) -> String {
         switch gi {
         case .low:
-            return "Low"
+            return "Rendah"
         case .medium:
-            return "Medium"
+            return "Sedang"
         case .high:
-            return "High"
+            return "Tinggi"
         }
     }
 }

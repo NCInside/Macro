@@ -150,7 +150,7 @@ struct AddFoodView: View {
                 gi = 0
             }
             let dairy = selectedMilkOption == "Ada" ? 1 : 0
-            let fat = selectedFatOption == "Jenuh" ? 14 : 0
+            let fat = selectedFatOption == "Jenuh" ? 6 : 0
             viewModel.addFoodName(name: inputName, cookingTechnique: cook, glycemicIndex: gi, dairies: dairy, saturatedFat: Double(fat), gramPortion: portion)
         }
         

@@ -21,6 +21,12 @@ struct HistoryView: View {
         return formatter
     }()
     
+    private let timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh.MM"
+        return formatter
+    }()
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -36,61 +42,64 @@ struct HistoryView: View {
                     VStack(alignment: .leading) {
                         
                         ForEach(journals.sorted { $0.timestamp > $1.timestamp }, id: \.self) { journal in
-                            if historyOption == "Diet" && !journal.foods.isEmpty {
+                            if historyOption == "Diet" {
                                 
-                                HStack {
-                                    Text("\(journal.timestamp, formatter: dateFormatter)")
-                                        .font(.callout)
-                                    Spacer()
-                                    
-                                }
-                                .padding(.leading, 24)
-                                
-                                VStack(spacing: 0) {
-                                    ForEach(journal.foods, id: \.self) { food in
-                                        NavigationLink(destination: FoodDetailHistoryView(food: food)) {
-                                            HStack {
-                                                if editMode?.wrappedValue == .active {
-                                                    Image(systemName: "minus.circle")
-                                                        .foregroundColor(.white)
-                                                        .background(.red)
-                                                        .clipShape(Circle())
-                                                        .padding(.leading)
-                                                        .onTapGesture {
-                                                            deleteFood(food: food)
-                                                        }
-                                                    Text(food.name)
-                                                        .padding(.vertical, 10)
-                                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                                        .foregroundStyle(.black)
-                                                    Text("Detail")
-                                                        .foregroundColor(.gray)
-                                                        .padding(.trailing)
-                                                } else {
-                                                    Text(food.name)
-                                                        .padding(.vertical, 10)
-                                                        .padding(.horizontal)
-                                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                                        .foregroundStyle(.black)
-                                                    Text("Detail")
-                                                        .foregroundColor(.gray)
-                                                }
-                                                
-                                                if !(editMode?.wrappedValue == .active) {
-                                                    Image(systemName: "chevron.right")
-                                                        .foregroundColor(.gray)
-                                                        .padding(.trailing)
-                                                }
-                                            }
-                                            .background(Color(UIColor.systemBackground))
-                                        }
-                                        Divider()
-                                            .padding(.leading)
+                                if !journal.foods.isEmpty {
+                                    HStack {
+                                        Text("\(journal.timestamp, formatter: dateFormatter)")
+                                            .font(.callout)
+                                        Spacer()
+                                        
                                     }
+                                    .padding(.leading, 24)
+                                    
+                                    VStack(spacing: 0) {
+                                        ForEach(journal.foods.sorted { $0.timestamp > $1.timestamp }, id: \.self) { food in
+                                            NavigationLink(destination: FoodDetailHistoryView(food: food)) {
+                                                HStack {
+                                                    if editMode?.wrappedValue == .active {
+                                                        Image(systemName: "minus.circle")
+                                                            .foregroundColor(.white)
+                                                            .background(.red)
+                                                            .clipShape(Circle())
+                                                            .padding(.leading)
+                                                            .onTapGesture {
+                                                                deleteFood(food: food)
+                                                            }
+                                                        Text(food.name)
+                                                            .padding(.vertical, 10)
+                                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                                            .foregroundStyle(.black)
+                                                        Text("Detail")
+                                                            .foregroundColor(.gray)
+                                                            .padding(.trailing)
+                                                    } else {
+                                                        Text(food.name)
+                                                            .padding(.vertical, 10)
+                                                            .padding(.horizontal)
+                                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                                            .foregroundStyle(.black)
+                                                        Text("Detail")
+                                                            .foregroundColor(.gray)
+                                                    }
+                                                    
+                                                    if !(editMode?.wrappedValue == .active) {
+                                                        Image(systemName: "chevron.right")
+                                                            .foregroundColor(.gray)
+                                                            .padding(.trailing)
+                                                    }
+                                                }
+                                                .background(Color(UIColor.systemBackground))
+                                            }
+                                            Divider()
+                                                .padding(.leading)
+                                        }
+                                    }
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .padding(.horizontal)
+                                    .padding(.bottom, 12)
+
                                 }
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                                .padding(.horizontal)
-                                .padding(.bottom, 12)
                                 
                             } else {
                                 
@@ -103,31 +112,28 @@ struct HistoryView: View {
                                     .padding(.leading, 24)
                                     
                                     VStack(spacing: 0) {
-                                        NavigationLink(destination: SleepDetailHistoryView(sleep: journal.sleep)) {
-                                            HStack {
-                                                VStack(spacing: 0) {
-                                                    HStack {
-                                                        Text("In Bed")
-                                                            .foregroundStyle(.gray)
-                                                            .font(.footnote)
-                                                        Spacer()
-                                                    }
-                                                    HStack {
-                                                        Text(parseSleepDuration(sleep: journal.sleep))
-                                                        Spacer()
-                                                    }
+                                        HStack {
+                                            VStack(spacing: 0) {
+                                                HStack {
+                                                    Text("In Bed")
+                                                        .foregroundStyle(.gray)
+                                                        .font(.footnote)
+                                                    Spacer()
                                                 }
-                                                .padding(.vertical, 10)
-                                                .padding(.horizontal)
-                                                .frame(maxWidth: .infinity, alignment: .leading)
-                                                .foregroundStyle(.black)
-                                                Image(systemName: "chevron.right")
-                                                    .foregroundColor(.gray)
-                                                    .padding(.trailing)
+                                                HStack {
+                                                    Text(parseSleepDuration(sleep: journal.sleep))
+                                                    Spacer()
+                                                    Text("\(timeFormatter.string(from: journal.sleep.start)) - \(timeFormatter.string(from: journal.sleep.end))")
+                                                        .font(.subheadline)
+                                                        .foregroundStyle(.gray)
+                                                }
                                             }
-                                            .background(Color(UIColor.systemBackground))
+                                            .padding(.vertical, 10)
+                                            .padding(.horizontal)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .foregroundStyle(.black)
                                         }
-
+                                        .background(Color(UIColor.systemBackground))
                                     }
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                     .padding(.horizontal)

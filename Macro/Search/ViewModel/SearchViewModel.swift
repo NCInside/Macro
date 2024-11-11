@@ -160,7 +160,7 @@ final class SearchViewModel: ObservableObject {
             
             // Update selected options for UI
             selectedProcessedOption = food?.cookingTechnique.first ?? "Goreng"
-            selectedFatOption = food?.fat ?? 0 >= 14 ? "Jenuh" : "Baik"
+            selectedFatOption = food?.fat ?? 0 >= 5 ? "Jenuh" : "Baik"
             selectedMilkOption = food?.dairy ?? false ? "Ada" : "Tidak Ada"
             switch food?.glycemicIndex {
             case .low:
