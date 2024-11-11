@@ -10,41 +10,44 @@ struct DetailJournalView: View {
     @ObservedObject var viewModel: JournalImageViewModel
     
     @Binding var isDetailJournalViewPresented: Bool
-
+    
     var body: some View {
-        ScrollView {
-            VStack {
-                HStack {
-                    HStack(spacing: 4) {
-                        Image(systemName: "chevron.left")
-                        Text("Kesehatan")
-                    }
-                    .onTapGesture {
-                        dismiss()
-                    }
-                    
-                    Spacer()
-                    
-                    Text("Detail Jurnal")
-                        .foregroundColor(.black)
-                        .fontWeight(.semibold)
-                        .multilineTextAlignment(.center)
-                        .padding(.trailing,54)
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        isEditJournalViewPresented = true
-                    }) {
-                        Text("Edit")
-                            .font(.headline)
-                            .foregroundColor(.accentColor)
-                            .padding(.leading, 6)
-                    }
+        
+        VStack {
+            HStack {
+                HStack(spacing: 4) {
+                    Image(systemName: "chevron.left")
+                    Text("Kesehatan")
                 }
-                .padding(.bottom, 34)
-                .foregroundColor(.accentColor)
+                .onTapGesture {
+                    dismiss()
+                }
                 
+                Spacer()
+                
+                Text("Detail Jurnal")
+                    .foregroundColor(.black)
+                    .fontWeight(.semibold)
+                    .multilineTextAlignment(.center)
+                    .padding(.trailing,54)
+                
+                Spacer()
+                
+                Button(action: {
+                    isEditJournalViewPresented = true
+                }) {
+                    Text("Edit")
+                        .font(.headline)
+                        .foregroundColor(.accentColor)
+                        .padding(.leading, 6)
+                }
+            }
+            .padding(.top, 16)
+            .padding(.horizontal)
+            .foregroundColor(.accentColor)
+            .zIndex(1)
+            
+            ScrollView {
                 if let journalImage = journalImage {
                     // Image Display
                     VStack {
@@ -54,8 +57,8 @@ struct DetailJournalView: View {
                                 .scaledToFit()
                                 .frame(width: 240, height: 300)
                                 .onTapGesture {
-                                                                    isImageSheetPresented = true
-                                                                }
+                                    isImageSheetPresented = true
+                                }
                         } else {
                             Rectangle()
                                 .fill(Color.gray)
@@ -78,7 +81,7 @@ struct DetailJournalView: View {
                             )
                     )
                     .padding(.bottom, 36)
-                    
+                    .padding(.top, 20)
                     // Information Section
                     HStack {
                         Text("Keterangan")
@@ -120,12 +123,12 @@ struct DetailJournalView: View {
                     
                     VStack(spacing: 0) {
                         HStack{
-                        Text(journalImage.notes ?? "Tidak ada catatan tambahan")
-                            .padding(.horizontal, 20)
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .frame(maxWidth: 350, alignment: .leading)
-                    }
+                            Text(journalImage.notes ?? "Tidak ada catatan tambahan")
+                                .padding(.horizontal, 20)
+                                .background(Color.white)
+                                .cornerRadius(10)
+                                .frame(maxWidth: 350, alignment: .leading)
+                        }
                         .padding(.vertical, 14)
                     }
                     .background(Color.white)
@@ -140,7 +143,7 @@ struct DetailJournalView: View {
                         .foregroundColor(.gray)
                         .padding()
                 }
-
+                
                 Spacer()
             }
             .padding()
@@ -187,7 +190,7 @@ struct DetailJournalView: View {
         }
         .background(Color.background.ignoresSafeArea())
     }
-        
+    
 }
 
 // Date formatter for displaying the full date
@@ -198,5 +201,11 @@ private let fullDateFormatter: DateFormatter = {
     formatter.locale = Locale(identifier: "id_ID")
     return formatter
 }()
+
+#Preview {
+    ContentView()
+}
+
+
 
 

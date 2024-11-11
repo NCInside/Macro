@@ -33,7 +33,7 @@ struct SummaryView: View {
                     
                     ShareLink("Export PDF", item: render())
                 }
-                
+                .padding(.top, 14)
                 Menu {
                     ForEach(1..<months.count + 1, id: \.self) { index in
                         Button(months[index - 1]) {

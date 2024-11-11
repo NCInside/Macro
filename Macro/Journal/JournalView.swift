@@ -60,7 +60,7 @@ struct JournalView: View {
                             HStack{
                                 Text("Jurnal Harian")
                                     .font(.largeTitle)
-                                    .fontWeight(.semibold)
+                                    .fontWeight(.bold)
                                 
                                 Spacer()
                                 
@@ -86,7 +86,7 @@ struct JournalView: View {
                                 }
                                 
                             }
-                            .padding(.top, 16)
+                            .padding(.top, 36)
                             .padding(.horizontal)
                             
                             
@@ -122,6 +122,8 @@ struct JournalView: View {
                                                 Image(systemName: "chevron.right")
                                                     .foregroundColor(.accentColor)
                                             }
+                                            .disabled(Calendar.current.isDateInToday(viewModel.selectedDate))
+                                                .opacity(Calendar.current.isDateInToday(viewModel.selectedDate) ? 0.5 : 1.0)
                                 }
                                 .padding(.horizontal)
                                 
@@ -401,12 +403,15 @@ struct JournalView: View {
                             
                             
                         }
+                        
                         .padding(.top, 36)
                         .background(Color.background).edgesIgnoringSafeArea(.all)
                     }
+                        
                 }
                 .background(Color.background).edgesIgnoringSafeArea(.all)
             }
+           
             .onAppear {
                 viewModel.fetchSleepData(context: context, journals: journals, date: viewModel.selectedDate)
                 

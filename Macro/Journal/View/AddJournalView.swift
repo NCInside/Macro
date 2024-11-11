@@ -15,8 +15,7 @@ struct AddJournalView: View {
     @State private var inputNote: String = ""
     
     var body: some View {
-        ScrollView {
-            VStack {
+        VStack (spacing : 0) {
                 HStack {
                     HStack(spacing: 4) {
                         Image(systemName: "chevron.left")
@@ -45,9 +44,12 @@ struct AddJournalView: View {
                             .padding(.leading, 6)
                     }
                 }
-                .padding(.bottom, 34)
+                .padding(.top, 16)
                 .foregroundColor(.accentColor)
+                .padding(.horizontal)
+                .zIndex(1)
                 
+                ScrollView {
                 // Image Picker Section
                 VStack {
                     Button(action: {
@@ -106,6 +108,7 @@ struct AddJournalView: View {
                         )
                 )
                 .padding(.bottom, 36)
+                .padding(.top, 20)
                 // Breakout and PMS Toggles
                 HStack {
                     Text("Keterangan")
@@ -177,18 +180,20 @@ struct AddJournalView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .padding(.bottom, 14)
             }
+            
             .padding()
             .background(Color(.systemGray6).ignoresSafeArea())
             .frame(maxHeight: .infinity)
             .toolbar {
                 ToolbarItem(placement: .keyboard) {
-                    Button("Done") {
+                    Button("Selesai") {
                         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                     }
                 }
             }
         }
         .background(Color(.systemGray6).ignoresSafeArea())
+        
     }
     
     // ImagePicker Implementation
@@ -248,3 +253,6 @@ struct AddJournalView: View {
 #Preview{
     ContentView()
 }
+
+
+

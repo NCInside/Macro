@@ -19,7 +19,7 @@ struct DatePickerView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                DatePicker("Pilih Tanggal", selection: $selectedDate, displayedComponents: [.date])
+                DatePicker("Pilih Tanggal", selection: $selectedDate, in: ...Date(), displayedComponents: [.date])
                     .datePickerStyle(GraphicalDatePickerStyle())
                     .onChange(of: selectedDate) { newDate in
                         selectedDateColor = .main
@@ -53,9 +53,10 @@ struct DatePickerView: View {
 //struct DatePickerView_Preview: PreviewProvider {
 //    @State static var showDatePicker = true
 //    @State static var savedDate: Date? = Date()
-//    
+//
 //    static var previews: some View {
 //        DatePickerView(showDatePicker: $showDatePicker, savedDate: $savedDate)
 //    }
 //}
+
 

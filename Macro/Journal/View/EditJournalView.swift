@@ -32,9 +32,9 @@ struct EditJournalView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack {
+        VStack {
                 headerSection
+                ScrollView {
                 imagePickerSection
                 informationSection
                 notesSection
@@ -86,7 +86,9 @@ struct EditJournalView: View {
                     .padding(.leading, 6)
             }
         }
-        .padding(.bottom, 34)
+        .padding(.top, 16)
+        .zIndex(1)
+        .padding(.horizontal)
         .foregroundColor(.accentColor)
     }
     
@@ -303,3 +305,4 @@ struct EditJournalView: View {
         isDetailJournalViewPresented = false
     }
 }
+

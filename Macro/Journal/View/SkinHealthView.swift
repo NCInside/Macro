@@ -21,7 +21,7 @@ struct SkinHealthView: View {
             VStack(spacing: 16) {
                 HStack {
                     Text("Kesehatan Kulit")
-                        .font(.title)
+                        .font(.largeTitle)
                         .bold()
                     
                     Spacer()
@@ -38,6 +38,7 @@ struct SkinHealthView: View {
                         AddJournalView(viewModel: viewModel)
                     }
                 }
+                .padding(.top, 16)
                 .padding(.horizontal)
                 .padding(.bottom, 10)
                 
@@ -152,5 +153,11 @@ private let dateFormatter: DateFormatter = {
     formatter.locale = Locale(identifier: "id_ID") // Set locale to Indonesian
     return formatter
 }()
+
+
+#Preview {
+    ContentView()
+}
+
 
 

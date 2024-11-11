@@ -20,7 +20,7 @@ struct ContentView: View {
             
             SkinHealthView(context: context)
                 .tabItem {
-                    Label("Kesehatan Kulit", systemImage: "face.smiling")
+                    Label("Kesehatan Kulit", systemImage: "face.smiling.inverse")
                 }
             
             SummaryView()
