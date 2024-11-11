@@ -53,7 +53,7 @@ struct AddReminderView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView{
+            ScrollView {
                 VStack(alignment: .leading) {
                     Text("PENGINGAT KUNJUNGAN KONTROL")
                         .font(.caption)
@@ -61,104 +61,36 @@ struct AddReminderView: View {
                         .padding(.top, 16)
                         .padding(.leading, 12)
                     
-                    HStack {
-                        TextField("Nama Kunjungan", text: $clinicName)
-                            .textFieldStyle(PlainTextFieldStyle())
-                            .foregroundColor(.gray)
-                    }
-                    .padding(.vertical, 10)
-                    .padding(.leading)
-                    .background(Color(UIColor.systemWhite))
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-                    .padding(.bottom, 8)
+                    TextField("Nama Kunjungan", text: $clinicName)
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .padding(.vertical, 10)
+                        .padding(.leading)
+                        .background(Color(UIColor.systemWhite))
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                        .padding(.bottom, 8)
                     
+                    // Satu baris untuk Tanggal dan Jam
                     VStack(alignment: .leading) {
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text("Tanggal")
-                                    .font(.body)
-                                Spacer()
-                                Toggle("", isOn: $isDatePickerEnabled)
-                                    .labelsHidden()
-                                    .disabled(isTimePickerVisible)
-                            }
-                            .padding(.horizontal)
-                            
-                            if isDatePickerEnabled {
-                                Text(visitDate, style: .date)
-                                    .padding(.top, -14)
-                                    .font(.subheadline)
-                                    .foregroundColor(.accentColor)
-                                    .padding(.horizontal)
-                                    .onTapGesture {
-                                        withAnimation {
-                                            isDatePickerVisible.toggle()
-                                            
-                                            if isDatePickerVisible {
-                                                                                            isTimePickerVisible = false
-                                                                                        }
-                                        }
-                                    }
-                                
-                                if isDatePickerVisible {
-                                    DatePicker(
-                                        "",
-                                        selection: $visitDate,
-                                        displayedComponents: [.date]
-                                    )
-                                    .datePickerStyle(GraphicalDatePickerStyle())
-                                    .padding(.horizontal)
-                                }
-                            }
+                        HStack {
+                            Text("Tanggal")
+                                .font(.body)
+                                .frame(width: 80, alignment: .leading)
+                            DatePicker("", selection: $visitDate, displayedComponents: .date)
+                                .labelsHidden()
+                                .foregroundColor(.gray)
                         }
-                        
                         Divider()
-                            .padding(.horizontal, 18)
-                        
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text("Jam")
-                                    .font(.body)
-                                Spacer()
-                                Toggle("", isOn: $isTimePickerEnabled)
-                                    .labelsHidden()
-                            }
-                            .padding(.horizontal)
-                            
-                            if isTimePickerEnabled {
-                                Text(visitTime, style: .time)
-                                    .padding(.top, -14)
-                                    .font(.subheadline)
-                                    .foregroundColor(.accentColor)
-                                    .padding(.horizontal)
-                                    .onTapGesture {
-                                        withAnimation {
-                                            isTimePickerVisible.toggle()
-                                            if isTimePickerVisible {
-                                                                                            isDatePickerVisible = false
-                                                                                        }
-                                        }
-                                    }
-                                
-                                if isTimePickerVisible {
-                                    DatePicker(
-                                        "",
-                                        selection: $visitTime,
-                                        displayedComponents: .hourAndMinute
-                                    )
-                                    .datePickerStyle(WheelDatePickerStyle())
-                                    .labelsHidden()
-                                    .padding(.horizontal)
-                                    
-                                    
-                                }
-                                
-                                
-                            }
+                        HStack {
+                            Text("Jam")
+                                .font(.body)
+                                .frame(width: 80, alignment: .leading)
+                            DatePicker("", selection: $visitTime, displayedComponents: .hourAndMinute)
+                                .labelsHidden()
+                                .foregroundColor(.gray)
                         }
                     }
-                    .padding(.vertical, 8)
+                    .padding()
                     .background(Color(UIColor.systemWhite))
                     .cornerRadius(10)
                     .padding(.horizontal)
@@ -168,54 +100,7 @@ struct AddReminderView: View {
                         .padding(.horizontal)
                         .padding(.top, 16)
                     
-//                    VStack{
-//                        HStack{
-//                            Text("Peringatan")
-//                            
-//                            Spacer()
-//                            
-//                            Picker("", selection: $selectedFisrtTimeReminder) {
-//                                ForEach(timeReminders, id: \.self) { reminder in
-//                                    Text(reminder)
-//                                }
-//                            }
-//                            .accentColor(.gray)
-//                        }
-//                        Divider()
-//                        HStack{
-//                            Text("Peringatan Kedua")
-//                            
-//                            Spacer()
-//                            
-//                            Picker("", selection: $selectedSecondTimeReminder) {
-//                                ForEach(timeReminders, id: \.self) { reminder in
-//                                    Text(reminder)
-//                                }
-//                            }
-//                            .accentColor(.gray)
-//                        }
-//                        Divider()
-//                        HStack{
-//                            Text("Peringatan Ketiga")
-//                            
-//                            Spacer()
-//                            
-//                            Picker("", selection: $selectedThirdTimeReminder) {
-//                                ForEach(timeReminders, id: \.self) { reminder in
-//                                    Text(reminder)
-//                                }
-//                            }
-//                            .accentColor(.gray)
-//                            
-//                        }
-//                    }
-//                    .padding()
-//                    .padding(.vertical, -8)
-//                    .background(Color(UIColor.systemWhite))
-//                    .cornerRadius(10)
-//                    .padding(.horizontal)
-                    
-                    VStack{
+                    VStack {
                         Toggle("Pada Waktunya", isOn: $notifications[0])
                         Divider()
                         Toggle("3 Hari Sebelumnya", isOn: $notifications[1])
@@ -229,12 +114,9 @@ struct AddReminderView: View {
                         Toggle("15 Menit Sebelumnya", isOn: $notifications[5])
                     }
                     .padding()
-                    .padding(.vertical, -8)
                     .background(Color(UIColor.systemWhite))
                     .cornerRadius(10)
                     .padding(.horizontal)
-                    
-                    
                     
                     Spacer()
                     
@@ -245,7 +127,7 @@ struct AddReminderView: View {
                             Text("Hapus Kunjungan")
                                 .foregroundColor(.red)
                                 .padding()
-                                .frame(maxWidth: .infinity) // Fill the entire width
+                                .frame(maxWidth: .infinity)
                                 .background(Color.white)
                                 .cornerRadius(8)
                                 .shadow(radius: 1)
@@ -257,9 +139,8 @@ struct AddReminderView: View {
                             }
                             Button("Batal", role: .cancel) { }
                         }
-                        .padding(.horizontal) // Add horizontal padding to give some space on the sides
+                        .padding(.horizontal)
                     }
-                    
                 }
                 .navigationTitle("Tambah Kunjungan")
                 .navigationBarTitleDisplayMode(.inline)
@@ -274,11 +155,11 @@ struct AddReminderView: View {
                         saveReminder()
                     }.disabled(clinicName.trimmingCharacters(in: .whitespaces).isEmpty)
                 )
-                
             }
             .background(Color(.systemGray6).ignoresSafeArea())
         }
     }
+    
     
     private func saveReminder() {
         if let reminderToEdit = reminderToEdit {
