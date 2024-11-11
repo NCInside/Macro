@@ -102,6 +102,7 @@ class ReminderViewModel: ObservableObject {
         }
     }
 
+
     private func removeNotificationRequests(for reminder: Reminder) {
         // All identifiers for notifications associated with this reminder
         let identifiers = [
