@@ -80,7 +80,7 @@ struct SummaryView: View {
                         .buttonStyle(.plain)
                         NavigationLink(destination: DetailSummaryView(scenario: .fat, chosenMonth: chosenMonth, average: viewModel.avgFat)) {
                             SummaryCard(
-                                title: "Makanan Berlemak",
+                                title: "Makanan Berlemak Jenuh",
                                 caption: "Rerata frekuensi harian",
                                 detail: HStack (alignment: .bottom,spacing: 0) {
                                     Text(String(viewModel.avgFat))
@@ -104,7 +104,7 @@ struct SummaryView: View {
                                     Text(String(viewModel.freqMilk))
                                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                                         .bold()
-                                    Text("/1 porsi")
+                                    Text("porsi")
                                         .font(.caption2)
                                 },
                                 icon: "Milk",

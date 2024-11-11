@@ -72,7 +72,7 @@ struct DetailSummaryView: View {
                 }
             case .fat:
                 HStack {
-                    Text("Makanan Berlemak")
+                    Text("Makanan Berlemak Jenuh")
                         .bold()
                         .font(.largeTitle)
                         .padding(.leading, 8)
@@ -188,7 +188,7 @@ struct DetailSummaryView: View {
                             .padding(.horizontal)
                         }
                         else {
-                            Text("Week \(selectedWeek)")
+                            Text("Minggu ke-\(selectedWeek)")
                             Chart {
                                 if let week = weekPointsPie[selectedWeek] {
                                     ForEach(week) { item in
@@ -370,13 +370,24 @@ struct DetailSummaryView: View {
                                                                             
                             HStack {
                                 Spacer()
-                                Text("WEEK \(selectedWeek)")
+                                Text("Minggu ke-\(selectedWeek)")
                                     .bold()
                                 Spacer()
                             }
                             .offset(y: selectedPoint != nil ? -187 : 0)
                         }
                     }
+                    HStack {
+                        Circle()
+                            .foregroundStyle(Color.red)
+                            .frame(width: 12)
+                        Text("BREAKOUT")
+                            .bold()
+                            .font(.subheadline)
+                        Spacer()
+                    }
+                    .padding(.leading, 24)
+                    .offset(y: selectedPoint != nil ? -187 : 0)
                 }
                 Spacer()
             }

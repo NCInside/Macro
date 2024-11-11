@@ -48,7 +48,14 @@ class SummaryViewModel: ObservableObject {
                         counts[food.glycemicIndex, default: 0] += 1
                     }
         if let mostFrequentIndex = glycemicIndexCounts.max(by: { $0.value < $1.value })?.key {
-            ind = "\(mostFrequentIndex)"
+            switch mostFrequentIndex {
+            case .high:
+                ind = "Tinggi"
+            case .medium:
+                ind = "Sedang"
+            case .low:
+                ind = "Rendah"
+            }
         } else {
             ind = "Unknown"
         }
