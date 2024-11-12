@@ -9,24 +9,22 @@ struct AddReminderView: View {
     @State private var showDeleteConfirmation = false
     @State private var showErrorDialog = false
     @State private var errorMessage = ""
-    @State private var showReminderOptions = false // Controls dropdown visibility
-    @State private var isDatePickerEnabled: Bool = false
-    @State private var isDatePickerVisible: Bool = false
-    @State private var isTimePickerEnabled: Bool = false
-    @State private var isTimePickerVisible: Bool = false
     let isEditMode: Bool
     var reminderToEdit: Reminder?
     var onSave: (ModelContext, Reminder) -> Void
     var onDelete: (() -> Void)?
-    var timeReminders = ["Tidak ada", "1 Jam Sebelum", "2 Jam Sebelum", "1 Hari Sebelum", "2 Hari Sebelum", "1 Minggu Sebelum"]
-    @State private var selectedFisrtTimeReminder = "Tidak ada"
-    @State private var selectedSecondTimeReminder = "Tidak ada"
-    @State private var selectedThirdTimeReminder = "Tidak ada"
+    
+    // Reminder dropdown states
+    @State private var selectedFirstReminder = "Tidak ada"
+    @State private var selectedSecondReminder = "Tidak ada"
+    @State private var selectedThirdReminder = "Tidak ada"
+    let reminderOptions = ["Tidak ada", "15 Menit Sebelum", "1 Jam Sebelum", "3 Jam Sebelum", "1 Hari Sebelum", "3 Hari Sebelum"]
+    
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     
     init(reminder: Reminder? = nil,
-         notifications: Binding<[Bool]> = .constant([true, false, false, false, false, false]),
+         notifications: Binding<[Bool]> = .constant([true, false, false, false, false, false]),  // Set "Pada Waktunya" notification to true by default
          onSave: @escaping (ModelContext, Reminder) -> Void,
          onDelete: (() -> Void)? = nil) {
         if let reminder = reminder {
@@ -42,13 +40,10 @@ struct AddReminderView: View {
             self.reminderToEdit = nil
         }
         
-        // Ensure notifications array is passed in correctly
         self._notifications = notifications
         self.onSave = onSave
         self.onDelete = onDelete
     }
-
-
     
     var body: some View {
         NavigationView {
@@ -69,7 +64,6 @@ struct AddReminderView: View {
                         .padding(.horizontal)
                         .padding(.bottom, 8)
                     
-                    // Satu baris untuk Tanggal dan Jam
                     VStack(alignment: .leading) {
                         HStack {
                             Text("Tanggal")
@@ -100,17 +94,11 @@ struct AddReminderView: View {
                         .padding(.top, 16)
                     
                     VStack {
-                        Toggle("Pada Waktunya", isOn: $notifications[0])
+                        ReminderPickerView(label: "Peringatan", selection: $selectedFirstReminder, options: availableOptions(exclude: [selectedSecondReminder, selectedThirdReminder]))
                         Divider()
-                        Toggle("3 Hari Sebelumnya", isOn: $notifications[1])
+                        ReminderPickerView(label: "Peringatan Kedua", selection: $selectedSecondReminder, options: availableOptions(exclude: [selectedFirstReminder, selectedThirdReminder]))
                         Divider()
-                        Toggle("1 Hari Sebelumnya", isOn: $notifications[2])
-                        Divider()
-                        Toggle("3 Jam Sebelumnya", isOn: $notifications[3])
-                        Divider()
-                        Toggle("1 Jam Sebelumnya", isOn: $notifications[4])
-                        Divider()
-                        Toggle("15 Menit Sebelumnya", isOn: $notifications[5])
+                        ReminderPickerView(label: "Peringatan Ketiga", selection: $selectedThirdReminder, options: availableOptions(exclude: [selectedFirstReminder, selectedSecondReminder]))
                     }
                     .padding()
                     .background(Color(UIColor.systemWhite))
@@ -151,39 +139,40 @@ struct AddReminderView: View {
                         }
                     },
                     trailing: Button("Simpan") {
+                        updateNotifications()
                         saveReminder()
                     }.disabled(clinicName.trimmingCharacters(in: .whitespaces).isEmpty)
                 )
                 .onAppear {
                     if !isEditMode {
-                        notifications[0] = true
+                        selectedFirstReminder = "15 Menit Sebelum"
+                        selectedSecondReminder = "Tidak ada"
+                        selectedThirdReminder = "Tidak ada"
+                        notifications[0] = true // "Pada Waktunya" notification is always true
+                    } else {
+                        loadExistingReminder()
                     }
                 }
             }
             .background(Color(.systemGray6).ignoresSafeArea())
         }
     }
-
     
+    private func availableOptions(exclude: [String]) -> [String] {
+        return reminderOptions.filter { !exclude.contains($0) } + ["Tidak ada"]
+    }
     
     private func saveReminder() {
         if let reminderToEdit = reminderToEdit {
-            // Update existing reminder with new values
             reminderToEdit.clinicName = clinicName.trimmingCharacters(in: .whitespaces)
             reminderToEdit.visitDate = combineDateAndTime()
-            
-            // Call onSave to update the reminder in the model context
             onSave(modelContext, reminderToEdit)
         } else {
-            // Create a new reminder
             let newReminder = Reminder(clinicName: clinicName.trimmingCharacters(in: .whitespaces), visitDate: combineDateAndTime())
             onSave(modelContext, newReminder)
         }
-        
-        // Dismiss the view after saving
         dismiss()
     }
-    
     
     private func combineDateAndTime() -> Date {
         let calendar = Calendar.current
@@ -192,11 +181,105 @@ struct AddReminderView: View {
         return calendar.date(from: DateComponents(year: components.year, month: components.month, day: components.day, hour: timeComponents.hour, minute: timeComponents.minute))!
     }
     
+    private func loadExistingReminder() {
+        // Define each reminder option and its time interval in seconds
+        let reminderIntervals: [String: TimeInterval] = [
+            "15 Menit Sebelum": 15 * 60,
+            "1 Jam Sebelum": 1 * 60 * 60,
+            "3 Jam Sebelum": 3 * 60 * 60,
+            "1 Hari Sebelum": 24 * 60 * 60,
+            "3 Hari Sebelum": 3 * 24 * 60 * 60,
+            "Tidak ada": Double.greatestFiniteMagnitude // Assign a large value for "Tidak ada"
+        ]
+        
+        // Collect selected reminders based on notifications array
+        var loadedReminders: [String] = []
+        if notifications[5] { loadedReminders.append("15 Menit Sebelum") }
+        if notifications[4] { loadedReminders.append("1 Jam Sebelum") }
+        if notifications[3] { loadedReminders.append("3 Jam Sebelum") }
+        if notifications[2] { loadedReminders.append("1 Hari Sebelum") }
+        if notifications[1] { loadedReminders.append("3 Hari Sebelum") }
+        
+        // Fill remaining spots with "Tidak ada" if needed
+        while loadedReminders.count < 3 {
+            loadedReminders.append("Tidak ada")
+        }
+        
+        // Sort reminders based on their time interval (closest first)
+        loadedReminders.sort { reminderIntervals[$0, default: Double.greatestFiniteMagnitude] < reminderIntervals[$1, default: Double.greatestFiniteMagnitude] }
+        
+        // Assign sorted reminders to respective selectors
+        selectedFirstReminder = loadedReminders[0]
+        selectedSecondReminder = loadedReminders[1]
+        selectedThirdReminder = loadedReminders[2]
+    }
+
+
+    
+    private func updateNotifications() {
+        // "Pada Waktunya" notification (exact time) is always enabled
+        notifications[0] = true
+        
+        // Clear all other notifications before updating
+        for i in 1..<notifications.count {
+            notifications[i] = false
+        }
+        
+        // Update notifications based on selected reminders
+        if let index1 = getNotificationIndex(for: selectedFirstReminder) {
+            notifications[index1] = true
+        }
+        if let index2 = getNotificationIndex(for: selectedSecondReminder) {
+            notifications[index2] = true
+        }
+        if let index3 = getNotificationIndex(for: selectedThirdReminder) {
+            notifications[index3] = true
+        }
+        
+        print("Notifications updated:", notifications)
+    }
+    
+    private func getNotificationIndex(for reminder: String) -> Int? {
+        switch reminder {
+        case "15 Menit Sebelum":
+            return 5
+        case "1 Jam Sebelum":
+            return 4
+        case "3 Jam Sebelum":
+            return 3
+        case "1 Hari Sebelum":
+            return 2
+        case "3 Hari Sebelum":
+            return 1
+        default:
+            return nil
+        }
+    }
 }
 
 
+struct ReminderPickerView: View {
+    let label: String
+    @Binding var selection: String
+    let options: [String]
+    
+    var body: some View {
+        HStack {
+            Text(label)
+            Spacer()
+            Picker(selection: $selection, label: Text("")) {
+                ForEach(options, id: \.self) { option in
+                    Text(option).tag(option)
+                }
+            }
+            .pickerStyle(MenuPickerStyle())
+        }
+        .padding()
+    }
+}
+
 struct AddReminderView_Previews: PreviewProvider {
-    @State static var notifications = [true, false, false, false, false, false] // Initial states for notification toggles
+    @State static var notifications = [true, false, false, false, false, false] // Default "Pada Waktunya" to true
     
     static var previews: some View {
         AddReminderView(
