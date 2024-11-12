@@ -35,7 +35,7 @@ struct SummaryCard<DetailView: View>: View {
                 VStack {
                     HStack {
                         Text(caption)
-                            .font(.caption)
+                            .font(.subheadline)
                             .foregroundStyle(.gray)
                         Spacer()
                     }

@@ -124,14 +124,16 @@ struct DetailSummaryView: View {
                                         .bold()
                                     Text("\(scenario == .sleep ? "Jam" : "Kali")")
                                         .font(.caption)
-                                    Spacer()
                                 }
                                 Text("\(dateFormatter.string(from: point.date))")
                                     .foregroundStyle(.gray)
                                     .font(.subheadline)
                             }
+                            .padding(6)
+                            .background(.gray.opacity(0.2))
+                            .cornerRadius(10)
                             .padding(.bottom, 12)
-                            .offset(x: xPosition - 25)
+                            .offset(x: xPosition - 180)
                             .onTapGesture {
                                 selectedPoint = nil
                             }
@@ -293,19 +295,32 @@ struct DetailSummaryView: View {
                         else {
                             ZStack {
                                 Chart {
-                                    if let week = weekPoints[selectedWeek] {
-                                        ForEach(week) { item in
-                                            let dayIndex = Calendar.current.component(.weekday, from: item.date) - 2
-                                            let dayName = dayIndex >= 0 ? daysOfWeek[dayIndex] : daysOfWeek[dayIndex + 7]
-                                            LineMark(x: .value("date", dayName), y: .value("value", item.value)) .foregroundStyle(Color.main)
+                                    let calendar = Calendar.current
+                                    let weekStartDate = calendar.date(from: DateComponents(year: 2024, month: chosenMonth, weekOfMonth: selectedWeek))!
+                                    let weekDates = (0..<7).compactMap { calendar.date(byAdding: .day, value: $0, to: weekStartDate) }
+                                    
+                                    ForEach(weekDates, id: \.self) { date in
+                                                                                
+                                        let dayIndex = calendar.component(.weekday, from: date)
+                                        let dayName = daysOfWeek[dayIndex % 7]
+
+                                        if let item = weekPoints[selectedWeek]?.first(where: {
+                                            let pointDayIndex = Calendar.current.component(.weekday, from: $0.date) - 2 % 7
+                                            return pointDayIndex == dayIndex % 7
+                                        }) {
+                                            LineMark(x: .value("date", dayName), y: .value("value", item.value))
+                                                .foregroundStyle(Color.main)
                                             
                                             if viewModel.hasBreakoutImage(on: item.date, in: journalImage) {
                                                 PointMark(x: .value("date", dayName), y: .value("value", item.value))
                                                     .foregroundStyle(Color.red)
                                             }
+                                        } else {
+                                            LineMark(x: .value("date", dayName), y: .value("value", 0))
+                                                .foregroundStyle(Color.gray.opacity(0.5))
+                                                .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
                                         }
                                     }
-                                    
                                 }
                                 .offset(y: selectedPoint != nil ? -100 : -7)
                                 .chartYAxisLabel(yAxisLabel)
@@ -327,18 +342,19 @@ struct DetailSummaryView: View {
                                                         guard currentX >= 0, currentX < chart.plotSize.width else {
                                                             return
                                                         }
-                                                        
+
                                                         xPosition = currentX
-                                                        
-                                                        // Calculate day based on the X position in the weekly chart (7-day range)
-                                                        let dayIndex = Int((currentX / chart.plotSize.width) * 7)  // 7 days in the week
-                                                        
-                                                        // Find the corresponding day name for the weekly chart
-                                                        let selectedDay = daysOfWeek[dayIndex % 7]  // Ensure index is within bounds
-                                                        
-                                                        // Find the point for the corresponding day
+
+                                                        // Calculate the position as a fraction of the chart width
+                                                        let fraction = currentX / chart.plotSize.width
+
+                                                        // Calculate the day index based on the fraction (7 days in a week)
+                                                        let dayIndex = Int(fraction * 7)
+
+                                                        // Find the corresponding point in `weekPoints`
                                                         if let point = weekPoints[selectedWeek]?.first(where: {
-                                                            Calendar.current.component(.weekday, from: $0.date) == dayIndex + 2 // Adjust weekday to match
+                                                            let pointDayIndex = Calendar.current.component(.weekday, from: $0.date) - 1
+                                                            return pointDayIndex == dayIndex
                                                         }) {
                                                             selectedPoint = point
                                                         }
@@ -347,20 +363,20 @@ struct DetailSummaryView: View {
                                     }
                                 }
                                 .simultaneousGesture(
-                                    DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
+                                    DragGesture(minimumDistance: 20.0, coordinateSpace: .local)
                                         .onEnded { value in
-                                            switch(value.translation.width, value.translation.height) {
-                                            case (...0, -30...30):
-                                                print("left swipe")
-                                                if selectedWeek < 5 {
-                                                    selectedWeek += 1
-                                                }
-                                            case (0..., -30...30):
-                                                print("right swipe")
-                                                if selectedWeek > 1 {
-                                                    selectedWeek -= 1
-                                                }
-                                            default:
+                                            // Use the predicted end location to assess the swipe acceleration.
+                                            let predictedWidth = value.predictedEndTranslation.width
+                                            let threshold: CGFloat = 240  // Adjust as needed for sensitivity
+
+                                            // Determine swipe direction and acceleration, adjusting by one week if the threshold is exceeded.
+                                            if predictedWidth < -threshold && selectedWeek < 5 {
+                                                // Swipe left with acceleration
+                                                selectedWeek += 1
+                                            } else if predictedWidth > threshold && selectedWeek > 1 {
+                                                // Swipe right with acceleration
+                                                selectedWeek -= 1
+                                            } else {
                                                 print("no clue")
                                             }
                                         }

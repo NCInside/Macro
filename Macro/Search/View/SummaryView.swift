@@ -64,13 +64,13 @@ struct SummaryView: View {
                                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                                         .bold()
                                     Text("jam")
-                                        .font(.caption2)
+                                        .font(.footnote)
                                         .padding(.trailing, 4)
                                     Text(String((viewModel.avgSleep % 3600) / 60))
                                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                                         .bold()
                                     Text("menit")
-                                        .font(.caption2)
+                                        .font(.footnote)
                                 },
                                 icon: "Sleep",
                                 iconSize: CGSize(width: 80, height: 100),
@@ -87,7 +87,7 @@ struct SummaryView: View {
                                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                                         .bold()
                                     Text("porsi")
-                                        .font(.caption2)
+                                        .font(.footnote)
                                 },
                                 icon: "DrumStickFull",
                                 iconSize: CGSize(width: 100, height: 95),
@@ -105,7 +105,7 @@ struct SummaryView: View {
                                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                                         .bold()
                                     Text("porsi")
-                                        .font(.caption2)
+                                        .font(.footnote)
                                 },
                                 icon: "Milk",
                                 iconSize: CGSize(width: 70, height: 100),
