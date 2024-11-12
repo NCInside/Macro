@@ -90,6 +90,7 @@ struct AddJournalView: View {
                     }
                     .sheet(isPresented: $isImagePickerPresented) {
                         ImagePicker(selectedImage: $selectedImage, sourceType: imagePickerSource)
+                            .edgesIgnoringSafeArea(.all)
                     }
                     
                     Text(selectedDate, style: .date)

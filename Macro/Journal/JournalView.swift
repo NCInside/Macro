@@ -129,6 +129,8 @@ struct JournalView: View {
                                 
                             }
                             .padding(.top, -8)
+//                            .blur(radius: showDatePicker ? 5 : 0)
+                            
                             
                             if showDatePicker {
                                 DatePickerView(showDatePicker: $showDatePicker, savedDate: $savedDate, selectedDate: $viewModel.selectedDate)
@@ -160,46 +162,49 @@ struct JournalView: View {
                                 AddSleepView(date: viewModel.selectedDate)
                             }
                             
-                            ZStack {
-                                Image("BannerFix")
-                                    .resizable()
-                                    .scaledToFit()
-                                
+                            
+                            
+                            
                                 VStack(alignment: .leading){
                                     HStack(alignment: .bottom,spacing: 0) {
                                         Text(viewModel.getSleep(journals: journals).hour)
                                             .font(.largeTitle)
-                                            .foregroundColor(.white)
+                                            .foregroundColor(.black)
                                             .bold()
                                         
                                         Text("jam ")
                                             .font(.title3)
-                                            .foregroundColor(.white)
+                                            .foregroundColor(.black)
                                             .fontWeight(.semibold)
                                         
                                         Text(viewModel.getSleep(journals: journals).minute)
                                             .font(.largeTitle)
-                                            .foregroundColor(.white)
+                                            .foregroundColor(.black)
                                             .bold()
                                         
                                         Text("menit")
                                             .font(.title3)
-                                            .foregroundColor(.white)
+                                            .foregroundColor(.black)
                                             .fontWeight(.semibold)
                                         
                                         Spacer()
                                     }
-                                    .padding(.leading, 30)
+                                    .padding(.leading, 14)
                                     .padding(.bottom, 2)
                                     
                                     HStack{
                                         Text(viewModel.sleepClassificationMessage(journals: journals))
-                                            .foregroundColor(.white)
+                                            .foregroundColor(.black)
                                     }
-                                    .padding(.leading, 30)
-                                }
+                                    .padding(.leading, 16)
+                                
                             }
-                            .padding(.vertical, -20)
+                                .padding(.vertical, 8)
+                                .frame(maxWidth: 365, maxHeight: 180)
+                                .background(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .shadow(color: Color.black.opacity(0.08), radius: 3, x: 2, y: 2)
+                            
                             
                             HStack(alignment: .bottom) {
                                 Text("Detail Makanan")
@@ -208,19 +213,26 @@ struct JournalView: View {
                                     .padding()
                                 Spacer()
                                 
-                                Button(action: {
-                                    viewModel.isDietViewPresented = true
-                                }) {
-                                    Text("Tambah")
-                                        .foregroundColor(.accentColor)
-                                }
-                                .padding()
-                                .padding(.trailing, 4)
                             }
                             .sheet(isPresented: $viewModel.isDietViewPresented) {
                                 SearchView(isDetailViewPresented: $viewModel.isDietViewPresented, date: viewModel.selectedDate)
                             }
-                            .padding(.top, 6)
+                            .padding(.top, 3)
+                            
+                            Button(action: {
+                                viewModel.isDietViewPresented = true
+                            }) {
+                                Text("+ Tambah Makanan")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .frame(maxWidth: .infinity, maxHeight: 48)
+                                    .background(Color.accentColor)
+                                    .cornerRadius(10)
+                            }
+                            .padding()
+                            .padding(.top, -26)
+                            .padding(.bottom, 2)
                             
                             VStack(spacing: 10) {
                                 HStack(spacing: 10) {
@@ -252,7 +264,7 @@ struct JournalView: View {
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                                     .background(.white)
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
-                                    .shadow(color: Color.black.opacity(0.2), radius: 3, x: 2, y: 2)
+                                    .shadow(color: Color.black.opacity(0.08), radius: 3, x: 2, y: 2)
                                     
                                     VStack(alignment: .leading, spacing: -24) {
                                         HStack {
@@ -367,7 +379,7 @@ struct JournalView: View {
                                     Text("Lihat Semua")
                                         .foregroundColor(.accentColor)
                                 }
-                                .padding(.top, 10)
+                                .padding(.top,6)
                                 .padding(.trailing, 4)
                                 }
                             }
@@ -400,18 +412,13 @@ struct JournalView: View {
                             .padding(.bottom, 14)
                             .shadow(color: Color.black.opacity(0.2), radius: 3, x: 1, y: 2)
                             
-                            
-                            
                         }
-                        
                         .padding(.top, 36)
                         .background(Color.background).edgesIgnoringSafeArea(.all)
                     }
-                        
                 }
                 .background(Color.background).edgesIgnoringSafeArea(.all)
             }
-           
             .onAppear {
                 viewModel.fetchSleepData(context: context, journals: journals, date: viewModel.selectedDate)
                 

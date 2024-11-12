@@ -8,6 +8,7 @@ struct SkinHealthView: View {
     @StateObject private var viewModel: JournalImageViewModel
     @State private var selectedJournalImage: JournalImage? // Track selected journal
     let context: ModelContext
+    @State private var showAlert = false
 
     init(context: ModelContext) {
         _viewModel = StateObject(wrappedValue: JournalImageViewModel(context: context))
@@ -37,6 +38,13 @@ struct SkinHealthView: View {
                     .sheet(isPresented: $isAddJournalViewPresented) {
                         AddJournalView(viewModel: viewModel)
                     }
+                    .alert(isPresented: $showAlert) { // Display alert
+                                            Alert(
+                                                title: Text("Pengingat"),
+                                                message: Text("Anda sudah menambahkan foto hari ini"),
+                                                dismissButton: .default(Text("OK"))
+                                            )
+                                        }
                 }
                 .padding(.top, 16)
                 .padding(.horizontal)
@@ -47,11 +55,12 @@ struct SkinHealthView: View {
                         Image(systemName: "exclamationmark.circle")
                             .font(.largeTitle)
                             .foregroundColor(.gray)
+                            .padding(.bottom, 6)
                         Text("Kamu belum menambahkan foto")
                             .foregroundColor(.gray)
                             .font(.body)
                     }
-                    .padding(.top, 50)
+                    .padding(.top, 240)
                 } else {
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 0) {
@@ -70,14 +79,19 @@ struct SkinHealthView: View {
                                     }
                                     
                                     VStack(alignment: .center, spacing: 4) {
-                                        Text("\(journalImage.timestamp, formatter: dateFormatter)")
-                                            .font(.caption2)
-                                            .bold()
-                                            .multilineTextAlignment(.center)
-                                            .frame(width: 36, height: 36)
-                                            .background(Color.black.opacity(0.7))
-                                            .foregroundColor(.white)
-                                            .cornerRadius(4)
+                                        VStack (spacing: 0) {
+                                            Text("\(journalImage.timestamp, formatter: dateFormatter)")
+                                            
+                                            Text("\(journalImage.timestamp, formatter: monthFormatter)")
+                                                
+                                        }
+                                        .font(.caption2)
+                                        .bold()
+                                        .multilineTextAlignment(.center)
+                                        .frame(width: 36, height: 36)
+                                        .background(Color.black.opacity(0.7))
+                                        .foregroundColor(.white)
+                                        .cornerRadius(4)
                                         
                                         if journalImage.isBreakout {
                                             Triangle()
@@ -128,9 +142,14 @@ struct SkinHealthView: View {
 
     
     private func handleAddButtonTapped() {
-        // Check if there is a journal entry for the current date
-        isAddJournalViewPresented = true
-    }
+            // Check if there is a journal entry for today's date
+            let today = Calendar.current.startOfDay(for: Date())
+            if viewModel.journalImages.contains(where: { Calendar.current.isDate($0.timestamp, inSameDayAs: today) }) {
+                showAlert = true // Show alert if there is already an entry today
+            } else {
+                isAddJournalViewPresented = true // Present AddJournalView if no entry for today
+            }
+        }
 }
     
 
@@ -148,10 +167,17 @@ struct Triangle: Shape {
 
 // DateFormatter for displaying date
 private let dateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "d\nMMM" // Display day and short month in Indonesian format, split into two lines
-    formatter.locale = Locale(identifier: "id_ID") // Set locale to Indonesian
-    return formatter
+    let dateformatter = DateFormatter()
+    dateformatter.dateFormat = "d"
+    dateformatter.locale = Locale(identifier: "id_ID") // Set locale to Indonesian
+    return dateformatter
+}()
+
+private let monthFormatter: DateFormatter = {
+    let monthformatter = DateFormatter()
+    monthformatter.dateFormat = "MMM"
+    monthformatter.locale = Locale(identifier: "id_ID")
+    return monthformatter
 }()
 
 
