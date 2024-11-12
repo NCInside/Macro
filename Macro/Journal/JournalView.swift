@@ -32,6 +32,7 @@ struct JournalView: View {
     @State private var showDatePicker = false
     @State private var savedDate: Date? = nil
     
+    @State var isInfoSheetPresented = false
     @State private var isDataLoaded = false
     
     private var GIs: [glycemicIndex: Int]? {
@@ -206,18 +207,26 @@ struct JournalView: View {
                                 .shadow(color: Color.black.opacity(0.08), radius: 3, x: 2, y: 2)
                             
                             
-                            HStack(alignment: .bottom) {
+                            HStack(alignment: .bottom){
                                 Text("Detail Makanan")
                                     .font(.title2)
                                     .fontWeight(.semibold)
-                                    .padding()
                                 Spacer()
                                 
+                                Button(action: {
+                                    isInfoSheetPresented = true
+                                }) {
+                                    Image(systemName: "info.circle")
+                                        .foregroundColor(.accentColor)
+                                }
+                                .padding(.top, 20)
+                                .padding(.trailing, 4)
+                                
                             }
-                            .sheet(isPresented: $viewModel.isDietViewPresented) {
-                                SearchView(isDetailViewPresented: $viewModel.isDietViewPresented, date: viewModel.selectedDate)
+                            .padding(.horizontal)
+                            .sheet(isPresented: $isInfoSheetPresented) {
+                                InfoView()
                             }
-                            .padding(.top, 3)
                             
                             Button(action: {
                                 viewModel.isDietViewPresented = true
@@ -231,7 +240,7 @@ struct JournalView: View {
                                     .cornerRadius(10)
                             }
                             .padding()
-                            .padding(.top, -26)
+                            .padding(.top, -20)
                             .padding(.bottom, 2)
                             
                             VStack(spacing: 10) {
@@ -364,6 +373,9 @@ struct JournalView: View {
                             }
                             .padding(.horizontal)
                             .padding(.top, -12)
+                            .sheet(isPresented: $viewModel.isDietViewPresented) {
+                                SearchView(isDetailViewPresented: $viewModel.isDietViewPresented, date: viewModel.selectedDate)
+                            }
                             
                             HStack(alignment: .bottom) {
                                 Text("Riwayat Harian")
