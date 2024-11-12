@@ -17,10 +17,15 @@ struct DetailSummaryView: View {
     let dayFormatter = DateFormatter()
     let dateFormatter = DateFormatter()
     let weekFormatter = DateFormatter()
-    let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    let daysOfWeek = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
     let months = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
+    ]
+    let categoryColors: [String: Color] = [
+        "Low": Color.mainLight.opacity(0.5),
+        "Medium": Color.mainLight,
+        "High": Color.main
     ]
     
     @StateObject private var viewModel = SummaryViewModel()
@@ -35,7 +40,7 @@ struct DetailSummaryView: View {
     @State private var xPosition: CGFloat = 0
     
     var data: [Point] {
-        viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth)
+        viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth).sorted(by: { $0.date < $1.date })
     }
     
     private var yAxisLabel: String {
@@ -176,21 +181,21 @@ struct DetailSummaryView: View {
                     
                     if (scenario == .gi) {
                         if (viewModel.selectedTab == "Bulanan") {
-                            Chart(viewModel.piePoints, id: \.category) { item in
+                            Chart(viewModel.aggregatedPiePoints(), id: \.category) { item in
                                 SectorMark(
-                                    angle: .value("Count", item.value)
+                                    angle: .value("Count", item.value),
+                                    innerRadius: .ratio(0.6)
                                 )
-                                .foregroundStyle(by: .value("Category", item.category))
+                                .foregroundStyle(categoryColors[item.category] ?? Color.gray)
                                 .annotation(position: .overlay, alignment: .center) {
                                     VStack {
                                         Text(item.category + " GI")
                                             .font(.subheadline)
-                                            .foregroundColor(.white)
+                                            .foregroundColor(.black)
                                             .bold()
                                         Text(String(item.value) + "x")
                                             .font(.subheadline)
-                                            .foregroundColor(.white)
-                                            .bold()
+                                            .foregroundColor(.black)
                                     }
                                 }
                             }
@@ -200,13 +205,31 @@ struct DetailSummaryView: View {
                         else {
                             Text("Minggu ke-\(selectedWeek)")
                             Chart {
-                                if let week = weekPointsPie[selectedWeek] {
-                                    ForEach(week) { item in
-                                        let dayIndex = Calendar.current.component(.weekday, from: item.date) - 2
-                                        let dayName = dayIndex >= 0 ? daysOfWeek[dayIndex] : daysOfWeek[dayIndex + 7]
-                                        BarMark(x: .value("date", dayName), y: .value("value", item.value)) 
-                                            .foregroundStyle(by: .value("Category", item.category))
-                                        
+                                let calendar = Calendar.current
+                                let weekStartDate = calendar.date(from: DateComponents(year: 2024, month: chosenMonth, weekOfMonth: selectedWeek))!
+                                let weekDates = (0..<7).compactMap { calendar.date(byAdding: .day, value: $0, to: weekStartDate) }
+                                
+                                ForEach(weekDates, id: \.self) { date in
+                                    let dayIndex = calendar.component(.weekday, from: date)
+                                    let dayName = daysOfWeek[dayIndex % 7]
+                                    
+                                    // Find items for the current day
+                                    let itemsForDay = weekPointsPie[selectedWeek]?.filter {
+                                        (Calendar.current.component(.weekday, from: $0.date) + 5) % 7 == dayIndex
+                                    } ?? []
+                                    
+                                    // Flag to check if we have data for the current day
+                                    let hasData = !itemsForDay.isEmpty
+
+                                    // Show BarMark for each item on this day if data exists
+                                    ForEach(itemsForDay) { item in
+                                        BarMark(x: .value("date", dayName), y: .value("value", item.value))
+                                            .position(by: .value("Category", item.category))
+                                            .foregroundStyle(categoryColors[item.category] ?? Color.gray)
+                                    }
+                                    
+                                    if !hasData {
+                                        BarMark(x: .value("date", dayName), y: .value("value", 0))
                                     }
                                 }
                             }
@@ -216,12 +239,10 @@ struct DetailSummaryView: View {
                                 .onEnded { value in
                                     switch(value.translation.width, value.translation.height) {
                                     case (...0, -30...30):
-                                        print("left swipe")
                                         if selectedWeek < 5 {
                                             selectedWeek += 1
                                         }
                                     case (0..., -30...30):
-                                        print("right swipe")
                                         if selectedWeek > 1 {
                                             selectedWeek -= 1
                                         }
@@ -231,6 +252,19 @@ struct DetailSummaryView: View {
                                 }
                             )
                         }
+                        
+                        VStack(alignment: .leading) {
+                            Text("Info terkait Indeks Glikemik (IG)")
+                                .foregroundStyle(Color.mainLight)
+                                .font(.headline)
+                            Text("Indeks Glikemik (IG) adalah indikator yang menunjukkan seberapa cepat makanan yang mengandung karbohidrat meningkatkan kadar gula darah dalam tubuh. Indeks glikemik diukur menggunakan skala 0–100, dengan kategori sebagai berikut: Indeks glikemik rendah: di bawah 55, Indeks glikemik sedang: 56–69, Indeks glikemik tinggi: di atas 70.")
+                                .padding(.top, 6)
+                        }
+                        .padding()
+                        .background(.white)
+                        .cornerRadius(16)
+                        .padding(.top, 12)
+                        
                     }
                     else {
                         if (viewModel.selectedTab == "Bulanan") {
@@ -303,22 +337,27 @@ struct DetailSummaryView: View {
                                                                                 
                                         let dayIndex = calendar.component(.weekday, from: date)
                                         let dayName = daysOfWeek[dayIndex % 7]
+                                        
+                                        LineMark(x: .value("date", dayName),
+                                                 y: .value("value", 0),
+                                                 series: .value("PLC", "A")
+                                        )
+                                            .foregroundStyle(Color.gray.opacity(0))
 
                                         if let item = weekPoints[selectedWeek]?.first(where: {
-                                            let pointDayIndex = Calendar.current.component(.weekday, from: $0.date) - 2 % 7
-                                            return pointDayIndex == dayIndex % 7
+                                            let pointDayIndex = (Calendar.current.component(.weekday, from: $0.date) + 5) % 7
+                                            return pointDayIndex == dayIndex
                                         }) {
-                                            LineMark(x: .value("date", dayName), y: .value("value", item.value))
+                                            LineMark(x: .value("date", dayName),
+                                                     y: .value("value", item.value),
+                                                     series: .value("REAL", "B")
+                                            )
                                                 .foregroundStyle(Color.main)
                                             
                                             if viewModel.hasBreakoutImage(on: item.date, in: journalImage) {
                                                 PointMark(x: .value("date", dayName), y: .value("value", item.value))
                                                     .foregroundStyle(Color.red)
                                             }
-                                        } else {
-                                            LineMark(x: .value("date", dayName), y: .value("value", 0))
-                                                .foregroundStyle(Color.gray.opacity(0.5))
-                                                .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
                                         }
                                     }
                                 }
@@ -419,8 +458,8 @@ struct DetailSummaryView: View {
             }
             Spacer()
         }
+        .background(Color.systemGray2)
         .onAppear {
-            print(journalImage)
             dayFormatter.dateFormat = "EEEE"
             dateFormatter.dateFormat = "dd MMM yyyy"
             weekFormatter.dateFormat = "dd MMM"

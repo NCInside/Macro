@@ -39,7 +39,7 @@ class SummaryViewModel: ObservableObject {
             return
         }
         avgSleep = ( filteredJournals.reduce(0) { $0 + Int($1.sleep.duration) } ) / n
-        avgFat = filteredJournals.flatMap { $0.foods }.filter { $0.fat >= 14 }.count / n
+        avgFat = filteredJournals.flatMap { $0.foods }.filter { $0.fat >= 5 }.count / n
         avgSaturatedFat = ( filteredJournals.flatMap { $0.foods }.reduce(0) { $0 + $1.fat } ) / Double(n)
         freqMilk = (filteredJournals.flatMap { $0.foods }.reduce(0) { $0 + ($1.dairy ? 1 : 0) }) / n
         let glycemicIndexCounts = filteredJournals
@@ -75,7 +75,7 @@ class SummaryViewModel: ObservableObject {
             }
         case .fat:
             for journal in filteredJournals {
-                let point = Point(date: journal.timestamp, value: filteredJournals.flatMap { $0.foods }.filter { $0.fat >= 14 }.count)
+                let point = Point(date: journal.timestamp, value: journal.foods.filter { $0.fat >= 5 }.count)
                 points.append(point)
             }
         case .dairy:
@@ -84,19 +84,25 @@ class SummaryViewModel: ObservableObject {
                 points.append(point)
             }
         case .gi:
+            piePoints = []
             for journal in filteredJournals {
                 let glycemicIndexCounts = journal.foods.reduce(into: [glycemicIndex: Int]()) { counts, food in
                     counts[food.glycemicIndex, default: 0] += 1
                 }
                 
-                piePoints = glycemicIndexCounts.map { (key, value) in
+                for (key, value) in glycemicIndexCounts {
                     let category: String
                     switch key {
-                    case .low: category = "Low"
-                    case .medium: category = "Medium"
-                    case .high: category = "High"
+                    case .low:
+                        category = "Low"
+                    case .medium:
+                        category = "Medium"
+                    case .high:
+                        category = "High"
                     }
-                    return PiePoint(date: journal.timestamp, category: category, value:value)
+                    
+                    let piePoint = PiePoint(date: journal.timestamp, category: category, value: value)
+                    piePoints.append(piePoint)
                 }
             }
         }
@@ -202,6 +208,21 @@ class SummaryViewModel: ObservableObject {
             return imageDate == targetDate && image.isBreakout
         }
     }
+    
+    func aggregatedPiePoints() -> [PiePoint] {
+        var aggregatedPoints: [String: Int] = [:]
+        
+        for point in piePoints {
+            if let existingValue = aggregatedPoints[point.category] {
+                aggregatedPoints[point.category] = existingValue + point.value
+            } else {
+                aggregatedPoints[point.category] = point.value
+            }
+        }
+        
+        return aggregatedPoints.map { PiePoint(date: Date(), category: $0.key, value: $0.value) }
+    }
+
     
 }
 
