@@ -178,11 +178,14 @@ struct PDFPrintView: View {
                 }
             }
             .frame(height: 220)
+            .chartXScale(domain: 0...Calendar.current.range(of: .day, in: .month, for: Calendar.current.date(from: DateComponents(year: 2024, month: chosenMonth))!)!.count + 1)
             .chartXAxis { AxisMarks(values: .stride(by: 10)) }
-            .chartYScale(domain: 0...8.2)
+            .chartYScale(domain: 0...10)
             .chartYAxisLabel("Total Tidur")
             .padding(2)
-            .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2))}
+            .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2)) {
+                AxisValueLabel()
+            }}
             .background(Color.white)
             .cornerRadius(10)
 
@@ -219,11 +222,14 @@ struct PDFPrintView: View {
                 }
             }
             .frame(height: 220)
+            .chartXScale(domain: 0...Calendar.current.range(of: .day, in: .month, for: Calendar.current.date(from: DateComponents(year: 2024, month: chosenMonth))!)!.count + 1)
             .chartXAxis { AxisMarks(values: .stride(by: 10)) }
-            .chartYScale(domain: 0...8.2)
+            .chartYScale(domain: 0...10)
             .chartYAxisLabel("Total Makanan Berlemak")
             .padding(2)
-            .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2))}
+            .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2)) {
+                AxisValueLabel()
+            }}
             .background(Color.white)
             .cornerRadius(10)
             
@@ -259,11 +265,14 @@ struct PDFPrintView: View {
                 }
             }
             .frame(height: 220)
+            .chartXScale(domain: 0...Calendar.current.range(of: .day, in: .month, for: Calendar.current.date(from: DateComponents(year: 2024, month: chosenMonth))!)!.count + 1)
             .chartXAxis { AxisMarks(values: .stride(by: 10)) }
-            .chartYScale(domain: 0...8.2)
+            .chartYScale(domain: 0...10)
             .chartYAxisLabel("Total Produk Susu")
             .padding(2)
-            .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2))}
+            .chartYAxis { AxisMarks(position: .leading, values: .stride(by: 2)) {
+                AxisValueLabel()
+            }}
             .background(Color.white)
             .cornerRadius(10)
 
