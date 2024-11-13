@@ -83,7 +83,8 @@ struct AddReminderView: View {
                                 .foregroundColor(.gray)
                         }
                     }
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.vertical, 8)
                     .background(Color(UIColor.systemWhite))
                     .cornerRadius(10)
                     .padding(.horizontal)
@@ -95,12 +96,16 @@ struct AddReminderView: View {
                     
                     VStack {
                         ReminderPickerView(label: "Peringatan", selection: $selectedFirstReminder, options: availableOptions(exclude: [selectedSecondReminder, selectedThirdReminder]))
+                            .padding(.top, 8)
                         Divider()
+                            .padding(.horizontal)
                         ReminderPickerView(label: "Peringatan Kedua", selection: $selectedSecondReminder, options: availableOptions(exclude: [selectedFirstReminder, selectedThirdReminder]))
                         Divider()
+                            .padding(.horizontal)
+                            .padding(.vertical, -5)
                         ReminderPickerView(label: "Peringatan Ketiga", selection: $selectedThirdReminder, options: availableOptions(exclude: [selectedFirstReminder, selectedSecondReminder]))
+                            .padding(.bottom, 8)
                     }
-                    .padding()
                     .background(Color(UIColor.systemWhite))
                     .cornerRadius(10)
                     .padding(.horizontal)
@@ -274,7 +279,7 @@ struct ReminderPickerView: View {
             }
             .pickerStyle(MenuPickerStyle())
         }
-        .padding()
+        .padding(.horizontal)
     }
 }
 
