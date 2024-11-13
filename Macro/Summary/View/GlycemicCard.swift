@@ -37,52 +37,59 @@ struct GlycemicCard: View {
             .padding(.top, 16)
             
            
-            HStack {
-                Text("Tanggal")
-                    .fontWeight(.bold)
-                    .frame(width: 120, alignment: .leading)
-                
-                VStack(alignment: .leading) {
-                    HStack{
-                        Spacer()
-                        Text("Jumlah Porsi")
-                            .fontWeight(.bold)
-                            .padding(.bottom, 2)
-                        Spacer()
-                    }
-                    HStack {
-                        Text("Rendah")
-                            .frame(maxWidth: .infinity)
-                        Text("Sedang")
-                            .frame(maxWidth: .infinity)
-                        Text("Tinggi")
-                            .frame(maxWidth: .infinity)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
+            if rows.isEmpty {
+                Text("Tidak ada Data")
+                    .bold()
+                    .font(.headline)
             }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 4)
-            .background(Color(.systemGray6))
-            
-            // Data rows
-            ForEach(rows) { row in
+            else {
                 HStack {
-                    Text(row.date)
+                    Text("Tanggal")
+                        .fontWeight(.bold)
                         .frame(width: 120, alignment: .leading)
                     
-                    HStack {
-                        Text(row.low)
-                            .frame(maxWidth: .infinity)
-                        Text(row.medium)
-                            .frame(maxWidth: .infinity)
-                        Text(row.high)
-                            .frame(maxWidth: .infinity)
+                    VStack(alignment: .leading) {
+                        HStack{
+                            Spacer()
+                            Text("Jumlah Porsi")
+                                .fontWeight(.bold)
+                                .padding(.bottom, 2)
+                            Spacer()
+                        }
+                        HStack {
+                            Text("Rendah")
+                                .frame(maxWidth: .infinity)
+                            Text("Sedang")
+                                .frame(maxWidth: .infinity)
+                            Text("Tinggi")
+                                .frame(maxWidth: .infinity)
+                        }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .padding(10)
-                .background(Color.white)
-                .border(Color.gray.opacity(0.3), width: 0.5)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 4)
+                .background(Color(.systemGray6))
+                
+                // Data rows
+                ForEach(rows) { row in
+                    HStack {
+                        Text(row.date)
+                            .frame(width: 120, alignment: .leading)
+                        
+                        HStack {
+                            Text(row.low)
+                                .frame(maxWidth: .infinity)
+                            Text(row.medium)
+                                .frame(maxWidth: .infinity)
+                            Text(row.high)
+                                .frame(maxWidth: .infinity)
+                        }
+                    }
+                    .padding(10)
+                    .background(Color.white)
+                    .border(Color.gray.opacity(0.3), width: 0.5)
+                }
             }
         }
         .cornerRadius(8)

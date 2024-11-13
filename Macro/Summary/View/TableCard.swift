@@ -37,38 +37,45 @@ struct TableCard: View {
             .padding(.bottom, 20)
             .padding(.top, 16)
             
-            HStack {
-                Text("Tanggal")
-                    .fontWeight(.bold)
-                    .frame(width: 120, alignment: .leading)
-                
-                VStack(alignment: .leading) {
-                    Text(column2Header)
-                        .fontWeight(.bold)
-                    if let note = note {
-                        Text(note)
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
+            if rows.isEmpty {
+                Text("Tidak ada Data")
+                    .bold()
+                    .font(.headline)
             }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 4)
-            .background(Color(.systemGray6))
-            
-            
-            ForEach(rows) { row in
+            else {
                 HStack {
-                    Text(row.date)
+                    Text("Tanggal")
+                        .fontWeight(.bold)
                         .frame(width: 120, alignment: .leading)
                     
-                    Text(row.value)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    VStack(alignment: .leading) {
+                        Text(column2Header)
+                            .fontWeight(.bold)
+                        if let note = note {
+                            Text(note)
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .padding(10)
-                .background(Color.white)
-                .border(Color.gray.opacity(0.3), width: 0.5)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 4)
+                .background(Color(.systemGray6))
+                
+                
+                ForEach(rows) { row in
+                    HStack {
+                        Text(row.date)
+                            .frame(width: 120, alignment: .leading)
+                        
+                        Text(row.value)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .padding(10)
+                    .background(Color.white)
+                    .border(Color.gray.opacity(0.3), width: 0.5)
+                }
             }
         }
         .cornerRadius(8)

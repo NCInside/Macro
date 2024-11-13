@@ -31,6 +31,12 @@ struct PDFPrintView: View {
     
     var journalImage: [JournalImage]
     
+    let categoryColors: [String: Color] = [
+        "Low": Color.mainLight.opacity(0.5),
+        "Medium": Color.mainLight,
+        "High": Color.main
+    ]
+    
     var sleepRows: [TableRow] {
         sleepPoints.map { item in
             TableRow(date: viewModel.dateFormatter.string(from: item.date), value: String(item.value))
@@ -45,6 +51,19 @@ struct PDFPrintView: View {
         dairyPoints.map { item in
             TableRow(date: viewModel.dateFormatter.string(from: item.date), value: String(item.value))
         }
+    }
+    var aggGIPoints: [PiePoint] {
+        var aggregatedPoints: [String: Int] = [:]
+        
+        for point in giPoints {
+            if let existingValue = aggregatedPoints[point.category] {
+                aggregatedPoints[point.category] = existingValue + point.value
+            } else {
+                aggregatedPoints[point.category] = point.value
+            }
+        }
+        
+        return aggregatedPoints.map { PiePoint(date: Date(), category: $0.key, value: $0.value) }
     }
     var giRows: [GlycemicIndexRow] {
         // Group the giPoints by date
@@ -83,7 +102,7 @@ struct PDFPrintView: View {
             .padding(.horizontal, -20)
             .padding(.bottom, 10)
             
-            Text("Nama")
+            Text("\(UserDefaults.standard.string(forKey: "name") ?? "Nama")")
                 .bold()
                 .font(.title2)
                 .padding(.bottom, 10)
@@ -252,21 +271,21 @@ struct PDFPrintView: View {
                 .fontWeight(.semibold)
                 .padding(.top)
 
-            Chart(giPoints, id: \.category) { item in
+            Chart(aggGIPoints, id: \.category) { item in
                 SectorMark(
-                    angle: .value("Count", item.value)
+                    angle: .value("Count", item.value),
+                    innerRadius: .ratio(0.6)
                 )
-                .foregroundStyle(by: .value("Category", item.category))
+                .foregroundStyle(categoryColors[item.category] ?? Color.gray)
                 .annotation(position: .overlay, alignment: .center) {
                     VStack {
                         Text(item.category + " GI")
                             .font(.subheadline)
-                            .foregroundColor(.white)
+                            .foregroundColor(.black)
                             .bold()
                         Text(String(item.value) + "x")
                             .font(.subheadline)
-                            .foregroundColor(.white)
-                            .bold()
+                            .foregroundColor(.black)
                     }
                 }
             }

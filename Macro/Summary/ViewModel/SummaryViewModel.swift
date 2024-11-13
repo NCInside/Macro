@@ -120,14 +120,19 @@ class SummaryViewModel: ObservableObject {
                 counts[food.glycemicIndex, default: 0] += 1
             }
             
-            points = glycemicIndexCounts.map { (key, value) in
+            for (key, value) in glycemicIndexCounts {
                 let category: String
                 switch key {
-                case .low: category = "Low"
-                case .medium: category = "Medium"
-                case .high: category = "High"
+                case .low:
+                    category = "Low"
+                case .medium:
+                    category = "Medium"
+                case .high:
+                    category = "High"
                 }
-                return PiePoint(date: journal.timestamp, category: category, value:value)
+                
+                let piePoint = PiePoint(date: journal.timestamp, category: category, value: value)
+                points.append(piePoint)
             }
         }
         
