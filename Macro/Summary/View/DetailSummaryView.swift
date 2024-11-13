@@ -204,37 +204,65 @@ struct DetailSummaryView: View {
                         }
                         else {
                             Text("Minggu ke-\(selectedWeek)")
-                            Chart {
-                                let calendar = Calendar.current
-                                let weekStartDate = calendar.date(from: DateComponents(year: 2024, month: chosenMonth, weekOfMonth: selectedWeek))!
-                                let weekDates = (0..<7).compactMap { calendar.date(byAdding: .day, value: $0, to: weekStartDate) }
-                                
-                                ForEach(weekDates, id: \.self) { date in
-                                    let dayIndex = calendar.component(.weekday, from: date)
-                                    let dayName = daysOfWeek[dayIndex % 7]
+                                .bold()
+                            VStack(alignment: .leading) {
+                                Chart {
+                                    let calendar = Calendar.current
+                                    let weekStartDate = calendar.date(from: DateComponents(year: 2024, month: chosenMonth, weekOfMonth: selectedWeek))!
+                                    let weekDates = (0..<7).compactMap { calendar.date(byAdding: .day, value: $0, to: weekStartDate) }
                                     
-                                    // Find items for the current day
-                                    let itemsForDay = weekPointsPie[selectedWeek]?.filter {
-                                        (Calendar.current.component(.weekday, from: $0.date) + 5) % 7 == dayIndex
-                                    } ?? []
-                                    
-                                    // Flag to check if we have data for the current day
-                                    let hasData = !itemsForDay.isEmpty
+                                    ForEach(weekDates, id: \.self) { date in
+                                        let dayIndex = calendar.component(.weekday, from: date)
+                                        let dayName = daysOfWeek[dayIndex % 7]
+                                        
+                                        // Find items for the current day
+                                        let itemsForDay = weekPointsPie[selectedWeek]?.filter {
+                                            (Calendar.current.component(.weekday, from: $0.date) + 5) % 7 == dayIndex
+                                        } ?? []
+                                        
+                                        // Flag to check if we have data for the current day
+                                        let hasData = !itemsForDay.isEmpty
 
-                                    // Show BarMark for each item on this day if data exists
-                                    ForEach(itemsForDay) { item in
-                                        BarMark(x: .value("date", dayName), y: .value("value", item.value))
-                                            .position(by: .value("Category", item.category))
-                                            .foregroundStyle(categoryColors[item.category] ?? Color.gray)
-                                    }
-                                    
-                                    if !hasData {
-                                        BarMark(x: .value("date", dayName), y: .value("value", 0))
+                                        // Show BarMark for each item on this day if data exists
+                                        ForEach(itemsForDay) { item in
+                                            BarMark(x: .value("date", dayName), y: .value("value", item.value))
+                                                .position(by: .value("Category", item.category))
+                                                .foregroundStyle(categoryColors[item.category] ?? Color.gray)
+                                        }
+                                        
+                                        if !hasData {
+                                            BarMark(x: .value("date", dayName), y: .value("value", 0))
+                                        }
                                     }
                                 }
+                                
+                                HStack {
+                                    Circle()
+                                        .frame(width: 10, height: 10)
+                                        .foregroundStyle(.mainLight.opacity(0.5))
+                                    Text("Indeks Rendah")
+                                        .bold()
+                                }
+                                .padding(.top)
+                                HStack {
+                                    Circle()
+                                        .frame(width: 10, height: 10)
+                                        .foregroundStyle(.mainLight)
+                                    Text("Indeks Sedang")
+                                        .bold()
+                                }
+                                HStack {
+                                    Circle()
+                                        .frame(width: 10, height: 10)
+                                        .foregroundStyle(.main)
+                                    Text("Indeks Tinggi")
+                                        .bold()
+                                }
                             }
+                            .padding()
+                            .background(.white)
+                            .cornerRadius(16)
                             .frame(maxWidth: .infinity, maxHeight: 350)
-                            .padding(.horizontal)
                             .gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
                                 .onEnded { value in
                                     switch(value.translation.width, value.translation.height) {
