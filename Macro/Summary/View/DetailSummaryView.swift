@@ -137,8 +137,7 @@ struct DetailSummaryView: View {
                             .padding(6)
                             .background(.gray.opacity(0.2))
                             .cornerRadius(10)
-                            .padding(.bottom, 12)
-                            .offset(x: xPosition - 180)
+                            .offset(x: xPosition - 167)
                             .onTapGesture {
                                 selectedPoint = nil
                             }
@@ -164,6 +163,7 @@ struct DetailSummaryView: View {
                                     }
                                     Spacer()
                                 }
+                                .padding(.bottom, 1)
                                 if viewModel.selectedTab == "Bulanan" {
                                     Text("1 \(months[chosenMonth - 1]) - \(lastDay(ofMonth: chosenMonth, year: 2024)) \(months[chosenMonth - 1]) 2024")
                                         .foregroundStyle(.gray)
@@ -339,6 +339,18 @@ struct DetailSummaryView: View {
                                                             }
                                                         }
                                                 )
+                                            
+                                            if selectedPoint != nil {
+                                                Path { path in
+                                                    let chartTopY = geometry[chart.plotFrame!].origin.y
+                                                    let chartBottomY = geometry[chart.plotFrame!].origin.y + geometry[chart.plotFrame!].size.height
+                                                    path.move(to: CGPoint(x: xPosition + 15, y: chartTopY - 10 ))
+                                                    path.addLine(to: CGPoint(x: xPosition + 15, y: chartBottomY + 10))
+                                                }
+                                                .stroke(Color.gray, style: StrokeStyle(lineWidth: 1, dash: [5, 5]))
+                                                .offset(y: -20)
+                                            }
+                                            
                                         }
                                     }
                                     
@@ -354,18 +366,9 @@ struct DetailSummaryView: View {
                                     .padding(.leading, 8)
                                     .padding(.top, 12)
                                 }
-                                .offset(y: selectedPoint != nil ? -100 : 7)
                                 .frame(maxHeight: 350)
                                 .padding(.horizontal)
                                 
-                                if selectedPoint != nil {
-                                    Path { path in
-                                        path.move(to: CGPoint(x: xPosition + 30, y: -25))
-                                        path.addLine(to: CGPoint(x: xPosition + 30, y: 273))  // Line down to chart bottom
-                                    }
-                                    .stroke(Color.gray, style: StrokeStyle(lineWidth: 1, dash: [5, 5]))
-                                    .offset(y: 20)
-                                }
                             }
                         }
                         else {
@@ -439,6 +442,17 @@ struct DetailSummaryView: View {
                                                             }
                                                         }
                                                 )
+                                            
+                                            if selectedPoint != nil {
+                                                Path { path in
+                                                    let chartTopY = geometry[chart.plotFrame!].origin.y
+                                                    let chartBottomY = geometry[chart.plotFrame!].origin.y + geometry[chart.plotFrame!].size.height
+                                                    path.move(to: CGPoint(x: xPosition + 15, y: chartTopY - 10 ))
+                                                    path.addLine(to: CGPoint(x: xPosition + 15, y: chartBottomY + 10))
+                                                }
+                                                .stroke(Color.gray, style: StrokeStyle(lineWidth: 1, dash: [5, 5]))
+                                                .offset(y: -20)
+                                            }
                                         }
                                     }
                                     .simultaneousGesture(
@@ -473,18 +487,8 @@ struct DetailSummaryView: View {
                                     .padding(.leading, 8)
                                     .padding(.top, 12)
                                 }
-                                .offset(y: selectedPoint != nil ? -100 : -7)
                                 .frame(maxWidth: .infinity, maxHeight: 350)
                                 .padding(.horizontal)
-                                
-                                if selectedPoint != nil {
-                                    Path { path in
-                                        path.move(to: CGPoint(x: xPosition + 30, y: -25))
-                                        path.addLine(to: CGPoint(x: xPosition + 30, y: 273))  // Line down to chart bottom
-                                    }
-                                    .stroke(Color.gray, style: StrokeStyle(lineWidth: 1, dash: [5, 5]))
-                                    .offset(y: 20)
-                                }
                             }
                                                                             
                             HStack {
@@ -493,7 +497,6 @@ struct DetailSummaryView: View {
                                     .bold()
                                 Spacer()
                             }
-                            .offset(y: selectedPoint != nil ? -187 : 0)
                         }
                     }
                 }
