@@ -44,6 +44,19 @@ class JournalViewModel: ObservableObject {
         selectedDate = date
     }
     
+    func modifyDate() {
+        let currentComponents = Calendar.current.dateComponents([.hour, .minute, .second], from: Date())
+        if let updatedDate = Calendar.current.date(bySettingHour: currentComponents.hour ?? 0,
+                                                   minute: currentComponents.minute ?? 0,
+                                                   second: currentComponents.second ?? 0,
+                                                   of: selectedDate) {
+            selectedDate = updatedDate
+            print("Updated date:", selectedDate)
+        } else {
+            print("Failed to update date")
+        }
+    }
+    
     func getMonthInIndonesian() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM"

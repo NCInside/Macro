@@ -229,6 +229,7 @@ struct JournalView: View {
                             }
                             
                             Button(action: {
+                                viewModel.modifyDate()
                                 viewModel.isDietViewPresented = true
                             }) {
                                 Text("+ Tambah Makanan")
