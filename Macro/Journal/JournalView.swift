@@ -140,6 +140,7 @@ struct JournalView: View {
                                     .onChange(of: viewModel.selectedDate) {
                                         viewModel.fetchSleepData(context: context, journals: journals, date: viewModel.selectedDate)
                                     }
+                                
                             }
                             
                             HStack(alignment: .bottom){

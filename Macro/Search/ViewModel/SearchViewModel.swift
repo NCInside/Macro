@@ -228,6 +228,7 @@ final class SearchViewModel: ObservableObject {
             do {
                 try context.save()
                 print("Data saved successfully.")
+                print(date)
             } catch {
                 print("Failed to save context: \(error.localizedDescription)")
             }

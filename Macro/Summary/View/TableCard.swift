@@ -74,7 +74,7 @@ struct TableCard: View {
             }
         }
         .cornerRadius(8)
-        .shadow(radius: 1)
+        .shadow(radius: 0.08)
         
         
         

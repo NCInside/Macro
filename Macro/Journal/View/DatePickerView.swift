@@ -21,6 +21,7 @@ struct DatePickerView: View {
             VStack {
                 DatePicker("Pilih Tanggal", selection: $selectedDate, in: ...Date(), displayedComponents: [.date])
                     .datePickerStyle(GraphicalDatePickerStyle())
+                    .environment(\.locale, Locale(identifier: "id_ID"))
                     .onChange(of: selectedDate) { newDate in
                         selectedDateColor = .main
                         savedDate = newDate
