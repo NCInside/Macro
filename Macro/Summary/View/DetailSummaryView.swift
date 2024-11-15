@@ -39,6 +39,37 @@ struct DetailSummaryView: View {
     @State var selectedPoint: Point?
     @State private var xPosition: CGFloat = 0
     
+    var maxWeekInMonth: Int? {
+        let calendar = Calendar.current
+            
+        let components = DateComponents(year: 2024, month: chosenMonth, day: 1)
+        guard let startOfMonth = calendar.date(from: components) else {
+            return nil
+        }
+        
+        let range = calendar.range(of: .weekOfMonth, in: .month, for: startOfMonth)
+        
+        return range?.count
+    }
+    
+    
+    var daysToFirstDateOfFirstWeek: Int? {
+        let calendar = Calendar.current
+        
+        let components = DateComponents(year: 2024, month: chosenMonth, day: 1)
+        guard let startOfMonth = calendar.date(from: components) else {
+            return nil
+        }
+        
+        let firstWeekdayOfMonth = calendar.component(.weekday, from: startOfMonth)
+        
+        let calendarFirstWeekday = calendar.firstWeekday
+        
+        let daysNeeded = (firstWeekdayOfMonth - calendarFirstWeekday + 7) % 7
+
+        return daysNeeded
+    }
+    
     var data: [Point] {
         viewModel.getPoints(journals: journals, scenario: scenario, chosenMonth: chosenMonth).sorted(by: { $0.date < $1.date })
     }
@@ -213,11 +244,12 @@ struct DetailSummaryView: View {
                                     
                                     ForEach(weekDates, id: \.self) { date in
                                         let dayIndex = calendar.component(.weekday, from: date)
-                                        let dayName = daysOfWeek[dayIndex % 7]
+                                        let indexDay = (dayIndex + 12 - (daysToFirstDateOfFirstWeek ?? 0)) % 7
+                                        let dayName = daysOfWeek[indexDay]
                                         
                                         // Find items for the current day
                                         let itemsForDay = weekPointsPie[selectedWeek]?.filter {
-                                            (Calendar.current.component(.weekday, from: $0.date) + 5) % 7 == dayIndex
+                                            (Calendar.current.component(.weekday, from: $0.date) + (daysToFirstDateOfFirstWeek ?? 0)) % 7 == dayIndex
                                         } ?? []
                                         
                                         // Flag to check if we have data for the current day
@@ -267,7 +299,7 @@ struct DetailSummaryView: View {
                                 .onEnded { value in
                                     switch(value.translation.width, value.translation.height) {
                                     case (...0, -30...30):
-                                        if selectedWeek < 5 {
+                                        if selectedWeek < maxWeekInMonth ?? 5 {
                                             selectedWeek += 1
                                         }
                                     case (0..., -30...30):
@@ -382,7 +414,8 @@ struct DetailSummaryView: View {
                                         ForEach(weekDates, id: \.self) { date in
                                                                                     
                                             let dayIndex = calendar.component(.weekday, from: date)
-                                            let dayName = daysOfWeek[dayIndex % 7]
+                                            let indexDay = (dayIndex + 12 - (daysToFirstDateOfFirstWeek ?? 0)) % 7
+                                            let dayName = daysOfWeek[indexDay]
                                             
                                             LineMark(x: .value("date", dayName),
                                                      y: .value("value", 0),
@@ -391,7 +424,7 @@ struct DetailSummaryView: View {
                                                 .foregroundStyle(Color.gray.opacity(0))
 
                                             if let item = weekPoints[selectedWeek]?.first(where: {
-                                                let pointDayIndex = (Calendar.current.component(.weekday, from: $0.date) + 5) % 7
+                                                let pointDayIndex = (Calendar.current.component(.weekday, from: $0.date) + (daysToFirstDateOfFirstWeek ?? 0)) % 7
                                                 return pointDayIndex == dayIndex
                                             }) {
                                                 LineMark(x: .value("date", dayName),
@@ -463,7 +496,7 @@ struct DetailSummaryView: View {
                                                 let threshold: CGFloat = 240  // Adjust as needed for sensitivity
 
                                                 // Determine swipe direction and acceleration, adjusting by one week if the threshold is exceeded.
-                                                if predictedWidth < -threshold && selectedWeek < 5 {
+                                                if predictedWidth < -threshold && selectedWeek < maxWeekInMonth ?? 5 {
                                                     // Swipe left with acceleration
                                                     selectedWeek += 1
                                                 } else if predictedWidth > threshold && selectedWeek > 1 {
