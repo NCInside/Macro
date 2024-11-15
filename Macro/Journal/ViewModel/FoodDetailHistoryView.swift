@@ -30,7 +30,7 @@ struct FoodDetailHistoryView: View {
                 Divider()
                     .padding(.leading)
                 HStack {
-                    Text("Dairies")
+                    Text("Mengandung Susu")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)

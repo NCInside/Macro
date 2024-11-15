@@ -164,7 +164,7 @@ struct SummaryView: View {
                                   journalImage: journalImage))
         
         // 2: Save it to our documents directory
-        let url = URL.documentsDirectory.appending(path: "\(chosenMonth) Summary - \(UserDefaults.standard.string(forKey: "name") ?? "Unknown").pdf")
+        let url = URL.documentsDirectory.appending(path: "\(chosenMonth) Summary - \(UserDefaults.standard.string(forKey: "name") ?? "-").pdf")
         
         // 3: Start the rendering process
         renderer.render { size, context in

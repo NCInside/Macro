@@ -22,7 +22,7 @@ struct HealthOnBoardingView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
                 
-                Text("Pelacakan tidur dan pengukuran tubuh memerlukan akses ke informasi Kesehatan yang disimpan di Apple Health.")
+                Text("Pelacakan tidur memerlukan akses ke informasi Kesehatan yang disimpan di Apple Health.")
                     .padding(.horizontal)
                     .foregroundColor(.white)
                 

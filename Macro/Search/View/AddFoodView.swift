@@ -66,12 +66,12 @@ struct AddFoodView: View {
                     .padding(.leading)
                 
                 HStack {
-                    Text("Banyak Porsi")
+                    Text("Besar Porsi")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(.black)
-                    TextField("Masukan porsi",  text: $inputPortion)
+                    TextField("Masukan ukuran 1 porsi normal",  text: $inputPortion)
                         .keyboardType(.numberPad)
                         .multilineTextAlignment(.trailing)
                         .padding(.trailing, 16)
