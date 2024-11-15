@@ -53,7 +53,7 @@ struct JournalView: View {
     }
     
     var body: some View {
-        ZStack{
+        VStack{
             NavigationStack {
                 ScrollView {
                     if isDataLoaded {
@@ -229,7 +229,6 @@ struct JournalView: View {
                             }
                             
                             Button(action: {
-                                viewModel.modifyDate()
                                 viewModel.isDietViewPresented = true
                             }) {
                                 Text("+ Tambah Makanan")
@@ -249,7 +248,7 @@ struct JournalView: View {
                                     VStack(alignment: .leading, spacing: -24) {
                                         HStack {
                                             Text("Makanan Berlemak")
-                                                .padding(.leading)
+                                                .padding(.leading, 10)
                                                 .padding(.vertical)
                                                 .fontWeight(.semibold)
                                                 .foregroundColor(.systemGray3)
@@ -261,7 +260,7 @@ struct JournalView: View {
                                             Text(String(viewModel.calcFat(journals: journals)))
                                                 .font(.title)
                                                 .fontWeight(.bold)
-                                                .padding(.leading)
+                                                .padding(.leading, 10)
                                                 .padding(.vertical)
                                             
                                             Text("porsi")
@@ -279,7 +278,8 @@ struct JournalView: View {
                                     VStack(alignment: .leading, spacing: -24) {
                                         HStack {
                                             Text("Produk Susu")
-                                                .padding()
+                                                .padding(.vertical)
+                                                .padding(.leading, 10)
                                                 .fontWeight(.semibold)
                                                 .foregroundColor(.systemGray3)
                                             Spacer()
@@ -289,7 +289,7 @@ struct JournalView: View {
                                             Text(String(viewModel.calcDairy(journals: journals)))
                                                 .font(.title)
                                                 .fontWeight(.bold)
-                                                .padding(.leading)
+                                                .padding(.leading, 10)
                                                 .padding(.vertical)
                                             
                                             
@@ -308,7 +308,8 @@ struct JournalView: View {
                                     VStack(alignment: .leading, spacing: -24) {
                                         HStack {
                                             Text("Indeks Glikemik")
-                                                .padding()
+                                                .padding(.vertical)
+                                                .padding(.leading, 10)
                                                 .fontWeight(.semibold)
                                                 .foregroundColor(.systemGray3)
                                             
@@ -430,7 +431,9 @@ struct JournalView: View {
                         .background(Color.background).edgesIgnoringSafeArea(.all)
                     }
                 }
+                .padding(.bottom, 100)
                 .background(Color.background).edgesIgnoringSafeArea(.all)
+                
             }
             .onAppear {
                 viewModel.fetchSleepData(context: context, journals: journals, date: viewModel.selectedDate)

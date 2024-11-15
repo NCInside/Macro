@@ -155,24 +155,26 @@ struct SkinHealthView: View {
                                         Spacer()
                                         
                                         
-                                        HStack{
-                                            if journalImage.isBreakout {
-                                                Image(systemName: "triangle.fill")
-                                                    .foregroundColor(.yellow)
-                                                    .font(.footnote)
+                                        if journalImage.isBreakout || journalImage.isMenstrual {
+                                            HStack {
+                                                if journalImage.isBreakout {
+                                                    Image(systemName: "triangle.fill")
+                                                        .foregroundColor(.yellow)
+                                                        .font(.footnote)
+                                                }
+                                                
+                                                if journalImage.isMenstrual {
+                                                    Image(systemName: "circle.fill")
+                                                        .foregroundColor(.red)
+                                                        .font(.footnote)
+                                                }
                                             }
-                                            
-                                            if journalImage.isMenstrual {
-                                                Image(systemName: "circle.fill")
-                                                    .foregroundColor(.red)
-                                                    .font(.footnote)
-                                            }
+                                            .frame(width: .infinity, height: 20)
+                                            .padding(.horizontal, 4)
+                                            .background(Color.black.opacity(0.7))
+                                            .cornerRadius(4)
+                                            .padding(6)
                                         }
-                                        .frame(width: .infinity, height: 20)
-                                        .padding(.horizontal, 4)
-                                        .background(Color.black.opacity(0.7))
-                                        .cornerRadius(4)
-                                        .padding(6)
                                         
                                         
                                         
@@ -263,7 +265,3 @@ private let monthFormatter: DateFormatter = {
 #Preview {
     ContentView()
 }
-
-
-
-
