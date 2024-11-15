@@ -64,7 +64,7 @@ struct SkinHealthView: View {
                         Text(Calendar.current.monthSymbols[selectedMonth - 1])
                             .font(.title2)
                             .fontWeight(.semibold)
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.systemBlack)
                             .padding()
                             .cornerRadius(8)
                         

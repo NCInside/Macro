@@ -43,7 +43,7 @@ struct SummaryView: View {
                     }
                 } label: {
                     Text(months[chosenMonth - 1])
-                        .foregroundColor(.black)
+                        .foregroundColor(Color.systemBlack)
                         .font(.title2)
                         .fontWeight(.semibold)
                     

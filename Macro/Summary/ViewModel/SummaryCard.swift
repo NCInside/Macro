@@ -22,6 +22,7 @@ struct SummaryCard<DetailView: View>: View {
             HStack {
                 Text(title)
                     .fontWeight(.medium)
+                    .foregroundColor(Color.systemBlack)
                 Spacer()
                 if showChevron {
                     Image(systemName: "chevron.right")
@@ -62,7 +63,7 @@ struct SummaryCard<DetailView: View>: View {
         }
         //        .frame(maxWidth: .infinity, maxHeight: 20)
         .padding()
-        .background(.white)
+        .background(Color.systemWhite)
     }
 }
 

@@ -292,7 +292,7 @@ struct DetailSummaryView: View {
                                 }
                             }
                             .padding()
-                            .background(.white)
+                            .background(Color.systemWhite)
                             .cornerRadius(16)
                             .frame(maxWidth: .infinity, maxHeight: 350)
                             .gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
@@ -322,7 +322,7 @@ struct DetailSummaryView: View {
                                 .font(.caption)
                         }
                         .padding()
-                        .background(.white)
+                        .background(Color.systemWhite)
                         .cornerRadius(16)
                         .padding(.top, 12)
                         
@@ -538,7 +538,7 @@ struct DetailSummaryView: View {
             }
             Spacer()
         }
-        .background(Color.systemGray2)
+        .background(Color.background)
         .onAppear {
             dayFormatter.dateFormat = "EEEE"
             dateFormatter.dateFormat = "dd MMM yyyy"

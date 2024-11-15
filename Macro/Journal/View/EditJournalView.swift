@@ -41,7 +41,7 @@ struct EditJournalView: View {
                 deleteButton
             }
             .padding()
-            .background(Color(.systemGray6).ignoresSafeArea())
+            .background(Color(.background).ignoresSafeArea())
             .frame(maxHeight: .infinity)
             .toolbar {
                 ToolbarItem(placement: .keyboard) {
@@ -55,7 +55,7 @@ struct EditJournalView: View {
                 Button("Cancel", role: .cancel, action: {})
             }
         }
-        .background(Color(.systemGray6).ignoresSafeArea())
+        .background(Color(.background).ignoresSafeArea())
     }
     
     // MARK: - Header Section
@@ -100,7 +100,7 @@ struct EditJournalView: View {
             }) {
                 ZStack {
                     Rectangle()
-                        .fill(Color.white)
+                        .fill(Color.systemWhite)
                         .frame(width: 240, height: 300)
                     
                     if let image = selectedImage {
@@ -142,11 +142,11 @@ struct EditJournalView: View {
         }
         .background(
             RoundedRectangle(cornerRadius: 0)
-                .fill(Color.white)
+                .fill(Color.systemWhite)
                 .shadow(color: Color.black.opacity(0.8), radius: 8, x: 2, y: 4)
                 .overlay(
                     RoundedRectangle(cornerRadius: 0)
-                        .stroke(Color.white, lineWidth: 18)
+                        .stroke(Color.systemWhite, lineWidth: 18)
                 )
         )
         .padding(.bottom, 36)
@@ -232,7 +232,7 @@ struct EditJournalView: View {
                     .foregroundColor(.red)
                     .padding()
                     .frame(maxWidth: 360, alignment: .leading)
-                    .background(Color.white)
+                    .background(Color.systemWhite)
                     .cornerRadius(10)
                 
                 

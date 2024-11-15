@@ -57,7 +57,7 @@ struct AddJournalView: View {
                     }) {
                         ZStack {
                             Rectangle()
-                                .fill(selectedImage == nil ? Color.gray.opacity(0.2) : Color.white)
+                                .fill(selectedImage == nil ? Color.gray.opacity(0.2) : Color.systemWhite)
                                 .frame(width: 240, height: 300)
                                 .shadow(radius: selectedImage == nil ? 5 : 0)
                             
@@ -101,11 +101,11 @@ struct AddJournalView: View {
                 }
                 .background(
                     RoundedRectangle(cornerRadius: 0)
-                        .fill(Color.white)
+                        .fill(Color.systemWhite)
                         .shadow(color: Color.black.opacity(0.8), radius: 8, x: 2, y: 4)
                         .overlay(
                             RoundedRectangle(cornerRadius: 0)
-                                .stroke(Color.white, lineWidth: 18)
+                                .stroke(Color.systemWhite, lineWidth: 18)
                         )
                 )
                 .padding(.bottom, 36)
@@ -136,7 +136,7 @@ struct AddJournalView: View {
                             .padding(.trailing, 10)
                     }
                     .padding(.vertical, 6)
-                    .background(Color(UIColor.white))
+                    .background(Color.systemWhite)
                     
                     Divider()
                         .padding(.leading)
@@ -153,10 +153,10 @@ struct AddJournalView: View {
                     }
                     .padding(.top, 4)
                     .padding(.vertical, 6)
-                    .background(Color(UIColor.white))
+                    .background(Color.systemWhite)
                 }
                 .padding(.vertical, 8)
-                .background(Color.white)
+                .background(Color.systemWhite)
                 .cornerRadius(10)
                 
                 // Notes Section
@@ -183,7 +183,7 @@ struct AddJournalView: View {
             }
             
             .padding()
-            .background(Color(.systemGray6).ignoresSafeArea())
+            .background(Color(.background).ignoresSafeArea())
             .frame(maxHeight: .infinity)
             .toolbar {
                 ToolbarItem(placement: .keyboard) {
@@ -193,7 +193,7 @@ struct AddJournalView: View {
                 }
             }
         }
-        .background(Color(.systemGray6).ignoresSafeArea())
+        .background(Color(.background).ignoresSafeArea())
         
     }
     
