@@ -14,6 +14,7 @@ struct SearchView: View {
     @Environment(\.dismiss) private var dismiss
     @Query private var journals: [Journal]
     @State var isAddFoodViewPresented = false
+    @State var showingAlert = false
     
     var date: Date
     
@@ -142,8 +143,11 @@ struct SearchView: View {
             }
         }
         .sheet(isPresented: $isAddFoodViewPresented) {
-            AddFoodView()
+            AddFoodView(showingAlert: $showingAlert)
             
+        }
+        .alert("Makanan Baru Tersimpan", isPresented: $showingAlert) {
+            Button("OK", role: .cancel) { }
         }
     }
     

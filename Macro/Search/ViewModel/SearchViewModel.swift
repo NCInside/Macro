@@ -53,11 +53,7 @@ final class SearchViewModel: ObservableObject {
 
             let newSuggestions = await foodCache.lookup(prefix: text)
 
-            if isSingleSuggestion(suggestions, equalTo: text) {
-                suggestions = []
-            } else {
-                suggestions = newSuggestions
-            }
+            suggestions = newSuggestions
         }
     }
 

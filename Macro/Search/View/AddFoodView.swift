@@ -18,6 +18,7 @@ struct AddFoodView: View {
     @State var selectedFatOption = "Jenuh"
     @State var selectedMilkOption = "Tidak Ada"
     @State var selectedGlycemicOption = "Rendah"
+    @Binding var showingAlert: Bool
     
     var body: some View {
         VStack (alignment: .leading) {
@@ -151,12 +152,13 @@ struct AddFoodView: View {
             }
             let dairy = selectedMilkOption == "Ada" ? 1 : 0
             let fat = selectedFatOption == "Jenuh" ? 6 : 0
+            showingAlert.toggle()
             viewModel.addFoodName(name: inputName, cookingTechnique: cook, glycemicIndex: gi, dairies: dairy, saturatedFat: Double(fat), gramPortion: portion)
         }
         
     }
 }
 
-#Preview {
-    AddFoodView()
-}
+//#Preview {
+//    AddFoodView()
+//}
