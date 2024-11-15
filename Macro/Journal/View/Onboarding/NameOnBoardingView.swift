@@ -19,7 +19,7 @@ struct NameOnBoardingView: View {
                     .bold()
                 
                 VStack {
-                    TextField("Enter your name", text: $inputName)
+                    TextField("Tuliskan Namamu", text: $inputName)
                         .focused($isInputActive)
                         .font(.largeTitle)
                         .foregroundColor(.white)
@@ -30,7 +30,7 @@ struct NameOnBoardingView: View {
                         .toolbar {
                             ToolbarItemGroup(placement: .keyboard) {
                                 Spacer()
-                                Button("Done") {
+                                Button("Selesai") {
                                     isInputActive = false
                                 }
                             }

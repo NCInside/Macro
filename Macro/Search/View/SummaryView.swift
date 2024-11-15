@@ -45,7 +45,7 @@ struct SummaryView: View {
                     Text(months[chosenMonth - 1])
                         .foregroundColor(.black)
                         .font(.title2)
-                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                     
                     Image(systemName: "chevron.down")
                         .padding(.trailing, -10)
