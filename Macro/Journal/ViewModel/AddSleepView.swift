@@ -50,7 +50,7 @@ struct AddSleepView: View {
                     .bold()
                 Spacer()
                 
-                Button("Tambah") {
+                Button("Simpan") {
                     viewModel.addSleep(context: context, journals: journals, start: startDate1, end: endDate1, mode: true)
                     if showAddSleepCard {
                         viewModel.addSleep(context: context, journals: journals, start: startDate2, end: endDate2, mode: false)

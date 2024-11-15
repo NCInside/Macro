@@ -91,7 +91,7 @@ struct FoodInformationCard: View {
                 Divider()
                     .padding(.leading)
                 HStack {
-                    Text("Indeks Glisemik")
+                    Text("Indeks Glikemik")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -118,4 +118,3 @@ struct FoodInformationCard: View {
 //#Preview {
 //    FoodInformationCard()
 //}
-

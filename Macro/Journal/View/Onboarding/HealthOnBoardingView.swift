@@ -38,7 +38,7 @@ struct HealthOnBoardingView: View {
                     .padding(.bottom, 4)
                     .padding(.leading, 1)
                     
-                    Text("Harap aktifkan semua kategori dalam dialog yang akan muncul. Tanpa akses penuh, Zora tidak akan dapat memberikan analisis dan wawasan yang lengkap.")
+                    Text("Harap aktifkan semua kategori dalam dialog yang akan muncul. Tanpa akses penuh, Zora tidak akan dapat memberikan wawasan yang lengkap.")
                         .padding(.horizontal)
                         .foregroundColor(.white)
                 }

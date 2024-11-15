@@ -169,7 +169,7 @@ struct JournalView: View {
                                 VStack(alignment: .leading){
                                     HStack(alignment: .bottom,spacing: 0) {
                                         Text(viewModel.getSleep(journals: journals).hour)
-                                            .font(.largeTitle)
+                                            .font(.title)
                                             .foregroundColor(.black)
                                             .bold()
                                         
@@ -179,7 +179,7 @@ struct JournalView: View {
                                             .fontWeight(.semibold)
                                         
                                         Text(viewModel.getSleep(journals: journals).minute)
-                                            .font(.largeTitle)
+                                            .font(.title)
                                             .foregroundColor(.black)
                                             .bold()
                                         

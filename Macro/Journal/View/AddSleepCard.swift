@@ -32,7 +32,7 @@ struct AddSleepCard: View {
                 }) {
                     HStack {
                         Text("\(startDate, formatter: dateFormatter)")
-                            .foregroundColor(.gray)
+                            .foregroundColor(.accentColor)
                     }
                     .frame(width: 120, height: 40)
                     .background(Color.white)
@@ -40,7 +40,7 @@ struct AddSleepCard: View {
                     
                     HStack {
                         Text("\(startDate, formatter: timeFormatter)")
-                            .foregroundColor(.gray)
+                            .foregroundColor(.accentColor)
                     }
                     .frame(width: 80, height: 40)
                     .background(Color.white)
@@ -78,7 +78,7 @@ struct AddSleepCard: View {
                 }) {
                     HStack {
                         Text("\(endDate, formatter: dateFormatter)")
-                            .foregroundColor(.gray)
+                            .foregroundColor(.accentColor)
                     }
                     .frame(width: 120, height: 40)
                     .background(Color.white)
@@ -86,7 +86,7 @@ struct AddSleepCard: View {
                     
                     HStack {
                         Text("\(endDate, formatter: timeFormatter)")
-                            .foregroundColor(.gray)
+                            .foregroundColor(.accentColor)
                     }
                     .frame(width: 80, height: 40)
                     .background(Color.white)

@@ -19,6 +19,7 @@ struct AddFoodView: View {
     @State var selectedMilkOption = "Tidak Ada"
     @State var selectedGlycemicOption = "Rendah"
     @Binding var showingAlert: Bool
+    @FocusState private var isTextFieldFocused: Bool
     
     var body: some View {
         VStack (alignment: .leading) {
@@ -59,6 +60,7 @@ struct AddFoodView: View {
                     TextField("Makanan/Minuman",  text: $inputName)
                         .multilineTextAlignment(.trailing)
                         .padding(.trailing, 16)
+                        .focused($isTextFieldFocused)
                     
                 }
                 .background(Color(UIColor.systemBackground))
@@ -69,12 +71,13 @@ struct AddFoodView: View {
                     Text("Besar Porsi")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frame(maxWidth: 140, alignment: .leading)
                         .foregroundStyle(.black)
-                    TextField("Masukan ukuran 1 porsi normal",  text: $inputPortion)
-                        .keyboardType(.numberPad)
-                        .multilineTextAlignment(.trailing)
-                        .padding(.trailing, 16)
+                    TextField("Masukan porsi normal", text: $inputPortion)
+                        .focused($isTextFieldFocused)
+                                    .keyboardType(.numberPad)
+                                    .multilineTextAlignment(.trailing)
+                                    .padding(.trailing, 16)
                     
                 }
                 .background(Color(UIColor.systemBackground))
@@ -115,7 +118,7 @@ struct AddFoodView: View {
                 processSave()
                 dismiss()
             }) {
-                Text("Simpan ke Jurnal")
+                Text("Simpan ke Menu")
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()
@@ -129,8 +132,15 @@ struct AddFoodView: View {
         .padding()
         .background(Color.background)
         .frame(maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+        .onTapGesture {
+                            isTextFieldFocused = false
+                        }
         
     }
+    
+    private func hideKeyboard() {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
     
     func processSave() {
         
