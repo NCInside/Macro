@@ -130,6 +130,79 @@
         "gram_per_portion": 200
     },
     {
+        "name": "Nasi Putih",
+        "cooking_technique": [
+            "Kukus",
+            "Rebus"
+        ],
+        "glycemic_index": 73,
+        "dairies": 0,
+        "saturated_fat": 0,
+        "gram_per_portion": 150
+    },
+    {
+        "name": "Mangga Manis",
+        "cooking_technique": [
+            "Fresh"
+        ],
+        "glycemic_index": 80,
+        "dairies": 0,
+        "saturated_fat": 0,
+        "gram_per_portion": 200
+    ),
+    {
+        "name": "Salad Sayur",
+        "cooking_technique": [
+            "Fresh"
+        ],
+        "glycemic_index": 10,
+        "dairies": 0,
+        "saturated_fat": 0,
+        "gram_per_portion": 150
+    },
+    {
+        "name": "Salad Buah",
+        "cooking_technique": [
+            "Fresh"
+        ],
+        "glycemic_index": 40,
+        "dairies": 1,
+        "saturated_fat": 2,
+        "gram_per_portion": 200
+    },
+    {
+        "name": "Pangsit Mie Ayam",
+        "cooking_technique": [
+            "Rebus",
+            "Goreng"
+        ],
+        "glycemic_index": 70,
+        "dairies": 0,
+        "saturated_fat": 3,
+        "gram_per_portion": 250
+    },
+    {
+        "name": "Ayam Kentucky",
+        "cooking_technique": [
+            "Goreng"
+        ],
+        "glycemic_index": 50,
+        "dairies": 0,
+        "saturated_fat": 8,
+        "gram_per_portion": 150
+    },
+    {
+        "name": "Nasi Merah",
+        "cooking_technique": [
+            "Kukus",
+            "Rebus"
+        ],
+        "glycemic_index": 55,
+        "dairies": 0,
+        "saturated_fat": 0,
+        "gram_per_portion": 150
+    },
+    {
         "name": "Air Jeruk",
         "cooking_technique": [
             "Fresh"
