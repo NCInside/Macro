@@ -149,7 +149,7 @@
         "dairies": 0,
         "saturated_fat": 0,
         "gram_per_portion": 200
-    ),
+    },
     {
         "name": "Salad Sayur",
         "cooking_technique": [
