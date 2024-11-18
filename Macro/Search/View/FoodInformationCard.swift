@@ -27,7 +27,7 @@ struct FoodInformationCard: View {
                 
                 Spacer()
             }
-            
+        
             
             VStack(spacing: 0) {
                 HStack {
@@ -35,7 +35,7 @@ struct FoodInformationCard: View {
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.systemBlack)
                     
                     Picker("", selection: $selectedProcessedOption) {
                         ForEach(processedOptions, id: \.self) { option in
@@ -48,7 +48,7 @@ struct FoodInformationCard: View {
                     .accentColor(.gray)
                     
                 }
-                .background(Color(UIColor.systemBackground))
+                .background(Color.systemWhite)
                 Divider()
                     .padding(.leading)
                 HStack {
@@ -56,7 +56,7 @@ struct FoodInformationCard: View {
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.systemBlack)
                     
                     Picker("", selection: $selectedFatOption) {
                         ForEach(fatOptions, id: \.self) { option in
@@ -68,7 +68,7 @@ struct FoodInformationCard: View {
                     }
                     .accentColor(.gray)
                 }
-                .background(Color(UIColor.systemBackground))
+                .background(Color.systemWhite)
                 Divider()
                     .padding(.leading)
                 HStack {
@@ -76,7 +76,7 @@ struct FoodInformationCard: View {
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.systemBlack)
                     Picker("", selection: $selectedMilkOption) {
                         ForEach(milkOptions, id: \.self) { option in
                             Text(option)
@@ -87,15 +87,15 @@ struct FoodInformationCard: View {
                     }
                     .accentColor(.gray)
                 }
-                .background(Color(UIColor.systemBackground))
+                .background(Color.systemWhite)
                 Divider()
                     .padding(.leading)
                 HStack {
-                    Text("Indeks Glisemik")
+                    Text("Indeks Glikemik")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.systemBlack)
                     Picker("", selection: $selectedGlycemicOption) {
                         ForEach(glycemicOptions, id: \.self) { option in
                             Text(option)
@@ -106,10 +106,18 @@ struct FoodInformationCard: View {
                     }
                     .accentColor(.gray)
                 }
-                .background(Color(UIColor.systemBackground))
+                .background(Color.systemWhite)
             }
             .clipShape(RoundedRectangle(cornerRadius: 10))
             
+            HStack {
+                Text("*Ubah informasi makanan jika diperlukan")
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+                
+                Spacer()
+            }
+            .padding(.top, 4)
             
         }
     }
@@ -118,4 +126,3 @@ struct FoodInformationCard: View {
 //#Preview {
 //    FoodInformationCard()
 //}
-

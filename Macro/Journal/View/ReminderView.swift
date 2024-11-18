@@ -65,7 +65,7 @@ struct ReminderView: View {
 
                 Spacer()
             }
-            .background(Color(.systemGray6).ignoresSafeArea())
+            .background(Color(.background).ignoresSafeArea())
             .navigationTitle("Pengingat")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
@@ -171,7 +171,7 @@ struct ReminderListItemView: View {
             ReminderItemView(reminder: reminder, action: action)
                 .cornerRadius(8)
         }
-        .background(Color.white)
+        .background(Color.systemWhite)
         .cornerRadius(10, corners: getRoundedCorners())
         .padding(.horizontal)
         
@@ -212,7 +212,7 @@ struct ReminderItemView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(reminder.clinicName)
                         .font(.body)
-                        .foregroundColor(.black)
+                        .foregroundColor(Color.systemBlack)
                     Text(formattedVisitDateTime) // Display both date and time
                         .font(.caption)
                         .foregroundColor(.gray)
@@ -222,7 +222,7 @@ struct ReminderItemView: View {
                     .foregroundColor(.gray)
             }
             .padding()
-            .background(Color.white)
+            .background(Color.systemWhite)
         }
     }
 }
@@ -241,7 +241,7 @@ struct AddReminderButton: View {
                     .foregroundColor(.gray)
             }
             .padding()
-            .background(Color.white)
+            .background(Color.systemWhite)
             .cornerRadius(8)
         }
     }

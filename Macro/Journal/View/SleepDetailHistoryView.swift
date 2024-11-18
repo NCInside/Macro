@@ -25,7 +25,7 @@ struct SleepDetailHistoryView: View {
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.systemBlack)
                 }
                 .background(Color(UIColor.systemBackground))
             }

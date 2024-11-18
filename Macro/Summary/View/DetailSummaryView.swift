@@ -292,7 +292,7 @@ struct DetailSummaryView: View {
                                 }
                             }
                             .padding()
-                            .background(.white)
+                            .background(Color.systemWhite)
                             .cornerRadius(16)
                             .frame(maxWidth: .infinity, maxHeight: 350)
                             .gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
@@ -319,9 +319,10 @@ struct DetailSummaryView: View {
                                 .font(.headline)
                             Text("Indeks Glikemik (IG) adalah indikator yang menunjukkan seberapa cepat makanan yang mengandung karbohidrat meningkatkan kadar gula darah dalam tubuh. Indeks glikemik diukur menggunakan skala 0–100, dengan kategori sebagai berikut: Indeks glikemik rendah: di bawah 55, Indeks glikemik sedang: 56–69, Indeks glikemik tinggi: di atas 70.")
                                 .padding(.top, 6)
+                                .font(.caption)
                         }
                         .padding()
-                        .background(.white)
+                        .background(Color.systemWhite)
                         .cornerRadius(16)
                         .padding(.top, 12)
                         
@@ -537,7 +538,7 @@ struct DetailSummaryView: View {
             }
             Spacer()
         }
-        .background(Color.systemGray2)
+        .background(Color.background)
         .onAppear {
             dayFormatter.dateFormat = "EEEE"
             dateFormatter.dateFormat = "dd MMM yyyy"

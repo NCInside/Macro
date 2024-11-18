@@ -93,7 +93,7 @@ struct JournalView: View {
                             
                             ZStack {
                                 Rectangle()
-                                    .fill(Color.white)
+                                    .fill(Color.systemWhite)
                                 
                                 HStack {
                                     Button(action: {
@@ -140,6 +140,7 @@ struct JournalView: View {
                                     .onChange(of: viewModel.selectedDate) {
                                         viewModel.fetchSleepData(context: context, journals: journals, date: viewModel.selectedDate)
                                     }
+                                
                             }
                             
                             HStack(alignment: .bottom){
@@ -169,23 +170,23 @@ struct JournalView: View {
                                 VStack(alignment: .leading){
                                     HStack(alignment: .bottom,spacing: 0) {
                                         Text(viewModel.getSleep(journals: journals).hour)
-                                            .font(.largeTitle)
-                                            .foregroundColor(.black)
+                                            .font(.title)
+                                            .foregroundColor(Color.systemBlack)
                                             .bold()
                                         
                                         Text("jam ")
                                             .font(.title3)
-                                            .foregroundColor(.black)
+                                            .foregroundColor(Color.systemBlack)
                                             .fontWeight(.semibold)
                                         
                                         Text(viewModel.getSleep(journals: journals).minute)
-                                            .font(.largeTitle)
-                                            .foregroundColor(.black)
+                                            .font(.title)
+                                            .foregroundColor(Color.systemBlack)
                                             .bold()
                                         
                                         Text("menit")
                                             .font(.title3)
-                                            .foregroundColor(.black)
+                                            .foregroundColor(Color.systemBlack)
                                             .fontWeight(.semibold)
                                         
                                         Spacer()
@@ -195,14 +196,14 @@ struct JournalView: View {
                                     
                                     HStack{
                                         Text(viewModel.sleepClassificationMessage(journals: journals))
-                                            .foregroundColor(.black)
+                                            .foregroundColor(Color.systemBlack)
                                     }
                                     .padding(.leading, 16)
                                 
                             }
                                 .padding(.vertical, 8)
                                 .frame(maxWidth: 365, maxHeight: 180)
-                                .background(.white)
+                                .background(Color.systemWhite)
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
                                 .shadow(color: Color.black.opacity(0.08), radius: 3, x: 2, y: 2)
                             
@@ -234,7 +235,7 @@ struct JournalView: View {
                             }) {
                                 Text("+ Tambah Makanan")
                                     .font(.headline)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(Color.systemWhite)
                                     .padding()
                                     .frame(maxWidth: .infinity, maxHeight: 48)
                                     .background(Color.accentColor)
@@ -272,7 +273,7 @@ struct JournalView: View {
                                         
                                     }
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    .background(.white)
+                                    .background(Color.systemWhite)
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
                                     .shadow(color: Color.black.opacity(0.08), radius: 3, x: 2, y: 2)
                                     
@@ -300,7 +301,7 @@ struct JournalView: View {
                                             Spacer()
                                         }                                    }
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    .background(.white)
+                                    .background(Color.systemWhite)
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
                                     .shadow(color: Color.black.opacity(0.2), radius: 3, x: 2, y: 2)
                                 }
@@ -368,8 +369,8 @@ struct JournalView: View {
                                         
                                     }
                                     .padding(.bottom, 20)
+                                    .background(Color.systemWhite)
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    .background(.white)
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
                                     .shadow(color: Color.black.opacity(0.2), radius: 3, x: 2, y: 2)
                                 }
@@ -415,13 +416,13 @@ struct JournalView: View {
                                             .frame(maxWidth: .infinity)
                                         }
                                         .padding()
-                                        .background(Color(UIColor.systemBackground))
+                                        .background(Color.systemWhite)
                                         Divider()
                                             .padding(.leading)
                                     }
                                 }
                             }
-                            .background(Color(UIColor.systemBackground))
+                            .background(Color.systemWhite)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .padding(.horizontal, 16)
                             .padding(.bottom, 14)

@@ -22,7 +22,7 @@ struct HealthOnBoardingView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
                 
-                Text("Pelacakan tidur dan pengukuran tubuh memerlukan akses ke informasi Kesehatan yang disimpan di Apple Health.")
+                Text("Pelacakan tidur memerlukan akses ke informasi Kesehatan yang disimpan di Apple Health.")
                     .padding(.horizontal)
                     .foregroundColor(.white)
                 
@@ -38,7 +38,7 @@ struct HealthOnBoardingView: View {
                     .padding(.bottom, 4)
                     .padding(.leading, 1)
                     
-                    Text("Harap aktifkan semua kategori dalam dialog yang akan muncul. Tanpa akses penuh, Zora tidak akan dapat memberikan analisis dan wawasan yang lengkap.")
+                    Text("Harap aktifkan semua kategori dalam dialog yang akan muncul. Tanpa akses penuh, Zora tidak akan dapat memberikan wawasan yang lengkap.")
                         .padding(.horizontal)
                         .foregroundColor(.white)
                 }

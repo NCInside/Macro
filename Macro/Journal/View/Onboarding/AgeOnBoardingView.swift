@@ -37,6 +37,7 @@ struct AgeOnBoardingView: View {
                         DatePicker("Pilih Tanggal Lahir", selection: $selectedDate, in: ...Date(), displayedComponents: .date)
                             .datePickerStyle(.wheel)
                             .labelsHidden()
+                            .environment(\.locale, Locale(identifier: "id_ID"))
                             .padding()
                         
                         Button("Selesai") {
@@ -78,12 +79,14 @@ struct AgeOnBoardingView: View {
     
     private func selectedDateFormatted() -> String {
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "id_ID")
         formatter.dateFormat = "dd MMMM yyyy"
         return formatter.string(from: selectedDate)
     }
     
     private func saveBirthDate() {
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "id_ID")
         formatter.dateFormat = "yyyy-MM-dd" // Save in yyyy-MM-dd format
         let birthDateString = formatter.string(from: selectedDate)
         UserDefaults.standard.set(birthDateString, forKey: "dateOfBirth")

@@ -17,8 +17,7 @@ struct TableCard: View {
     var title: String
     var column2Header: String
     var rows: [TableRow]
-    var note: String?
-    
+
     @State var chosenDate = Calendar.current.component(.day, from: Date())
     
     var body: some View {
@@ -51,11 +50,7 @@ struct TableCard: View {
                     VStack(alignment: .leading) {
                         Text(column2Header)
                             .fontWeight(.bold)
-                        if let note = note {
-                            Text(note)
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                        }
+                       
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
@@ -79,7 +74,7 @@ struct TableCard: View {
             }
         }
         .cornerRadius(8)
-        .shadow(radius: 1)
+        .shadow(radius: 0.08)
         
         
         
@@ -96,7 +91,7 @@ struct TableCard: View {
             TableRow(date: "01/10/2024", value: "1 porsi"),
             TableRow(date: "02/10/2024", value: "2 porsi"),
             TableRow(date: "03/10/2024", value: "2 porsi")
-        ],
-        note: "(rekomendasi 1 porsi)")
+        ]
+        )
     
 }

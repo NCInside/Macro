@@ -180,7 +180,7 @@ class JournalViewModel: ObservableObject {
     }
     
     func calcGI(journals: [Journal]) -> String {
-        var ind = "Unknown"
+        var ind = "-"
         if let todayJournal = hasEntriesFromDate(entries: journals, date: selectedDate) {
             let glycemicIndexCounts = todayJournal.foods
                         .reduce(into: [glycemicIndex: Int]()) { counts, food in
@@ -189,7 +189,7 @@ class JournalViewModel: ObservableObject {
             if let mostFrequentIndex = glycemicIndexCounts.max(by: { $0.value < $1.value })?.key {
                 ind = "\(mostFrequentIndex)"
             } else {
-                ind = "Unknown"
+                ind = "-"
             }
         }
         return ind

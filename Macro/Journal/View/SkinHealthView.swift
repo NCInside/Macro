@@ -64,7 +64,7 @@ struct SkinHealthView: View {
                         Text(Calendar.current.monthSymbols[selectedMonth - 1])
                             .font(.title2)
                             .fontWeight(.semibold)
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.systemBlack)
                             .padding()
                             .cornerRadius(8)
                         
@@ -145,8 +145,8 @@ struct SkinHealthView: View {
                                             .bold()
                                             .multilineTextAlignment(.center)
                                             .frame(width: 28, height: 20)
-                                            .background(Color.black.opacity(0.7))
-                                            .foregroundColor(.white)
+                                            .background(Color.systemBlack.opacity(0.7))
+                                            .foregroundColor(Color.systemWhite)
                                             .cornerRadius(4)
                                             
                                         }
@@ -171,7 +171,7 @@ struct SkinHealthView: View {
                                             }
                                             .frame(width: .infinity, height: 20)
                                             .padding(.horizontal, 4)
-                                            .background(Color.black.opacity(0.7))
+                                            .background(Color.systemBlack.opacity(0.7))
                                             .cornerRadius(4)
                                             .padding(6)
                                         }

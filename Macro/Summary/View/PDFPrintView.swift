@@ -39,17 +39,36 @@ struct PDFPrintView: View {
     
     var sleepRows: [TableRow] {
         sleepPoints.map { item in
-            TableRow(date: viewModel.dateFormatter.string(from: item.date), value: String(item.value))
+            let hours = item.value / 60
+            let minutes = item.value % 60
+            
+            let timeString: String
+            if hours > 0 {
+                timeString = "\(hours) jam \(minutes) menit"
+            } else {
+                timeString = "\(minutes) menit"
+            }
+            
+            return TableRow(
+                date: viewModel.dateFormatter.string(from: item.date),
+                value: timeString
+            )
         }
     }
+
+    
     var fatRows: [TableRow] {
         fatPoints.map { item in
-            TableRow(date: viewModel.dateFormatter.string(from: item.date), value: String(item.value))
+            TableRow(
+                date: viewModel.dateFormatter.string(from: item.date),
+                value: String(item.value) + " Porsi"
+            )
         }
     }
+
     var dairyRows: [TableRow] {
         dairyPoints.map { item in
-            TableRow(date: viewModel.dateFormatter.string(from: item.date), value: String(item.value))
+            TableRow(date: viewModel.dateFormatter.string(from: item.date), value: String(item.value) + " Porsi")
         }
     }
     var aggGIPoints: [PiePoint] {
@@ -308,14 +327,12 @@ struct PDFPrintView: View {
             TableCard(
                 title: "Riwayat Data Makanan Berlemak",
                 column2Header: "Jumlah Porsi",
-                rows: fatRows,
-                note: "(>5gr lemak jenuh)")
+                rows: fatRows)
             
             TableCard(
                 title: "Riwayat Data Produk Susu",
                 column2Header: "Jumlah Porsi",
-                rows: dairyRows,
-                note: "(rekomendasi 1 porsi)")
+                rows: dairyRows)
             
             GlycemicCard(
                 title: "Riwayat Data Indeks Glikemik",

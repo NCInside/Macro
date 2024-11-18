@@ -19,6 +19,7 @@ struct AddFoodView: View {
     @State var selectedMilkOption = "Tidak Ada"
     @State var selectedGlycemicOption = "Rendah"
     @Binding var showingAlert: Bool
+    @FocusState private var isTextFieldFocused: Bool
     
     var body: some View {
         VStack (alignment: .leading) {
@@ -33,7 +34,7 @@ struct AddFoodView: View {
                 }
                 Spacer()
                 Text("Tambah Menu Baru")
-                    .foregroundColor(.black)
+                    .foregroundColor(Color.systemBlack)
                     .fontWeight(.semibold)
                 
                 Spacer()
@@ -55,10 +56,11 @@ struct AddFoodView: View {
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color.systemBlack)
                     TextField("Makanan/Minuman",  text: $inputName)
                         .multilineTextAlignment(.trailing)
                         .padding(.trailing, 16)
+                        .focused($isTextFieldFocused)
                     
                 }
                 .background(Color(UIColor.systemBackground))
@@ -66,15 +68,16 @@ struct AddFoodView: View {
                     .padding(.leading)
                 
                 HStack {
-                    Text("Banyak Porsi")
+                    Text("Besar Porsi")
                         .padding(.vertical, 10)
                         .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
-                    TextField("Masukan porsi",  text: $inputPortion)
-                        .keyboardType(.numberPad)
-                        .multilineTextAlignment(.trailing)
-                        .padding(.trailing, 16)
+                        .frame(maxWidth: 140, alignment: .leading)
+                        .foregroundStyle(Color.systemBlack)
+                    TextField("Masukan porsi normal", text: $inputPortion)
+                        .focused($isTextFieldFocused)
+                                    .keyboardType(.numberPad)
+                                    .multilineTextAlignment(.trailing)
+                                    .padding(.trailing, 16)
                     
                 }
                 .background(Color(UIColor.systemBackground))
@@ -86,7 +89,7 @@ struct AddFoodView: View {
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color.systemBlack)
                     
                     Picker("", selection: $selectedUnitOption) {
                         ForEach(unitOptions, id: \.self) { option in
@@ -115,9 +118,9 @@ struct AddFoodView: View {
                 processSave()
                 dismiss()
             }) {
-                Text("Simpan ke Jurnal")
+                Text("Simpan ke Menu")
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.systemWhite)
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(Color.accentColor)
@@ -129,8 +132,15 @@ struct AddFoodView: View {
         .padding()
         .background(Color.background)
         .frame(maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+        .onTapGesture {
+                            isTextFieldFocused = false
+                        }
         
     }
+    
+    private func hideKeyboard() {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
     
     func processSave() {
         

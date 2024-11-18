@@ -15,12 +15,13 @@ struct DatePickerView: View {
 
     var body: some View {
         ZStack {
-            Color.white.opacity(0.3)
+            Color.systemWhite.opacity(0.3)
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
                 DatePicker("Pilih Tanggal", selection: $selectedDate, in: ...Date(), displayedComponents: [.date])
                     .datePickerStyle(GraphicalDatePickerStyle())
+                    .environment(\.locale, Locale(identifier: "id_ID"))
                     .onChange(of: selectedDate) { newDate in
                         selectedDateColor = .main
                         savedDate = newDate
@@ -34,7 +35,7 @@ struct DatePickerView: View {
                 
                 
             }
-            .background(Color.white.cornerRadius(30))
+            .background(Color.systemWhite.cornerRadius(30))
         }
     }
     

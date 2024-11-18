@@ -32,18 +32,18 @@ struct AddSleepCard: View {
                 }) {
                     HStack {
                         Text("\(startDate, formatter: dateFormatter)")
-                            .foregroundColor(.gray)
+                            .foregroundColor(.accentColor)
                     }
                     .frame(width: 120, height: 40)
-                    .background(Color.white)
+                    .background(Color.systemWhite)
                     .cornerRadius(10)
                     
                     HStack {
                         Text("\(startDate, formatter: timeFormatter)")
-                            .foregroundColor(.gray)
+                            .foregroundColor(.accentColor)
                     }
                     .frame(width: 80, height: 40)
-                    .background(Color.white)
+                    .background(Color.systemWhite)
                     .cornerRadius(10)
                     .padding(.trailing, 5)
                 }
@@ -78,18 +78,18 @@ struct AddSleepCard: View {
                 }) {
                     HStack {
                         Text("\(endDate, formatter: dateFormatter)")
-                            .foregroundColor(.gray)
+                            .foregroundColor(.accentColor)
                     }
                     .frame(width: 120, height: 40)
-                    .background(Color.white)
+                    .background(Color.systemWhite)
                     .cornerRadius(10)
                     
                     HStack {
                         Text("\(endDate, formatter: timeFormatter)")
-                            .foregroundColor(.gray)
+                            .foregroundColor(.accentColor)
                     }
                     .frame(width: 80, height: 40)
-                    .background(Color.white)
+                    .background(Color.systemWhite)
                     .cornerRadius(10)
                     .padding(.trailing, 5)
                 }
@@ -105,7 +105,7 @@ struct AddSleepCard: View {
             
         }
         .frame(width: 360)
-        .background(Color.white)
+        .background(Color.systemWhite)
         .cornerRadius(10)
     }
     

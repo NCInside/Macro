@@ -42,7 +42,7 @@ struct SettingsView: View {
                 Spacer()
                 
                 Text("Profil")
-                    .foregroundColor(.black)
+                    .foregroundColor(Color.systemBlack)
                     .fontWeight(.semibold)
                 
                 Spacer()
@@ -105,6 +105,7 @@ struct SettingsView: View {
                             VStack {
                                 DatePicker("Pilih Tanggal Lahir", selection: $inputDayOfBirth, in: ...Date(), displayedComponents: .date)
                                     .datePickerStyle(.wheel)
+                                    .environment(\.locale, Locale(identifier: "id_ID"))
                                     .labelsHidden()
                                     .padding()
                                 

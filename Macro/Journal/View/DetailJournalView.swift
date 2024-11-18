@@ -26,7 +26,7 @@ struct DetailJournalView: View {
                 Spacer()
                 
                 Text("Detail Jurnal")
-                    .foregroundColor(.black)
+                    .foregroundColor(Color.systemBlack)
                     .fontWeight(.semibold)
                     .multilineTextAlignment(.center)
                     .padding(.trailing,54)
@@ -73,11 +73,11 @@ struct DetailJournalView: View {
                     }
                     .background(
                         RoundedRectangle(cornerRadius: 0)
-                            .fill(Color.white)
-                            .shadow(color: Color.black.opacity(0.8), radius: 8, x: 2, y: 4)
+                            .fill(Color.systemWhite)
+                            .shadow(color: Color.systemBlack.opacity(0.8), radius: 8, x: 2, y: 4)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 0)
-                                    .stroke(Color.white, lineWidth: 18)
+                                    .stroke(Color.systemWhite, lineWidth: 18)
                             )
                     )
                     .padding(.bottom, 36)
@@ -108,7 +108,7 @@ struct DetailJournalView: View {
                         }
                     }
                     .padding()
-                    .background(Color(.white))
+                    .background(Color.systemWhite)
                     .cornerRadius(10)
                     .padding(.horizontal, 4)
                     
@@ -125,13 +125,13 @@ struct DetailJournalView: View {
                         HStack{
                             Text(journalImage.notes ?? "Tidak ada catatan tambahan")
                                 .padding(.horizontal, 20)
-                                .background(Color.white)
+                                .background(Color.systemWhite)
                                 .cornerRadius(10)
                                 .frame(maxWidth: 350, alignment: .leading)
                         }
                         .padding(.vertical, 14)
                     }
-                    .background(Color.white)
+                    .background(Color.systemWhite)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(.bottom, 14)
                     
@@ -177,7 +177,7 @@ struct DetailJournalView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.black.opacity(0.8))
+                        .background(Color.systemBlack.opacity(0.8))
                         .edgesIgnoringSafeArea(.all)
                     
                     Button("Tutup Foto") {

@@ -13,8 +13,8 @@ struct HistoryView: View {
     @Environment(\.editMode) private var editMode
     @Query private var journals: [Journal]
     @State private var historyOption = "Diet"
-    private var options = ["Diet", "Sleep"]
-
+    private var options = ["Diet", "Tidur"]
+    
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM"
@@ -23,7 +23,7 @@ struct HistoryView: View {
     
     private let timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "hh.MM"
+        formatter.dateFormat = "hh.mm"
         return formatter
     }()
     
@@ -37,7 +37,7 @@ struct HistoryView: View {
                 }
                 .pickerStyle(.segmented)
                 .padding()
-
+                
                 ScrollView {
                     VStack(alignment: .leading) {
                         
@@ -59,7 +59,7 @@ struct HistoryView: View {
                                                 HStack {
                                                     if editMode?.wrappedValue == .active {
                                                         Image(systemName: "minus.circle")
-                                                            .foregroundColor(.white)
+                                                            .foregroundColor(.systemWhite)
                                                             .background(.red)
                                                             .clipShape(Circle())
                                                             .padding(.leading)
@@ -69,7 +69,7 @@ struct HistoryView: View {
                                                         Text(food.name)
                                                             .padding(.vertical, 10)
                                                             .frame(maxWidth: .infinity, alignment: .leading)
-                                                            .foregroundStyle(.black)
+                                                            .foregroundStyle(.systemBlack)
                                                         Text("Detail")
                                                             .foregroundColor(.gray)
                                                             .padding(.trailing)
@@ -78,7 +78,7 @@ struct HistoryView: View {
                                                             .padding(.vertical, 10)
                                                             .padding(.horizontal)
                                                             .frame(maxWidth: .infinity, alignment: .leading)
-                                                            .foregroundStyle(.black)
+                                                            .foregroundStyle(.systemBlack)
                                                         Text("Detail")
                                                             .foregroundColor(.gray)
                                                     }
@@ -89,7 +89,7 @@ struct HistoryView: View {
                                                             .padding(.trailing)
                                                     }
                                                 }
-                                                .background(Color(UIColor.systemBackground))
+                                                .background(Color.systemWhite)
                                             }
                                             Divider()
                                                 .padding(.leading)
@@ -98,7 +98,7 @@ struct HistoryView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                     .padding(.horizontal)
                                     .padding(.bottom, 12)
-
+                                    
                                 }
                                 
                             } else {
@@ -115,7 +115,7 @@ struct HistoryView: View {
                                         HStack {
                                             VStack(spacing: 0) {
                                                 HStack {
-                                                    Text("In Bed")
+                                                    Text("Tidur di Kasur")
                                                         .foregroundStyle(.gray)
                                                         .font(.footnote)
                                                     Spacer()
@@ -131,14 +131,14 @@ struct HistoryView: View {
                                             .padding(.vertical, 10)
                                             .padding(.horizontal)
                                             .frame(maxWidth: .infinity, alignment: .leading)
-                                            .foregroundStyle(.black)
+                                            .foregroundStyle(.systemBlack)
                                         }
-                                        .background(Color(UIColor.systemBackground))
+                                        .background(Color.systemWhite)
                                     }
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                     .padding(.horizontal)
                                     .padding(.bottom, 12)
-
+                                    
                                 }
                                 
                             }
@@ -146,17 +146,19 @@ struct HistoryView: View {
                     }
                     
                 }
-
+                
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .background(Color.background)
         }
         .onAppear {
-//             generateDummy()
+            //             generateDummy()
         }
         .navigationTitle("Semua Data Tercatat")
         .toolbar {
-            EditButton()
+            if historyOption == "Diet" {
+                EditButton()
+            }
         }
     }
     
@@ -164,7 +166,7 @@ struct HistoryView: View {
         let hour: Int = sleep.duration / 3600
         let minut: Int = (sleep.duration % 3600) / 60
         
-        return "\(hour)hrs \(minut)min"
+        return "\(hour)jam \(minut)mnt"
     }
     
     private func deleteFood(food: Food) {

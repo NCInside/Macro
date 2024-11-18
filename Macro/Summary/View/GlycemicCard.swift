@@ -46,7 +46,7 @@ struct GlycemicCard: View {
                 HStack {
                     Text("Tanggal")
                         .fontWeight(.bold)
-                        .frame(width: 120, alignment: .leading)
+                        .frame(width: 100, alignment: .leading)
                     
                     VStack(alignment: .leading) {
                         HStack{
@@ -58,11 +58,14 @@ struct GlycemicCard: View {
                         }
                         HStack {
                             Text("Rendah")
-                                .frame(maxWidth: .infinity)
+                                .frame(maxWidth: 80)
+                                .font(.caption2)
                             Text("Sedang")
-                                .frame(maxWidth: .infinity)
+                                .frame(maxWidth: 80)
+                                .font(.caption2)
                             Text("Tinggi")
-                                .frame(maxWidth: .infinity)
+                                .frame(maxWidth: 80)
+                                .font(.caption2)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -75,15 +78,15 @@ struct GlycemicCard: View {
                 ForEach(rows) { row in
                     HStack {
                         Text(row.date)
-                            .frame(width: 120, alignment: .leading)
+                            .frame(width: 100, alignment: .leading)
                         
                         HStack {
                             Text(row.low)
-                                .frame(maxWidth: .infinity)
+                                .frame(maxWidth: 80)
                             Text(row.medium)
-                                .frame(maxWidth: .infinity)
+                                .frame(maxWidth: 80)
                             Text(row.high)
-                                .frame(maxWidth: .infinity)
+                                .frame(maxWidth: 80)
                         }
                     }
                     .padding(10)
@@ -93,7 +96,7 @@ struct GlycemicCard: View {
             }
         }
         .cornerRadius(8)
-        .shadow(radius: 1)
+        .shadow(radius: 0.08)
     }
 }
 

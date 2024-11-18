@@ -57,7 +57,7 @@ class SummaryViewModel: ObservableObject {
                 ind = "Rendah"
             }
         } else {
-            ind = "Unknown"
+            ind = "-"
         }
         
     }

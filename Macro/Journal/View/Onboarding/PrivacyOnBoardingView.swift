@@ -20,7 +20,7 @@ struct PrivacyOnBoardingView: View {
                     .padding(.horizontal)
                 
                 Text("Kami Menghargai Privasi Anda")
-                    .font(.system(size: 24))
+                    .font(.title2)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity, alignment: .leading)

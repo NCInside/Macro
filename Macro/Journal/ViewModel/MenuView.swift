@@ -120,7 +120,7 @@ struct MenuView: View {
                                             .font(.body)
                                             .fontWeight(.regular)
                                     } else {
-                                        Text("Unknown")  // Handle any unexpected values
+                                        Text("-")  // Handle any unexpected values
                                             .font(.body)
                                             .fontWeight(.regular)
                                     }
