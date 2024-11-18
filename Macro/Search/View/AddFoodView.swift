@@ -34,7 +34,7 @@ struct AddFoodView: View {
                 }
                 Spacer()
                 Text("Tambah Menu Baru")
-                    .foregroundColor(.black)
+                    .foregroundColor(Color.systemBlack)
                     .fontWeight(.semibold)
                 
                 Spacer()
@@ -56,7 +56,7 @@ struct AddFoodView: View {
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color.systemBlack)
                     TextField("Makanan/Minuman",  text: $inputName)
                         .multilineTextAlignment(.trailing)
                         .padding(.trailing, 16)
@@ -72,7 +72,7 @@ struct AddFoodView: View {
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: 140, alignment: .leading)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color.systemBlack)
                     TextField("Masukan porsi normal", text: $inputPortion)
                         .focused($isTextFieldFocused)
                                     .keyboardType(.numberPad)
@@ -89,7 +89,7 @@ struct AddFoodView: View {
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color.systemBlack)
                     
                     Picker("", selection: $selectedUnitOption) {
                         ForEach(unitOptions, id: \.self) { option in
@@ -120,7 +120,7 @@ struct AddFoodView: View {
             }) {
                 Text("Simpan ke Menu")
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.systemWhite)
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(Color.accentColor)

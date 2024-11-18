@@ -28,7 +28,7 @@ struct AddJournalView: View {
                     Spacer()
                     
                     Text("Tambah Foto")
-                        .foregroundColor(.black)
+                        .foregroundColor(Color.systemBlack)
                         .fontWeight(.semibold)
                         .multilineTextAlignment(.center)
                         .padding(.trailing, 32)
@@ -102,7 +102,7 @@ struct AddJournalView: View {
                 .background(
                     RoundedRectangle(cornerRadius: 0)
                         .fill(Color.systemWhite)
-                        .shadow(color: Color.black.opacity(0.8), radius: 8, x: 2, y: 4)
+                        .shadow(color: Color.systemBlack.opacity(0.8), radius: 8, x: 2, y: 4)
                         .overlay(
                             RoundedRectangle(cornerRadius: 0)
                                 .stroke(Color.systemWhite, lineWidth: 18)

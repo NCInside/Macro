@@ -42,7 +42,7 @@ struct SettingsView: View {
                 Spacer()
                 
                 Text("Profil")
-                    .foregroundColor(.black)
+                    .foregroundColor(Color.systemBlack)
                     .fontWeight(.semibold)
                 
                 Spacer()

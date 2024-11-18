@@ -33,7 +33,7 @@ struct SearchCard: View {
         .listRowBackground(
             RoundedRectangle(cornerRadius: 5)
                 .background(.clear)
-                .foregroundColor(.white)
+                .foregroundColor(Color.systemWhite)
                 .padding(
                     EdgeInsets(
                         top: 2,

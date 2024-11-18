@@ -59,7 +59,7 @@ struct HistoryView: View {
                                                 HStack {
                                                     if editMode?.wrappedValue == .active {
                                                         Image(systemName: "minus.circle")
-                                                            .foregroundColor(.white)
+                                                            .foregroundColor(.systemWhite)
                                                             .background(.red)
                                                             .clipShape(Circle())
                                                             .padding(.leading)
@@ -69,7 +69,7 @@ struct HistoryView: View {
                                                         Text(food.name)
                                                             .padding(.vertical, 10)
                                                             .frame(maxWidth: .infinity, alignment: .leading)
-                                                            .foregroundStyle(.black)
+                                                            .foregroundStyle(.systemBlack)
                                                         Text("Detail")
                                                             .foregroundColor(.gray)
                                                             .padding(.trailing)
@@ -78,7 +78,7 @@ struct HistoryView: View {
                                                             .padding(.vertical, 10)
                                                             .padding(.horizontal)
                                                             .frame(maxWidth: .infinity, alignment: .leading)
-                                                            .foregroundStyle(.black)
+                                                            .foregroundStyle(.systemBlack)
                                                         Text("Detail")
                                                             .foregroundColor(.gray)
                                                     }
@@ -89,7 +89,7 @@ struct HistoryView: View {
                                                             .padding(.trailing)
                                                     }
                                                 }
-                                                .background(Color(UIColor.systemBackground))
+                                                .background(Color.systemWhite)
                                             }
                                             Divider()
                                                 .padding(.leading)
@@ -131,9 +131,9 @@ struct HistoryView: View {
                                             .padding(.vertical, 10)
                                             .padding(.horizontal)
                                             .frame(maxWidth: .infinity, alignment: .leading)
-                                            .foregroundStyle(.black)
+                                            .foregroundStyle(.systemBlack)
                                         }
-                                        .background(Color(UIColor.systemBackground))
+                                        .background(Color.systemWhite)
                                     }
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                     .padding(.horizontal)
@@ -156,7 +156,9 @@ struct HistoryView: View {
         }
         .navigationTitle("Semua Data Tercatat")
         .toolbar {
-            EditButton()
+            if historyOption == "Diet" {
+                EditButton()
+            }
         }
     }
     

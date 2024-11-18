@@ -47,7 +47,6 @@ struct AddReminderView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView {
                 VStack(alignment: .leading) {
                     Text("PENGINGAT KUNJUNGAN KONTROL")
                         .font(.caption)
@@ -106,7 +105,7 @@ struct AddReminderView: View {
                         ReminderPickerView(label: "Peringatan Ketiga", selection: $selectedThirdReminder, options: availableOptions(exclude: [selectedFirstReminder, selectedSecondReminder]))
                             .padding(.bottom, 8)
                     }
-                    .background(Color(UIColor.systemWhite))
+                    .background(Color.systemWhite)
                     .cornerRadius(10)
                     .padding(.horizontal)
                     
@@ -120,7 +119,7 @@ struct AddReminderView: View {
                                 .foregroundColor(.red)
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(Color.white)
+                                .background(Color.systemWhite)
                                 .cornerRadius(8)
                                 .shadow(radius: 1)
                         }
@@ -158,9 +157,9 @@ struct AddReminderView: View {
                         loadExistingReminder()
                     }
                 }
-            }
-            .background(Color(.systemGray6).ignoresSafeArea())
+           
         }
+        .background(Color(.background).ignoresSafeArea())
     }
     
     private func availableOptions(exclude: [String]) -> [String] {

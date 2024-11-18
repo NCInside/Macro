@@ -26,7 +26,7 @@ struct DetailJournalView: View {
                 Spacer()
                 
                 Text("Detail Jurnal")
-                    .foregroundColor(.black)
+                    .foregroundColor(Color.systemBlack)
                     .fontWeight(.semibold)
                     .multilineTextAlignment(.center)
                     .padding(.trailing,54)
@@ -74,7 +74,7 @@ struct DetailJournalView: View {
                     .background(
                         RoundedRectangle(cornerRadius: 0)
                             .fill(Color.systemWhite)
-                            .shadow(color: Color.black.opacity(0.8), radius: 8, x: 2, y: 4)
+                            .shadow(color: Color.systemBlack.opacity(0.8), radius: 8, x: 2, y: 4)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 0)
                                     .stroke(Color.systemWhite, lineWidth: 18)
@@ -177,7 +177,7 @@ struct DetailJournalView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.black.opacity(0.8))
+                        .background(Color.systemBlack.opacity(0.8))
                         .edgesIgnoringSafeArea(.all)
                     
                     Button("Tutup Foto") {

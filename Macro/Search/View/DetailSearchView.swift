@@ -36,7 +36,7 @@ struct DetailSearchView: View {
                 }
                 Spacer()
                 Text("Detail Makanan")
-                    .foregroundColor(.black)
+                    .foregroundColor(Color.systemBlack)
                     .fontWeight(.semibold)
                 
                 Spacer()
@@ -48,7 +48,7 @@ struct DetailSearchView: View {
             
             Text(name)
                 .bold()
-                .font(.largeTitle)
+                .font(.title2)
                 .padding(.horizontal, 4)
                 .padding(.bottom, 12)
             
@@ -58,14 +58,14 @@ struct DetailSearchView: View {
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color.systemBlack)
                     TextField("Masukan porsi",  text: $inputPortion)
                         .keyboardType(.numberPad)
                         .multilineTextAlignment(.trailing)
                         .padding(.trailing, 16)
                     
                 }
-                .background(Color(UIColor.systemBackground))
+                .background(Color.systemWhite)
                 Divider()
                     .padding(.leading)
                 
@@ -74,7 +74,7 @@ struct DetailSearchView: View {
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color.systemBlack)
                     
                     Picker("", selection: $selectedUnitOption) {
                                             ForEach(unitOptions, id: \.self) { option in
@@ -87,7 +87,7 @@ struct DetailSearchView: View {
                     .accentColor(.gray)
                     
                 }
-                .background(Color(UIColor.systemBackground))
+                .background(Color.systemWhite)
                 
                 
                 
@@ -107,7 +107,7 @@ struct DetailSearchView: View {
             }) {
                 Text("Simpan ke Jurnal")
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.systemWhite)
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(Color.accentColor)

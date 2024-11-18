@@ -108,7 +108,7 @@ struct SearchView: View {
                         
                         Text("Tidak ada hasil untuk \"\(viewModel.input)\"")
                             .font(.title2)
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.systemBlack)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 40)
                             .bold()
