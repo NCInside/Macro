@@ -208,7 +208,7 @@ final class SearchViewModel: ObservableObject {
                     timestamp: date,
                     name: name,
                     cookingTechnique: [selectedProcessedOption],
-                    fat: foodItem.saturated_fat * (Double(foodItem.gram_per_portion) / 100),
+                    fat: (selectedProcessedOption == "Goreng" || selectedFatOption == "Jenuh") ? 6 : (foodItem.saturated_fat * (Double(foodItem.gram_per_portion) / 100)),
                     glycemicIndex: gi,
                     dairy: selectedMilkOption == "Ada",
                     gramPortion: foodItem.gram_per_portion
