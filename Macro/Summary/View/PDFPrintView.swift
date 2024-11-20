@@ -39,19 +39,9 @@ struct PDFPrintView: View {
     
     var sleepRows: [TableRow] {
         sleepPoints.map { item in
-            let hours = item.value / 60
-            let minutes = item.value % 60
-            
-            let timeString: String
-            if hours > 0 {
-                timeString = "\(hours) jam \(minutes) menit"
-            } else {
-                timeString = "\(minutes) menit"
-            }
-            
-            return TableRow(
+            TableRow(
                 date: viewModel.dateFormatter.string(from: item.date),
-                value: timeString
+                value: String(item.value) + " Jam"
             )
         }
     }

@@ -228,6 +228,10 @@ struct DetailSummaryView: View {
                                             .font(.subheadline)
                                             .foregroundColor(.black)
                                     }
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 4)
+                                    .background(Color.gray.opacity(0.6))
+                                    .cornerRadius(10)
                                 }
                             }
                             .frame(maxWidth: .infinity, maxHeight: 350)
