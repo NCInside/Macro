@@ -21,7 +21,7 @@ struct SkinHealthView: View {
     let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 4), count: 3) // 3-column grid without spacing
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: 16) {
                 HStack {
                     Text("Kesehatan Kulit")

@@ -8,7 +8,7 @@ struct AgeOnBoardingView: View {
     @ObservedObject var viewModel = OnBoardingViewModel()
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Text("Kapan tanggal lahirmu?")
                     .bold()

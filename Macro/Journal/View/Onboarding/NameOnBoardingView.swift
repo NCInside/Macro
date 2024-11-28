@@ -10,7 +10,7 @@ struct NameOnBoardingView: View {
     @ObservedObject var viewModel = OnBoardingViewModel()
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Text("Siapa namamu?")
                     .padding(.top, 80)

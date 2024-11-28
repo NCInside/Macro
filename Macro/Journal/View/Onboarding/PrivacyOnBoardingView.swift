@@ -12,7 +12,7 @@ struct PrivacyOnBoardingView: View {
     @State var navigateToHealthOnBoarding = false
     
     var body: some View {
-        NavigationView{
+        NavigationStack{
             VStack(alignment: .leading){
                 Spacer()
                 

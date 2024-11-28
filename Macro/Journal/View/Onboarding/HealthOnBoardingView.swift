@@ -8,7 +8,7 @@ struct HealthOnBoardingView: View {
     @State private var navigationStates: [String: Bool] = [:]
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(alignment: .leading) {
                 Spacer()
                 
