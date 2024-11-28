@@ -230,6 +230,7 @@ struct JournalView: View {
                             }
                             
                             Button(action: {
+                                viewModel.modifyDate()
                                 viewModel.isDietViewPresented = true
                                 viewModel.modifyDate()
                             }) {

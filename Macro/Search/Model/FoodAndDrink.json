@@ -149,7 +149,7 @@
         "dairies": 0,
         "saturated_fat": 0,
         "gram_per_portion": 200
-    ),
+    },
     {
         "name": "Salad Sayur",
         "cooking_technique": [
@@ -43611,5 +43611,86 @@
         "dairies": 0,
         "saturated_fat": 0.3,
         "gram_per_portion": 150
+    },
+    {
+        "name": "Telur Rebus",
+        "cooking_technique": ["Rebus"],
+        "glycemic_index": 0,
+        "dairies": 0,
+        "saturated_fat": 2,
+        "gram_per_portion": 60
+    },
+    {
+        "name": "Telur Goreng",
+        "cooking_technique": ["Goreng"],
+        "glycemic_index": 0,
+        "dairies": 0,
+        "saturated_fat": 4,
+        "gram_per_portion": 65
+    },
+    {
+        "name": "Telur Dadar",
+        "cooking_technique": ["Goreng"],
+        "glycemic_index": 0,
+        "dairies": 0,
+        "saturated_fat": 3,
+        "gram_per_portion": 75
+    },
+    {
+        "name": "Telur Asin",
+        "cooking_technique": ["Rebus"],
+        "glycemic_index": 0,
+        "dairies": 0,
+        "saturated_fat": 2,
+        "gram_per_portion": 70
+    },
+    {
+        "name": "Omelet Keju",
+        "cooking_technique": ["Goreng"],
+        "glycemic_index": 0,
+        "dairies": 1,
+        "saturated_fat": 5,
+        "gram_per_portion": 90
+    },
+    {
+        "name": "Frittata",
+        "cooking_technique": ["Panggang"],
+        "glycemic_index": 0,
+        "dairies": 1,
+        "saturated_fat": 6,
+        "gram_per_portion": 100
+    },
+    {
+        "name": "Telur Kukus",
+        "cooking_technique": ["Kukus"],
+        "glycemic_index": 0,
+        "dairies": 0,
+        "saturated_fat": 2,
+        "gram_per_portion": 60
+    },
+    {
+        "name": "Telur Ceplok",
+        "cooking_technique": ["Goreng"],
+        "glycemic_index": 0,
+        "dairies": 0,
+        "saturated_fat": 4,
+        "gram_per_portion": 65
+    },
+    {
+        "name": "Telur Mata Sapi",
+        "cooking_technique": ["Goreng"],
+        "glycemic_index": 0,
+        "dairies": 0,
+        "saturated_fat": 3,
+        "gram_per_portion": 65
+    },
+    {
+        "name": "Telur Kari",
+        "cooking_technique": ["Rebus", "Rebus Dalam Kuah Kari"],
+        "glycemic_index": 10,
+        "dairies": 0,
+        "saturated_fat": 2,
+        "gram_per_portion": 85
     }
+    
 ]

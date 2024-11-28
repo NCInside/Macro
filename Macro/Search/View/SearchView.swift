@@ -37,10 +37,11 @@ struct SearchView: View {
                     }
                     .foregroundColor(.accentColor)
                 
-                Text("Search Menu")
+                Spacer()
+                
+                Text("Cari Menu Makanan")
                     .bold()
                     .padding(.bottom, 0)
-                    .padding(.leading, 106)
                 
                 Spacer()
                 
