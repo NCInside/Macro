@@ -43,13 +43,11 @@ struct HistoryView: View {
                         
                         ForEach(journals.sorted { $0.timestamp > $1.timestamp }, id: \.self) { journal in
                             if historyOption == "Diet" {
-                                
                                 if !journal.foods.isEmpty {
                                     HStack {
                                         Text("\(journal.timestamp, formatter: dateFormatter)")
                                             .font(.callout)
                                         Spacer()
-                                        
                                     }
                                     .padding(.leading, 24)
                                     
@@ -98,11 +96,8 @@ struct HistoryView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                     .padding(.horizontal)
                                     .padding(.bottom, 12)
-                                    
                                 }
-                                
                             } else {
-                                
                                 if journal.sleep.duration > 0 {
                                     HStack {
                                         Text("\(Calendar.current.date(byAdding: .day, value: -1, to: journal.timestamp) ?? Date(), formatter: dateFormatter) - \(journal.timestamp, formatter: dateFormatter)")
@@ -138,21 +133,18 @@ struct HistoryView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                     .padding(.horizontal)
                                     .padding(.bottom, 12)
-                                    
                                 }
-                                
                             }
                         }
                     }
-                    
                 }
-                
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .background(Color.background)
         }
+        .navigationViewStyle(.stack) // Tambahkan ini untuk memastikan iPad menggunakan gaya stack.
         .onAppear {
-            //             generateDummy()
+            // generateDummy()
         }
         .navigationTitle("Semua Data Tercatat")
         .toolbar {
@@ -161,7 +153,7 @@ struct HistoryView: View {
             }
         }
     }
-    
+
     private func parseSleepDuration(sleep: Sleep) -> String {
         let hour: Int = sleep.duration / 3600
         let minut: Int = (sleep.duration % 3600) / 60

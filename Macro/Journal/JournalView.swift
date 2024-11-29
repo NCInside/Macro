@@ -160,6 +160,7 @@ struct JournalView: View {
                                 
                             }
                             .padding(.horizontal)
+                            .frame(maxWidth: .infinity)
                             .sheet(isPresented: $isAddSleepViewPresented) {
                                 AddSleepView(date: viewModel.selectedDate)
                             }
@@ -202,9 +203,11 @@ struct JournalView: View {
                                 
                             }
                                 .padding(.vertical, 8)
-                                .frame(maxWidth: 365, maxHeight: 180)
+                                
+                                .frame(maxWidth: .infinity, maxHeight: 180)
                                 .background(Color.systemWhite)
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .padding(.horizontal)
                                 .shadow(color: Color.black.opacity(0.08), radius: 3, x: 2, y: 2)
                             
                             

@@ -122,21 +122,26 @@ struct AddJournalView: View {
                 VStack(spacing: 0) {
                     // Breakout Toggle
                     HStack {
-                        VStack(alignment: .leading) {
-                            Text("Apakah Sedang Breakout?")
-                            Text("Kulit iritasi, kemerahan, dan berjerawat")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.leading, 6)
-                        
-                        Toggle("", isOn: $breakOut)
-                            .labelsHidden()
-                            .padding(.trailing, 10)
-                    }
-                    .padding(.vertical, 6)
-                    .background(Color.systemWhite)
+                        VStack(alignment: .leading, spacing: 4) {
+                                    Text("Apakah Sedang Breakout?")
+                                        .font(.body)
+                                        .foregroundColor(.primary)
+
+                                    Text("Kulit iritasi, kemerahan, dan berjerawat")
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray)
+                                }
+                        .padding(.leading, 16)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                
+                                Spacer()
+                                
+                                Toggle("", isOn: $breakOut)
+                                    .labelsHidden()
+                                    .padding(.trailing, 10)
+                            }
+                            .padding(.vertical, 10)
+                            .background(Color.systemWhite)
                     
                     Divider()
                         .padding(.leading)

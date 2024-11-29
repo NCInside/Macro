@@ -167,7 +167,6 @@ struct EditJournalView: View {
                 informationToggle(title: "Apakah Sedang Breakout?", description: "Kulit iritasi, kemerahan, dan berjerawat", isOn: $breakOut)
                 Divider().padding(.leading)
                 informationToggle(title: "Apakah Sedang PMS?", description: "", isOn: $praMens)
-                    .padding(.leading, -100)
             }
             .background(Color(UIColor.systemBackground))
             .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -177,23 +176,28 @@ struct EditJournalView: View {
     
     private func informationToggle(title: String, description: String, isOn: Binding<Bool>) -> some View {
         HStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(title)
+                    .font(.body)
+                    .foregroundColor(.primary)
+                
                 if !description.isEmpty {
                     Text(description)
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
             }
-            .frame(maxWidth: .infinity)
-            .padding(.leading, 6)
+            .frame(maxWidth: .infinity, alignment: .leading) // Pastikan teks berada di kiri
+            .padding(.leading, 10) // Tambahkan padding untuk jarak dari tepi kiri
+            
+            Spacer() // Tambahkan spacer untuk mendorong toggle ke kanan
             
             Toggle("", isOn: isOn)
                 .labelsHidden()
-                .padding(.trailing, 10)
+                .padding(.trailing, 16) // Tambahkan padding untuk jarak toggle dari tepi kanan
         }
-        .padding(.vertical, 10)
-        .background(Color(UIColor.systemBackground))
+        .padding(.vertical, 12) // Tambahkan padding vertikal untuk estetika
+        .background(Color(UIColor.systemBackground)) // Pastikan latar belakang konsisten
     }
     
     // MARK: - Notes Section
@@ -217,6 +221,7 @@ struct EditJournalView: View {
                 .background(Color(UIColor.systemBackground))
             }
             .background(Color(UIColor.systemBackground))
+            .frame(maxWidth: .infinity)
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .padding(.bottom, 14)
         }
@@ -231,7 +236,7 @@ struct EditJournalView: View {
                 Text("Hapus Jurnal")
                     .foregroundColor(.red)
                     .padding()
-                    .frame(maxWidth: 360, alignment: .leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .background(Color.systemWhite)
                     .cornerRadius(10)
                 

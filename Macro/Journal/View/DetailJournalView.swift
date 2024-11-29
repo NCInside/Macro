@@ -127,7 +127,7 @@ struct DetailJournalView: View {
                                 .padding(.horizontal, 20)
                                 .background(Color.systemWhite)
                                 .cornerRadius(10)
-                                .frame(maxWidth: 350, alignment: .leading)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         .padding(.vertical, 14)
                     }
