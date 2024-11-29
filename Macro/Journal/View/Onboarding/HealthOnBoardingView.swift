@@ -4,7 +4,7 @@ struct HealthOnBoardingView: View {
     @Binding var hasCompletedOnboarding: Bool
     @EnvironmentObject var manager: HealthManager
     @State private var navigateToNameOnBoarding = false
-    @State private var showAlert = false
+//    @State private var showAlert = false
     @State private var navigationStates: [String: Bool] = [:]
 
     var body: some View {
@@ -38,7 +38,7 @@ struct HealthOnBoardingView: View {
                     .padding(.bottom, 4)
                     .padding(.leading, 1)
                     
-                    Text("Harap aktifkan semua kategori dalam dialog yang akan muncul. Tanpa akses penuh, Zora tidak akan dapat memberikan wawasan yang lengkap.")
+                    Text("Zora menggunakan data tidur Anda dari Health untuk secara otomatis melacak dan mencatat tidur Anda dalam aplikasi ini.")
                         .padding(.horizontal)
                         .foregroundColor(.white)
                 }
@@ -55,11 +55,7 @@ struct HealthOnBoardingView: View {
                 Button(action: {
                     manager.requestAuthorization { success, returnedNavigationStates in
                         navigationStates = returnedNavigationStates
-                        showAlert = navigationStates["showAlert"] ?? false
-                        
-                        if success && !showAlert {
                             navigateToNameOnBoarding = true
-                        }
                     }
                 }) {
                     ZStack {
@@ -68,7 +64,7 @@ struct HealthOnBoardingView: View {
                             .frame(width: .infinity, height: 50)
                             .background(.white)
                             .cornerRadius(12)
-                        Text("Lanjutkan")
+                        Text("Izinkan")
                             .foregroundColor(.white)
                     }
                     .padding()
@@ -78,23 +74,23 @@ struct HealthOnBoardingView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.main)
-            .alert(isPresented: $showAlert) {
-                Alert(
-                    title: Text("Tidak ada data tidur"),
-                    message: Text("Data tidur selama 7 hari terakhir tidak ditemukan. Anda dapat mengunjungi halaman bantuan Apple untuk mempelajari cara mengaktifkan pelacakan tidur."),
-                    primaryButton: .default(Text("Yes"), action: {
-                        if let url = URL(string: "https://support.apple.com/en-us/108906") {
-                            UIApplication.shared.open(url)
-                        }
-                        navigationStates["showAlert"] = false
-                        navigateToNameOnBoarding = true
-                    }),
-                    secondaryButton: .cancel(Text("Skip"), action: {
-                        navigationStates["showAlert"] = false
-                        navigateToNameOnBoarding = true
-                    })
-                )
-            }
+//            .alert(isPresented: $showAlert) {
+//                Alert(
+//                    title: Text("Tidak ada data tidur"),
+//                    message: Text("Data tidur selama 7 hari terakhir tidak ditemukan. Anda dapat mengunjungi halaman bantuan Apple untuk mempelajari cara mengaktifkan pelacakan tidur."),
+//                    primaryButton: .default(Text("Yes"), action: {
+//                        if let url = URL(string: "https://support.apple.com/en-us/108906") {
+//                            UIApplication.shared.open(url)
+//                        }
+//                        navigationStates["showAlert"] = false
+//                        navigateToNameOnBoarding = true
+//                    }),
+//                    secondaryButton: .cancel(Text("Skip"), action: {
+//                        navigationStates["showAlert"] = false
+//                        navigateToNameOnBoarding = true
+//                    })
+//                )
+//            }
         }
         .navigationBarBackButtonHidden(true)
     }
