@@ -42,11 +42,12 @@ struct HealthOnBoardingView: View {
                         .padding(.horizontal)
                         .foregroundColor(.white)
                 }
-                .frame(maxWidth: 370, maxHeight: 160)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical)
                 .background(Color.mainLight.opacity(0.2))
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .shadow(color: Color.black.opacity(0.2), radius: 3, x: 2, y: 2)
-                    .padding(.leading, 10)
+                    .padding(.horizontal)
                     .padding(.top, 20)
                 
                 Spacer()
@@ -64,7 +65,7 @@ struct HealthOnBoardingView: View {
                     ZStack {
                         Rectangle()
                             .foregroundColor(.accentColor)
-                            .frame(width: 353, height: 50)
+                            .frame(width: .infinity, height: 50)
                             .background(.white)
                             .cornerRadius(12)
                         Text("Lanjutkan")

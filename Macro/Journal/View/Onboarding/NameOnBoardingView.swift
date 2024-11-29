@@ -63,12 +63,13 @@ struct NameOnBoardingView: View {
                     ZStack {
                         Rectangle()
                             .foregroundColor(.accentColor)
-                            .frame(width: 353, height: 50)
+                            .frame(width: .infinity, height: 50)
                             .background(.white)
                             .cornerRadius(12)
                         Text("Selanjutnya")
                             .foregroundColor(.white)
                     }
+                    .padding(.horizontal)
                     .padding(.bottom, 10)
                     .offset(y: viewModel.keyboardHeight == 0 ? 0 : -viewModel.keyboardHeight / 14)
                     .animation(.easeOut(duration: 0.3), value: viewModel.keyboardHeight)

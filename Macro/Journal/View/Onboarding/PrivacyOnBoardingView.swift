@@ -40,7 +40,7 @@ struct PrivacyOnBoardingView: View {
                         ZStack{
                             Rectangle()
                                 .foregroundColor(.accentColor)
-                                .frame(width: 353, height: 50)
+                                .frame(width: .infinity, height: 50)
                                 .background(.white)
                                 .cornerRadius(12)
                             Text("Lanjutkan")
