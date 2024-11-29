@@ -58,7 +58,7 @@ struct AddReminderView: View {
                         .textFieldStyle(PlainTextFieldStyle())
                         .padding(.vertical, 10)
                         .padding(.leading)
-                        .background(Color(UIColor.systemWhite))
+                        .background(Color.systemWhite)
                         .cornerRadius(10)
                         .padding(.horizontal)
                         .padding(.bottom, 8)
@@ -84,7 +84,7 @@ struct AddReminderView: View {
                     }
                     .padding(.horizontal)
                     .padding(.vertical, 8)
-                    .background(Color(UIColor.systemWhite))
+                    .background(Color.systemWhite)
                     .cornerRadius(10)
                     .padding(.horizontal)
                     
@@ -133,6 +133,7 @@ struct AddReminderView: View {
                         .padding(.horizontal)
                     }
                 }
+                .background(Color(.background).ignoresSafeArea())
                 .navigationTitle("Tambah Kunjungan")
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarItems(
@@ -159,7 +160,7 @@ struct AddReminderView: View {
                 }
            
         }
-        .background(Color(.background).ignoresSafeArea())
+        .navigationViewStyle(.stack)
     }
     
     private func availableOptions(exclude: [String]) -> [String] {

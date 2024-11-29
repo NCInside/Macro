@@ -86,7 +86,7 @@ struct AddSleepView: View {
                             
                             Spacer()
                         }
-                        .frame(width: 360, height: 50)
+                        .frame(width: .infinity, height: 50)
                         .background(Color.systemWhite)
                         .cornerRadius(10)
                         .padding(.bottom, 4)

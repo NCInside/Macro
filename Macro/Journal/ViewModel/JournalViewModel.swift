@@ -140,8 +140,8 @@ class JournalViewModel: ObservableObject {
             let hour: Int = sleep.duration / 3600
             let minute: Int = (sleep.duration % 3600) / 60
             
-            let hourString = String(format: "%02d", hour)
-            let minuteString = String(format: "%02d", minute)
+            let hourString = "\(hour)"
+            let minuteString = "\(minute)"
             
             return (hourString, minuteString)
         }
@@ -351,5 +351,3 @@ class JournalViewModel: ObservableObject {
         return bmr * activityLevel
     }
 }
-
-

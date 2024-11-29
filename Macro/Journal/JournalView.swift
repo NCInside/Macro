@@ -199,7 +199,7 @@ struct JournalView: View {
                                         Text(viewModel.sleepClassificationMessage(journals: journals))
                                             .foregroundColor(Color.systemBlack)
                                     }
-                                    .padding(.leading, 16)
+                                    .padding(.leading, 14)
                                 
                             }
                                 .padding(.vertical, 8)

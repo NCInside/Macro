@@ -13,7 +13,6 @@ struct AddSleepCard: View {
     @Binding var showStartPicker: Bool
     @Binding var showEndPicker: Bool
     
-    
     var body: some View {
         
         VStack{
@@ -105,7 +104,7 @@ struct AddSleepCard: View {
                        }
             
         }
-        .frame(width: 360)
+        .frame(width: .infinity)
         .background(Color.systemWhite)
         .cornerRadius(10)
     }
