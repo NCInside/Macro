@@ -301,6 +301,364 @@ final class SearchViewModel: ObservableObject {
         
     }
     
+    func addDummyDiet(context: ModelContext) {
+        
+        let dietPlan: [(food: [(name: String, time: Int)], date: Date)] = [
+            (
+                food: [
+                    (name: "Kue Cubit", time: 8),
+                    (name: "Jus Strawberry", time: 8),
+                    (name: "Nasi Goreng Seafood", time: 14),
+                    (name: "Kerupuk Udang", time: 14),
+                    (name: "Ayam Penyet dengan Sambal Bawang", time: 19)
+                ],
+                date: Date()
+            ),
+            (
+                food: [
+                    (name: "Donat Kentang", time: 8),
+                    (name: "Kopi Susu Gula Aren", time: 8),
+                    (name: "Pasta Carbonara", time: 14),
+                    (name: "Salad Sayur", time: 14),
+                    (name: "Bebek Goreng Sambal Ijo", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Bubur Ayam Cirebon", time: 8),
+                    (name: "Kopi Susu Gula Aren", time: 8),
+                    (name: "Nasi Padang (Rendang, Sayur Singkong)", time: 14),
+                    (name: "Tahu Sumedang", time: 19),
+                    (name: "Es Soda Gembira", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Nasi Goreng Kampung", time: 8),
+                    (name: "Teh Susu", time: 8),
+                    (name: "Ayam Geprek Mozarella", time: 14),
+                    (name: "Sambal Matah", time: 14),
+                    (name: "Mie Goreng Ayam", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Martabak Telur", time: 8),
+                    (name: "Susu Kental Manis", time: 8),
+                    (name: "Pizza Topping Ayam", time: 14),
+                    (name: "Soto Betawi", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -4, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Lontong Sayur", time: 8),
+                    (name: "Jus Mangga Susu", time: 8),
+                    (name: "Ayam Bakar Taliwang", time: 14),
+                    (name: "Sambal Pedas", time: 14),
+                    (name: "Mie Rebus dengan Bakso", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -5, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Kue Cubit", time: 8),
+                    (name: "Jus Strawberry", time: 8),
+                    (name: "Nasi Goreng Seafood", time: 14),
+                    (name: "Kerupuk Udang", time: 14),
+                    (name: "Ayam Penyet dengan Sambal Bawang", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -6, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Pisang Goreng Keju", time: 8),
+                    (name: "Kopi Hitam", time: 8),
+                    (name: "Burger Ayam", time: 14),
+                    (name: "Kentang Goreng", time: 14),
+                    (name: "Ayam Goreng Kremes", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Indomie Goreng", time: 8),
+                    (name: "Teh Tarik", time: 8),
+                    (name: "Bakmi Ayam", time: 14),
+                    (name: "Pangsit Goreng", time: 14),
+                    (name: "Sate Ayam Madura", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -8, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Pisang Goreng Coklat", time: 8),
+                    (name: "Teh Susu", time: 8),
+                    (name: "Ayam Pop Padang", time: 14),
+                    (name: "Nasi Kuning", time: 14),
+                    (name: "Nasi Goreng Kambing", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -9, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Bubur Ayam Bandung", time: 8),
+                    (name: "Infused Water Lemon", time: 8),
+                    (name: "Soto Ayam", time: 14),
+                    (name: "Nasi Putih", time: 14),
+                    (name: "Ikan Bakar Sambal Matah", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -19, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Jus Semangka Kelapa", time: 8),
+                    (name: "Bubur Sumsum", time: 8),
+                    (name: "Tumis Kacang Panjang", time: 14),
+                    (name: "Daging Panggang", time: 14),
+                    (name: "Tumis Kangkung Saus Tiram", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -18, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Yogurt Buah Naga", time: 8),
+                    (name: "Roti Tawar", time: 8),
+                    (name: "Rawon", time: 14),
+                    (name: "Nasi Merah", time: 14),
+                    (name: "Sop Daging", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -17, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Smoothie Melon", time: 8),
+                    (name: "Bubur Ayam Kuning", time: 8),
+                    (name: "Ikan Gurame Asam Manis", time: 14),
+                    (name: "Tumis Brokoli", time: 14),
+                    (name: "Ayam Bakar Bumbu Rujak", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -16, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Susu Almond Coklat", time: 8),
+                    (name: "Roti Gandum Panggang", time: 8),
+                    (name: "Tahu Gejrot", time: 14),
+                    (name: "Sop Buntut", time: 14),
+                    (name: "Tumis Sawi", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -15, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Jus Nanas Mint", time: 8),
+                    (name: "Nasi Kuning dengan Ayam Serundeng", time: 8),
+                    (name: "Gulai Ayam", time: 14),
+                    (name: "Tumis Bayam", time: 14),
+                    (name: "Pecel Madiun", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -14, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Susu Jahe", time: 8),
+                    (name: "Bubur Ayam Banjar", time: 8),
+                    (name: "Nasi Lemak", time: 14),
+                    (name: "Rendang Ayam", time: 14),
+                    (name: "Tumis Labu Siam", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -13, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Jus Kiwi Lemon", time: 8),
+                    (name: "Pancake Oatmeal", time: 8),
+                    (name: "Soto Kudus", time: 14),
+                    (name: "Nasi Putih", time: 14),
+                    (name: "Sup Tomat Daging", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -12, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Smoothie Pisang", time: 8),
+                    (name: "Bubur Sumsum Gula Merah", time: 8),
+                    (name: "Cap Cay Kuah", time: 14),
+                    (name: "Nasi Merah", time: 14),
+                    (name: "Ikan Panggang Saus Padang", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -11, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Jus Apel Madu", time: 8),
+                    (name: "Roti Pita dengan Selai Almond", time: 8),
+                    (name: "Tumis Ayam Pedas", time: 14),
+                    (name: "Tumis Kangkung", time: 14),
+                    (name: "Sup Ayam Kampung", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -10, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Pisang Goreng Coklat", time: 8),
+                    (name: "Teh Susu", time: 8),
+                    (name: "Ayam Pop Padang", time: 14),
+                    (name: "Nasi Kuning", time: 14),
+                    (name: "Nasi Goreng Kambing", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -29, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Indomie Goreng", time: 8),
+                    (name: "Teh Tarik", time: 8),
+                    (name: "Bakmi Ayam", time: 14),
+                    (name: "Pangsit Goreng", time: 14),
+                    (name: "Sate Ayam Madura", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -28, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Pisang Goreng Keju", time: 8),
+                    (name: "Kopi Hitam", time: 8),
+                    (name: "Burger Ayam", time: 14),
+                    (name: "Kentang Goreng", time: 14),
+                    (name: "Ayam Goreng Kremes", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -27, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Kue Cubit", time: 8),
+                    (name: "Jus Strawberry", time: 8),
+                    (name: "Nasi Goreng Seafood", time: 14),
+                    (name: "Kerupuk Udang", time: 14),
+                    (name: "Ayam Penyet dengan Sambal Bawang", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -26, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Lontong Sayur", time: 8),
+                    (name: "Jus Mangga Susu", time: 8),
+                    (name: "Ayam Bakar Taliwang", time: 14),
+                    (name: "Sambal Pedas", time: 14),
+                    (name: "Mie Rebus dengan Bakso", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -25, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Martabak Telur", time: 8),
+                    (name: "Susu Kental Manis", time: 8),
+                    (name: "Pizza Topping Ayam", time: 14),
+                    (name: "Soto Betawi", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -24, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Nasi Goreng Kampung", time: 8),
+                    (name: "Teh Susu", time: 8),
+                    (name: "Ayam Geprek Mozarella", time: 14),
+                    (name: "Sambal Matah", time: 14),
+                    (name: "Mie Goreng Ayam", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -23, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Bubur Ayam Cirebon", time: 8),
+                    (name: "Kopi Susu Gula Aren", time: 8),
+                    (name: "Nasi Padang (Rendang, Sayur Singkong)", time: 14),
+                    (name: "Tahu Sumedang", time: 19),
+                    (name: "Es Soda Gembira", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -22, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Donat Kentang", time: 8),
+                    (name: "Kopi Susu Gula Aren", time: 8),
+                    (name: "Pasta Carbonara", time: 14),
+                    (name: "Salad Sayur", time: 14),
+                    (name: "Bebek Goreng Sambal Ijo", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -21, to: Date()) ?? Date()
+            ),
+            (
+                food: [
+                    (name: "Kue Cubit", time: 8),
+                    (name: "Jus Strawberry", time: 8),
+                    (name: "Nasi Goreng Seafood", time: 14),
+                    (name: "Kerupuk Udang", time: 14),
+                    (name: "Ayam Penyet dengan Sambal Bawang", time: 19)
+                ],
+                date: Calendar.current.date(byAdding: .day, value: -20, to: Date()) ?? Date()
+            )
+
+        ]
+                
+        // Load JSON from Documents directory
+        let fileManager = FileManager.default
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let jsonFilePath = documentsDirectory.appendingPathComponent("FoodAndDrink.json")
+        
+        // Ensure 'FoodAndDrink.json' exists in Documents directory
+        if !fileManager.fileExists(atPath: jsonFilePath.path) {
+            if let bundleJsonPath = Bundle.main.url(forResource: "FoodAndDrink", withExtension: "json") {
+                try? fileManager.copyItem(at: bundleJsonPath, to: jsonFilePath)
+            } else {
+                print("Failed to find 'FoodAndDrink.json' in bundle")
+                return
+            }
+        }
+        
+        guard let data = try? Data(contentsOf: jsonFilePath),
+              let foodItems = try? JSONDecoder().decode([FoodItem].self, from: data) else {
+            print("Failed to load or decode JSON!")
+            return
+        }
+        
+        for entry in dietPlan {
+                    
+            var foodItemsToAdd: [Food] = []
+            for (name, time) in entry.food {
+                
+                if let foodItem = foodItems.first(where: { $0.name == name }) {
+                    var gi = parseGI(gi: foodItem.glycemic_index)
+                                        
+                    let food = Food(
+                        timestamp: Calendar.current.date(bySettingHour: time, minute: 0, second: 0, of: entry.date) ?? Date(),
+                        name: name,
+                        cookingTechnique: foodItem.cooking_technique,
+                        fat: foodItem.saturated_fat,
+                        glycemicIndex: gi,
+                        dairy: foodItem.dairies == 1,
+                        gramPortion: foodItem.gram_per_portion
+                    )
+                    foodItemsToAdd.append(food)
+                }
+            }
+            
+            let journal = Journal(timestamp: entry.date, foods: foodItemsToAdd, sleep: Sleep(timestamp: entry.date, duration: 0, start: entry.date, end: entry.date))
+            context.insert(journal)
+            
+            do {
+                try context.save()
+                print("Data saved successfully.")
+            } catch {
+                print("Failed to save context: \(error.localizedDescription)")
+            }
+        }
+    }
+    
 }
 
 struct FoodItem: Codable {
