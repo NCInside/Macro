@@ -17,17 +17,45 @@ struct MacroApp: App {
 
     init() {
         do {
-            container = try ModelContainer(for: Food.self, Sleep.self, Journal.self, Reminder.self, JournalImage.self)
+            // Configure the ModelContainer with the necessary models
+            container = try ModelContainer(for: Food.self, Sleep.self, Journal.self, Reminder.self, JournalImage.self, FoodBreakout.self, PeakConsumption.self)
         } catch {
-            fatalError("Failed to configure SwiftData container.")
+            fatalError("Failed to configure SwiftData container: \(error.localizedDescription)")
         }
+
+        // Initialize PeakConsumption in the main context
+        initializePeakConsumptionAsync()
     }
-    
+
     var body: some Scene {
         WindowGroup {
             RootView()
                 .environmentObject(manager)
                 .modelContainer(container)
+        }
+    }
+
+    /// Asynchronously initializes PeakConsumption in the main context
+    private func initializePeakConsumptionAsync() {
+        Task {
+            let context = container.mainContext
+            await initializePeakConsumption(context: context)
+        }
+    }
+
+    /// Function to initialize PeakConsumption in the database
+    @MainActor
+    private func initializePeakConsumption(context: ModelContext) async {
+        let fetchRequest = FetchDescriptor<PeakConsumption>()
+        do {
+            if try context.fetch(fetchRequest).isEmpty {
+                let initialPeak = PeakConsumption()
+                context.insert(initialPeak)
+                try context.save()
+                print("PeakConsumption initialized successfully.")
+            }
+        } catch {
+            print("Failed to initialize PeakConsumption: \(error.localizedDescription)")
         }
     }
 }
@@ -44,6 +72,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         }
         return true
     }
+    
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = notification.request.content.userInfo

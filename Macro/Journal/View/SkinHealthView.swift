@@ -6,8 +6,10 @@ struct SkinHealthView: View {
     @State var isAddJournalViewPresented = false
     @State var isDetailJournalViewPresented = false
     @StateObject private var viewModel: JournalImageViewModel
-    @State private var selectedJournalImage: JournalImage? // Track selected journal
+    @StateObject private var searchModel = SearchViewModel()
+    @State private var selectedJournalImage: JournalImage?
     @State private var isPickerPresented: Bool = false
+    @State private var isAnalysisSheetPresented = false
     let context: ModelContext
     @State private var showAlert = false
     @State private var selectedMonth: Int = Calendar.current.component(.month, from: Date()) // Track selected month
@@ -51,7 +53,18 @@ struct SkinHealthView: View {
                 }
                 .padding(.top, 16)
                 .padding(.horizontal)
-                
+                Button(action: {
+                    isAnalysisSheetPresented = true
+                }) {
+                    Text("Analisa Penyebab Breakout")
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.blue)
+                }
+                .sheet(isPresented: $isAnalysisSheetPresented) {
+                    AnalysisResultSheet(viewModel: viewModel)
+                }
                 HStack {
                     Menu {
                         Picker("Select Month", selection: $selectedMonth) {
@@ -192,19 +205,30 @@ struct SkinHealthView: View {
                 
                 Spacer()
                 
-                // Button to add dummy data
-//                Button(action: {
-//                    viewModel.addDummyData()
-//                }) {
-//                    Text("Add Dummy Data for Testing")
-//                        .foregroundColor(.blue)
-//                        .padding()
-//                        .background(Color.blue.opacity(0.1))
-//                        .cornerRadius(8)
-//                }
-//                .padding(.bottom, 16)
             }
             .padding(.horizontal, 0)
+                        Button(action: {
+                                viewModel.addDummyDataForLast30Days() }) {
+                                                Text("Add Dummy Data")
+                                                    .foregroundColor(.white)
+                                                    .padding()
+                                                    .frame(maxWidth: .infinity)
+                                                    .background(Color.blue)
+                                                    .cornerRadius(10)
+                                            }
+            
+                        Button(action: {
+                            searchModel.addDummyDiet(context: context) // Add dummy data from JournalImageViewModel
+                                            }) {
+                                                Text("Add Dummy Data")
+                                                    .foregroundColor(.white)
+                                                    .padding()
+                                                    .frame(maxWidth: .infinity)
+                                                    .background(Color.blue)
+                                                    .cornerRadius(10)
+                                            }
+            
+            
             .onChange(of: selectedJournalImage) { _ in
                 if selectedJournalImage != nil {
                     isDetailJournalViewPresented = true
@@ -220,6 +244,7 @@ struct SkinHealthView: View {
         }
         .background(Color.background)
     }
+    
     
     
     private func handleAddButtonTapped() {

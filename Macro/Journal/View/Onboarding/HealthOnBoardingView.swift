@@ -64,7 +64,7 @@ struct HealthOnBoardingView: View {
                             .frame(width: .infinity, height: 50)
                             .background(.white)
                             .cornerRadius(12)
-                        Text("Izinkan")
+                        Text("Lanjutkan")
                             .foregroundColor(.white)
                     }
                     .padding()

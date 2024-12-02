@@ -28,40 +28,62 @@ final class SearchViewModel: ObservableObject {
     @Published var selectedGlycemicOption = "Rendah"
     
     private let foodCache = FoodCache(source: FoodFile()!)
-
+    
     private var task: Task<Void, Never>?
     
     init() {
         recent = defaults.array(forKey: "recent") as? [String] ?? []
     }
-
+    
     func autocomplete(_ text: String) {
         guard !text.isEmpty else {
             suggestions = []
             task?.cancel()
             return
         }
-
+        
         task?.cancel()
-
+        
         task = Task {
             await Task.sleep(UInt64(delay * 1_000_000_000.0))
-
+            
             guard !Task.isCancelled else {
                 return
             }
-
+            
             let newSuggestions = await foodCache.lookup(prefix: text)
-
+            
             suggestions = newSuggestions
         }
     }
-
+    
+    func updatePeakConsumption(context: ModelContext, food: Food) {
+        let fetchRequest = FetchDescriptor<PeakConsumption>()
+        do {
+            if let peakConsumption = try context.fetch(fetchRequest).first {
+                // Save previous peak values
+                peakConsumption.previousHighestGlycemicIndex = peakConsumption.highestGlycemicIndex
+                peakConsumption.previousHighestFat = peakConsumption.highestFat
+                peakConsumption.previousHighestDairy = peakConsumption.highestDairy
+                
+                // Update peak values
+                peakConsumption.highestGlycemicIndex = max(peakConsumption.highestGlycemicIndex, food.glycemicIndex.rawValue)
+                peakConsumption.highestFat = max(peakConsumption.highestFat, food.fat)
+                peakConsumption.highestDairy = max(peakConsumption.highestDairy, food.dairy ? 1 : 0)
+                
+                try context.save()
+                print("PeakConsumption updated successfully.")
+            }
+        } catch {
+            print("Failed to update PeakConsumption: \(error.localizedDescription)")
+        }
+    }
+    
     private func isSingleSuggestion(_ suggestions: [String], equalTo text: String) -> Bool {
         guard let suggestion = suggestions.first, suggestions.count == 1 else {
             return false
         }
-
+        
         return suggestion.lowercased() == text.lowercased()
     }
     
@@ -120,7 +142,7 @@ final class SearchViewModel: ObservableObject {
         guard let updatedData = try? JSONEncoder().encode(foodItems) else { return }
         try? updatedData.write(to: jsonFilePath)
     }
-
+    
     func detailDiet(name: String) {
         // Updated to load JSON from Documents directory
         let fileManager = FileManager.default
@@ -172,7 +194,6 @@ final class SearchViewModel: ObservableObject {
     }
     
     func addDiet(context: ModelContext, name: String, entries: [Journal], portion: Int, unit: String, date: Date) {
-        
         manageRecently(name: name)
         
         // Load JSON from Documents directory
@@ -187,6 +208,7 @@ final class SearchViewModel: ObservableObject {
         }
         
         if let foodItem = foodItems.first(where: { $0.name == name }) {
+            // Determine glycemic index level
             var gi: glycemicIndex
             switch selectedGlycemicOption {
             case "Rendah":
@@ -199,6 +221,7 @@ final class SearchViewModel: ObservableObject {
                 gi = .low
             }
             
+            // Calculate the multiplier based on portion and unit
             let mult: Int = unit == "Porsi" ? portion : portion / foodItem.gram_per_portion
             print("Mult: \(mult)")
             
@@ -214,8 +237,12 @@ final class SearchViewModel: ObservableObject {
                     gramPortion: foodItem.gram_per_portion
                 )
                 foodItemsToAdd.append(food)
+                
+                // Update PeakConsumption for each added food
+                updatePeakConsumption(context: context, food: food)
             }
             
+            // Check if there's an entry for the current date
             if let todayJournal = hasEntriesFromDate(entries: entries, date: date) {
                 todayJournal.foods.append(contentsOf: foodItemsToAdd)
                 print("Updated today’s journal with foods: \(todayJournal.foods)")
@@ -225,6 +252,7 @@ final class SearchViewModel: ObservableObject {
                 print("Created new journal with foods: \(journal.foods)")
             }
             
+            // Save changes to the context
             do {
                 try context.save()
                 print("Data saved successfully.")
@@ -236,7 +264,7 @@ final class SearchViewModel: ObservableObject {
             print("Food item not found")
         }
     }
-
+    
     func clearRecent() {
         
         defaults.set([], forKey: "recent")
@@ -602,9 +630,9 @@ final class SearchViewModel: ObservableObject {
                 ],
                 date: Calendar.current.date(byAdding: .day, value: -20, to: Date()) ?? Date()
             )
-
+            
         ]
-                
+        
         // Load JSON from Documents directory
         let fileManager = FileManager.default
         let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -627,13 +655,11 @@ final class SearchViewModel: ObservableObject {
         }
         
         for entry in dietPlan {
-                    
             var foodItemsToAdd: [Food] = []
+            
             for (name, time) in entry.food {
-                
                 if let foodItem = foodItems.first(where: { $0.name == name }) {
-                    var gi = parseGI(gi: foodItem.glycemic_index)
-                                        
+                    let gi = parseGI(gi: foodItem.glycemic_index)
                     let food = Food(
                         timestamp: Calendar.current.date(bySettingHour: time, minute: 0, second: 0, of: entry.date) ?? Date(),
                         name: name,
@@ -644,15 +670,28 @@ final class SearchViewModel: ObservableObject {
                         gramPortion: foodItem.gram_per_portion
                     )
                     foodItemsToAdd.append(food)
+                    
+                    // Update PeakConsumption for the added food
+                    updatePeakConsumption(context: context, food: food)
                 }
             }
             
-            let journal = Journal(timestamp: entry.date, foods: foodItemsToAdd, sleep: Sleep(timestamp: entry.date, duration: 0, start: entry.date, end: entry.date))
-            context.insert(journal)
+            // Check if a journal exists for the given date
+            let journals = try? context.fetch(FetchDescriptor<Journal>())
+            if let journal = journals?.first(where: { Calendar.current.isDate($0.timestamp, inSameDayAs: entry.date) }) {
+                journal.foods.append(contentsOf: foodItemsToAdd)
+            } else {
+                let newJournal = Journal(
+                    timestamp: entry.date,
+                    foods: foodItemsToAdd,
+                    sleep: Sleep(timestamp: entry.date, duration: 0, start: entry.date, end: entry.date)
+                )
+                context.insert(newJournal)
+            }
             
             do {
                 try context.save()
-                print("Data saved successfully.")
+                print("Dummy data for date \(entry.date) saved successfully.")
             } catch {
                 print("Failed to save context: \(error.localizedDescription)")
             }

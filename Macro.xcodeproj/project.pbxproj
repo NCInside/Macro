@@ -31,6 +31,9 @@
 		6AEC4D102CB53AA1003DD2F3 /* Journal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */; };
 		6AEF1BF02CC25AB200B6F89F /* ActivityOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF1BEF2CC25AB200B6F89F /* ActivityOnBoardingView.swift */; };
 		6AF7EB232CDCCFD700D9AB3E /* JournalImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF7EB222CDCCFD700D9AB3E /* JournalImage.swift */; };
+		711DE8FD2CF9EBA1006DC3D7 /* FoodBreakout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711DE8FC2CF9EBA1006DC3D7 /* FoodBreakout.swift */; };
+		711DE8FF2CF9F612006DC3D7 /* AnalysisResultSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711DE8FE2CF9F609006DC3D7 /* AnalysisResultSheet.swift */; };
+		7129922D2CFDB97F0019C9EA /* PeakConsumption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7129922C2CFDB97F0019C9EA /* PeakConsumption.swift */; };
 		712C2BF82CCF8B490032E754 /* FoodAndDrink.json in Resources */ = {isa = PBXBuildFile; fileRef = 712C2BF72CCF8B410032E754 /* FoodAndDrink.json */; };
 		712C2BFC2CCF8B7A0032E754 /* Name in Resources */ = {isa = PBXBuildFile; fileRef = 712C2BFB2CCF8B750032E754 /* Name */; };
 		712C2C0E2CD2836C0032E754 /* NameOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712C2C0D2CD283650032E754 /* NameOnBoardingView.swift */; };
@@ -112,6 +115,9 @@
 		6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Journal.swift; path = Macro/Journal.swift; sourceTree = SOURCE_ROOT; };
 		6AEF1BEF2CC25AB200B6F89F /* ActivityOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityOnBoardingView.swift; sourceTree = "<group>"; };
 		6AF7EB222CDCCFD700D9AB3E /* JournalImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JournalImage.swift; path = Macro/JournalImage.swift; sourceTree = SOURCE_ROOT; };
+		711DE8FC2CF9EBA1006DC3D7 /* FoodBreakout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FoodBreakout.swift; path = Macro/FoodBreakout.swift; sourceTree = SOURCE_ROOT; };
+		711DE8FE2CF9F609006DC3D7 /* AnalysisResultSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisResultSheet.swift; sourceTree = "<group>"; };
+		7129922C2CFDB97F0019C9EA /* PeakConsumption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PeakConsumption.swift; path = Macro/PeakConsumption.swift; sourceTree = SOURCE_ROOT; };
 		712C2BF72CCF8B410032E754 /* FoodAndDrink.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FoodAndDrink.json; sourceTree = "<group>"; };
 		712C2BFB2CCF8B750032E754 /* Name */ = {isa = PBXFileReference; lastKnownFileType = text; path = Name; sourceTree = "<group>"; };
 		712C2C0D2CD283650032E754 /* NameOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameOnBoardingView.swift; sourceTree = "<group>"; };
@@ -283,6 +289,7 @@
 		6A3A6AE22CB7BEDB009319F8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				711DE8FE2CF9F609006DC3D7 /* AnalysisResultSheet.swift */,
 				90E2606B2CE341A000E5EE64 /* InfoView.swift */,
 				71CD87FD2CDE13E8000FB7E9 /* EditJournalView.swift */,
 				71CD87FB2CDE13DD000FB7E9 /* DetailJournalView.swift */,
@@ -373,6 +380,8 @@
 				6AEC4D0F2CB53AA1003DD2F3 /* Journal.swift */,
 				712C2C292CD388F60032E754 /* Reminder.swift */,
 				6AF7EB222CDCCFD700D9AB3E /* JournalImage.swift */,
+				711DE8FC2CF9EBA1006DC3D7 /* FoodBreakout.swift */,
+				7129922C2CFDB97F0019C9EA /* PeakConsumption.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -515,6 +524,7 @@
 				9094D8252CBD03B700BA62EF /* JournalViewModel.swift in Sources */,
 				9094D8392CBE776200BA62EF /* AgeOnBoardingView.swift in Sources */,
 				909F47F32CDCD5A9005B022D /* SkinHealthView.swift in Sources */,
+				7129922D2CFDB97F0019C9EA /* PeakConsumption.swift in Sources */,
 				9094D8232CBD039500BA62EF /* JournalView.swift in Sources */,
 				9094D82B2CBD0D0700BA62EF /* AddSleepView.swift in Sources */,
 				6AEC4D082CB5268C003DD2F3 /* FoodCache.swift in Sources */,
@@ -557,11 +567,13 @@
 				6A3A6AFE2CC0D639009319F8 /* SummaryView.swift in Sources */,
 				6AEF1BF02CC25AB200B6F89F /* ActivityOnBoardingView.swift in Sources */,
 				712C2C1E2CD379330032E754 /* ReminderViewModel.swift in Sources */,
+				711DE8FD2CF9EBA1006DC3D7 /* FoodBreakout.swift in Sources */,
 				9094D8312CBE4FBA00BA62EF /* HistoryView.swift in Sources */,
 				9094D8332CBE594D00BA62EF /* FoodDetailHistoryView.swift in Sources */,
 				6A3A6AF62CBF6C50009319F8 /* SleepDetailHistoryView.swift in Sources */,
 				6AF7EB232CDCCFD700D9AB3E /* JournalImage.swift in Sources */,
 				6A3A6AF82CBFA927009319F8 /* RootView.swift in Sources */,
+				711DE8FF2CF9F612006DC3D7 /* AnalysisResultSheet.swift in Sources */,
 				9094D83E2CBF8DAD00BA62EF /* WeightOnBoardingView.swift in Sources */,
 				9094D8352CBE5AA700BA62EF /* PrivacyOnBoardingView.swift in Sources */,
 				6A3A6AF22CBE5C62009319F8 /* SearchCard.swift in Sources */,
