@@ -56,11 +56,12 @@ struct SkinHealthView: View {
                 Button(action: {
                     isAnalysisSheetPresented = true
                 }) {
-                    Text("Analisa Penyebab Breakout")
-                        .foregroundColor(.white)
+                    Text("Analisis Penyebab Breakout")
+                        .font(.headline)
+                        .foregroundColor(Color.systemWhite)
                         .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
+                        .frame(maxWidth: .infinity, maxHeight: 48)
+                        .background(Color.accentColor)
                 }
                 .sheet(isPresented: $isAnalysisSheetPresented) {
                     AnalysisResultSheet(viewModel: viewModel)

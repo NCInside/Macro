@@ -36,15 +36,15 @@ struct AnalysisResultSheet: View {
                 }) {
                     Text("Tutup")
                         .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
+                        .foregroundColor(Color.systemWhite)
                         .padding()
-                        .background(Color.blue)
-                        .cornerRadius(8)
+                        .frame(maxWidth: .infinity, maxHeight: 48)
+                        .background(Color.accentColor)
+                        .cornerRadius(10)
                 }
                 .padding()
             }
-            .navigationTitle("Analisa Breakout")
+            .navigationTitle("Analisis Breakout")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
@@ -53,13 +53,49 @@ struct AnalysisResultSheet: View {
         let topFoods = viewModel.topFoodsBasedOnPeakConsumption()
         let peak = viewModel.peakConsumption
         
+        // Construct the paragraph text
+        let paragraphContent: [Text] = {
+            guard let peak = peak else { return [] }
+            var factors: [Text] = []
+            
+            if topFoods.contains(where: { $0.glycemicIndex >= peak.highestGlycemicIndex }) {
+                factors.append(Text("Indeks Glikemik Tinggi").foregroundColor(.red))
+            }
+            if topFoods.contains(where: { $0.fat >= peak.highestFat }) {
+                factors.append(Text("Lemak Jenuh Tinggi").foregroundColor(.red))
+            }
+            if topFoods.contains(where: { $0.dairies >= peak.highestDairy }) {
+                factors.append(Text("Mengandung Susu Tinggi").foregroundColor(.red))
+            }
+            
+            guard !factors.isEmpty else {
+                return [Text("Tidak ada kandungan yang signifikan selama seminggu terakhir.")
+                            .foregroundColor(.gray)]
+            }
+            
+            // Build paragraph with separators
+            let combinedFactors = factors.enumerated().map { index, factor in
+                if index == factors.count - 1 && index > 0 {
+                    return Text(" dan ") + factor
+                } else if index > 0 {
+                    return Text(" - ") + factor
+                } else {
+                    return factor
+                }
+            }
+            
+            return [Text("Berdasarkan data Anda, konsumsi makanan yang mengandung ")]
+                + combinedFactors
+                + [Text(" mungkin adalah penyebab jerawat Anda "), Text("(dengan kondisi tidak ada faktor lain yang mempengaruhi). ").italic().foregroundColor(.gray)]
+        }()
+        
         return Group {
             if topFoods.isEmpty {
                 VStack(spacing: 16) {
                     Image(systemName: "exclamationmark.circle")
                         .font(.largeTitle)
                         .foregroundColor(.gray)
-                    Text("Tidak ada analisa breakout berdasarkan kandungan.")
+                    Text("Tidak ada analisis breakout berdasarkan kandungan.")
                         .font(.body)
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
@@ -67,70 +103,43 @@ struct AnalysisResultSheet: View {
                 }
             } else {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Analisa Berdasarkan Kandungan:")
+                    Text("Analisis Berdasarkan Kandungan:")
                         .font(.title3)
                         .fontWeight(.semibold)
                     
-                    if let peak = peak {
-                        // Cek apakah ada kandungan yang perlu diperhatikan
-                        let hasHighGlycemicIndex = topFoods.contains { $0.glycemicIndex >= peak.highestGlycemicIndex }
-                        let hasHighFat = topFoods.contains { $0.fat >= peak.highestFat }
-                        let hasHighDairies = topFoods.contains { $0.dairies >= peak.highestDairy }
-                        
-                        if hasHighGlycemicIndex || hasHighFat || hasHighDairies {
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("Berdasarkan data Anda, berikut adalah kandungan yang mungkin perlu diperhatikan:")
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                                
-                                if hasHighGlycemicIndex {
-                                    Text("• Glycemic Index tinggi.")
-                                        .font(.subheadline)
-                                        .foregroundColor(.red)
-                                }
-                                if hasHighFat {
-                                    Text("• Kandungan Fat yang signifikan.")
-                                        .font(.subheadline)
-                                        .foregroundColor(.red)
-                                }
-                                if hasHighDairies {
-                                    Text("• Kandungan Dairies yang tinggi.")
-                                        .font(.subheadline)
-                                        .foregroundColor(.red)
-                                }
-                            }
-                            .padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                        }
+                    VStack(alignment: .leading, spacing: 8) {
+                        // Construct the paragraph dynamically with colors
+                        paragraphContent.reduce(Text(""), +)
+                            .font(.subheadline)
+                            .foregroundColor(.black) // Default color
+                            .multilineTextAlignment(.leading)
                     }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
                     
                     Text("Berikut makanan yang mungkin perlu Anda kurangi:")
                         .font(.headline)
                         .padding(.top, 8)
                     
-                    // Daftar makanan
+                    // List of foods
                     ForEach(topFoods, id: \.foodName) { food in
                         VStack(alignment: .leading, spacing: 8) {
-                            // Teks utama makanan
-                            HStack(alignment: .top) {
-                                Text(food.foodName)
-                                    .font(.body)
-                                    .fontWeight(.bold)
-                                    .frame(maxWidth: .infinity, alignment: .leading) // Rata kiri
-                            }
+                            Text(food.foodName)
+                                .font(.body)
+                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            // Detail kandungan
                             VStack(alignment: .leading, spacing: 4) {
-                                Text("Glycemic Index: \(food.glycemicIndex)")
+                                // Display Index Glikemik as Low, Mid, High
+                                Text("Indeks Glikemik: \(mapGlycemicIndex(food.glycemicIndex))")
                                     .font(.subheadline)
-                                    .frame(maxWidth: .infinity, alignment: .leading) // Rata kiri
-                                Text("Fat: \(String(format: "%.2f", food.fat)) g")
+                                // Rename Fat to Lemak Jenuh
+                                Text("Lemak Jenuh: \(String(format: "%.2f", food.fat)) g")
                                     .font(.subheadline)
-                                    .frame(maxWidth: .infinity, alignment: .leading) // Rata kiri
-                                Text("Dairies: \(food.dairies)")
+                                // Rename Dairies to Mengandung Susu and map 0/1 to Tidak/Ya
+                                Text("Mengandung Susu: \(mapDairies(food.dairies))")
                                     .font(.subheadline)
-                                    .frame(maxWidth: .infinity, alignment: .leading) // Rata kiri
                             }
                         }
                         .padding()
@@ -147,6 +156,24 @@ struct AnalysisResultSheet: View {
                 .padding()
             }
         }
+    }
+
+    // Helper functions to map values
+    private func mapGlycemicIndex(_ index: Int) -> String {
+        switch index {
+        case 0:
+            return "Rendah"
+        case 1:
+            return "Sedang"
+        case 2:
+            return "Tinggi"
+        default:
+            return "Tidak Diketahui"
+        }
+    }
+
+    private func mapDairies(_ value: Int) -> String {
+        return value == 1 ? "Ya" : "Tidak"
     }
     
     private var frekuensiView: some View {
@@ -165,7 +192,7 @@ struct AnalysisResultSheet: View {
                 }
             } else {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Makanan Yang Biasanya Ada Ketika Breakout Selama 7 Hari Terakhir:")
+                    Text("Makanan Yang Sering Kamu Makan Sebelum Breakout:")
                         .font(.title3)
                         .fontWeight(.semibold)
                     
@@ -179,16 +206,17 @@ struct AnalysisResultSheet: View {
                                     .frame(maxWidth: .infinity, alignment: .leading) // Rata kiri
                             }
                             
-                            // Detail frekuensi
-                            Text("Frekuensi: \(String(format: "%.2f", food.frequency))%")
-                                .font(.subheadline)
-                                .frame(maxWidth: .infinity, alignment: .leading) // Rata kiri
+                            
                         }
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(8)
                         .padding(.bottom, 8)
                     }
+                    Text("Pertimbangkan makanan di atas sebagai penyebab jerawat Anda, telusuri lebih lanjut dengan dokter jika diperlukan.")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .padding(.top, 8)
                 }
                 .padding()
             }
@@ -203,7 +231,7 @@ struct AnalysisResultSheet: View {
                     Image(systemName: "exclamationmark.circle")
                         .font(.largeTitle)
                         .foregroundColor(.gray)
-                    Text("Tidak ada data makanan selama 7 hari terakhir dari breakout.")
+                    Text("Tidak ada data makanan selama 7 hari sebelum breakout.")
                         .font(.body)
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
@@ -211,7 +239,7 @@ struct AnalysisResultSheet: View {
                 }
             } else {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Makanan Selama 7 Hari Terakhir dari Breakout:")
+                    Text("Makanan Selama 7 Hari Sebelum Dari Breakout:")
                         .font(.title3)
                         .fontWeight(.semibold)
                     
