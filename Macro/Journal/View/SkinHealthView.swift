@@ -208,28 +208,28 @@ struct SkinHealthView: View {
                 
             }
             .padding(.horizontal, 0)
-                        Button(action: {
-                                viewModel.addDummyDataForLast30Days() }) {
-                                                Text("Add Dummy Data")
-                                                    .foregroundColor(.white)
-                                                    .padding()
-                                                    .frame(maxWidth: .infinity)
-                                                    .background(Color.blue)
-                                                    .cornerRadius(10)
-                                            }
-            
-                        Button(action: {
-                            searchModel.addDummyDiet(context: context) // Add dummy data from JournalImageViewModel
-                                            }) {
-                                                Text("Add Dummy Data")
-                                                    .foregroundColor(.white)
-                                                    .padding()
-                                                    .frame(maxWidth: .infinity)
-                                                    .background(Color.blue)
-                                                    .cornerRadius(10)
-                                            }
-            
-            
+//                        Button(action: {
+//                                viewModel.addDummyDataForLast30Days() }) {
+//                                                Text("Add Dummy Data")
+//                                                    .foregroundColor(.white)
+//                                                    .padding()
+//                                                    .frame(maxWidth: .infinity)
+//                                                    .background(Color.blue)
+//                                                    .cornerRadius(10)
+//                                            }
+//            
+//                        Button(action: {
+//                            searchModel.addDummyDiet(context: context) // Add dummy data from JournalImageViewModel
+//                                            }) {
+//                                                Text("Add Dummy Data")
+//                                                    .foregroundColor(.white)
+//                                                    .padding()
+//                                                    .frame(maxWidth: .infinity)
+//                                                    .background(Color.blue)
+//                                                    .cornerRadius(10)
+//                                            }
+//            
+//            
             .onChange(of: selectedJournalImage) { _ in
                 if selectedJournalImage != nil {
                     isDetailJournalViewPresented = true
